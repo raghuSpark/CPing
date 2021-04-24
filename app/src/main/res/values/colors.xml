@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#EDF5FA</color>
+    <color name="tab_text_normal_color">#8B8686</color>
+    <color name="negativeChangeRed">#F04243</color>
+    <color name="positiveChangeGreen">#46CA7F</color>
+
+    <color name="codechefColor">#FFA4A1</color>
+    <color name="codeforcesColor">#48DDCD</color>
+    <color name="leetcodeColor">#FEA758</color>
+
+    <color name="purple_500">#FF6200EE</color>
+<!--    <color name="purple_700">#FF3700B3</color>-->
+<!--    <color name="teal_200">#FF03DAC5</color>-->
+<!--    <color name="teal_700">#FF018786</color>-->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+</resources>

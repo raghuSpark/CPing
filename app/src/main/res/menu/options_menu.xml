@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="Menu"
+        android:id="@+id/dash_board_menu"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_menu"/>
+
+<!--    <item-->
+<!--        android:title="Settings"-->
+<!--        android:id="@+id/main_settings_option"-->
+<!--        app:showAsAction="never" />-->
+
+<!--    <item-->
+<!--        android:title="Log Out"-->
+<!--        android:id="@+id/main_log_out_option"-->
+<!--        app:showAsAction="never" />-->
+
+</menu>
