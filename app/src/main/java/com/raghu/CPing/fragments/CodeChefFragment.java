@@ -1,5 +1,6 @@
 package com.raghu.CPing.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,14 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.raghu.CPing.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link LeetcodeFragment#newInstance} factory method to
+ * Use the {@link CodeChefFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LeetcodeFragment extends Fragment {
+public class CodeChefFragment extends Fragment {
+
+    private View groupFragmentView;
+    private GraphView graphView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +33,7 @@ public class LeetcodeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public LeetcodeFragment() {
+    public CodeChefFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +43,11 @@ public class LeetcodeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment LeetcodeFragment.
+     * @return A new instance of fragment CodeChefFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LeetcodeFragment newInstance(String param1, String param2) {
-        LeetcodeFragment fragment = new LeetcodeFragment();
+    public static CodeChefFragment newInstance(String param1, String param2) {
+        CodeChefFragment fragment = new CodeChefFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +68,23 @@ public class LeetcodeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_leetcode, container, false);
+        groupFragmentView = inflater.inflate(R.layout.fragment_code_chef, container, false);
+        graphView = groupFragmentView.findViewById(R.id.codeChefGraphView);
+        LineGraphSeries<DataPoint> codeChefSeries = new LineGraphSeries<>(new DataPoint[]{
+                new DataPoint(0, 1500),
+                new DataPoint(1, 1398),
+                new DataPoint(2, 1503),
+                new DataPoint(3, 1558),
+                new DataPoint(4, 1571),
+                new DataPoint(5, 1660),
+                new DataPoint(6, 1570),
+                new DataPoint(7, 1670),
+                new DataPoint(8, 1696)
+        });
+        codeChefSeries.setColor(Color.rgb(255,164,161));
+        codeChefSeries.setDrawDataPoints(true);
+        graphView.setTitleTextSize(18);
+        graphView.addSeries(codeChefSeries);
+        return groupFragmentView;
     }
 }

@@ -1,7 +1,8 @@
-package com.raghu.CPing;
+package com.raghu.CPing.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,29 +13,56 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.raghu.CPing.R;
+import com.raghu.CPing.database.JSONResponseDBHandler;
+import com.raghu.CPing.util.ContestDetails;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private JSONResponseDBHandler jsonResponseDBHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-//        api();
+
+        jsonResponseDBHandler = new JSONResponseDBHandler(this);
+
+        getDetailsFromAPI();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                finish();
+            }
+        },2000);
     }
 
-    public void api() {
+    public void getDetailsFromAPI() {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
-                "https://kontests.net/api/v1/codeforces", null, new Response.Listener<JSONArray>() {
+                "https://kontests.net/api/v1/all", null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try {
                     for (int i = 0; i < response.length(); ++i) {
                         JSONObject obj = response.getJSONObject(i);
-                        Log.d("Json array response", obj.getString("name"));
+                        ContestDetails item = new ContestDetails(obj.getString("site"),
+                                obj.getString("name"),
+                                obj.getString("url"),
+                                obj.getInt("duration"),
+                                obj.getString("start_time"),
+                                obj.getString("end_time"),
+                                obj.getString("in_24_hours"),
+                                obj.getString("status")
+                        );
+                        jsonResponseDBHandler.addItem(item);
+//                        Log.d("Json array response", obj.getString("name"));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -43,7 +71,6 @@ public class SplashActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Json array response", "Something went wrong");
                 Toast.makeText(SplashActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });

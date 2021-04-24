@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.CodeforcesFragment">
+    tools:context=".fragments.CodeChefFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -25,7 +25,7 @@
                 app:cardCornerRadius="15dp">
 
                 <com.jjoe64.graphview.GraphView
-                    android:id="@+id/codeforcesGraphView"
+                    android:id="@+id/codeChefGraphView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
@@ -58,22 +58,22 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/CodeforcesRatingChange"
+                    android:id="@+id/CodechefRatingChange"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="-107"
+                    android:text="+109"
                     android:gravity="end"
-                    android:textColor="@color/negativeChangeRed"
+                    android:textColor="@color/positiveChangeGreen"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/CodeforcesCurrentRating"
+                    android:id="@+id/CodechefCurrentRating"
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_extra_bold"
-                    android:text="931"
+                    android:text="1696"
                     android:textStyle="bold"
                     android:gravity="end"
                     android:textColor="@color/black"
@@ -128,12 +128,12 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/nunito_semi_bold"
-                android:text="Upcoming Contests"
+                android:text="Today"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/upcomingNothing"
+                android:id="@+id/todayNothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="7"
@@ -147,10 +147,47 @@
                 android:textSize="17sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/upcomingContestsRecyclerView"
+                android:id="@+id/todayContestsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_row="8"
+                android:layout_column="0"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="9"
+                android:layout_column="0"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/nunito_semi_bold"
+                android:text="Later this week"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/laterNothing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="10"
+                android:layout_column="0"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/nunito_semi_bold"
+                android:text="Nothing to show"
+                android:layout_gravity="center"
+                android:textColor="@color/tab_text_normal_color"
+                android:textSize="17sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/laterContestsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_row="11"
                 android:layout_column="0"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp" />

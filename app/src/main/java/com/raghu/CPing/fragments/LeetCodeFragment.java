@@ -12,10 +12,10 @@ import com.raghu.CPing.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link KisckStartFragment#newInstance} factory method to
+ * Use the {@link LeetCodeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class KisckStartFragment extends Fragment {
+public class LeetCodeFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class KisckStartFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public KisckStartFragment() {
+    public LeetCodeFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class KisckStartFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment KisckStartFragment.
+     * @return A new instance of fragment LeetCodeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static KisckStartFragment newInstance(String param1, String param2) {
-        KisckStartFragment fragment = new KisckStartFragment();
+    public static LeetCodeFragment newInstance(String param1, String param2) {
+        LeetCodeFragment fragment = new LeetCodeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class KisckStartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_kisck_start, container, false);
+        return inflater.inflate(R.layout.fragment_leet_code, container, false);
     }
 }

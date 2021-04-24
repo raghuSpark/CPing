@@ -1,4 +1,4 @@
-package com.raghu.CPing;
+package com.raghu.CPing.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+import com.raghu.CPing.R;
+import com.raghu.CPing.util.TabsAccessorAdapter;
 
 import java.util.Objects;
 
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         dashBoardToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(dashBoardToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("raghu_spark");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Hello, Raghu");
 
         dashBoardViewPager = findViewById(R.id.main_tabs_pager);
         dashBoardTabsAccessorAdapter = new TabsAccessorAdapter(getSupportFragmentManager(),1);

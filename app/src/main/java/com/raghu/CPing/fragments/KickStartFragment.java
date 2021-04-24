@@ -1,27 +1,21 @@
 package com.raghu.CPing.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
-
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 import com.raghu.CPing.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CodeforcesFragment#newInstance} factory method to
+ * Use the {@link KickStartFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CodeforcesFragment extends Fragment {
-
-    private View groupFragmentView;
-    private GraphView graphView;
+public class KickStartFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,7 +26,7 @@ public class CodeforcesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CodeforcesFragment() {
+    public KickStartFragment() {
         // Required empty public constructor
     }
 
@@ -42,11 +36,11 @@ public class CodeforcesFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CodeforcesFragment.
+     * @return A new instance of fragment KickStartFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CodeforcesFragment newInstance(String param1, String param2) {
-        CodeforcesFragment fragment = new CodeforcesFragment();
+    public static KickStartFragment newInstance(String param1, String param2) {
+        KickStartFragment fragment = new KickStartFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,23 +61,6 @@ public class CodeforcesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        groupFragmentView = inflater.inflate(R.layout.fragment_codeforces, container, false);
-        graphView = groupFragmentView.findViewById(R.id.codeforcesGraphView);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(0, 363),
-                new DataPoint(1, 615),
-                new DataPoint(2, 781),
-                new DataPoint(3, 825),
-                new DataPoint(4, 824),
-                new DataPoint(5, 988),
-                new DataPoint(6, 973),
-                new DataPoint(7, 866),
-                new DataPoint(8, 1042)
-        });
-        series.setColor(Color.rgb(72,221,205));
-        series.setDrawDataPoints(true);
-        graphView.setTitleTextSize(18);
-        graphView.addSeries(series);
-        return groupFragmentView;
+        return inflater.inflate(R.layout.fragment_kick_start, container, false);
     }
 }

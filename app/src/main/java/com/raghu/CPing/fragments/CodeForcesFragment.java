@@ -2,27 +2,33 @@ package com.raghu.CPing.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.raghu.CPing.R;
+import com.raghu.CPing.database.JSONResponseDBHandler;
+import com.raghu.CPing.util.ContestDetails;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CodechefFragment#newInstance} factory method to
+ * Use the {@link CodeForcesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CodechefFragment extends Fragment {
+public class CodeForcesFragment extends Fragment {
 
     private View groupFragmentView;
     private GraphView graphView;
+
+    private JSONResponseDBHandler jsonResponseDBHandler;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,7 +39,7 @@ public class CodechefFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CodechefFragment() {
+    public CodeForcesFragment() {
         // Required empty public constructor
     }
 
@@ -43,11 +49,11 @@ public class CodechefFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CodechefFragment.
+     * @return A new instance of fragment CodeForcesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CodechefFragment newInstance(String param1, String param2) {
-        CodechefFragment fragment = new CodechefFragment();
+    public static CodeForcesFragment newInstance(String param1, String param2) {
+        CodeForcesFragment fragment = new CodeForcesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,29 +68,38 @@ public class CodechefFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        jsonResponseDBHandler = new JSONResponseDBHandler(getContext());
+
+        ArrayList<ContestDetails> contestDetailsArrayList = jsonResponseDBHandler.getCodeforcesDetails();
+
+        for (ContestDetails cd:contestDetailsArrayList) {
+            Log.d("JSON CODEFORCES", "onCreate: " + cd.getSite() + " , " + cd.getContestName() + " , " + cd.getContestUrl() + " , " + cd.getContestDuration() + " , " + cd.getContestStartTime() + " , " + cd.getContestEndTime() + " , " + cd.getIsToday() + " , " + cd.getContestStatus());
+        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        groupFragmentView = inflater.inflate(R.layout.fragment_codechef, container, false);
-        graphView = groupFragmentView.findViewById(R.id.codechefGraphView);
-        LineGraphSeries<DataPoint> codechefSeries = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(0, 1500),
-                new DataPoint(1, 1398),
-                new DataPoint(2, 1503),
-                new DataPoint(3, 1558),
-                new DataPoint(4, 1571),
-                new DataPoint(5, 1660),
-                new DataPoint(6, 1570),
-                new DataPoint(7, 1670),
-                new DataPoint(8, 1696)
+        groupFragmentView = inflater.inflate(R.layout.fragment_code_forces, container, false);
+        graphView = groupFragmentView.findViewById(R.id.codeForcesGraphView);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
+                new DataPoint(0, 363),
+                new DataPoint(1, 615),
+                new DataPoint(2, 781),
+                new DataPoint(3, 825),
+                new DataPoint(4, 824),
+                new DataPoint(5, 988),
+                new DataPoint(6, 973),
+                new DataPoint(7, 866),
+                new DataPoint(8, 1042)
         });
-        codechefSeries.setColor(Color.rgb(255,164,161));
-        codechefSeries.setDrawDataPoints(true);
+        series.setColor(Color.rgb(72,221,205));
+        series.setDrawDataPoints(true);
         graphView.setTitleTextSize(18);
-        graphView.addSeries(codechefSeries);
+        graphView.addSeries(series);
         return groupFragmentView;
     }
 }

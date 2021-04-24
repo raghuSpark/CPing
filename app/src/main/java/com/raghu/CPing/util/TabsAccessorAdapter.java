@@ -1,4 +1,4 @@
-package com.raghu.CPing;
+package com.raghu.CPing.util;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -7,10 +7,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.raghu.CPing.fragments.AllFragment;
-import com.raghu.CPing.fragments.CodechefFragment;
-import com.raghu.CPing.fragments.CodeforcesFragment;
-import com.raghu.CPing.fragments.KisckStartFragment;
-import com.raghu.CPing.fragments.LeetcodeFragment;
+import com.raghu.CPing.fragments.CodeChefFragment;
+import com.raghu.CPing.fragments.CodeForcesFragment;
+import com.raghu.CPing.fragments.KickStartFragment;
+import com.raghu.CPing.fragments.LeetCodeFragment;
 import com.raghu.CPing.fragments.TopCoderFragment;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
     );
 
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>(
-            Arrays.asList(new AllFragment(), new CodeforcesFragment(), new CodechefFragment(), new LeetcodeFragment(), new TopCoderFragment(), new KisckStartFragment())
+            Arrays.asList(new AllFragment(), new CodeForcesFragment(), new CodeChefFragment(), new LeetCodeFragment(), new TopCoderFragment(), new KickStartFragment())
     );
 
     public TabsAccessorAdapter(@NonNull FragmentManager fm, int behavior) {
@@ -40,11 +40,11 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
 //            case 0:
 //                return new AllFragment();
 //            case 1:
-//                return new CodeforcesFragment();
+//                return new CodeForcesFragment();
 //            case 2:
-//                return new CodechefFragment();
+//                return new CodeChefFragment();
 //            case 3:
-//                return new LeetcodeFragment();
+//                return new LeetCodeFragment();
 //            default:
 //                return null;
 //        }
