@@ -1,4 +1,4 @@
-package com.raghu.CPing.util;
+package com.raghu.CPing.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,7 +43,7 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        int cnt = 0;
+//        int cnt = 0;
         return 9;
     }
 

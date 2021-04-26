@@ -11,27 +11,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.raghu.CPing.R;
+import com.raghu.CPing.adapters.ContestDetailsRecyclerViewAdapter;
+import com.raghu.CPing.classes.ContestDetails;
 import com.raghu.CPing.database.JSONResponseDBHandler;
-import com.raghu.CPing.util.ContestDetails;
-import com.raghu.CPing.util.ContestDetailsRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
 public class HackerEarthFragment extends Fragment {
 
-    private View groupFragmentView;
-
-    private JSONResponseDBHandler jsonResponseDBHandler;
-
-    private ArrayList<ContestDetails> contestDetailsArrayList = new ArrayList<>(),
-            ongoingContestsArrayList = new ArrayList<>(),
-            todayContestsArrayList = new ArrayList<>(),
-            futureContestsArrayList = new ArrayList<>();
-
-    private TextView ongoing_nothing, today_nothing, future_nothing;
+    private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
+    private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
+    private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
 
     private RecyclerView OngoingRV, TodayRV, FutureRV;
-    private ContestDetailsRecyclerViewAdapter OngoingRVA, TodayRVA, FutureRVA;
 
     public HackerEarthFragment() {
         // Required empty public constructor
@@ -50,8 +42,8 @@ public class HackerEarthFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        jsonResponseDBHandler = new JSONResponseDBHandler(getContext());
-        contestDetailsArrayList = jsonResponseDBHandler.getHackerEarthDetails();
+        JSONResponseDBHandler jsonResponseDBHandler = new JSONResponseDBHandler(getContext());
+        ArrayList<ContestDetails> contestDetailsArrayList = jsonResponseDBHandler.getPlatformDetails("HackerEarth");
 
         for (ContestDetails cd : contestDetailsArrayList) {
             if (!cd.getIsToday().equals("No")) {
@@ -67,11 +59,11 @@ public class HackerEarthFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        groupFragmentView = inflater.inflate(R.layout.fragment_hacker_earth, container, false);
+        View groupFragmentView = inflater.inflate(R.layout.fragment_hacker_earth, container, false);
 
-        ongoing_nothing = groupFragmentView.findViewById(R.id.hackerEarth_ongoing_nothing);
-        today_nothing = groupFragmentView.findViewById(R.id.hackerEarth_today_nothing);
-        future_nothing = groupFragmentView.findViewById(R.id.hackerEarth_future_nothing);
+        TextView ongoing_nothing = groupFragmentView.findViewById(R.id.hackerEarth_ongoing_nothing);
+        TextView today_nothing = groupFragmentView.findViewById(R.id.hackerEarth_today_nothing);
+        TextView future_nothing = groupFragmentView.findViewById(R.id.hackerEarth_future_nothing);
 
         OngoingRV = groupFragmentView.findViewById(R.id.hackerEarth_ongoing_recycler_view);
         TodayRV = groupFragmentView.findViewById(R.id.hackerEarth_today_recycler_view);
@@ -115,21 +107,21 @@ public class HackerEarthFragment extends Fragment {
         if (i == 0) {
             OngoingRV.setHasFixedSize(true);
             OngoingRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            OngoingRVA = new ContestDetailsRecyclerViewAdapter(ongoingContestsArrayList);
-            OngoingRV.setAdapter(OngoingRVA);
-            OngoingRVA.notifyDataSetChanged();
+            ContestDetailsRecyclerViewAdapter ongoingRVA = new ContestDetailsRecyclerViewAdapter(ongoingContestsArrayList);
+            OngoingRV.setAdapter(ongoingRVA);
+            ongoingRVA.notifyDataSetChanged();
         } else if (i == 1) {
             TodayRV.setHasFixedSize(true);
             TodayRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            TodayRVA = new ContestDetailsRecyclerViewAdapter(todayContestsArrayList);
-            TodayRV.setAdapter(TodayRVA);
-            TodayRVA.notifyDataSetChanged();
+            ContestDetailsRecyclerViewAdapter todayRVA = new ContestDetailsRecyclerViewAdapter(todayContestsArrayList);
+            TodayRV.setAdapter(todayRVA);
+            todayRVA.notifyDataSetChanged();
         } else {
             FutureRV.setHasFixedSize(true);
             FutureRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            FutureRVA = new ContestDetailsRecyclerViewAdapter(futureContestsArrayList);
-            FutureRV.setAdapter(FutureRVA);
-            FutureRVA.notifyDataSetChanged();
+            ContestDetailsRecyclerViewAdapter futureRVA = new ContestDetailsRecyclerViewAdapter(futureContestsArrayList);
+            FutureRV.setAdapter(futureRVA);
+            futureRVA.notifyDataSetChanged();
         }
     }
 }

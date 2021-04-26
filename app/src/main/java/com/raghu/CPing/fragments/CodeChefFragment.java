@@ -1,6 +1,5 @@
 package com.raghu.CPing.fragments;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,32 +15,19 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.raghu.CPing.R;
+import com.raghu.CPing.adapters.ContestDetailsRecyclerViewAdapter;
+import com.raghu.CPing.classes.ContestDetails;
 import com.raghu.CPing.database.JSONResponseDBHandler;
-import com.raghu.CPing.util.ContestDetails;
-import com.raghu.CPing.util.ContestDetailsRecyclerViewAdapter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class CodeChefFragment extends Fragment {
 
-    private View groupFragmentView;
-    private GraphView graphView;
-
-    private JSONResponseDBHandler jsonResponseDBHandler;
-
-    private ArrayList<ContestDetails> contestDetailsArrayList = new ArrayList<>(),
-            ongoingContestsArrayList = new ArrayList<>(),
-            todayContestsArrayList = new ArrayList<>(),
-            futureContestsArrayList = new ArrayList<>();
-
-    private TextView ongoing_nothing, today_nothing, future_nothing;
+    private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
+    private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
+    private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
 
     private RecyclerView OngoingRV, TodayRV, FutureRV;
-    private ContestDetailsRecyclerViewAdapter OngoingRVA, TodayRVA, FutureRVA;
 
     public CodeChefFragment() {
         // Required empty public constructor
@@ -60,13 +46,13 @@ public class CodeChefFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        jsonResponseDBHandler = new JSONResponseDBHandler(getContext());
-        contestDetailsArrayList = jsonResponseDBHandler.getCodeChefDetails();
+        JSONResponseDBHandler jsonResponseDBHandler = new JSONResponseDBHandler(getContext());
+        ArrayList<ContestDetails> contestDetailsArrayList = jsonResponseDBHandler.getPlatformDetails("CodeChef");
 
         //Contest Details Recycler View
 
         for (ContestDetails cd : contestDetailsArrayList) {
-            if (isGreaterThan10days(cd.getContestDuration())) continue;
+//            if (isGreaterThan10days(cd.getContestDuration())) continue;
             if (!cd.getIsToday().equals("No")) {
                 todayContestsArrayList.add(cd);
             } else if (cd.getContestStatus().equals("CODING")) {
@@ -77,36 +63,33 @@ public class CodeChefFragment extends Fragment {
         }
     }
 
-    private boolean isGreaterThan10days(int contestDuration) {
-        return ((contestDuration / 3600.0) / 24.0 > 10);
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private boolean isWithinAWeek(String contestStartTime) throws ParseException {
-//        2021-04-25T10:00:00.000Z
-        contestStartTime = contestStartTime.substring(0, 10) + contestStartTime.substring(11, 18);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        String currentDate = simpleDateFormat.format(new Date());
-
-        Date today = simpleDateFormat.parse(currentDate),
-                start = simpleDateFormat.parse(contestStartTime);
-
-        assert start != null;
-        assert today != null;
-        return (TimeUnit.MILLISECONDS.toDays(start.getTime() - today.getTime()) <= 7);
-    }
+//    @SuppressLint("SimpleDateFormat")
+//    private boolean isWithinAWeek(String contestStartTime) throws ParseException {
+////        2021-04-25T10:00:00.000Z
+//        contestStartTime = contestStartTime.substring(0, 10) + contestStartTime.substring(11, 18);
+//
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//
+//        String currentDate = simpleDateFormat.format(new Date());
+//
+//        Date today = simpleDateFormat.parse(currentDate),
+//                start = simpleDateFormat.parse(contestStartTime);
+//
+//        assert start != null;
+//        assert today != null;
+//        return (TimeUnit.MILLISECONDS.toDays(start.getTime() - today.getTime()) <= 7);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        groupFragmentView = inflater.inflate(R.layout.fragment_code_chef, container, false);
 
-        ongoing_nothing = groupFragmentView.findViewById(R.id.codeChef_ongoing_nothing);
-        today_nothing = groupFragmentView.findViewById(R.id.codeChef_today_nothing);
-        future_nothing = groupFragmentView.findViewById(R.id.codeChef_future_nothing);
+        View groupFragmentView = inflater.inflate(R.layout.fragment_code_chef, container, false);
+
+        TextView ongoing_nothing = groupFragmentView.findViewById(R.id.codeChef_ongoing_nothing);
+        TextView today_nothing = groupFragmentView.findViewById(R.id.codeChef_today_nothing);
+        TextView future_nothing = groupFragmentView.findViewById(R.id.codeChef_future_nothing);
 
         OngoingRV = groupFragmentView.findViewById(R.id.codeChef_ongoing_recycler_view);
         TodayRV = groupFragmentView.findViewById(R.id.codeChef_today_recycler_view);
@@ -143,7 +126,7 @@ public class CodeChefFragment extends Fragment {
         // 2 -> Future
         initialize(2);
 
-        graphView = groupFragmentView.findViewById(R.id.codeChef_graph_view);
+        GraphView graphView = groupFragmentView.findViewById(R.id.codeChef_graph_view);
         LineGraphSeries<DataPoint> codeChefSeries = new LineGraphSeries<>(new DataPoint[]{
                 new DataPoint(0, 1500),
                 new DataPoint(1, 1398),
@@ -166,21 +149,21 @@ public class CodeChefFragment extends Fragment {
         if (i == 0) {
             OngoingRV.setHasFixedSize(true);
             OngoingRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            OngoingRVA = new ContestDetailsRecyclerViewAdapter(ongoingContestsArrayList);
-            OngoingRV.setAdapter(OngoingRVA);
-            OngoingRVA.notifyDataSetChanged();
+            ContestDetailsRecyclerViewAdapter ongoingRVA = new ContestDetailsRecyclerViewAdapter(ongoingContestsArrayList);
+            OngoingRV.setAdapter(ongoingRVA);
+            ongoingRVA.notifyDataSetChanged();
         } else if (i == 1) {
             TodayRV.setHasFixedSize(true);
             TodayRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            TodayRVA = new ContestDetailsRecyclerViewAdapter(todayContestsArrayList);
-            TodayRV.setAdapter(TodayRVA);
-            TodayRVA.notifyDataSetChanged();
+            ContestDetailsRecyclerViewAdapter todayRVA = new ContestDetailsRecyclerViewAdapter(todayContestsArrayList);
+            TodayRV.setAdapter(todayRVA);
+            todayRVA.notifyDataSetChanged();
         } else {
             FutureRV.setHasFixedSize(true);
             FutureRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            FutureRVA = new ContestDetailsRecyclerViewAdapter(futureContestsArrayList);
-            FutureRV.setAdapter(FutureRVA);
-            FutureRVA.notifyDataSetChanged();
+            ContestDetailsRecyclerViewAdapter futureRVA = new ContestDetailsRecyclerViewAdapter(futureContestsArrayList);
+            FutureRV.setAdapter(futureRVA);
+            futureRVA.notifyDataSetChanged();
         }
     }
 }

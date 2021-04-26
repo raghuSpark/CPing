@@ -1,4 +1,4 @@
-package com.raghu.CPing.util;
+package com.raghu.CPing.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.raghu.CPing.R;
+import com.raghu.CPing.classes.ContestDetails;
 
 import java.util.ArrayList;
 
@@ -76,10 +77,6 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
         myViewHolder.duration.setText(spannableString);
     }
 
-    private String findStart(String contestStartTime) {
-        return contestStartTime.substring(0, 10) + "  " + contestStartTime.substring(11, 16);
-    }
-
     private String findDuration(int contestDuration) {
         String result = "";
         result += contestDuration / 3600 + ":";
@@ -104,12 +101,7 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
         public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "Not implemented yet!", Toast.LENGTH_SHORT).show();
-                }
-            });
+            itemView.setOnClickListener(v -> Toast.makeText(context, "Not implemented yet!", Toast.LENGTH_SHORT).show());
 
             name = itemView.findViewById(R.id.contestName);
             startDate = itemView.findViewById(R.id.contestStartDate);

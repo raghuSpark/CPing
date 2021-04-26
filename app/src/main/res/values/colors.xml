@@ -29,14 +29,22 @@
 
     // AtCoder rating colors
 
-    <color name="atCoderFiveDan">#808080</color> // 0-399
-    <color name="atCoderSixDan">#804000</color> // 400-799
-    <color name="atCoderSevenDan">#008000</color> // 800-1199
-    <color name="atCoderEightDan">#00BFBF</color> // 1200-1599
-    <color name="atCoderNineDan">#0000FD</color> // 1600-1999
-    <color name="atCoderTenDan">#BFBF00</color> // 2000-2399
-    <color name="atCoderLegend">#F47B00</color> // 2400-2799
-    <color name="atCoderKing">#F30000</color> // 2800
+    <color name="atCoderFiveDan">#808080</color>
+    // 0-399
+    <color name="atCoderSixDan">#804000</color>
+    // 400-799
+    <color name="atCoderSevenDan">#008000</color>
+    // 800-1199
+    <color name="atCoderEightDan">#00BFBF</color>
+    // 1200-1599
+    <color name="atCoderNineDan">#0000FD</color>
+    // 1600-1999
+    <color name="atCoderTenDan">#BFBF00</color>
+    // 2000-2399
+    <color name="atCoderLegend">#F47B00</color>
+    // 2400-2799
+    <color name="atCoderKing">#F30000</color>
+    // 2800
 
     // LeetCode Colors
 
@@ -46,10 +54,14 @@
     <color name="leetCodeRankColor">#008000</color>
 
 
-    <color name="codeChefColor">#FFA4A1</color>
-    <color name="codeForcesColor">#48DDCD</color>
-    <color name="leetCodeColor">#FEA758</color>
-    <color name="atCoderColor">#B391FF</color>
+    <color name="codeChefColor">#804827</color>
+    <color name="codeForcesColor">#3b5998</color>
+    <color name="leetCodeColor">#FFA116</color>
+    <color name="atCoderColor">#337ab7</color>
+    <color name="topCoderColor">#ffa45d</color>
+    <color name="hackerEarthColor">#323754</color>
+    <color name="hackerRankColor">#1ba94c</color>
+    <color name="kickStartColor">#fe112d</color>
 
     <color name="purple_500">#FF6200EE</color>
     <color name="black">#000000</color>

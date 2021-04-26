@@ -1,4 +1,4 @@
-package com.raghu.CPing.util;
+package com.raghu.CPing.classes;
 
 public class ContestDetails {
     private String site, contestName, contestUrl;

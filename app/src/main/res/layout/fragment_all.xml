@@ -31,7 +31,7 @@
                     android:orientation="vertical">
 
                     <com.jjoe64.graphview.GraphView
-                        android:id="@+id/allGraphView"
+                        android:id="@+id/all_graph_view"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
                         android:layout_margin="10dp"
@@ -47,7 +47,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/codeforcesGraphBelow"
+                            android:id="@+id/code_forces_graph_below"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawablePadding="3dp"
@@ -128,7 +128,7 @@
                     android:useDefaultMargins="true">
 
                     <LinearLayout
-                        android:id="@+id/codeforcesALLRating"
+                        android:id="@+id/all_code_forces_rating_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_row="0"
@@ -141,7 +141,7 @@
                         android:padding="8dp">
 
                         <TextView
-                            android:id="@+id/allCodeforcesCurrentRating"
+                            android:id="@+id/all_code_forces_current_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_extra_bold"
@@ -153,12 +153,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_regular"
-                            android:text="CodeForces"
+                            android:text="@string/codeforces"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/allCodeForcesCurrentRank"
+                            android:id="@+id/all_code_forces_current_rank"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -169,7 +169,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/codechefALLRating"
+                        android:id="@+id/all_code_chef_rating_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_row="0"
@@ -182,7 +182,7 @@
                         android:padding="8dp">
 
                         <TextView
-                            android:id="@+id/allCodechefCurrentRating"
+                            android:id="@+id/all_code_chef_current_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_extra_bold"
@@ -209,7 +209,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/leet_code_aLL_rating"
+                        android:id="@+id/all_leet_code_rating_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_row="0"
@@ -222,7 +222,7 @@
                         android:padding="8dp">
 
                         <TextView
-                            android:id="@+id/allLeetcodeCurrentRating"
+                            android:id="@+id/all_leet_code_current_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_extra_bold"
@@ -239,7 +239,7 @@
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/all_leet_code_rank"
+                            android:id="@+id/all_leet_code_current_rank"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="~100000"
@@ -249,7 +249,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/at_coder_all_rating_card"
+                        android:id="@+id/all_at_coder_rating_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_row="1"
@@ -307,7 +307,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/ongoingNothing"
+                android:id="@+id/all_ongoing_nothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="4"
@@ -321,13 +321,12 @@
                 android:textSize="17sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ongoingContestsRecyclerView"
+                android:id="@+id/all_ongoing_contests_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_row="5"
                 android:layout_column="0"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
                 android:isScrollContainer="false"
                 android:nestedScrollingEnabled="false" />
@@ -346,7 +345,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/todayNothing"
+                android:id="@+id/all_today_nothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="7"
@@ -360,13 +359,12 @@
                 android:textSize="17sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/todayContestsRecyclerView"
+                android:id="@+id/all_today_contests_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_row="8"
                 android:layout_column="0"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
                 android:isScrollContainer="false"
                 android:nestedScrollingEnabled="false" />
@@ -404,7 +402,9 @@
                 android:layout_height="wrap_content"
                 android:layout_row="11"
                 android:layout_column="0"
-                android:layout_margin="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
                 android:isScrollContainer="false"
                 android:nestedScrollingEnabled="false" />
 
