@@ -17,27 +17,28 @@ import com.raghu.CPing.util.ContestDetailsRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
-public class LeetCodeFragment extends Fragment {
+public class HackerRankFragment extends Fragment {
 
     private View groupFragmentView;
+
     private JSONResponseDBHandler jsonResponseDBHandler;
 
     private ArrayList<ContestDetails> contestDetailsArrayList = new ArrayList<>(),
             ongoingContestsArrayList = new ArrayList<>(),
             todayContestsArrayList = new ArrayList<>(),
-            futureWeekContestsArrayList = new ArrayList<>();
+            futureContestsArrayList = new ArrayList<>();
 
     private TextView ongoing_nothing, today_nothing, future_nothing;
 
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private ContestDetailsRecyclerViewAdapter OngoingRVA, TodayRVA, FutureRVA;
 
-    public LeetCodeFragment() {
+    public HackerRankFragment() {
         // Required empty public constructor
     }
 
-    public static LeetCodeFragment newInstance(String param1, String param2) {
-        LeetCodeFragment fragment = new LeetCodeFragment();
+    public static HackerRankFragment newInstance(String param1, String param2) {
+        HackerRankFragment fragment = new HackerRankFragment();
         Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
@@ -50,7 +51,7 @@ public class LeetCodeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         jsonResponseDBHandler = new JSONResponseDBHandler(getContext());
-        contestDetailsArrayList = jsonResponseDBHandler.getLeetCodeDetails();
+        contestDetailsArrayList = jsonResponseDBHandler.getHackerRankDetails();
 
         for (ContestDetails cd : contestDetailsArrayList) {
             if (!cd.getIsToday().equals("No")) {
@@ -58,14 +59,7 @@ public class LeetCodeFragment extends Fragment {
             } else if (cd.getContestStatus().equals("CODING")) {
                 ongoingContestsArrayList.add(cd);
             } else {
-                futureWeekContestsArrayList.add(cd);
-//                try {
-//                    if (isWithinAWeek(cd.getContestStartTime())) {
-//                        futureWeekContestsArrayList.add(cd);
-//                    }
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
+                futureContestsArrayList.add(cd);
             }
         }
     }
@@ -73,17 +67,15 @@ public class LeetCodeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        groupFragmentView = inflater.inflate(R.layout.fragment_hacker_rank, container, false);
 
-        groupFragmentView = inflater.inflate(R.layout.fragment_leet_code, container, false);
+        ongoing_nothing = groupFragmentView.findViewById(R.id.hackerRank_ongoing_nothing);
+        today_nothing = groupFragmentView.findViewById(R.id.hackerRank_today_nothing);
+        future_nothing = groupFragmentView.findViewById(R.id.hackerRank_future_nothing);
 
-        ongoing_nothing = groupFragmentView.findViewById(R.id.leetCode_ongoing_nothing);
-        today_nothing = groupFragmentView.findViewById(R.id.leetCode_today_nothing);
-        future_nothing = groupFragmentView.findViewById(R.id.leetCode_future_nothing);
-
-        OngoingRV = groupFragmentView.findViewById(R.id.leetCode_ongoing_recycler_view);
-        TodayRV = groupFragmentView.findViewById(R.id.leetCode_today_recycler_view);
-        FutureRV = groupFragmentView.findViewById(R.id.leetCode_future_recycler_view);
+        OngoingRV = groupFragmentView.findViewById(R.id.hackerRank_ongoing_recycler_view);
+        TodayRV = groupFragmentView.findViewById(R.id.hackerRank_today_recycler_view);
+        FutureRV = groupFragmentView.findViewById(R.id.hackerRank_future_recycler_view);
 
         if (ongoingContestsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
@@ -101,7 +93,7 @@ public class LeetCodeFragment extends Fragment {
             TodayRV.setVisibility(View.VISIBLE);
         }
 
-        if (futureWeekContestsArrayList.isEmpty()) {
+        if (futureContestsArrayList.isEmpty()) {
             future_nothing.setVisibility(View.VISIBLE);
             FutureRV.setVisibility(View.GONE);
         } else {
@@ -113,7 +105,7 @@ public class LeetCodeFragment extends Fragment {
         initialize(0);
         // 1 -> Today
         initialize(1);
-        // 2 -> Future
+        // 2 -> Later
         initialize(2);
 
         return groupFragmentView;
@@ -135,7 +127,7 @@ public class LeetCodeFragment extends Fragment {
         } else {
             FutureRV.setHasFixedSize(true);
             FutureRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            FutureRVA = new ContestDetailsRecyclerViewAdapter(futureWeekContestsArrayList);
+            FutureRVA = new ContestDetailsRecyclerViewAdapter(futureContestsArrayList);
             FutureRV.setAdapter(FutureRVA);
             FutureRVA.notifyDataSetChanged();
         }

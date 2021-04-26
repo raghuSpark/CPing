@@ -39,19 +39,20 @@ public class JSONResponseDBHandler extends SQLiteOpenHelper {
     }
 
     public void addItem(ContestDetails contestDetails) {
+
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put("site",contestDetails.getSite());
-        contentValues.put("contestName",contestDetails.getContestName());
-        contentValues.put("contestUrl",contestDetails.getContestUrl());
-        contentValues.put("contestDuration",contestDetails.getContestDuration());
-        contentValues.put("contestStartDate",contestDetails.getContestStartTime());
-        contentValues.put("contestEndDate",contestDetails.getContestEndTime());
-        contentValues.put("isToday",contestDetails.getIsToday());
-        contentValues.put("contestStatus",contestDetails.getContestStatus());
+        contentValues.put("site", contestDetails.getSite());
+        contentValues.put("contestName", contestDetails.getContestName());
+        contentValues.put("contestUrl", contestDetails.getContestUrl());
+        contentValues.put("contestDuration", contestDetails.getContestDuration());
+        contentValues.put("contestStartDate", contestDetails.getContestStartTime());
+        contentValues.put("contestEndDate", contestDetails.getContestEndTime());
+        contentValues.put("isToday", contestDetails.getIsToday());
+        contentValues.put("contestStatus", contestDetails.getContestStatus());
 
-        if(sqLiteDatabase.insert("jsonResponse",null,contentValues)!=-1) {
+        if (sqLiteDatabase.insert("jsonResponse", null, contentValues) != -1) {
             sqLiteDatabase.close();
         } else {
             Toast.makeText(context, "Error occurred in inserting data into database!!", Toast.LENGTH_SHORT).show();
@@ -60,11 +61,11 @@ public class JSONResponseDBHandler extends SQLiteOpenHelper {
 
     public void deleteAll() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.execSQL("delete from "+ "jsonResponse");
+        sqLiteDatabase.execSQL("delete from " + "jsonResponse");
     }
 
-    public ArrayList<ContestDetails> getCodeforcesDetails() {
-        ArrayList<ContestDetails> codeforcesContestsList = new ArrayList<>();
+    public ArrayList<ContestDetails> getCodeForcesDetails() {
+        ArrayList<ContestDetails> codeForcesContestsList = new ArrayList<>();
 
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
@@ -84,19 +85,19 @@ public class JSONResponseDBHandler extends SQLiteOpenHelper {
                     contestEndDate = cursor.getString(5);
                     isToday = cursor.getString(6);
                     contestStatus = cursor.getString(7);
-                    codeforcesContestsList.add(new ContestDetails(site, contestName, contestUrl, contestDuration, contestStartDate, contestEndDate, isToday, contestStatus));
+                    codeForcesContestsList.add(new ContestDetails(site, contestName, contestUrl, contestDuration, contestStartDate, contestEndDate, isToday, contestStatus));
                 }
             }
         } else {
-            Toast.makeText(context, "Nothing to show in codeforces!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Nothing to show in codeForces!", Toast.LENGTH_SHORT).show();
         }
 
         sqLiteDatabase.close();
-        return codeforcesContestsList;
+        return codeForcesContestsList;
     }
 
-    public ArrayList<ContestDetails> getCodechefDetails() {
-        ArrayList<ContestDetails> codechefContestsList = new ArrayList<>();
+    public ArrayList<ContestDetails> getCodeChefDetails() {
+        ArrayList<ContestDetails> codeChefContestsList = new ArrayList<>();
 
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
@@ -116,7 +117,7 @@ public class JSONResponseDBHandler extends SQLiteOpenHelper {
                     contestEndDate = cursor.getString(5);
                     isToday = cursor.getString(6);
                     contestStatus = cursor.getString(7);
-                    codechefContestsList.add(new ContestDetails(site, contestName, contestUrl, contestDuration, contestStartDate, contestEndDate, isToday, contestStatus));
+                    codeChefContestsList.add(new ContestDetails(site, contestName, contestUrl, contestDuration, contestStartDate, contestEndDate, isToday, contestStatus));
                 }
             }
         } else {
@@ -124,11 +125,11 @@ public class JSONResponseDBHandler extends SQLiteOpenHelper {
         }
 
         sqLiteDatabase.close();
-        return codechefContestsList;
+        return codeChefContestsList;
     }
 
-    public ArrayList<ContestDetails> getLeetcodeDetails() {
-        ArrayList<ContestDetails> leetcodeContestsList = new ArrayList<>();
+    public ArrayList<ContestDetails> getLeetCodeDetails() {
+        ArrayList<ContestDetails> leetCodeContestsList = new ArrayList<>();
 
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
@@ -148,7 +149,7 @@ public class JSONResponseDBHandler extends SQLiteOpenHelper {
                     contestEndDate = cursor.getString(5);
                     isToday = cursor.getString(6);
                     contestStatus = cursor.getString(7);
-                    leetcodeContestsList.add(new ContestDetails(site, contestName, contestUrl, contestDuration, contestStartDate, contestEndDate, isToday, contestStatus));
+                    leetCodeContestsList.add(new ContestDetails(site, contestName, contestUrl, contestDuration, contestStartDate, contestEndDate, isToday, contestStatus));
                 }
             }
         } else {
@@ -156,6 +157,166 @@ public class JSONResponseDBHandler extends SQLiteOpenHelper {
         }
 
         sqLiteDatabase.close();
-        return leetcodeContestsList;
+        return leetCodeContestsList;
+    }
+
+    public ArrayList<ContestDetails> getTopCoderDetails() {
+        ArrayList<ContestDetails> topCoderContestDetails = new ArrayList<>();
+
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        @SuppressLint("Recycle")
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from jsonResponse", null);
+
+        if (cursor.getCount() != 0) {
+            while (cursor.moveToNext()) {
+                String site = cursor.getString(0);
+                if (site.equals("TopCoder")) {
+                    String contestName, contestUrl, contestStartDate, contestEndDate, isToday, contestStatus;
+                    int contestDuration;
+                    contestName = cursor.getString(1);
+                    contestUrl = cursor.getString(2);
+                    contestDuration = cursor.getInt(3);
+                    contestStartDate = cursor.getString(4);
+                    contestEndDate = cursor.getString(5);
+                    isToday = cursor.getString(6);
+                    contestStatus = cursor.getString(7);
+                    topCoderContestDetails.add(new ContestDetails(site, contestName, contestUrl, contestDuration, contestStartDate, contestEndDate, isToday, contestStatus));
+                }
+            }
+        } else {
+            Toast.makeText(context, "Nothing to show in topCoder!", Toast.LENGTH_SHORT).show();
+        }
+
+        sqLiteDatabase.close();
+        return topCoderContestDetails;
+    }
+
+    public ArrayList<ContestDetails> getHackerRankDetails() {
+        ArrayList<ContestDetails> hackerRankContestDetails = new ArrayList<>();
+
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        @SuppressLint("Recycle")
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from jsonResponse", null);
+
+        if (cursor.getCount() != 0) {
+            while (cursor.moveToNext()) {
+                String site = cursor.getString(0);
+                if (site.equals("HackerRank")) {
+                    String contestName, contestUrl, contestStartDate, contestEndDate, isToday, contestStatus;
+                    int contestDuration;
+                    contestName = cursor.getString(1);
+                    contestUrl = cursor.getString(2);
+                    contestDuration = cursor.getInt(3);
+                    contestStartDate = cursor.getString(4);
+                    contestEndDate = cursor.getString(5);
+                    isToday = cursor.getString(6);
+                    contestStatus = cursor.getString(7);
+                    hackerRankContestDetails.add(new ContestDetails(site, contestName, contestUrl, contestDuration, contestStartDate, contestEndDate, isToday, contestStatus));
+                }
+            }
+        } else {
+            Toast.makeText(context, "Nothing to show in AtCoder!", Toast.LENGTH_SHORT).show();
+        }
+
+        sqLiteDatabase.close();
+        return hackerRankContestDetails;
+    }
+
+    public ArrayList<ContestDetails> getHackerEarthDetails() {
+        ArrayList<ContestDetails> hackerEarthContestDetails = new ArrayList<>();
+
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        @SuppressLint("Recycle")
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from jsonResponse", null);
+
+        if (cursor.getCount() != 0) {
+            while (cursor.moveToNext()) {
+                String site = cursor.getString(0);
+                if (site.equals("HackerEarth")) {
+                    String contestName, contestUrl, contestStartDate, contestEndDate, isToday, contestStatus;
+                    int contestDuration;
+                    contestName = cursor.getString(1);
+                    contestUrl = cursor.getString(2);
+                    contestDuration = cursor.getInt(3);
+                    contestStartDate = cursor.getString(4);
+                    contestEndDate = cursor.getString(5);
+                    isToday = cursor.getString(6);
+                    contestStatus = cursor.getString(7);
+                    hackerEarthContestDetails.add(new ContestDetails(site, contestName, contestUrl, contestDuration, contestStartDate, contestEndDate, isToday, contestStatus));
+                }
+            }
+        } else {
+            Toast.makeText(context, "Nothing to show in HackerEarth!", Toast.LENGTH_SHORT).show();
+        }
+
+        sqLiteDatabase.close();
+        return hackerEarthContestDetails;
+    }
+
+    public ArrayList<ContestDetails> getAtCoderDetails() {
+        ArrayList<ContestDetails> atCoderContestDetails = new ArrayList<>();
+
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        @SuppressLint("Recycle")
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from jsonResponse", null);
+
+        if (cursor.getCount() != 0) {
+            while (cursor.moveToNext()) {
+                String site = cursor.getString(0);
+                if (site.equals("AtCoder")) {
+                    String contestName, contestUrl, contestStartDate, contestEndDate, isToday, contestStatus;
+                    int contestDuration;
+                    contestName = cursor.getString(1);
+                    contestUrl = cursor.getString(2);
+                    contestDuration = cursor.getInt(3);
+                    contestStartDate = cursor.getString(4);
+                    contestEndDate = cursor.getString(5);
+                    isToday = cursor.getString(6);
+                    contestStatus = cursor.getString(7);
+                    atCoderContestDetails.add(new ContestDetails(site, contestName, contestUrl, contestDuration, contestStartDate, contestEndDate, isToday, contestStatus));
+                }
+            }
+        } else {
+            Toast.makeText(context, "Nothing to show in AtCoder!", Toast.LENGTH_SHORT).show();
+        }
+
+        sqLiteDatabase.close();
+        return atCoderContestDetails;
+    }
+
+    public ArrayList<ContestDetails> getKickStartDetails() {
+        ArrayList<ContestDetails> kickStartContestDetails = new ArrayList<>();
+
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        @SuppressLint("Recycle")
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from jsonResponse", null);
+
+        if (cursor.getCount() != 0) {
+            while (cursor.moveToNext()) {
+                String site = cursor.getString(0);
+                if (site.equals("Kick Start")) {
+                    String contestName, contestUrl, contestStartDate, contestEndDate, isToday, contestStatus;
+                    int contestDuration;
+                    contestName = cursor.getString(1);
+                    contestUrl = cursor.getString(2);
+                    contestDuration = cursor.getInt(3);
+                    contestStartDate = cursor.getString(4);
+                    contestEndDate = cursor.getString(5);
+                    isToday = cursor.getString(6);
+                    contestStatus = cursor.getString(7);
+                    kickStartContestDetails.add(new ContestDetails(site, contestName, contestUrl, contestDuration, contestStartDate, contestEndDate, isToday, contestStatus));
+                }
+            }
+        } else {
+            Toast.makeText(context, "Nothing to show in kickStart!", Toast.LENGTH_SHORT).show();
+        }
+
+        sqLiteDatabase.close();
+        return kickStartContestDetails;
     }
 }

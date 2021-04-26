@@ -1,6 +1,22 @@
 <resources>
     <string name="app_name">CPing</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="rating_changes">Rating Changes</string>
+    <string name="nothing_to_show">Nothing to show</string>
+    <string name="atcoder">AtCoder</string>
+    <string name="leetcode">LeetCode</string>
+    <string name="codechef">CodeChef</string>
+    <string name="codeforces">CodeForces</string>
+    <string name="total_problems_solved">Total Problems Solved</string>
+    <string name="acceptance_rate">Acceptance Rate</string>
+    <string name="current_rating">Current Rating</string>
+    <string name="ongoing_contests">Ongoing Contests</string>
+    <string name="today">Today</string>
+    <string name="max_rating">Max. Rating</string>
+    <string name="level">Level</string>
+    <string name="future_contests">Future Contests</string>
+    <string name="hard">Hard</string>
+    <string name="medium">Medium</string>
+    <string name="easy">Easy</string>
 </resources>

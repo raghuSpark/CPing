@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.raghu.CPing.R;
+import com.raghu.CPing.database.JSONResponseDBHandler;
 import com.raghu.CPing.util.TabsAccessorAdapter;
 
 import java.util.Objects;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager dashBoardViewPager;
     private TabLayout dashBoardTabLayout;
     private TabsAccessorAdapter dashBoardTabsAccessorAdapter;
+
+    private JSONResponseDBHandler jsonResponseDBHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         dashBoardTabLayout = findViewById(R.id.main_tabs);
         dashBoardTabLayout.setupWithViewPager(dashBoardViewPager);
+
+        jsonResponseDBHandler = new JSONResponseDBHandler(this);
     }
 
     @Override

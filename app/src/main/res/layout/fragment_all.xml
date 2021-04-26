@@ -11,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- TODO: Update blank fragment layout -->
-
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -52,30 +50,46 @@
                             android:id="@+id/codeforcesGraphBelow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_cf"
                             android:drawablePadding="3dp"
-                            android:fontFamily="@font/nunito_extra_light"
-                            android:text="Codeforces" />
+                            android:fontFamily="@font/nunito_regular"
+                            android:text="@string/codeforces"
+                            android:textColor="@color/black"
+                            app:drawableStartCompat="@drawable/ic_cf" />
 
                         <TextView
-                            android:id="@+id/codechefGraphBelow"
+                            android:id="@+id/code_chef_graph_below"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:drawableStart="@drawable/ic_cc"
                             android:drawablePadding="3dp"
-                            android:fontFamily="@font/nunito_extra_light"
-                            android:text="Codechef" />
+                            android:fontFamily="@font/nunito_regular"
+                            android:text="@string/codechef"
+                            android:textColor="@color/black"
+                            app:drawableStartCompat="@drawable/ic_cc" />
 
                         <TextView
-                            android:id="@+id/leetcodeGraphBelow"
+                            android:id="@+id/leet_code_graph_below"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:drawableStart="@drawable/ic_lc"
                             android:drawablePadding="3dp"
-                            android:fontFamily="@font/nunito_extra_light"
-                            android:text="Leetcode" />
+                            android:fontFamily="@font/nunito_regular"
+                            android:text="@string/leetcode"
+                            android:textColor="@color/black"
+                            android:visibility="gone"
+                            app:drawableStartCompat="@drawable/ic_lc" />
+
+                        <TextView
+                            android:id="@+id/at_coder_graph_below"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:drawablePadding="3dp"
+                            android:fontFamily="@font/nunito_regular"
+                            android:text="@string/atcoder"
+                            android:textColor="@color/black"
+                            android:visibility="gone"
+                            app:drawableStartCompat="@drawable/ic_ac" />
 
                     </LinearLayout>
 
@@ -138,17 +152,18 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_extra_light"
-                            android:text="Codeforces"
+                            android:fontFamily="@font/nunito_regular"
+                            android:text="CodeForces"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/allCodeforcesRatingChange"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/allCodeForcesCurrentRank"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="-107"
-                            android:textColor="@color/negativeChangeRed"
+                            android:gravity="center"
+                            android:text="Legendary grandmaster"
+                            android:textColor="@color/codeForcesGrandMasterColor"
                             android:textSize="15sp" />
 
                     </LinearLayout>
@@ -178,23 +193,23 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_extra_light"
-                            android:text="Codechef"
+                            android:fontFamily="@font/nunito_regular"
+                            android:text="@string/codechef"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/allCodechefRatingChange"
+                            android:id="@+id/all_code_chef_current_stars"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="+109"
-                            android:textColor="@color/positiveChangeGreen"
-                            android:textSize="15sp" />
+                            android:text="4★"
+                            android:textColor="@color/fourStar"
+                            android:textSize="17sp" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/leetcodeALLRating"
+                        android:id="@+id/leet_code_aLL_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_row="0"
@@ -218,17 +233,58 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_extra_light"
-                            android:text="Leetcode"
+                            android:fontFamily="@font/nunito_regular"
+                            android:text="@string/leetcode"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/allLeetcodeRatingChange"
+                            android:id="@+id/all_leet_code_rank"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="+15"
-                            android:textColor="@color/positiveChangeGreen"
+                            android:text="~100000"
+                            android:textColor="@color/leetCodeRankColor"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/at_coder_all_rating_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_row="1"
+                        android:layout_rowWeight="1"
+                        android:layout_column="0"
+                        android:layout_columnWeight="1"
+                        android:background="@drawable/rating_changes_background"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/all_at_coder_current_rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_extra_bold"
+                            android:text="4056"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_regular"
+                            android:text="@string/atcoder"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/all_at_coder_current_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="King"
+                            android:textColor="@color/atCoderKing"
                             android:textSize="15sp" />
 
                     </LinearLayout>
@@ -245,9 +301,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
                 android:fontFamily="@font/nunito_semi_bold"
-                android:text="Ongoing Contests"
+                android:text="@string/ongoing_contests"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -257,11 +312,11 @@
                 android:layout_height="wrap_content"
                 android:layout_row="4"
                 android:layout_column="0"
+                android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_semi_bold"
-                android:text="Nothing to show"
-                android:layout_gravity="center"
+                android:text="@string/nothing_to_show"
                 android:textColor="@color/tab_text_normal_color"
                 android:textSize="17sp" />
 
@@ -272,7 +327,10 @@
                 android:layout_row="5"
                 android:layout_column="0"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp" />
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:isScrollContainer="false"
+                android:nestedScrollingEnabled="false" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -282,34 +340,73 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
                 android:fontFamily="@font/nunito_semi_bold"
-                android:text="Upcoming Contests"
+                android:text="@string/today"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/upcomingNothing"
+                android:id="@+id/todayNothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="7"
                 android:layout_column="0"
+                android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_semi_bold"
-                android:text="Nothing to show"
-                android:layout_gravity="center"
+                android:text="@string/nothing_to_show"
                 android:textColor="@color/tab_text_normal_color"
                 android:textSize="17sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/upcomingContestsRecyclerView"
+                android:id="@+id/todayContestsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_row="8"
                 android:layout_column="0"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp" />
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:isScrollContainer="false"
+                android:nestedScrollingEnabled="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="9"
+                android:layout_column="0"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/nunito_semi_bold"
+                android:text="@string/future_contests"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/all_future_nothing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="10"
+                android:layout_column="0"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/nunito_semi_bold"
+                android:text="@string/nothing_to_show"
+                android:textColor="@color/tab_text_normal_color"
+                android:textSize="17sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/all_future_contests_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_row="11"
+                android:layout_column="0"
+                android:layout_margin="15dp"
+                android:isScrollContainer="false"
+                android:nestedScrollingEnabled="false" />
 
         </GridLayout>
 

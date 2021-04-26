@@ -31,16 +31,18 @@ public class SplashActivity extends AppCompatActivity {
 
         jsonResponseDBHandler = new JSONResponseDBHandler(this);
 
+        jsonResponseDBHandler.deleteAll();
+
         getDetailsFromAPI();
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
             }
-        },2000);
+        }, 2000);
     }
 
     public void getDetailsFromAPI() {
@@ -62,7 +64,7 @@ public class SplashActivity extends AppCompatActivity {
                                 obj.getString("status")
                         );
                         jsonResponseDBHandler.addItem(item);
-//                        Log.d("Json array response", obj.getString("name"));
+//                        Log.d("Json array response", obj.getString("site"));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

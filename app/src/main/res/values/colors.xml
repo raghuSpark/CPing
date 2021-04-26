@@ -1,18 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background">#EDF5FA</color>
+    <color name="transparent">#00000000</color>
+
     <color name="tab_text_normal_color">#8B8686</color>
     <color name="negativeChangeRed">#F04243</color>
     <color name="positiveChangeGreen">#46CA7F</color>
 
-    <color name="codechefColor">#FFA4A1</color>
-    <color name="codeforcesColor">#48DDCD</color>
-    <color name="leetcodeColor">#FEA758</color>
+    // CodeForces rating colors
+
+    <color name="codeForcesNewbieColor">#808080</color>
+    <color name="codeForcesPupilColor">#008000</color>
+    <color name="codeForcesSpecialistColor">#03a89e</color>
+    <color name="codeForcesExpertColor">#0000ff</color>
+    <color name="codeForcesCandidateMasterColor">#a0a</color>
+    <color name="codeForcesMasterColor">#ff8c00</color>
+    <color name="codeForcesGrandMasterColor">#ff0000</color>
+
+    // CodeChef star colors
+
+    <color name="oneStar">#666</color>
+    <color name="twoStar">#1e7d22</color>
+    <color name="threeStar">#36c</color>
+    <color name="fourStar">#684273</color>
+    <color name="fiveStar">#ffbf00</color>
+    <color name="sixStar">#ff7f00</color>
+    <color name="sevenStar">#D0011B</color>
+
+    // AtCoder rating colors
+
+    <color name="atCoderFiveDan">#808080</color> // 0-399
+    <color name="atCoderSixDan">#804000</color> // 400-799
+    <color name="atCoderSevenDan">#008000</color> // 800-1199
+    <color name="atCoderEightDan">#00BFBF</color> // 1200-1599
+    <color name="atCoderNineDan">#0000FD</color> // 1600-1999
+    <color name="atCoderTenDan">#BFBF00</color> // 2000-2399
+    <color name="atCoderLegend">#F47B00</color> // 2400-2799
+    <color name="atCoderKing">#F30000</color> // 2800
+
+    // LeetCode Colors
+
+    <color name="leetCodeHardColor">#e91e63</color>
+    <color name="leetCodeMediumColor">#fb8c00</color>
+    <color name="leetCodeEasyColor">#43a047</color>
+    <color name="leetCodeRankColor">#008000</color>
+
+
+    <color name="codeChefColor">#FFA4A1</color>
+    <color name="codeForcesColor">#48DDCD</color>
+    <color name="leetCodeColor">#FEA758</color>
+    <color name="atCoderColor">#B391FF</color>
 
     <color name="purple_500">#FF6200EE</color>
-<!--    <color name="purple_700">#FF3700B3</color>-->
-<!--    <color name="teal_200">#FF03DAC5</color>-->
-<!--    <color name="teal_700">#FF018786</color>-->
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 </resources>

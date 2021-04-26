@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.CodeForcesFragment">
+    tools:context=".fragments.AtCoderFragment">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -16,28 +16,8 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                app:cardCornerRadius="15dp">
-
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/codeForces_graph_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:background="@color/white"
-                    android:scrollbars="horizontal|vertical" />
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="1"
+                android:layout_row="0"
                 android:layout_column="0"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
@@ -72,21 +52,11 @@
                             android:textSize="20sp" />
 
                         <TextView
-                            android:id="@+id/codeForces_current_rank"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="newbie"
-                            android:textColor="@color/codeForcesNewbieColor"
-                            android:textSize="17sp" />
-
-                        <TextView
-                            android:id="@+id/codeForces_current_rating"
+                            android:id="@+id/atCoder_current_rating"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
-                            android:fontFamily="@font/nunito_extra_bold"
+                            android:fontFamily="@font/nunito_bold"
                             android:gravity="end"
                             android:text="1051"
                             android:textColor="@color/black"
@@ -100,7 +70,9 @@
                         android:layout_row="1"
                         android:layout_rowWeight="1"
                         android:layout_column="0"
-                        android:layout_margin="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingStart="10dp"
@@ -116,24 +88,84 @@
                             android:textSize="20sp" />
 
                         <TextView
-                            android:id="@+id/codeForces_max_rank"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="pupil"
-                            android:textColor="@color/codeForcesPupilColor"
-                            android:textSize="17sp" />
-
-                        <TextView
-                            android:id="@+id/codeForces_max_rating"
+                            android:id="@+id/atCoder_max_rating"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
-                            android:fontFamily="@font/nunito_extra_bold"
+                            android:fontFamily="@font/nunito_bold"
                             android:gravity="end"
                             android:text="1053"
                             android:textColor="@color/codeForcesNewbieColor"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_row="2"
+                        android:layout_rowWeight="1"
+                        android:layout_column="0"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/nunito_semi_bold"
+                            android:text="@string/level"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/atCoder_current_level"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:fontFamily="@font/nunito_bold"
+                            android:gravity="end"
+                            android:text="King"
+                            android:textColor="@color/atCoderKing"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_row="3"
+                        android:layout_rowWeight="1"
+                        android:layout_column="0"
+                        android:layout_margin="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/nunito_semi_bold"
+                            android:text="Rank"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/atCoder_current_rank"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:fontFamily="@font/nunito_bold"
+                            android:gravity="end"
+                            android:text="26"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
 
                     </LinearLayout>
@@ -145,7 +177,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="2"
+                android:layout_row="1"
                 android:layout_column="0"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
@@ -156,10 +188,10 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/codeForces_ongoing_nothing"
+                android:id="@+id/atCoder_ongoing_nothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="3"
+                android:layout_row="2"
                 android:layout_column="0"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
@@ -170,10 +202,10 @@
                 android:textSize="17sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/codeForces_ongoing_recycler_view"
+                android:id="@+id/atCoder_ongoing_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="4"
+                android:layout_row="3"
                 android:layout_column="0"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
@@ -184,7 +216,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="5"
+                android:layout_row="4"
                 android:layout_column="0"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
@@ -195,10 +227,10 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/codeForces_today_nothing"
+                android:id="@+id/atCoder_today_nothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="6"
+                android:layout_row="5"
                 android:layout_column="0"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
@@ -209,10 +241,10 @@
                 android:textSize="17sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/codeForces_today_recycler_view"
+                android:id="@+id/atCoder_today_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="7"
+                android:layout_row="6"
                 android:layout_column="0"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
@@ -223,7 +255,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="8"
+                android:layout_row="7"
                 android:layout_column="0"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
@@ -234,10 +266,10 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/codeForces_future_nothing"
+                android:id="@+id/atCoder_future_nothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="9"
+                android:layout_row="8"
                 android:layout_column="0"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
@@ -248,10 +280,10 @@
                 android:textSize="17sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/codeForces_future_recyclerView"
+                android:id="@+id/atCoder_future_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="10"
+                android:layout_row="9"
                 android:layout_column="0"
                 android:layout_margin="15dp"
                 android:isScrollContainer="false"
