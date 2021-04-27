@@ -2,10 +2,10 @@ package com.raghu.CPing.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -16,7 +16,11 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.raghu.CPing.R;
+import com.raghu.CPing.SharedPref.SharedPrefConfig;
 import com.raghu.CPing.adapters.AllParentRecyclerViewAdapter;
+import com.raghu.CPing.classes.AtCoderUserDetails;
+import com.raghu.CPing.classes.CodeChefUserDetails;
+import com.raghu.CPing.classes.CodeForcesUserDetails;
 import com.raghu.CPing.classes.ContestDetails;
 import com.raghu.CPing.classes.PlatformDetails;
 import com.raghu.CPing.database.JSONResponseDBHandler;
@@ -26,7 +30,17 @@ import java.util.Arrays;
 
 public class AllFragment extends Fragment {
 
-    private static final String TAG = "AllFragment";
+    private View groupFragmentView;
+    private GraphView graphView;
+
+    private TextView ongoing_nothing, today_nothing, future_nothing;
+
+    private LinearLayout codeForcesRatingChanges, codeChefRatingChanges, leetCodeRatingChanges, atCoderRatingChanges;
+
+    private TextView codeForcesRating, codeForcesRank, codeChefRating, codeChefStars,
+            leetCodeRating, leetCodeRank, atCoderRating, atCoderLevel;
+
+    private TextView codeForcesGraphBelow, codeChefGraphBelow, leetCodeGraphBelow, atCoderGraphBelow;
 
     private final ArrayList<PlatformDetails> ongoingPlatformsArrayList = new ArrayList<>();
     private final ArrayList<PlatformDetails> todayPlatformsArrayList = new ArrayList<>();
@@ -73,9 +87,12 @@ public class AllFragment extends Fragment {
                     futureContestsArrayList.add(cd);
                 }
             }
-            if (!ongoingContestsArrayList.isEmpty()) ongoingPlatformsArrayList.add(new PlatformDetails(platform,ongoingContestsArrayList));
-            if (!todayContestsArrayList.isEmpty()) todayPlatformsArrayList.add(new PlatformDetails(platform,todayContestsArrayList));
-            if (!futureContestsArrayList.isEmpty()) futurePlatformsArrayList.add(new PlatformDetails(platform,futureContestsArrayList));
+            if (!ongoingContestsArrayList.isEmpty())
+                ongoingPlatformsArrayList.add(new PlatformDetails(platform, ongoingContestsArrayList));
+            if (!todayContestsArrayList.isEmpty())
+                todayPlatformsArrayList.add(new PlatformDetails(platform, todayContestsArrayList));
+            if (!futureContestsArrayList.isEmpty())
+                futurePlatformsArrayList.add(new PlatformDetails(platform, futureContestsArrayList));
         }
     }
 
@@ -88,21 +105,14 @@ public class AllFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View groupFragmentView = inflater.inflate(R.layout.fragment_all, container, false);
+        groupFragmentView = inflater.inflate(R.layout.fragment_all, container, false);
 
-        TextView ongoing_nothing = groupFragmentView.findViewById(R.id.all_ongoing_nothing);
-        TextView today_nothing = groupFragmentView.findViewById(R.id.all_today_nothing);
-        TextView future_nothing = groupFragmentView.findViewById(R.id.all_future_nothing);
-
-        OngoingRV = groupFragmentView.findViewById(R.id.all_ongoing_contests_recycler_view);
-        TodayRV = groupFragmentView.findViewById(R.id.all_today_contests_recycler_view);
-        FutureRV = groupFragmentView.findViewById(R.id.all_future_contests_recycler_view);
+        findViewsByIds();
 
         if (ongoingPlatformsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
             OngoingRV.setVisibility(View.GONE);
         } else {
-            Log.d(TAG, "onCreateView: "+ongoingPlatformsArrayList.size());
             ongoing_nothing.setVisibility(View.GONE);
             OngoingRV.setVisibility(View.VISIBLE);
         }
@@ -111,7 +121,6 @@ public class AllFragment extends Fragment {
             today_nothing.setVisibility(View.VISIBLE);
             TodayRV.setVisibility(View.GONE);
         } else {
-            Log.d(TAG, "onCreateView: "+todayPlatformsArrayList.size());
             today_nothing.setVisibility(View.GONE);
             TodayRV.setVisibility(View.VISIBLE);
         }
@@ -120,7 +129,6 @@ public class AllFragment extends Fragment {
             future_nothing.setVisibility(View.VISIBLE);
             FutureRV.setVisibility(View.GONE);
         } else {
-            Log.d(TAG, "onCreateView: "+futurePlatformsArrayList.size());
             future_nothing.setVisibility(View.GONE);
             FutureRV.setVisibility(View.VISIBLE);
         }
@@ -132,40 +140,101 @@ public class AllFragment extends Fragment {
         // 2 -> Future
         initialize(2);
 
-        GraphView graphView = groupFragmentView.findViewById(R.id.all_graph_view);
-        LineGraphSeries<DataPoint> codeForcesSeries = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(0, 363),
-                new DataPoint(1, 615),
-                new DataPoint(2, 781),
-                new DataPoint(3, 825),
-                new DataPoint(4, 824),
-                new DataPoint(5, 988),
-                new DataPoint(6, 973),
-                new DataPoint(7, 866),
-                new DataPoint(8, 1042)
-        });
+        // AtCoder Rating Cards
+
+        AtCoderUserDetails atCoderUserDetails = SharedPrefConfig.readInAtCoderPref(getContext());
+        atCoderRating.setText(String.valueOf(atCoderUserDetails.getCurrentRating()));
+        atCoderLevel.setText(atCoderUserDetails.getCurrentLevel());
+
+        // CodeForces Graph
+
+        CodeForcesUserDetails codeForcesUserDetails = SharedPrefConfig.readInCodeForcesPref(getContext());
+        codeForcesRating.setText(String.valueOf(codeForcesUserDetails.getCurrentRating()));
+        codeForcesRank.setText(codeForcesUserDetails.getCurrentRank());
+
+        ArrayList<String> codeForcesRecentRatingsArrayList = codeForcesUserDetails.getRecentContestRatings();
+
+        DataPoint[] codeForcesValues = new DataPoint[codeForcesRecentRatingsArrayList.size()];
+        int maxY = 0, minY = Integer.MAX_VALUE;
+        for (int i = 0; i < codeForcesRecentRatingsArrayList.size(); i++) {
+            int temp = Integer.parseInt(codeForcesRecentRatingsArrayList.get(i));
+            maxY = Math.max(maxY, temp);
+            minY = Math.min(minY, temp);
+            codeForcesValues[i] = new DataPoint(i, temp);
+        }
+
+        LineGraphSeries<DataPoint> codeForcesSeries = new LineGraphSeries<>(codeForcesValues);
+
         codeForcesSeries.setColor(Color.rgb(72, 221, 205));
         codeForcesSeries.setDrawDataPoints(true);
-        graphView.setTitleTextSize(18);
-        graphView.addSeries(codeForcesSeries);
 
-        LineGraphSeries<DataPoint> codeChefSeries = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(0, 1500),
-                new DataPoint(1, 1398),
-                new DataPoint(2, 1503),
-                new DataPoint(3, 1558),
-                new DataPoint(4, 1571),
-                new DataPoint(5, 1660),
-                new DataPoint(6, 1570),
-                new DataPoint(7, 1670),
-                new DataPoint(8, 1696)
-        });
+
+        // CodeChef Graph
+
+        CodeChefUserDetails codeChefUserDetails = SharedPrefConfig.readInCodeChefPref(getContext());
+        codeChefRating.setText(String.valueOf(codeChefUserDetails.getCurrentRating()));
+        codeChefStars.setText(codeChefUserDetails.getCurrentStars());
+
+        ArrayList<Integer> codeChefRecentRatingsArrayList = codeChefUserDetails.getRecentContestRatings();
+        DataPoint[] codeChefValues = new DataPoint[codeChefRecentRatingsArrayList.size()];
+
+        for (int i = 0; i < codeChefRecentRatingsArrayList.size(); ++i) {
+            int temp = codeChefRecentRatingsArrayList.get(i);
+            maxY = Math.max(maxY, temp);
+            minY = Math.min(minY, temp);
+            codeChefValues[i] = new DataPoint(i, temp);
+        }
+
+        LineGraphSeries<DataPoint> codeChefSeries = new LineGraphSeries<>(codeChefValues);
         codeChefSeries.setColor(Color.rgb(255, 164, 161));
         codeChefSeries.setDrawDataPoints(true);
-        graphView.setTitleTextSize(18);
+
+        graphView.getViewport().setXAxisBoundsManual(true);
+        graphView.getViewport().setMaxX(Math.max(codeChefRecentRatingsArrayList.size(), codeForcesRecentRatingsArrayList.size()));
+
+        graphView.getViewport().setYAxisBoundsManual(true);
+        graphView.getViewport().setMaxY(maxY);
+        graphView.getViewport().setMinY(minY);
+
+        graphView.addSeries(codeForcesSeries);
         graphView.addSeries(codeChefSeries);
 
         return groupFragmentView;
+    }
+
+    private void findViewsByIds() {
+        // Rating Changes Cards
+
+        codeForcesRatingChanges = groupFragmentView.findViewById(R.id.all_code_forces_rating_card);
+        codeChefRatingChanges = groupFragmentView.findViewById(R.id.all_code_chef_rating_card);
+        leetCodeRatingChanges = groupFragmentView.findViewById(R.id.all_leet_code_rating_card);
+        atCoderRatingChanges = groupFragmentView.findViewById(R.id.all_at_coder_rating_card);
+
+        codeForcesRating = groupFragmentView.findViewById(R.id.all_code_forces_current_rating);
+        codeForcesRank = groupFragmentView.findViewById(R.id.all_code_forces_current_rank);
+        codeChefRating = groupFragmentView.findViewById(R.id.all_code_chef_current_rating);
+        codeChefStars = groupFragmentView.findViewById(R.id.all_code_chef_current_stars);
+        leetCodeRating = groupFragmentView.findViewById(R.id.all_leet_code_current_rating);
+        leetCodeRank = groupFragmentView.findViewById(R.id.all_leet_code_current_rank);
+        atCoderRating = groupFragmentView.findViewById(R.id.all_at_coder_current_rating);
+        atCoderLevel = groupFragmentView.findViewById(R.id.all_at_coder_current_level);
+
+        codeForcesGraphBelow = groupFragmentView.findViewById(R.id.code_forces_graph_below);
+        codeChefGraphBelow = groupFragmentView.findViewById(R.id.code_chef_graph_below);
+        leetCodeGraphBelow = groupFragmentView.findViewById(R.id.leet_code_graph_below);
+        atCoderGraphBelow = groupFragmentView.findViewById(R.id.at_coder_graph_below);
+
+        // Contest Details
+
+        ongoing_nothing = groupFragmentView.findViewById(R.id.all_ongoing_nothing);
+        today_nothing = groupFragmentView.findViewById(R.id.all_today_nothing);
+        future_nothing = groupFragmentView.findViewById(R.id.all_future_nothing);
+
+        OngoingRV = groupFragmentView.findViewById(R.id.all_ongoing_contests_recycler_view);
+        TodayRV = groupFragmentView.findViewById(R.id.all_today_contests_recycler_view);
+        FutureRV = groupFragmentView.findViewById(R.id.all_future_contests_recycler_view);
+
+        graphView = groupFragmentView.findViewById(R.id.all_graph_view);
     }
 
     private void initialize(int i) {

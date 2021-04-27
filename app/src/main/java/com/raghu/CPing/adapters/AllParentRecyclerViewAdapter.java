@@ -44,53 +44,52 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
         if (platformDetailsArrayList.isEmpty()) {
             myViewHolder.platformName.setVisibility(View.GONE);
             myViewHolder.platformRV.setVisibility(View.GONE);
-            return;
         } else {
             myViewHolder.platformName.setVisibility(View.VISIBLE);
             myViewHolder.platformRV.setVisibility(View.VISIBLE);
+
+            PlatformDetails platformDetails = platformDetailsArrayList.get(position);
+
+            myViewHolder.platformName.setText(platformDetails.getPlatformName());
+
+            switch (platformDetails.getPlatformName()) {
+                case "AtCoder":
+                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.atCoderColor));
+                    break;
+                case "CodeChef":
+                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.codeChefColor));
+                    break;
+                case "CodeForces":
+                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.codeForcesColor));
+                    break;
+                case "HackerEarth":
+                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.hackerEarthColor));
+                    break;
+                case "HackerRank":
+                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.hackerRankColor));
+                    break;
+                case "Kick Start":
+                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.kickStartColor));
+                    break;
+                case "LeetCode":
+                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.leetCodeColor));
+                    break;
+                case "TopCoder":
+                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.topCoderColor));
+                    break;
+            }
+
+            ArrayList<ContestDetails> requiredDetailsArrayList = platformDetails.getPlatformContests();
+
+            // initializing
+
+            myViewHolder.platformRV.setHasFixedSize(true);
+            myViewHolder.platformRV.setLayoutManager(new LinearLayoutManager(context));
+
+            ContestDetailsRecyclerViewAdapter platformRVA = new ContestDetailsRecyclerViewAdapter(requiredDetailsArrayList);
+            myViewHolder.platformRV.setAdapter(platformRVA);
+            platformRVA.notifyDataSetChanged();
         }
-
-        PlatformDetails platformDetails = platformDetailsArrayList.get(position);
-
-        myViewHolder.platformName.setText(platformDetails.getPlatformName());
-
-        switch (platformDetails.getPlatformName()) {
-            case "AtCoder":
-                myViewHolder.platformName.setTextColor(R.color.atCoderColor);
-                break;
-            case "CodeChef":
-                myViewHolder.platformName.setTextColor(R.color.codeChefColor);
-                break;
-            case "CodeForces":
-                myViewHolder.platformName.setTextColor(R.color.codeForcesColor);
-                break;
-            case "HackerEarth":
-                myViewHolder.platformName.setTextColor(R.color.hackerEarthColor);
-                break;
-            case "HackerRank":
-                myViewHolder.platformName.setTextColor(R.color.hackerRankColor);
-                break;
-            case "Kick Start":
-                myViewHolder.platformName.setTextColor(R.color.kickStartColor);
-                break;
-            case "LeetCode":
-                myViewHolder.platformName.setTextColor(R.color.leetCodeColor);
-                break;
-            case "TopCoder":
-                myViewHolder.platformName.setTextColor(R.color.topCoderColor);
-                break;
-        }
-
-        ArrayList<ContestDetails> requiredDetailsArrayList = platformDetails.getPlatformContests();
-
-        // initializing
-
-        myViewHolder.platformRV.setHasFixedSize(true);
-        myViewHolder.platformRV.setLayoutManager(new LinearLayoutManager(context));
-
-        ContestDetailsRecyclerViewAdapter platformRVA = new ContestDetailsRecyclerViewAdapter(requiredDetailsArrayList);
-        myViewHolder.platformRV.setAdapter(platformRVA);
-        platformRVA.notifyDataSetChanged();
 
     }
 

@@ -34,6 +34,7 @@
                         android:id="@+id/all_graph_view"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
+                        android:nestedScrollingEnabled="true"
                         android:layout_margin="10dp"
                         android:background="@color/white"
                         android:scrollbars="horizontal|vertical" />
@@ -162,6 +163,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:fontFamily="@font/nunito_regular"
                             android:text="Legendary grandmaster"
                             android:textColor="@color/codeForcesGrandMasterColor"
                             android:textSize="15sp" />
@@ -203,6 +205,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="4★"
+                            android:fontFamily="@font/nunito_regular"
                             android:textColor="@color/fourStar"
                             android:textSize="17sp" />
 
@@ -212,9 +215,10 @@
                         android:id="@+id/all_leet_code_rating_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_row="0"
+                        android:layout_row="1"
                         android:layout_rowWeight="1"
-                        android:layout_column="2"
+                        android:visibility="gone"
+                        android:layout_column="0"
                         android:layout_columnWeight="1"
                         android:background="@drawable/rating_changes_background"
                         android:gravity="center"
@@ -242,6 +246,7 @@
                             android:id="@+id/all_leet_code_current_rank"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_regular"
                             android:text="~100000"
                             android:textColor="@color/leetCodeRankColor"
                             android:textSize="15sp" />
@@ -252,9 +257,9 @@
                         android:id="@+id/all_at_coder_rating_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_row="1"
+                        android:layout_row="0"
                         android:layout_rowWeight="1"
-                        android:layout_column="0"
+                        android:layout_column="2"
                         android:layout_columnWeight="1"
                         android:background="@drawable/rating_changes_background"
                         android:gravity="center"
@@ -285,6 +290,7 @@
                             android:gravity="center"
                             android:text="King"
                             android:textColor="@color/atCoderKing"
+                            android:fontFamily="@font/nunito_regular"
                             android:textSize="15sp" />
 
                     </LinearLayout>

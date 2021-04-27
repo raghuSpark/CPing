@@ -14,6 +14,8 @@
         android:fontFamily="@font/nunito_semi_bold"
         android:padding="5dp"
         android:text="@string/platform_name"
+        android:textColorHighlight="#8BC34A"
+        android:textColorLink="#FF5722"
         android:textSize="17sp" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -19,11 +19,15 @@ import java.util.ArrayList;
 
 public class HackerEarthFragment extends Fragment {
 
+    private View groupFragmentView;
+
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
 
     private RecyclerView OngoingRV, TodayRV, FutureRV;
+
+    private TextView ongoing_nothing, today_nothing, future_nothing;
 
     public HackerEarthFragment() {
         // Required empty public constructor
@@ -59,15 +63,9 @@ public class HackerEarthFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View groupFragmentView = inflater.inflate(R.layout.fragment_hacker_earth, container, false);
+        groupFragmentView = inflater.inflate(R.layout.fragment_hacker_earth, container, false);
 
-        TextView ongoing_nothing = groupFragmentView.findViewById(R.id.hackerEarth_ongoing_nothing);
-        TextView today_nothing = groupFragmentView.findViewById(R.id.hackerEarth_today_nothing);
-        TextView future_nothing = groupFragmentView.findViewById(R.id.hackerEarth_future_nothing);
-
-        OngoingRV = groupFragmentView.findViewById(R.id.hackerEarth_ongoing_recycler_view);
-        TodayRV = groupFragmentView.findViewById(R.id.hackerEarth_today_recycler_view);
-        FutureRV = groupFragmentView.findViewById(R.id.hackerEarth_future_recycler_view);
+        findViewsByIds();
 
         if (ongoingContestsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
@@ -101,6 +99,16 @@ public class HackerEarthFragment extends Fragment {
         initialize(2);
 
         return groupFragmentView;
+    }
+
+    private void findViewsByIds() {
+        ongoing_nothing = groupFragmentView.findViewById(R.id.hackerEarth_ongoing_nothing);
+        today_nothing = groupFragmentView.findViewById(R.id.hackerEarth_today_nothing);
+        future_nothing = groupFragmentView.findViewById(R.id.hackerEarth_future_nothing);
+
+        OngoingRV = groupFragmentView.findViewById(R.id.hackerEarth_ongoing_recycler_view);
+        TodayRV = groupFragmentView.findViewById(R.id.hackerEarth_today_recycler_view);
+        FutureRV = groupFragmentView.findViewById(R.id.hackerEarth_future_recycler_view);
     }
 
     private void initialize(int i) {

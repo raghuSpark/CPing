@@ -3,6 +3,8 @@
     <color name="background">#EDF5FA</color>
     <color name="transparent">#00000000</color>
 
+    <color name="appBlueColor">#0099FF</color>
+
     <color name="tab_text_normal_color">#8B8686</color>
     <color name="negativeChangeRed">#F04243</color>
     <color name="positiveChangeGreen">#46CA7F</color>
@@ -55,7 +57,7 @@
 
 
     <color name="codeChefColor">#804827</color>
-    <color name="codeForcesColor">#3b5998</color>
+    <color name="codeForcesColor">#1F8CCC</color>
     <color name="leetCodeColor">#FFA116</color>
     <color name="atCoderColor">#337ab7</color>
     <color name="topCoderColor">#ffa45d</color>

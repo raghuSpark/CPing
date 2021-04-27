@@ -30,6 +30,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
                     android:background="@color/white"
+                    android:nestedScrollingEnabled="true"
                     android:scrollbars="horizontal|vertical" />
 
             </androidx.cardview.widget.CardView>
@@ -76,6 +77,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:fontFamily="@font/nunito_regular"
                             android:gravity="end"
                             android:text="newbie"
                             android:textColor="@color/codeForcesNewbieColor"
@@ -120,6 +122,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:fontFamily="@font/nunito_regular"
                             android:gravity="end"
                             android:text="pupil"
                             android:textColor="@color/codeForcesPupilColor"

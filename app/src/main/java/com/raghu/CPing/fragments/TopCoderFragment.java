@@ -19,9 +19,13 @@ import java.util.ArrayList;
 
 public class TopCoderFragment extends Fragment {
 
+    private View groupFragmentView;
+
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
+
+    private TextView ongoing_nothing, today_nothing, future_nothing;
 
     private RecyclerView OngoingRV, TodayRV, FutureRV;
 
@@ -60,15 +64,9 @@ public class TopCoderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View groupFragmentView = inflater.inflate(R.layout.fragment_top_coder, container, false);
+        groupFragmentView = inflater.inflate(R.layout.fragment_top_coder, container, false);
 
-        TextView ongoing_nothing = groupFragmentView.findViewById(R.id.topCoder_ongoing_nothing);
-        TextView today_nothing = groupFragmentView.findViewById(R.id.topCoder_today_nothing);
-        TextView future_nothing = groupFragmentView.findViewById(R.id.topCoder_future_nothing);
-
-        OngoingRV = groupFragmentView.findViewById(R.id.topCoder_ongoing_recycler_view);
-        TodayRV = groupFragmentView.findViewById(R.id.topCoder_today_recycler_view);
-        FutureRV = groupFragmentView.findViewById(R.id.topCoder_future_recycler_view);
+        findViewByIds();
 
         if (ongoingContestsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
@@ -102,6 +100,16 @@ public class TopCoderFragment extends Fragment {
         initialize(2);
 
         return groupFragmentView;
+    }
+
+    private void findViewByIds() {
+        ongoing_nothing = groupFragmentView.findViewById(R.id.topCoder_ongoing_nothing);
+        today_nothing = groupFragmentView.findViewById(R.id.topCoder_today_nothing);
+        future_nothing = groupFragmentView.findViewById(R.id.topCoder_future_nothing);
+
+        OngoingRV = groupFragmentView.findViewById(R.id.topCoder_ongoing_recycler_view);
+        TodayRV = groupFragmentView.findViewById(R.id.topCoder_today_recycler_view);
+        FutureRV = groupFragmentView.findViewById(R.id.topCoder_future_recycler_view);
     }
 
     private void initialize(int i) {

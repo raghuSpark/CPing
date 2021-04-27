@@ -1,6 +1,8 @@
 package com.raghu.CPing.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +13,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.raghu.CPing.R;
+import com.raghu.CPing.SharedPref.SharedPrefConfig;
 import com.raghu.CPing.adapters.ContestDetailsRecyclerViewAdapter;
+import com.raghu.CPing.classes.AtCoderUserDetails;
 import com.raghu.CPing.classes.ContestDetails;
 import com.raghu.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;
 
 public class AtCoderFragment extends Fragment {
+
+    private View groupFragmentView;
+    private TextView currentRating, highestRating, currentLevel, currentRank;
+
+    private TextView ongoing_nothing, today_nothing, future_nothing;
 
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
@@ -60,15 +69,9 @@ public class AtCoderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View groupFragmentView = inflater.inflate(R.layout.fragment_at_coder, container, false);
+        groupFragmentView = inflater.inflate(R.layout.fragment_at_coder, container, false);
 
-        TextView ongoing_nothing = groupFragmentView.findViewById(R.id.atCoder_ongoing_nothing);
-        TextView today_nothing = groupFragmentView.findViewById(R.id.atCoder_today_nothing);
-        TextView future_nothing = groupFragmentView.findViewById(R.id.atCoder_future_nothing);
-
-        OngoingRV = groupFragmentView.findViewById(R.id.atCoder_ongoing_recycler_view);
-        TodayRV = groupFragmentView.findViewById(R.id.atCoder_today_recycler_view);
-        FutureRV = groupFragmentView.findViewById(R.id.atCoder_future_recyclerView);
+        findViewsByIds();
 
         if (ongoingContestsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
@@ -101,7 +104,64 @@ public class AtCoderFragment extends Fragment {
         // 2 -> Future
         initialize(2);
 
+//         Set Ratings
+
+        AtCoderUserDetails atCoderUserDetails = SharedPrefConfig.readInAtCoderPref(getContext());
+
+        currentRating.setText(String.valueOf(atCoderUserDetails.getCurrentRating()));
+        highestRating.setText(String.valueOf(atCoderUserDetails.getHighestRating()));
+        currentRank.setText(String.valueOf(atCoderUserDetails.getCurrentRank()));
+        currentLevel.setText(atCoderUserDetails.getCurrentLevel());
+
+//        setColors(atCoderUserDetails.getCurrentLevel());
+
         return groupFragmentView;
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private void setColors(String level) {
+//        switch (level) {
+//            case "5 Dan":
+//                currentLevel.setTextColor(R.color.atCoderFiveDan);
+//                break;
+//            case "6 Dan":
+//                Log.d("TAG", "setColors: ENTERED");
+//                currentLevel.setTextColor(R.color.atCoderSixDan);
+//                break;
+//            case "7 Dan":
+//                currentLevel.setTextColor(R.color.atCoderSevenDan);
+//                break;
+//            case "8 Dan":
+//                currentLevel.setTextColor(R.color.atCoderEightDan);
+//                break;
+//            case "9 Dan":
+//                currentLevel.setTextColor(R.color.atCoderNineDan);
+//                break;
+//            case "10 Dan":
+//                currentLevel.setTextColor(R.color.atCoderTenDan);
+//                break;
+//            case "Legend":
+//                currentLevel.setTextColor(R.color.atCoderLegend);
+//                break;
+//            case "King":
+//                currentLevel.setTextColor(R.color.atCoderKing);
+//                break;
+//        }
+    }
+
+    private void findViewsByIds() {
+        currentRating = groupFragmentView.findViewById(R.id.atCoder_current_rating);
+        highestRating = groupFragmentView.findViewById(R.id.atCoder_max_rating);
+        currentLevel = groupFragmentView.findViewById(R.id.atCoder_current_level);
+        currentRank = groupFragmentView.findViewById(R.id.atCoder_current_rank);
+
+        ongoing_nothing = groupFragmentView.findViewById(R.id.atCoder_ongoing_nothing);
+        today_nothing = groupFragmentView.findViewById(R.id.atCoder_today_nothing);
+        future_nothing = groupFragmentView.findViewById(R.id.atCoder_future_nothing);
+
+        OngoingRV = groupFragmentView.findViewById(R.id.atCoder_ongoing_recycler_view);
+        TodayRV = groupFragmentView.findViewById(R.id.atCoder_today_recycler_view);
+        FutureRV = groupFragmentView.findViewById(R.id.atCoder_future_recyclerView);
     }
 
     private void initialize(int i) {
@@ -125,5 +185,4 @@ public class AtCoderFragment extends Fragment {
             futureRVA.notifyDataSetChanged();
         }
     }
-
 }

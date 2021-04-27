@@ -1,5 +1,6 @@
 package com.raghu.CPing.fragments;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,13 +17,21 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.raghu.CPing.R;
+import com.raghu.CPing.SharedPref.SharedPrefConfig;
 import com.raghu.CPing.adapters.ContestDetailsRecyclerViewAdapter;
+import com.raghu.CPing.classes.CodeForcesUserDetails;
 import com.raghu.CPing.classes.ContestDetails;
 import com.raghu.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;
 
 public class CodeForcesFragment extends Fragment {
+
+    private View groupFragmentView;
+
+    private TextView currentRating, currentRank, maxRating, maxRank;
+
+    private TextView ongoing_nothing, today_nothing, future_nothing;
 
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
@@ -61,37 +70,14 @@ public class CodeForcesFragment extends Fragment {
         }
     }
 
-//    @SuppressLint("SimpleDateFormat")
-//    private boolean isWithinAWeek(String contestStartTime) throws ParseException {
-////        2021-04-25T10:00:00.000Z
-//        contestStartTime = contestStartTime.substring(0, 10) + contestStartTime.substring(11, 18);
-//
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//
-//        String currentDate = simpleDateFormat.format(new Date());
-//
-//        Date today = simpleDateFormat.parse(currentDate),
-//                start = simpleDateFormat.parse(contestStartTime);
-//
-//        assert start != null;
-//        assert today != null;
-//        return (TimeUnit.MILLISECONDS.toDays(start.getTime() - today.getTime()) <= 7);
-//    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View groupFragmentView = inflater.inflate(R.layout.fragment_code_forces, container, false);
+        groupFragmentView = inflater.inflate(R.layout.fragment_code_forces, container, false);
 
-        TextView ongoing_nothing = groupFragmentView.findViewById(R.id.codeForces_ongoing_nothing);
-        TextView today_nothing = groupFragmentView.findViewById(R.id.codeForces_today_nothing);
-        TextView future_nothing = groupFragmentView.findViewById(R.id.codeForces_future_nothing);
-
-        OngoingRV = groupFragmentView.findViewById(R.id.codeForces_ongoing_recycler_view);
-        TodayRV = groupFragmentView.findViewById(R.id.codeForces_today_recycler_view);
-        FutureRV = groupFragmentView.findViewById(R.id.codeForces_future_recyclerView);
+        findViewsByIds();
 
         if (ongoingContestsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
@@ -124,26 +110,116 @@ public class CodeForcesFragment extends Fragment {
         // 2 -> Future
         initialize(2);
 
-        GraphView graphView = groupFragmentView.findViewById(R.id.codeForces_graph_view);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(0, 363),
-                new DataPoint(1, 615),
-                new DataPoint(2, 781),
-                new DataPoint(3, 825),
-                new DataPoint(4, 824),
-                new DataPoint(5, 988),
-                new DataPoint(6, 973),
-                new DataPoint(7, 866),
-                new DataPoint(8, 1042)
-        });
-        series.setColor(Color.rgb(72, 221, 205));
-        series.setDrawDataPoints(true);
-        graphView.setTitleTextSize(18);
-        graphView.addSeries(series);
+        // Ratings and graph
 
-        //Set the ratings
+        CodeForcesUserDetails codeForcesUserDetails = SharedPrefConfig.readInCodeForcesPref(getContext());
+
+        currentRating.setText(String.valueOf(codeForcesUserDetails.getCurrentRating()));
+        currentRank.setText(codeForcesUserDetails.getCurrentRank());
+        maxRating.setText(String.valueOf(codeForcesUserDetails.getMaxRating()));
+        maxRank.setText(codeForcesUserDetails.getMaxRank());
+
+//        setColors(codeForcesUserDetails.getCurrentRank(), codeForcesUserDetails.getMaxRank());
+
+        GraphView graphView = groupFragmentView.findViewById(R.id.codeForces_graph_view);
+
+        ArrayList<String> recentRatingsArrayList = codeForcesUserDetails.getRecentContestRatings();
+
+        DataPoint[] values = new DataPoint[recentRatingsArrayList.size()];
+        int maxY = 0, minY = Integer.MAX_VALUE;
+        for (int i = 0; i < recentRatingsArrayList.size(); i++) {
+            int temp = Integer.parseInt(recentRatingsArrayList.get(i));
+            maxY = Math.max(maxY, temp);
+            minY = Math.min(minY, temp);
+            values[i] = new DataPoint(i, temp);
+        }
+
+        LineGraphSeries<DataPoint> codeForcesSeries = new LineGraphSeries<>(values);
+
+        codeForcesSeries.setColor(Color.rgb(72, 221, 205));
+        codeForcesSeries.setDrawDataPoints(true);
+
+        graphView.getViewport().setXAxisBoundsManual(true);
+        graphView.getViewport().setMaxX(recentRatingsArrayList.size());
+
+        graphView.getViewport().setYAxisBoundsManual(true);
+        graphView.getViewport().setMaxY(maxY);
+        graphView.getViewport().setMinY(minY);
+
+        graphView.addSeries(codeForcesSeries);
 
         return groupFragmentView;
+    }
+
+    private void findViewsByIds() {
+        currentRating = groupFragmentView.findViewById(R.id.codeForces_current_rating);
+        currentRank = groupFragmentView.findViewById(R.id.codeForces_current_rank);
+        maxRating = groupFragmentView.findViewById(R.id.codeForces_max_rating);
+        maxRank = groupFragmentView.findViewById(R.id.codeForces_max_rank);
+
+        ongoing_nothing = groupFragmentView.findViewById(R.id.codeForces_ongoing_nothing);
+        today_nothing = groupFragmentView.findViewById(R.id.codeForces_today_nothing);
+        future_nothing = groupFragmentView.findViewById(R.id.codeForces_future_nothing);
+
+        OngoingRV = groupFragmentView.findViewById(R.id.codeForces_ongoing_recycler_view);
+        TodayRV = groupFragmentView.findViewById(R.id.codeForces_today_recycler_view);
+        FutureRV = groupFragmentView.findViewById(R.id.codeForces_future_recyclerView);
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private void setColors(String rank1, String rank2) {
+        switch (rank1) {
+            case "newbie":
+                currentRank.setTextColor(R.color.codeForcesNewbieColor);
+                break;
+            case "pupil":
+                currentRank.setTextColor(R.color.codeForcesPupilColor);
+                break;
+            case "specialist":
+                currentRank.setTextColor(R.color.codeForcesSpecialistColor);
+                break;
+            case "expert":
+                currentRank.setTextColor(R.color.codeForcesExpertColor);
+                break;
+            case "candidate master":
+                currentRank.setTextColor(R.color.codeForcesCandidateMasterColor);
+                break;
+            case "master":
+            case "international master":
+                currentRank.setTextColor(R.color.codeForcesMasterColor);
+                break;
+            case "grandmaster":
+            case "legendary grandmaster":
+            case "international grandmaster":
+                currentRank.setTextColor(R.color.codeForcesGrandMasterColor);
+                break;
+        }
+        switch (rank2) {
+            case "newbie":
+                currentRank.setTextColor(R.color.codeForcesNewbieColor);
+                break;
+            case "pupil":
+                maxRank.setTextColor(R.color.codeForcesPupilColor);
+                break;
+            case "specialist":
+                maxRank.setTextColor(R.color.codeForcesSpecialistColor);
+                break;
+            case "expert":
+                maxRank.setTextColor(R.color.codeForcesExpertColor);
+                break;
+            case "candidate master":
+                maxRank.setTextColor(R.color.codeForcesCandidateMasterColor);
+                break;
+            case "master":
+            case "international master":
+                maxRank.setTextColor(R.color.codeForcesMasterColor);
+                break;
+            case "grandmaster":
+            case "legendary grandmaster":
+            case "international grandmaster":
+                maxRank.setTextColor(R.color.codeForcesGrandMasterColor);
+                break;
+        }
     }
 
     private void initialize(int i) {

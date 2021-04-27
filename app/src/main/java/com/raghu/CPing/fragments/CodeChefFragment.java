@@ -15,13 +15,21 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.raghu.CPing.R;
+import com.raghu.CPing.SharedPref.SharedPrefConfig;
 import com.raghu.CPing.adapters.ContestDetailsRecyclerViewAdapter;
+import com.raghu.CPing.classes.CodeChefUserDetails;
 import com.raghu.CPing.classes.ContestDetails;
 import com.raghu.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;
 
 public class CodeChefFragment extends Fragment {
+
+    private View groupFragmentView;
+
+    private TextView currentRating, currentStars, maxRating;
+
+    private TextView ongoing_nothing, today_nothing, future_nothing;
 
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
@@ -63,37 +71,14 @@ public class CodeChefFragment extends Fragment {
         }
     }
 
-//    @SuppressLint("SimpleDateFormat")
-//    private boolean isWithinAWeek(String contestStartTime) throws ParseException {
-////        2021-04-25T10:00:00.000Z
-//        contestStartTime = contestStartTime.substring(0, 10) + contestStartTime.substring(11, 18);
-//
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//
-//        String currentDate = simpleDateFormat.format(new Date());
-//
-//        Date today = simpleDateFormat.parse(currentDate),
-//                start = simpleDateFormat.parse(contestStartTime);
-//
-//        assert start != null;
-//        assert today != null;
-//        return (TimeUnit.MILLISECONDS.toDays(start.getTime() - today.getTime()) <= 7);
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View groupFragmentView = inflater.inflate(R.layout.fragment_code_chef, container, false);
+        groupFragmentView = inflater.inflate(R.layout.fragment_code_chef, container, false);
 
-        TextView ongoing_nothing = groupFragmentView.findViewById(R.id.codeChef_ongoing_nothing);
-        TextView today_nothing = groupFragmentView.findViewById(R.id.codeChef_today_nothing);
-        TextView future_nothing = groupFragmentView.findViewById(R.id.codeChef_future_nothing);
-
-        OngoingRV = groupFragmentView.findViewById(R.id.codeChef_ongoing_recycler_view);
-        TodayRV = groupFragmentView.findViewById(R.id.codeChef_today_recycler_view);
-        FutureRV = groupFragmentView.findViewById(R.id.codeChef_future_recycler_view);
+        findViewsByIds();
 
         if (ongoingContestsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
@@ -126,23 +111,57 @@ public class CodeChefFragment extends Fragment {
         // 2 -> Future
         initialize(2);
 
+        // Ratings and graph
+
+        CodeChefUserDetails codeChefUserDetails = SharedPrefConfig.readInCodeChefPref(getContext());
+
+        currentRating.setText(String.valueOf(codeChefUserDetails.getCurrentRating()));
+        currentStars.setText(codeChefUserDetails.getCurrentStars());
+        maxRating.setText(String.valueOf(codeChefUserDetails.getHighestRating()));
+
         GraphView graphView = groupFragmentView.findViewById(R.id.codeChef_graph_view);
-        LineGraphSeries<DataPoint> codeChefSeries = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(0, 1500),
-                new DataPoint(1, 1398),
-                new DataPoint(2, 1503),
-                new DataPoint(3, 1558),
-                new DataPoint(4, 1571),
-                new DataPoint(5, 1660),
-                new DataPoint(6, 1570),
-                new DataPoint(7, 1670),
-                new DataPoint(8, 1696)
-        });
+
+        ArrayList<Integer> recentRatingsArrayList = codeChefUserDetails.getRecentContestRatings();
+
+        DataPoint[] values = new DataPoint[recentRatingsArrayList.size()];
+
+        int maxY = 0, minY = Integer.MAX_VALUE;
+        for (int i = 0; i < recentRatingsArrayList.size(); ++i) {
+            int temp = recentRatingsArrayList.get(i);
+            maxY = Math.max(maxY, temp);
+            minY = Math.min(minY, temp);
+            values[i] = new DataPoint(i, temp);
+        }
+
+        LineGraphSeries<DataPoint> codeChefSeries = new LineGraphSeries<>(values);
+
         codeChefSeries.setColor(Color.rgb(255, 164, 161));
         codeChefSeries.setDrawDataPoints(true);
-        graphView.setTitleTextSize(18);
+
+        graphView.getViewport().setXAxisBoundsManual(true);
+        graphView.getViewport().setMaxX(recentRatingsArrayList.size());
+
+        graphView.getViewport().setYAxisBoundsManual(true);
+        graphView.getViewport().setMaxY(maxY);
+        graphView.getViewport().setMinY(minY);
+
         graphView.addSeries(codeChefSeries);
+
         return groupFragmentView;
+    }
+
+    private void findViewsByIds() {
+        currentRating = groupFragmentView.findViewById(R.id.codeChef_current_rating);
+        currentStars = groupFragmentView.findViewById(R.id.codeChef_current_stars);
+        maxRating = groupFragmentView.findViewById(R.id.codeChef_max_rating);
+
+        ongoing_nothing = groupFragmentView.findViewById(R.id.codeChef_ongoing_nothing);
+        today_nothing = groupFragmentView.findViewById(R.id.codeChef_today_nothing);
+        future_nothing = groupFragmentView.findViewById(R.id.codeChef_future_nothing);
+
+        OngoingRV = groupFragmentView.findViewById(R.id.codeChef_ongoing_recycler_view);
+        TodayRV = groupFragmentView.findViewById(R.id.codeChef_today_recycler_view);
+        FutureRV = groupFragmentView.findViewById(R.id.codeChef_future_recycler_view);
     }
 
     private void initialize(int i) {

@@ -19,6 +19,10 @@ import java.util.ArrayList;
 
 public class HackerRankFragment extends Fragment {
 
+    private View groupFragmentView;
+
+    private TextView ongoing_nothing, today_nothing, future_nothing;
+
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
@@ -59,15 +63,9 @@ public class HackerRankFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View groupFragmentView = inflater.inflate(R.layout.fragment_hacker_rank, container, false);
+        groupFragmentView = inflater.inflate(R.layout.fragment_hacker_rank, container, false);
 
-        TextView ongoing_nothing = groupFragmentView.findViewById(R.id.hackerRank_ongoing_nothing);
-        TextView today_nothing = groupFragmentView.findViewById(R.id.hackerRank_today_nothing);
-        TextView future_nothing = groupFragmentView.findViewById(R.id.hackerRank_future_nothing);
-
-        OngoingRV = groupFragmentView.findViewById(R.id.hackerRank_ongoing_recycler_view);
-        TodayRV = groupFragmentView.findViewById(R.id.hackerRank_today_recycler_view);
-        FutureRV = groupFragmentView.findViewById(R.id.hackerRank_future_recycler_view);
+        findViewsByIds();
 
         if (ongoingContestsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
@@ -101,6 +99,16 @@ public class HackerRankFragment extends Fragment {
         initialize(2);
 
         return groupFragmentView;
+    }
+
+    private void findViewsByIds() {
+        ongoing_nothing = groupFragmentView.findViewById(R.id.hackerRank_ongoing_nothing);
+        today_nothing = groupFragmentView.findViewById(R.id.hackerRank_today_nothing);
+        future_nothing = groupFragmentView.findViewById(R.id.hackerRank_future_nothing);
+
+        OngoingRV = groupFragmentView.findViewById(R.id.hackerRank_ongoing_recycler_view);
+        TodayRV = groupFragmentView.findViewById(R.id.hackerRank_today_recycler_view);
+        FutureRV = groupFragmentView.findViewById(R.id.hackerRank_future_recycler_view);
     }
 
     private void initialize(int i) {

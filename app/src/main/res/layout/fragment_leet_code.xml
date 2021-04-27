@@ -77,15 +77,11 @@
                         android:layout_marginStart="30dp"
                         android:layout_marginEnd="30dp"
                         android:layout_marginBottom="5dp"
-                        android:clickable="false"
-                        android:contextClickable="false"
-                        android:focusable="false"
-                        android:longClickable="false"
                         android:max="100"
-                        android:progress="0"
-                        android:progressDrawable="@drawable/seek_bar_track"
-                        android:progressTint="@color/leetCodeHardColor"
-                        android:thumb="@drawable/seek_bar_thumb" />
+                        android:progress="30"
+                        android:progressDrawable="@drawable/hard_seek_bar_track"
+                        android:thumb="@color/leetCodeHardColor"
+                        android:thumbTint="@color/transparent" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -134,15 +130,11 @@
                         android:layout_marginStart="30dp"
                         android:layout_marginEnd="30dp"
                         android:layout_marginBottom="5dp"
-                        android:clickable="false"
-                        android:contextClickable="false"
-                        android:focusable="false"
-                        android:longClickable="false"
                         android:max="100"
-                        android:progress="0"
-                        android:progressDrawable="@drawable/seek_bar_track"
-                        android:progressTint="@color/leetCodeMediumColor"
-                        android:thumb="@drawable/seek_bar_thumb" />
+                        android:progress="50"
+                        android:progressDrawable="@drawable/medium_seek_bar_track"
+                        android:thumb="@color/leetCodeMediumColor"
+                        android:thumbTint="@color/transparent" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -191,15 +183,12 @@
                         android:layout_marginStart="30dp"
                         android:layout_marginEnd="30dp"
                         android:layout_marginBottom="5dp"
-                        android:clickable="false"
-                        android:contextClickable="false"
-                        android:focusable="false"
-                        android:longClickable="false"
+                        android:indeterminate="false"
                         android:max="100"
-                        android:progress="0"
-                        android:progressDrawable="@drawable/seek_bar_track"
-                        android:progressTint="@color/leetCodeEasyColor"
-                        android:thumb="@drawable/seek_bar_thumb" />
+                        android:progress="20"
+                        android:progressDrawable="@drawable/easy_seek_bar_track"
+                        android:thumb="@color/leetCodeEasyColor"
+                        android:thumbTint="@color/transparent" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -224,7 +213,7 @@
                             android:textSize="17sp" />
 
                         <TextView
-                            android:id="@+id/leetCode_solved_problems"
+                            android:id="@+id/leetCode_total_solved_problems"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
@@ -273,47 +262,47 @@
 
             </androidx.cardview.widget.CardView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_rowWeight="1"
-                android:layout_column="0"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp">
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_row="1"-->
+            <!--                android:layout_rowWeight="1"-->
+            <!--                android:layout_column="0"-->
+            <!--                android:layout_marginStart="20dp"-->
+            <!--                android:layout_marginTop="15dp"-->
+            <!--                android:layout_marginEnd="20dp"-->
+            <!--                android:layout_marginBottom="10dp"-->
+            <!--                android:gravity="center_vertical"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                android:paddingStart="10dp"-->
+            <!--                android:paddingEnd="10dp">-->
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/nunito_semi_bold"
-                    android:text="@string/current_rating"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+            <!--                <TextView-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:fontFamily="@font/nunito_semi_bold"-->
+            <!--                    android:text="@string/current_rating"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="20sp" />-->
 
-                <TextView
-                    android:id="@+id/leetCode_current_rating"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:fontFamily="@font/nunito_extra_bold"
-                    android:gravity="end"
-                    android:text="1497"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+            <!--                <TextView-->
+            <!--                    android:id="@+id/leetCode_current_rating"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_weight="0.5"-->
+            <!--                    android:fontFamily="@font/nunito_extra_bold"-->
+            <!--                    android:gravity="end"-->
+            <!--                    android:text="1497"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="18sp" />-->
 
-            </LinearLayout>
+            <!--            </LinearLayout>-->
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="2"
+                android:layout_row="1"
                 android:layout_column="0"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
@@ -327,7 +316,7 @@
                 android:id="@+id/leetCode_ongoing_nothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="3"
+                android:layout_row="2"
                 android:layout_column="0"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
@@ -341,7 +330,7 @@
                 android:id="@+id/leetCode_ongoing_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="4"
+                android:layout_row="3"
                 android:layout_column="0"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
@@ -352,7 +341,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="5"
+                android:layout_row="4"
                 android:layout_column="0"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
@@ -366,7 +355,7 @@
                 android:id="@+id/leetCode_today_nothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="6"
+                android:layout_row="5"
                 android:layout_column="0"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
@@ -380,7 +369,7 @@
                 android:id="@+id/leetCode_today_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="7"
+                android:layout_row="6"
                 android:layout_column="0"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
@@ -391,7 +380,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="8"
+                android:layout_row="7"
                 android:layout_column="0"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
@@ -405,7 +394,7 @@
                 android:id="@+id/leetCode_future_nothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="9"
+                android:layout_row="8"
                 android:layout_column="0"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
@@ -419,7 +408,7 @@
                 android:id="@+id/leetCode_future_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="10"
+                android:layout_row="9"
                 android:layout_column="0"
                 android:layout_margin="15dp"
                 android:isScrollContainer="false"
