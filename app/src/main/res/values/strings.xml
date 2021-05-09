@@ -20,4 +20,8 @@
     <string name="medium">Medium</string>
     <string name="easy">Easy</string>
     <string name="platform_name">Platform Name</string>
+    <string name="how_should_i_call_you">How should I call you? 🤔</string>
+    <string name="platforms">Platforms</string>
+    <string name="hello">Hello,</string>
+    <string name="menu">Menu</string>
 </resources>

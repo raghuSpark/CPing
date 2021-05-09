@@ -1,420 +1,432 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:id="@+id/all_swipe_refresh"
     tools:context=".fragments.AllFragment">
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <GridLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
+            <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                app:cardCornerRadius="15dp">
+                android:layout_height="match_parent">
 
-                <LinearLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/all_graphs_card_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.jjoe64.graphview.GraphView
-                        android:id="@+id/all_graph_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:nestedScrollingEnabled="true"
-                        android:layout_margin="10dp"
-                        android:background="@color/white"
-                        android:scrollbars="horizontal|vertical" />
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    app:cardCornerRadius="15dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/code_forces_graph_below"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="3dp"
-                            android:fontFamily="@font/nunito_regular"
-                            android:text="@string/codeforces"
-                            android:textColor="@color/black"
-                            app:drawableStartCompat="@drawable/ic_cf" />
-
-                        <TextView
-                            android:id="@+id/code_chef_graph_below"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:drawablePadding="3dp"
-                            android:fontFamily="@font/nunito_regular"
-                            android:text="@string/codechef"
-                            android:textColor="@color/black"
-                            app:drawableStartCompat="@drawable/ic_cc" />
-
-                        <TextView
-                            android:id="@+id/leet_code_graph_below"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:drawablePadding="3dp"
-                            android:fontFamily="@font/nunito_regular"
-                            android:text="@string/leetcode"
-                            android:textColor="@color/black"
-                            android:visibility="gone"
-                            app:drawableStartCompat="@drawable/ic_lc" />
-
-                        <TextView
-                            android:id="@+id/at_coder_graph_below"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:drawablePadding="3dp"
-                            android:fontFamily="@font/nunito_regular"
-                            android:text="@string/atcoder"
-                            android:textColor="@color/black"
-                            android:visibility="gone"
-                            app:drawableStartCompat="@drawable/ic_ac" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/rating_changes"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_row="2"
-                android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                app:cardCornerRadius="15dp">
-
-                <GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:rowCount="3"
-                    android:useDefaultMargins="true">
-
-                    <LinearLayout
-                        android:id="@+id/all_code_forces_rating_card"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_row="0"
-                        android:layout_rowWeight="1"
-                        android:layout_column="0"
-                        android:layout_columnWeight="1"
-                        android:background="@drawable/rating_changes_background"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp">
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/all_code_forces_current_rating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_extra_bold"
-                            android:text="931"
-                            android:textColor="@color/black"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_regular"
-                            android:text="@string/codeforces"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/all_code_forces_current_rank"
+                        <com.jjoe64.graphview.GraphView
+                            android:id="@+id/all_graph_view"
                             android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_margin="10dp"
+                            android:background="@color/white"
+                            android:nestedScrollingEnabled="true"
+                            android:scrollbars="horizontal|vertical" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/code_forces_graph_below"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="3dp"
+                                android:fontFamily="@font/nunito_regular"
+                                android:text="@string/codeforces"
+                                android:textColor="@color/black"
+                                app:drawableStartCompat="@drawable/ic_cf" />
+
+                            <TextView
+                                android:id="@+id/code_chef_graph_below"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:drawablePadding="3dp"
+                                android:fontFamily="@font/nunito_regular"
+                                android:text="@string/codechef"
+                                android:textColor="@color/black"
+                                app:drawableStartCompat="@drawable/ic_cc" />
+
+                            <TextView
+                                android:id="@+id/leet_code_graph_below"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:drawablePadding="3dp"
+                                android:fontFamily="@font/nunito_regular"
+                                android:text="@string/leetcode"
+                                android:textColor="@color/black"
+                                android:visibility="gone"
+                                app:drawableStartCompat="@drawable/ic_lc" />
+
+                            <TextView
+                                android:id="@+id/at_coder_graph_below"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:drawablePadding="3dp"
+                                android:fontFamily="@font/nunito_regular"
+                                android:text="@string/atcoder"
+                                android:textColor="@color/black"
+                                android:visibility="gone"
+                                app:drawableStartCompat="@drawable/ic_ac" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/all_rating_changes_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/rating_changes"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/all_ratings_card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_row="2"
+                    android:layout_column="0"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    app:cardCornerRadius="15dp">
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:rowCount="3"
+                        android:useDefaultMargins="true">
+
+                        <LinearLayout
+                            android:id="@+id/all_code_forces_rating_card"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_row="0"
+                            android:layout_rowWeight="1"
+                            android:layout_column="0"
+                            android:layout_columnWeight="1"
+                            android:background="@drawable/rating_changes_background"
                             android:gravity="center"
-                            android:fontFamily="@font/nunito_regular"
-                            android:text="Legendary grandmaster"
-                            android:textColor="@color/codeForcesGrandMasterColor"
-                            android:textSize="15sp" />
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/all_code_forces_current_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_extra_bold"
+                                android:text="931"
+                                android:textColor="@color/black"
+                                android:textSize="20sp" />
 
-                    <LinearLayout
-                        android:id="@+id/all_code_chef_rating_card"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_row="0"
-                        android:layout_rowWeight="1"
-                        android:layout_column="1"
-                        android:layout_columnWeight="1"
-                        android:background="@drawable/rating_changes_background"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_regular"
+                                android:text="@string/codeforces"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
 
-                        <TextView
-                            android:id="@+id/all_code_chef_current_rating"
+                            <TextView
+                                android:id="@+id/all_code_forces_current_rank"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_regular"
+                                android:gravity="center"
+                                android:text="Legendary grandmaster"
+                                android:textColor="@color/codeForcesGrandMasterColor"
+                                android:textSize="15sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/all_code_chef_rating_card"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_extra_bold"
-                            android:text="1696"
-                            android:textColor="@color/black"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_regular"
-                            android:text="@string/codechef"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/all_code_chef_current_stars"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4★"
-                            android:fontFamily="@font/nunito_regular"
-                            android:textColor="@color/fourStar"
-                            android:textSize="17sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/all_leet_code_rating_card"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_row="1"
-                        android:layout_rowWeight="1"
-                        android:visibility="gone"
-                        android:layout_column="0"
-                        android:layout_columnWeight="1"
-                        android:background="@drawable/rating_changes_background"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp">
-
-                        <TextView
-                            android:id="@+id/all_leet_code_current_rating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_extra_bold"
-                            android:text="1497"
-                            android:textColor="@color/black"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_regular"
-                            android:text="@string/leetcode"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/all_leet_code_current_rank"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_regular"
-                            android:text="~100000"
-                            android:textColor="@color/leetCodeRankColor"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/all_at_coder_rating_card"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_row="0"
-                        android:layout_rowWeight="1"
-                        android:layout_column="2"
-                        android:layout_columnWeight="1"
-                        android:background="@drawable/rating_changes_background"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp">
-
-                        <TextView
-                            android:id="@+id/all_at_coder_current_rating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_extra_bold"
-                            android:text="4056"
-                            android:textColor="@color/black"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_regular"
-                            android:text="@string/atcoder"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/all_at_coder_current_level"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_row="0"
+                            android:layout_rowWeight="1"
+                            android:layout_column="1"
+                            android:layout_columnWeight="1"
+                            android:background="@drawable/rating_changes_background"
                             android:gravity="center"
-                            android:text="King"
-                            android:textColor="@color/atCoderKing"
-                            android:fontFamily="@font/nunito_regular"
-                            android:textSize="15sp" />
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/all_code_chef_current_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_extra_bold"
+                                android:text="1696"
+                                android:textColor="@color/black"
+                                android:textSize="20sp" />
 
-                </GridLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_regular"
+                                android:text="@string/codechef"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
 
-            </androidx.cardview.widget.CardView>
+                            <TextView
+                                android:id="@+id/all_code_chef_current_stars"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_regular"
+                                android:text="4★"
+                                android:textColor="@color/fourStar"
+                                android:textSize="17sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="3"
-                android:layout_column="0"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/ongoing_contests"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                        </LinearLayout>
 
-            <TextView
-                android:id="@+id/all_ongoing_nothing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="4"
-                android:layout_column="0"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/nothing_to_show"
-                android:textColor="@color/tab_text_normal_color"
-                android:textSize="17sp" />
+                        <LinearLayout
+                            android:id="@+id/all_leet_code_rating_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_row="1"
+                            android:layout_rowWeight="1"
+                            android:layout_column="0"
+                            android:layout_columnWeight="1"
+                            android:background="@drawable/rating_changes_background"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="8dp"
+                            android:visibility="gone">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/all_ongoing_contests_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_row="5"
-                android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:isScrollContainer="false"
-                android:nestedScrollingEnabled="false" />
+                            <TextView
+                                android:id="@+id/all_leet_code_current_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_extra_bold"
+                                android:text="1497"
+                                android:textColor="@color/black"
+                                android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="6"
-                android:layout_column="0"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/today"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_regular"
+                                android:text="@string/leetcode"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/all_today_nothing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="7"
-                android:layout_column="0"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/nothing_to_show"
-                android:textColor="@color/tab_text_normal_color"
-                android:textSize="17sp" />
+                            <TextView
+                                android:id="@+id/all_leet_code_current_rank"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_regular"
+                                android:text="~100000"
+                                android:textColor="@color/leetCodeRankColor"
+                                android:textSize="15sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/all_today_contests_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_row="8"
-                android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:isScrollContainer="false"
-                android:nestedScrollingEnabled="false" />
+                        </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="9"
-                android:layout_column="0"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/future_contests"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                        <LinearLayout
+                            android:id="@+id/all_at_coder_rating_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_row="0"
+                            android:layout_rowWeight="1"
+                            android:layout_column="2"
+                            android:layout_columnWeight="1"
+                            android:background="@drawable/rating_changes_background"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
-            <TextView
-                android:id="@+id/all_future_nothing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="10"
-                android:layout_column="0"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/nothing_to_show"
-                android:textColor="@color/tab_text_normal_color"
-                android:textSize="17sp" />
+                            <TextView
+                                android:id="@+id/all_at_coder_current_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_extra_bold"
+                                android:text="4056"
+                                android:textColor="@color/black"
+                                android:textSize="20sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/all_future_contests_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_row="11"
-                android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                android:isScrollContainer="false"
-                android:nestedScrollingEnabled="false" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_regular"
+                                android:text="@string/atcoder"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
 
-        </GridLayout>
+                            <TextView
+                                android:id="@+id/all_at_coder_current_level"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_regular"
+                                android:gravity="center"
+                                android:text="King"
+                                android:textColor="@color/atCoderKing"
+                                android:textSize="15sp" />
 
-    </FrameLayout>
-</ScrollView>
+                        </LinearLayout>
+
+                    </GridLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="3"
+                    android:layout_column="0"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/ongoing_contests"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/all_ongoing_nothing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="4"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/nothing_to_show"
+                    android:textColor="@color/tab_text_normal_color"
+                    android:textSize="17sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/all_ongoing_contests_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_row="5"
+                    android:layout_column="0"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:isScrollContainer="false"
+                    android:nestedScrollingEnabled="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="6"
+                    android:layout_column="0"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/today"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/all_today_nothing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="7"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/nothing_to_show"
+                    android:textColor="@color/tab_text_normal_color"
+                    android:textSize="17sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/all_today_contests_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_row="8"
+                    android:layout_column="0"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:isScrollContainer="false"
+                    android:nestedScrollingEnabled="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="9"
+                    android:layout_column="0"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/future_contests"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/all_future_nothing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="10"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/nothing_to_show"
+                    android:textColor="@color/tab_text_normal_color"
+                    android:textSize="17sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/all_future_contests_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_row="11"
+                    android:layout_column="0"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:isScrollContainer="false"
+                    android:nestedScrollingEnabled="false" />
+
+            </GridLayout>
+
+        </FrameLayout>
+
+    </ScrollView>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

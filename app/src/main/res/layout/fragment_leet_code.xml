@@ -1,420 +1,428 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/leet_code_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.LeetCodeFragment">
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <GridLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
+            <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_rowWeight="1"
-                android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                app:cardCornerRadius="10dp">
+                android:layout_height="match_parent">
 
-                <GridLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_row="0"
+                    android:layout_rowWeight="1"
+                    android:layout_column="0"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp">
+                    android:layout_marginEnd="15dp"
+                    app:cardCornerRadius="10dp">
 
-                    <LinearLayout
+                    <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_row="0"
-                        android:layout_rowWeight="1"
-                        android:layout_column="0"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp">
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp">
 
-                        <TextView
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/nunito_semi_bold"
-                            android:text="@string/hard"
-                            android:textColor="@color/leetCodeHardColor"
-                            android:textSize="18sp" />
+                            android:layout_row="0"
+                            android:layout_rowWeight="1"
+                            android:layout_column="0"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp">
 
-                        <TextView
-                            android:id="@+id/leetCode_hard_solved"
-                            android:layout_width="0dp"
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/nunito_semi_bold"
+                                android:text="@string/hard"
+                                android:textColor="@color/leetCodeHardColor"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/leetCode_hard_solved"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:fontFamily="@font/nunito_semi_bold"
+                                android:gravity="end"
+                                android:text="13/388"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                        </LinearLayout>
+
+                        <SeekBar
+                            android:id="@+id/leetCode_hard_seek_bar"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:fontFamily="@font/nunito_semi_bold"
-                            android:gravity="end"
-                            android:text="13/388"
-                            android:textColor="@color/black"
-                            android:textSize="18sp" />
+                            android:layout_row="1"
+                            android:layout_rowWeight="1"
+                            android:layout_column="0"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="30dp"
+                            android:layout_marginBottom="5dp"
+                            android:max="100"
+                            android:progress="30"
+                            android:progressDrawable="@drawable/hard_seek_bar_track"
+                            android:thumb="@color/leetCodeHardColor"
+                            android:thumbTint="@color/transparent" />
 
-                    </LinearLayout>
-
-                    <SeekBar
-                        android:id="@+id/leetCode_hard_seek_bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_row="1"
-                        android:layout_rowWeight="1"
-                        android:layout_column="0"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginBottom="5dp"
-                        android:max="100"
-                        android:progress="30"
-                        android:progressDrawable="@drawable/hard_seek_bar_track"
-                        android:thumb="@color/leetCodeHardColor"
-                        android:thumbTint="@color/transparent" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_row="2"
-                        android:layout_rowWeight="1"
-                        android:layout_column="0"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp">
-
-                        <TextView
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/nunito_semi_bold"
-                            android:text="@string/medium"
-                            android:textColor="@color/leetCodeMediumColor"
-                            android:textSize="18sp" />
+                            android:layout_row="2"
+                            android:layout_rowWeight="1"
+                            android:layout_column="0"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp">
 
-                        <TextView
-                            android:id="@+id/leetCode_medium_solved"
-                            android:layout_width="0dp"
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/nunito_semi_bold"
+                                android:text="@string/medium"
+                                android:textColor="@color/leetCodeMediumColor"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/leetCode_medium_solved"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:fontFamily="@font/nunito_semi_bold"
+                                android:gravity="end"
+                                android:text="104/971"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <SeekBar
+                            android:id="@+id/leetCode_medium_seek_bar"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:fontFamily="@font/nunito_semi_bold"
-                            android:gravity="end"
-                            android:text="104/971"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:layout_row="3"
+                            android:layout_rowWeight="1"
+                            android:layout_column="0"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="30dp"
+                            android:layout_marginBottom="5dp"
+                            android:max="100"
+                            android:progress="50"
+                            android:progressDrawable="@drawable/medium_seek_bar_track"
+                            android:thumb="@color/leetCodeMediumColor"
+                            android:thumbTint="@color/transparent" />
 
-                    </LinearLayout>
-
-                    <SeekBar
-                        android:id="@+id/leetCode_medium_seek_bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_row="3"
-                        android:layout_rowWeight="1"
-                        android:layout_column="0"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginBottom="5dp"
-                        android:max="100"
-                        android:progress="50"
-                        android:progressDrawable="@drawable/medium_seek_bar_track"
-                        android:thumb="@color/leetCodeMediumColor"
-                        android:thumbTint="@color/transparent" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_row="4"
-                        android:layout_rowWeight="1"
-                        android:layout_column="0"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp">
-
-                        <TextView
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/nunito_semi_bold"
-                            android:text="@string/easy"
-                            android:textColor="@color/leetCodeEasyColor"
-                            android:textSize="18sp" />
+                            android:layout_row="4"
+                            android:layout_rowWeight="1"
+                            android:layout_column="0"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp">
 
-                        <TextView
-                            android:id="@+id/leetCode_easy_solved"
-                            android:layout_width="0dp"
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/nunito_semi_bold"
+                                android:text="@string/easy"
+                                android:textColor="@color/leetCodeEasyColor"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/leetCode_easy_solved"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:fontFamily="@font/nunito_semi_bold"
+                                android:gravity="end"
+                                android:text="13/388"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <SeekBar
+                            android:id="@+id/leetCode_easy_seek_bar"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:fontFamily="@font/nunito_semi_bold"
-                            android:gravity="end"
-                            android:text="13/388"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:layout_row="5"
+                            android:layout_rowWeight="1"
+                            android:layout_column="0"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="30dp"
+                            android:layout_marginBottom="5dp"
+                            android:indeterminate="false"
+                            android:max="100"
+                            android:progress="20"
+                            android:progressDrawable="@drawable/easy_seek_bar_track"
+                            android:thumb="@color/leetCodeEasyColor"
+                            android:thumbTint="@color/transparent" />
 
-                    </LinearLayout>
-
-                    <SeekBar
-                        android:id="@+id/leetCode_easy_seek_bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_row="5"
-                        android:layout_rowWeight="1"
-                        android:layout_column="0"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginBottom="5dp"
-                        android:indeterminate="false"
-                        android:max="100"
-                        android:progress="20"
-                        android:progressDrawable="@drawable/easy_seek_bar_track"
-                        android:thumb="@color/leetCodeEasyColor"
-                        android:thumbTint="@color/transparent" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_row="6"
-                        android:layout_rowWeight="1"
-                        android:layout_column="0"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/nunito_semi_bold"
-                            android:text="@string/total_problems_solved"
-                            android:textColor="@color/black"
-                            android:textSize="17sp" />
+                            android:layout_row="6"
+                            android:layout_rowWeight="1"
+                            android:layout_column="0"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/leetCode_total_solved_problems"
-                            android:layout_width="0dp"
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/nunito_semi_bold"
+                                android:text="@string/total_problems_solved"
+                                android:textColor="@color/black"
+                                android:textSize="17sp" />
+
+                            <TextView
+                                android:id="@+id/leetCode_total_solved_problems"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:fontFamily="@font/nunito_bold"
+                                android:gravity="end"
+                                android:text="164"
+                                android:textColor="@color/black"
+                                android:textSize="17sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:fontFamily="@font/nunito_bold"
-                            android:gravity="end"
-                            android:text="164"
-                            android:textColor="@color/black"
-                            android:textSize="17sp" />
+                            android:layout_row="7"
+                            android:layout_rowWeight="1"
+                            android:layout_column="0"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/nunito_semi_bold"
+                                android:text="@string/acceptance_rate"
+                                android:textColor="@color/black"
+                                android:textSize="17sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_row="7"
-                        android:layout_rowWeight="1"
-                        android:layout_column="0"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/leetCode_acceptance_rate"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:fontFamily="@font/nunito_bold"
+                                android:gravity="end"
+                                android:text="56.4%"
+                                android:textColor="@color/black"
+                                android:textSize="17sp" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/nunito_semi_bold"
-                            android:text="@string/acceptance_rate"
-                            android:textColor="@color/black"
-                            android:textSize="17sp" />
+                        </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/leetCode_acceptance_rate"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:fontFamily="@font/nunito_bold"
-                            android:gravity="end"
-                            android:text="56.4%"
-                            android:textColor="@color/black"
-                            android:textSize="17sp" />
+                    </GridLayout>
 
-                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-                </GridLayout>
+                <!--            <LinearLayout-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_row="1"-->
+                <!--                android:layout_rowWeight="1"-->
+                <!--                android:layout_column="0"-->
+                <!--                android:layout_marginStart="20dp"-->
+                <!--                android:layout_marginTop="15dp"-->
+                <!--                android:layout_marginEnd="20dp"-->
+                <!--                android:layout_marginBottom="10dp"-->
+                <!--                android:gravity="center_vertical"-->
+                <!--                android:orientation="horizontal"-->
+                <!--                android:paddingStart="10dp"-->
+                <!--                android:paddingEnd="10dp">-->
 
-            </androidx.cardview.widget.CardView>
+                <!--                <TextView-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:fontFamily="@font/nunito_semi_bold"-->
+                <!--                    android:text="@string/current_rating"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="20sp" />-->
 
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_row="1"-->
-            <!--                android:layout_rowWeight="1"-->
-            <!--                android:layout_column="0"-->
-            <!--                android:layout_marginStart="20dp"-->
-            <!--                android:layout_marginTop="15dp"-->
-            <!--                android:layout_marginEnd="20dp"-->
-            <!--                android:layout_marginBottom="10dp"-->
-            <!--                android:gravity="center_vertical"-->
-            <!--                android:orientation="horizontal"-->
-            <!--                android:paddingStart="10dp"-->
-            <!--                android:paddingEnd="10dp">-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/leetCode_current_rating"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_weight="0.5"-->
+                <!--                    android:fontFamily="@font/nunito_extra_bold"-->
+                <!--                    android:gravity="end"-->
+                <!--                    android:text="1497"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="18sp" />-->
 
-            <!--                <TextView-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:fontFamily="@font/nunito_semi_bold"-->
-            <!--                    android:text="@string/current_rating"-->
-            <!--                    android:textColor="@color/black"-->
-            <!--                    android:textSize="20sp" />-->
+                <!--            </LinearLayout>-->
 
-            <!--                <TextView-->
-            <!--                    android:id="@+id/leetCode_current_rating"-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_weight="0.5"-->
-            <!--                    android:fontFamily="@font/nunito_extra_bold"-->
-            <!--                    android:gravity="end"-->
-            <!--                    android:text="1497"-->
-            <!--                    android:textColor="@color/black"-->
-            <!--                    android:textSize="18sp" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/ongoing_contests"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
-            <!--            </LinearLayout>-->
+                <TextView
+                    android:id="@+id/leetCode_ongoing_nothing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="2"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/nothing_to_show"
+                    android:textColor="@color/tab_text_normal_color"
+                    android:textSize="17sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/ongoing_contests"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/leetCode_ongoing_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_row="3"
+                    android:layout_column="0"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:isScrollContainer="false"
+                    android:nestedScrollingEnabled="false" />
 
-            <TextView
-                android:id="@+id/leetCode_ongoing_nothing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="2"
-                android:layout_column="0"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/nothing_to_show"
-                android:textColor="@color/tab_text_normal_color"
-                android:textSize="17sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="4"
+                    android:layout_column="0"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/today"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/leetCode_ongoing_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_row="3"
-                android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:isScrollContainer="false"
-                android:nestedScrollingEnabled="false" />
+                <TextView
+                    android:id="@+id/leetCode_today_nothing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="5"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/nothing_to_show"
+                    android:textColor="@color/tab_text_normal_color"
+                    android:textSize="17sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="4"
-                android:layout_column="0"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/today"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/leetCode_today_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_row="6"
+                    android:layout_column="0"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:isScrollContainer="false"
+                    android:nestedScrollingEnabled="false" />
 
-            <TextView
-                android:id="@+id/leetCode_today_nothing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="5"
-                android:layout_column="0"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/nothing_to_show"
-                android:textColor="@color/tab_text_normal_color"
-                android:textSize="17sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="7"
+                    android:layout_column="0"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/future_contests"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/leetCode_today_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_row="6"
-                android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:isScrollContainer="false"
-                android:nestedScrollingEnabled="false" />
+                <TextView
+                    android:id="@+id/leetCode_future_nothing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="8"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/nothing_to_show"
+                    android:textColor="@color/tab_text_normal_color"
+                    android:textSize="17sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="7"
-                android:layout_column="0"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/future_contests"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/leetCode_future_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_row="9"
+                    android:layout_column="0"
+                    android:layout_margin="15dp"
+                    android:isScrollContainer="false"
+                    android:nestedScrollingEnabled="false" />
 
-            <TextView
-                android:id="@+id/leetCode_future_nothing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="8"
-                android:layout_column="0"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/nothing_to_show"
-                android:textColor="@color/tab_text_normal_color"
-                android:textSize="17sp" />
+            </GridLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/leetCode_future_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_row="9"
-                android:layout_column="0"
-                android:layout_margin="15dp"
-                android:isScrollContainer="false"
-                android:nestedScrollingEnabled="false" />
+        </FrameLayout>
 
-        </GridLayout>
+    </ScrollView>
 
-    </FrameLayout>
-</ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

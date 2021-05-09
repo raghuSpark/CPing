@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.raghu.CPing"
+        applicationId "com.rr.CPing"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
