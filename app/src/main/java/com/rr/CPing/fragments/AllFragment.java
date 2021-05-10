@@ -30,6 +30,7 @@ import com.rr.CPing.classes.PlatformListItem;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AllFragment extends Fragment {
 
@@ -169,6 +170,8 @@ public class AllFragment extends Fragment {
             AtCoderUserDetails atCoderUserDetails = SharedPrefConfig.readInAtCoderPref(getContext());
             atCoderRating.setText(String.valueOf(atCoderUserDetails.getCurrentRating()));
             atCoderLevel.setText(atCoderUserDetails.getCurrentLevel());
+
+            setAtCoderColors(atCoderUserDetails.getCurrentLevel());
         } else {
             atCoderGraphBelow.setVisibility(View.GONE);
             atCoderRatingChanges.setVisibility(View.GONE);
@@ -182,6 +185,8 @@ public class AllFragment extends Fragment {
             CodeForcesUserDetails codeForcesUserDetails = SharedPrefConfig.readInCodeForcesPref(getContext());
             codeForcesRating.setText(String.valueOf(codeForcesUserDetails.getCurrentRating()));
             codeForcesRank.setText(codeForcesUserDetails.getCurrentRank());
+
+            setCodeForcesColors(codeForcesUserDetails.getCurrentRank());
 
             codeForcesRecentRatingsArrayList = codeForcesUserDetails.getRecentContestRatings();
 
@@ -214,6 +219,8 @@ public class AllFragment extends Fragment {
 
             codeChefRating.setText(String.valueOf(codeChefUserDetails.getCurrentRating()));
             codeChefStars.setText(codeChefUserDetails.getCurrentStars());
+
+            setCodeChefColors(codeChefUserDetails.getCurrentStars());
 
             codeChefRecentRatingsArrayList = codeChefUserDetails.getRecentContestRatings();
             DataPoint[] codeChefValues = new DataPoint[codeChefRecentRatingsArrayList.size()];
@@ -251,6 +258,90 @@ public class AllFragment extends Fragment {
         }
 
         return groupFragmentView;
+    }
+
+    private void setCodeChefColors(String stars) {
+        switch (stars) {
+            case "1★":
+                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.oneStar));
+                break;
+            case "2★":
+                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.twoStar));
+                break;
+            case "3★":
+                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.threeStar));
+                break;
+            case "4★":
+                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.fourStar));
+                break;
+            case "5★":
+                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.fiveStar));
+                break;
+            case "6★":
+                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.sixStar));
+                break;
+            case "7★":
+                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.sevenStar));
+                break;
+        }
+    }
+
+    private void setCodeForcesColors(String rank) {
+        switch (rank) {
+            case "newbie":
+                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesNewbieColor));
+                break;
+            case "pupil":
+                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesPupilColor));
+                break;
+            case "specialist":
+                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesSpecialistColor));
+                break;
+            case "expert":
+                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesExpertColor));
+                break;
+            case "candidate master":
+                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesCandidateMasterColor));
+                break;
+            case "master":
+            case "international master":
+                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesMasterColor));
+                break;
+            case "grandmaster":
+            case "legendary grandmaster":
+            case "international grandmaster":
+                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesGrandMasterColor));
+                break;
+        }
+    }
+
+    private void setAtCoderColors(String level) {
+        switch (level) {
+            case "5 Dan":
+                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderFiveDan));
+                break;
+            case "6 Dan":
+                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderSixDan));
+                break;
+            case "7 Dan":
+                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderSevenDan));
+                break;
+            case "8 Dan":
+                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderEightDan));
+                break;
+            case "9 Dan":
+                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderNineDan));
+                break;
+            case "10 Dan":
+                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderTenDan));
+                break;
+            case "Legend":
+                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderLegend));
+                break;
+            case "King":
+                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderKing));
+                break;
+        }
     }
 
     private void findViewsByIds() {

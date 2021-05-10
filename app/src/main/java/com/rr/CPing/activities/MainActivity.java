@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         dashBoardTabsAccessorAdapter.notifyDataSetChanged();
-        Toast.makeText(this, "RAGHU", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "RAGHU", Toast.LENGTH_SHORT).show();
         Objects.requireNonNull(getSupportActionBar()).setTitle("Hello, "+ SharedPrefConfig.readAppUserName(this));
         super.onStart();
     }

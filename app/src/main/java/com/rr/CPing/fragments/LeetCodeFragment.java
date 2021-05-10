@@ -1,12 +1,17 @@
 package com.rr.CPing.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,21 +29,17 @@ import java.util.ArrayList;
 
 public class LeetCodeFragment extends Fragment {
 
-    private SwipeRefreshLayout leetCodeSwipeRefreshLayout;
-
-    private View groupFragmentView;
-
-    private TextView ongoing_nothing, today_nothing, future_nothing;
-
-    private SeekBar hardSeekBar, mediumSeekBar, easySeekBar;
-
-    private TextView acceptanceRate, totalProblemsSolved, leetCodeMedium, leetCodeEasy, leetCodeHard;
-
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
-    private final ArrayList<ContestDetails> futureWeekContestsArrayList = new ArrayList<>();
-
+    private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
+    private SwipeRefreshLayout leetCodeSwipeRefreshLayout;
+    private View groupFragmentView;
+    private TextView ongoing_nothing, today_nothing, future_nothing;
+    private SeekBar hardSeekBar, mediumSeekBar, easySeekBar;
+    private TextView acceptanceRate, totalProblemsSolved, leetCodeMedium, leetCodeEasy, leetCodeHard;
     private RecyclerView OngoingRV, TodayRV, FutureRV;
+    private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
+    private AlertDialog dialog;
 
     public LeetCodeFragment() {
         // Required empty public constructor
@@ -66,7 +67,7 @@ public class LeetCodeFragment extends Fragment {
             } else if (cd.getContestStatus().equals("CODING")) {
                 ongoingContestsArrayList.add(cd);
             } else {
-                futureWeekContestsArrayList.add(cd);
+                futureContestsArrayList.add(cd);
             }
         }
     }
@@ -171,7 +172,7 @@ public class LeetCodeFragment extends Fragment {
             TodayRV.setVisibility(View.VISIBLE);
         }
 
-        if (futureWeekContestsArrayList.isEmpty()) {
+        if (futureContestsArrayList.isEmpty()) {
             future_nothing.setVisibility(View.VISIBLE);
             FutureRV.setVisibility(View.GONE);
         } else {
@@ -204,7 +205,75 @@ public class LeetCodeFragment extends Fragment {
         totalProblemsSolved.setText(leetCodeUserDetails.getTotalProblemsSolved());
         acceptanceRate.setText(leetCodeUserDetails.getAcceptance_rate());
 
+        // On Item Click Listener (Reminders, Visiting Website)
+
+        ongoingRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                createPopupDialog(ongoingContestsArrayList, position);
+            }
+        });
+
+        todayRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                createPopupDialog(todayContestsArrayList, position);
+            }
+        });
+
+        futureRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                createPopupDialog(futureContestsArrayList, position);
+            }
+        });
+
         return groupFragmentView;
+    }
+
+    private void createPopupDialog(ArrayList<ContestDetails> contestsArrayList, int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = getLayoutInflater().inflate(R.layout.contest_popup_dialog, null);
+
+        TextView platformTitle = view.findViewById(R.id.platform_title),
+                contestTitle = view.findViewById(R.id.contest_title),
+                startTime = view.findViewById(R.id.start_time),
+                endTime = view.findViewById(R.id.end_time),
+                visitWebsite = view.findViewById(R.id.visit_website),
+                appRemainder = view.findViewById(R.id.contest_remainder);
+        ImageView platformImage = view.findViewById(R.id.platform_title_image);
+
+        if (contestsArrayList.get(position).getContestStatus().equals("CODING")) {
+            appRemainder.setVisibility(View.GONE);
+        } else {
+            appRemainder.setVisibility(View.VISIBLE);
+        }
+
+        platformImage.setImageResource(R.drawable.ic_leetcode_logo);
+        platformTitle.setText(contestsArrayList.get(position).getSite());
+        contestTitle.setText(contestsArrayList.get(position).getContestName());
+        startTime.setText(contestsArrayList.get(position).getContestStartTime());
+        endTime.setText(contestsArrayList.get(position).getContestEndTime());
+
+        visitWebsite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
+                dialog.cancel();
+            }
+        });
+
+        appRemainder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: App Remainder functionality should be implemented
+                Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.show();
     }
 
     private void findViewsByIds() {
@@ -234,19 +303,19 @@ public class LeetCodeFragment extends Fragment {
         if (i == 0) {
             OngoingRV.setHasFixedSize(true);
             OngoingRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            ContestDetailsRecyclerViewAdapter ongoingRVA = new ContestDetailsRecyclerViewAdapter(ongoingContestsArrayList);
+            ongoingRVA = new ContestDetailsRecyclerViewAdapter(ongoingContestsArrayList);
             OngoingRV.setAdapter(ongoingRVA);
             ongoingRVA.notifyDataSetChanged();
         } else if (i == 1) {
             TodayRV.setHasFixedSize(true);
             TodayRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            ContestDetailsRecyclerViewAdapter todayRVA = new ContestDetailsRecyclerViewAdapter(todayContestsArrayList);
+            todayRVA = new ContestDetailsRecyclerViewAdapter(todayContestsArrayList);
             TodayRV.setAdapter(todayRVA);
             todayRVA.notifyDataSetChanged();
         } else {
             FutureRV.setHasFixedSize(true);
             FutureRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            ContestDetailsRecyclerViewAdapter futureRVA = new ContestDetailsRecyclerViewAdapter(futureWeekContestsArrayList);
+            futureRVA = new ContestDetailsRecyclerViewAdapter(futureContestsArrayList);
             FutureRV.setAdapter(futureRVA);
             futureRVA.notifyDataSetChanged();
         }

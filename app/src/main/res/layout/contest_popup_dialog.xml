@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/platform_title_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_codechef_logo" />
+
+        <TextView
+            android:id="@+id/platform_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_bold"
+            android:layout_gravity="center"
+            android:text="CodeForces"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+<!--    <ImageView-->
+<!--        android:id="@+id/platform_image_2X"-->
+<!--        android:gravity="center"-->
+<!--        android:src="@drawable/ic_codechef_logo_2x"-->
+<!--        android:layout_row="0"-->
+<!--        android:layout_column="0"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"/>-->
+
+    <ImageView
+        android:background="@color/tab_text_normal_color"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <TextView
+        android:id="@+id/contest_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/nunito_regular"
+        android:text="Contest Name and Details"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_row="3"
+        android:layout_column="0"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/nunito_semi_bold"
+            android:text="Start : "
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/start_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/nunito_regular"
+            android:text="2021-15-05 2:30PM"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_row="4"
+        android:layout_column="0"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/nunito_semi_bold"
+            android:text="End   : "
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/end_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/nunito_regular"
+            android:text="2021-15-05 2:30PM"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/visit_website"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_row="5"
+        android:layout_column="0"
+        android:layout_margin="10dp"
+        android:background="#7FCCFF"
+        android:drawableEnd="@drawable/ic_visit_website"
+        android:fontFamily="@font/nunito_semi_bold"
+        android:padding="13dp"
+        android:text="Visit website"
+        android:textColor="@color/noInternetBG"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/contest_remainder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_row="6"
+        android:layout_column="0"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#7FCCFF"
+        android:drawableEnd="@drawable/ic_set_remainder"
+        android:fontFamily="@font/nunito_semi_bold"
+        android:padding="13dp"
+        android:text="Set in-app remainder"
+        android:textColor="@color/noInternetBG"
+        android:textSize="19sp" />
+
+    <!--    <TextView-->
+    <!--        android:layout_row="7"-->
+    <!--        android:layout_column="0"-->
+    <!--        android:layout_margin="10dp"-->
+    <!--        android:textSize="19sp"-->
+    <!--        android:padding="9dp"-->
+    <!--        android:text="Set remainder in your default calendar"-->
+    <!--        android:fontFamily="@font/nunito_semi_bold"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"/>-->
+
+</GridLayout>

@@ -1,11 +1,17 @@
 package com.rr.CPing.fragments;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,24 +29,22 @@ import com.rr.CPing.classes.ContestDetails;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CodeChefFragment extends Fragment {
-
-    private SwipeRefreshLayout codeChefSwipeRefreshLayout;
-
-    private View groupFragmentView;
-
-    private TextView currentRating, currentStars, maxRating;
-
-    private TextView ongoing_nothing, today_nothing, future_nothing;
 
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
-
+    private SwipeRefreshLayout codeChefSwipeRefreshLayout;
+    private View groupFragmentView;
+    private TextView currentRating, currentStars, maxRating;
+    private TextView ongoing_nothing, today_nothing, future_nothing;
     private RecyclerView OngoingRV, TodayRV, FutureRV;
 
-    private ContestDetailsRecyclerViewAdapter ongoingRVA,todayRVA,futureRVA;
+    private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
+
+    private AlertDialog dialog;
 
     public CodeChefFragment() {
         // Required empty public constructor
@@ -131,6 +135,8 @@ public class CodeChefFragment extends Fragment {
         currentStars.setText(codeChefUserDetails.getCurrentStars());
         maxRating.setText(String.valueOf(codeChefUserDetails.getHighestRating()));
 
+        setColors(codeChefUserDetails.getCurrentStars());
+
         GraphView graphView = groupFragmentView.findViewById(R.id.codeChef_graph_view);
 
         ArrayList<Integer> recentRatingsArrayList = codeChefUserDetails.getRecentContestRatings();
@@ -161,9 +167,99 @@ public class CodeChefFragment extends Fragment {
 
         // On Item Click Listener (Reminders, Visiting Website)
 
+        ongoingRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                createPopupDialog(ongoingContestsArrayList, position);
+            }
+        });
 
+        todayRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                createPopupDialog(todayContestsArrayList, position);
+            }
+        });
+
+        futureRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                createPopupDialog(futureContestsArrayList, position);
+            }
+        });
 
         return groupFragmentView;
+    }
+
+    private void setColors(String stars) {
+        switch (stars) {
+            case "1★":
+                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.oneStar));
+                break;
+            case "2★":
+                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.twoStar));
+                break;
+            case "3★":
+                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.threeStar));
+                break;
+            case "4★":
+                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.fourStar));
+                break;
+            case "5★":
+                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.fiveStar));
+                break;
+            case "6★":
+                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.sixStar));
+                break;
+            case "7★":
+                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.sevenStar));
+                break;
+        }
+    }
+
+    private void createPopupDialog(ArrayList<ContestDetails> contestsArrayList, int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = getLayoutInflater().inflate(R.layout.contest_popup_dialog, null);
+
+        TextView platformTitle = view.findViewById(R.id.platform_title),
+                contestTitle = view.findViewById(R.id.contest_title),
+                startTime = view.findViewById(R.id.start_time),
+                endTime = view.findViewById(R.id.end_time),
+                visitWebsite = view.findViewById(R.id.visit_website),
+                appRemainder = view.findViewById(R.id.contest_remainder);
+        ImageView platformImage = view.findViewById(R.id.platform_title_image);
+
+        if (contestsArrayList.get(position).getContestStatus().equals("CODING")) {
+            appRemainder.setVisibility(View.GONE);
+        } else {
+            appRemainder.setVisibility(View.VISIBLE);
+        }
+
+        platformImage.setImageResource(R.drawable.ic_codechef_logo);
+        platformTitle.setText(contestsArrayList.get(position).getSite());
+        contestTitle.setText(contestsArrayList.get(position).getContestName());
+        startTime.setText(contestsArrayList.get(position).getContestStartTime());
+        endTime.setText(contestsArrayList.get(position).getContestEndTime());
+
+        visitWebsite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
+                dialog.cancel();
+            }
+        });
+
+        appRemainder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: App Remainder functionality should be implemented
+                Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.show();
     }
 
     private void findViewsByIds() {

@@ -1,7 +1,6 @@
 package com.rr.CPing.adapters;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.SpannableString;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,20 +23,15 @@ import java.util.ArrayList;
 public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
 
     private final ArrayList<ContestDetails> contestDetailsArrayList;
+    Context context;
     private ContestDetailsRecyclerViewAdapter.OnItemClickListener itemClickListener;
 
-    Context context;
-
-    public interface OnItemClickListener {
-        void onItemClick(int position);
+    public ContestDetailsRecyclerViewAdapter(ArrayList<ContestDetails> contestDetailsArrayList) {
+        this.contestDetailsArrayList = contestDetailsArrayList;
     }
 
     public void setOnItemClickListener(ContestDetailsRecyclerViewAdapter.OnItemClickListener listener) {
         itemClickListener = listener;
-    }
-
-    public ContestDetailsRecyclerViewAdapter(ArrayList<ContestDetails> contestDetailsArrayList) {
-        this.contestDetailsArrayList = contestDetailsArrayList;
     }
 
     @NonNull
@@ -76,6 +69,9 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
         spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         myViewHolder.duration.setText(spannableString);
+
+        if (contest.getContestStatus().equals("CODING"))
+            myViewHolder.remainderIcon.setImageResource(R.drawable.ic_contest_running);
     }
 
     private String findDuration(int contestDuration) {
@@ -94,7 +90,11 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
         return contestDetailsArrayList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, startDate, startTime, duration;
         ImageView remainderIcon;
@@ -102,13 +102,17 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
         public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                    View view = getLayoutInflater()
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (listener != null) {
+                        if (pos != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(pos);
+                        }
+                    }
+                }
+            });
 
             name = itemView.findViewById(R.id.contestName);
             startDate = itemView.findViewById(R.id.contestStartDate);

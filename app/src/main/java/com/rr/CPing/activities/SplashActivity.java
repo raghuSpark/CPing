@@ -31,12 +31,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private final ArrayList<String> userNames = new ArrayList<>(Arrays.asList("null", "null", "null", "null"));
     private JSONResponseDBHandler jsonResponseDBHandler;
 
     @Override
@@ -52,7 +50,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(new Intent(SplashActivity.this, NoInternetActivity.class));
                 finish();
             }, 2000);
-        } else if (SharedPrefConfig.readIsFirstTime(this) || SharedPrefConfig.readPlatformsCount(this)<1) {
+        } else if (SharedPrefConfig.readIsFirstTime(this) || SharedPrefConfig.readPlatformsCount(this) < 1) {
             getContestDetailsFromAPI();
 
             Handler handler = new Handler();
@@ -73,20 +71,16 @@ public class SplashActivity extends AppCompatActivity {
 
                 switch (platformListItem.getPlatformName()) {
                     case "AtCoder":
-                        getAC();
-                        userNames.add(0, platformListItem.getUserName());
+                        getAC(platformListItem.getUserName());
                         break;
                     case "CodeChef":
-                        getCC();
-                        userNames.add(1, platformListItem.getUserName());
+                        getCC(platformListItem.getUserName());
                         break;
                     case "CodeForces":
-                        getCF();
-                        userNames.add(2, platformListItem.getUserName());
+                        getCF(platformListItem.getUserName());
                         break;
                     case "LeetCode":
-                        getLC();
-                        userNames.add(3, platformListItem.getUserName());
+                        getLC(platformListItem.getUserName());
                         break;
                 }
 
@@ -105,9 +99,9 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    private void getCC() {
+    private void getCC(String user_name) {
         Log.d("TAG", "getCC: ");
-        String platform_name = "codechef", user_name = userNames.get(1);
+        String platform_name = "codechef";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {
@@ -140,9 +134,9 @@ public class SplashActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void getCF() {
+    private void getCF(String user_name) {
         Log.d("TAG", "getCF: ");
-        String platform_name = "codeforces", user_name = userNames.get(2);
+        String platform_name = "codeforces";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {
@@ -177,9 +171,9 @@ public class SplashActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void getLC() {
+    private void getLC(String user_name) {
         Log.d("TAG", "getLC: ");
-        String platform_name = "leetcode", user_name = userNames.get(3);
+        String platform_name = "leetcode";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {
@@ -211,9 +205,9 @@ public class SplashActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void getAC() {
+    private void getAC(String user_name) {
         Log.d("TAG", "getAC: ");
-        String platform_name = "atcoder", user_name = userNames.get(0);
+        String platform_name = "atcoder";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {

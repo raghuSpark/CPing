@@ -70,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         Toolbar dashBoardToolbar = findViewById(R.id.settings_page_toolbar);
         setSupportActionBar(dashBoardToolbar);
-        getSupportActionBar().setTitle("Settings");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
         getSupportActionBar().setHomeButtonEnabled(true);
 
         settingsSaveButton = findViewById(R.id.settings_save_button);
@@ -170,13 +170,10 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (!CheckInternet.isConnectedToInternet(SettingsActivity.this)) {
-//                    Snackbar snack = Snackbar.make(view, "Check your internet connection!", Snackbar.LENGTH_LONG);
-//                    View v = snack.getView();
-//                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
-//                    params.gravity = Gravity.TOP;
-//                    view.setLayoutParams(params);
-//                    snack.show();
+
+//                    TODO: To be Done
                     Toast.makeText(SettingsActivity.this, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", Toast.LENGTH_SHORT).show();
+
                 } else if (platformNamesList.get(position).isUserNameAllowed()) {
 
                     createPopupDialog(position);
@@ -186,7 +183,7 @@ public class SettingsActivity extends AppCompatActivity {
 //                    final EditText input = viewInflated.findViewById(R.id.platform_list_dialog_user_name);
 //                    if (platformNamesList.get(position).isEnabled())
 //                        input.setText(platformNamesList.get(position).getUserName());
-////                    builder.setView(viewInflated);
+//                    builder.setView(viewInflated);
 //                    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 //                        @Override
 //                        public void onClick(DialogInterface dialog, int which) {
@@ -283,7 +280,7 @@ public class SettingsActivity extends AppCompatActivity {
     private String getPlatformName(String platformName) {
         switch (platformName) {
             case "AtCoder":
-                return "at_coder";
+                return "atcoder";
             case "CodeChef":
                 return "codechef";
             case "CodeForces":
@@ -305,7 +302,7 @@ public class SettingsActivity extends AppCompatActivity {
                     if (response.getString("status").equals("Success")) {
                         newlyAddedPlatforms.add(new Pair<>(platform, username));
                         platformAdapter.setSelectedIndex(position, username);
-                        dialog.cancel();
+                        dialog.dismiss();
 //                        saveBtn.setEnabled(sharedPreferences.getInt("count", 0) != 0);
                     } else {
                         Snackbar.make(v, "Invalid User Name!", Snackbar.LENGTH_SHORT).show();
@@ -355,7 +352,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        Log.d("TAG", "onBackPressed: " + SharedPrefConfig.readPlatformsCount(this));
         if (appUsernameEditText.getText().toString().isEmpty()) {
             Toast.makeText(this, "How should I call you?", Toast.LENGTH_SHORT).show();
         } else if (SharedPrefConfig.readPlatformsCount(this) == 0) {

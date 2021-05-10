@@ -1,12 +1,17 @@
 package com.rr.CPing.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,22 +30,21 @@ import com.rr.CPing.classes.ContestDetails;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CodeForcesFragment extends Fragment {
-
-    private SwipeRefreshLayout codeForcesSwipeRefreshLayout;
-
-    private View groupFragmentView;
-
-    private TextView currentRating, currentRank, maxRating, maxRank;
-
-    private TextView ongoing_nothing, today_nothing, future_nothing;
 
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
-
+    private SwipeRefreshLayout codeForcesSwipeRefreshLayout;
+    private View groupFragmentView;
+    private TextView currentRating, currentRank, maxRating, maxRank;
+    private TextView ongoing_nothing, today_nothing, future_nothing;
     private RecyclerView OngoingRV, TodayRV, FutureRV;
+    private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
+
+    private AlertDialog dialog;
 
     public CodeForcesFragment() {
         // Required empty public constructor
@@ -129,7 +133,7 @@ public class CodeForcesFragment extends Fragment {
         maxRating.setText(String.valueOf(codeForcesUserDetails.getMaxRating()));
         maxRank.setText(codeForcesUserDetails.getMaxRank());
 
-//        setColors(codeForcesUserDetails.getCurrentRank(), codeForcesUserDetails.getMaxRank());
+        setColors(codeForcesUserDetails.getCurrentRank(), codeForcesUserDetails.getMaxRank());
 
         GraphView graphView = groupFragmentView.findViewById(R.id.codeForces_graph_view);
 
@@ -158,7 +162,75 @@ public class CodeForcesFragment extends Fragment {
 
         graphView.addSeries(codeForcesSeries);
 
+        // On Item Click Listener (Reminders, Visiting Website)
+
+        ongoingRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                createPopupDialog(ongoingContestsArrayList, position);
+            }
+        });
+
+        todayRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                createPopupDialog(todayContestsArrayList, position);
+            }
+        });
+
+        futureRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                createPopupDialog(futureContestsArrayList, position);
+            }
+        });
+
         return groupFragmentView;
+    }
+
+    private void createPopupDialog(ArrayList<ContestDetails> contestsArrayList, int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = getLayoutInflater().inflate(R.layout.contest_popup_dialog, null);
+
+        TextView platformTitle = view.findViewById(R.id.platform_title),
+                contestTitle = view.findViewById(R.id.contest_title),
+                startTime = view.findViewById(R.id.start_time),
+                endTime = view.findViewById(R.id.end_time),
+                visitWebsite = view.findViewById(R.id.visit_website),
+                appRemainder = view.findViewById(R.id.contest_remainder);
+        ImageView platformImage = view.findViewById(R.id.platform_title_image);
+
+        if (contestsArrayList.get(position).getContestStatus().equals("CODING")) {
+            appRemainder.setVisibility(View.GONE);
+        } else {
+            appRemainder.setVisibility(View.VISIBLE);
+        }
+
+        platformImage.setImageResource(R.drawable.ic_codeforces_logo);
+        platformTitle.setText(contestsArrayList.get(position).getSite());
+        contestTitle.setText(contestsArrayList.get(position).getContestName());
+        startTime.setText(contestsArrayList.get(position).getContestStartTime());
+        endTime.setText(contestsArrayList.get(position).getContestEndTime());
+
+        visitWebsite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
+                dialog.cancel();
+            }
+        });
+
+        appRemainder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: App Remainder functionality should be implemented
+                Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.show();
     }
 
     private void findViewsByIds() {
@@ -182,54 +254,54 @@ public class CodeForcesFragment extends Fragment {
     private void setColors(String rank1, String rank2) {
         switch (rank1) {
             case "newbie":
-                currentRank.setTextColor(R.color.codeForcesNewbieColor);
+                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesNewbieColor));
                 break;
             case "pupil":
-                currentRank.setTextColor(R.color.codeForcesPupilColor);
+                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesPupilColor));
                 break;
             case "specialist":
-                currentRank.setTextColor(R.color.codeForcesSpecialistColor);
+                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesSpecialistColor));
                 break;
             case "expert":
-                currentRank.setTextColor(R.color.codeForcesExpertColor);
+                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesExpertColor));
                 break;
             case "candidate master":
-                currentRank.setTextColor(R.color.codeForcesCandidateMasterColor);
+                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesCandidateMasterColor));
                 break;
             case "master":
             case "international master":
-                currentRank.setTextColor(R.color.codeForcesMasterColor);
+                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesMasterColor));
                 break;
             case "grandmaster":
             case "legendary grandmaster":
             case "international grandmaster":
-                currentRank.setTextColor(R.color.codeForcesGrandMasterColor);
+                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesGrandMasterColor));
                 break;
         }
         switch (rank2) {
             case "newbie":
-                currentRank.setTextColor(R.color.codeForcesNewbieColor);
+                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesNewbieColor));
                 break;
             case "pupil":
-                maxRank.setTextColor(R.color.codeForcesPupilColor);
+                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesPupilColor));
                 break;
             case "specialist":
-                maxRank.setTextColor(R.color.codeForcesSpecialistColor);
+                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesSpecialistColor));
                 break;
             case "expert":
-                maxRank.setTextColor(R.color.codeForcesExpertColor);
+                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesExpertColor));
                 break;
             case "candidate master":
-                maxRank.setTextColor(R.color.codeForcesCandidateMasterColor);
+                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesCandidateMasterColor));
                 break;
             case "master":
             case "international master":
-                maxRank.setTextColor(R.color.codeForcesMasterColor);
+                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesMasterColor));
                 break;
             case "grandmaster":
             case "legendary grandmaster":
             case "international grandmaster":
-                maxRank.setTextColor(R.color.codeForcesGrandMasterColor);
+                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesGrandMasterColor));
                 break;
         }
     }
@@ -238,19 +310,19 @@ public class CodeForcesFragment extends Fragment {
         if (i == 0) {
             OngoingRV.setHasFixedSize(true);
             OngoingRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            ContestDetailsRecyclerViewAdapter ongoingRVA = new ContestDetailsRecyclerViewAdapter(ongoingContestsArrayList);
+            ongoingRVA = new ContestDetailsRecyclerViewAdapter(ongoingContestsArrayList);
             OngoingRV.setAdapter(ongoingRVA);
             ongoingRVA.notifyDataSetChanged();
         } else if (i == 1) {
             TodayRV.setHasFixedSize(true);
             TodayRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            ContestDetailsRecyclerViewAdapter todayRVA = new ContestDetailsRecyclerViewAdapter(todayContestsArrayList);
+            todayRVA = new ContestDetailsRecyclerViewAdapter(todayContestsArrayList);
             TodayRV.setAdapter(todayRVA);
             todayRVA.notifyDataSetChanged();
         } else {
             FutureRV.setHasFixedSize(true);
             FutureRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            ContestDetailsRecyclerViewAdapter futureRVA = new ContestDetailsRecyclerViewAdapter(futureContestsArrayList);
+            futureRVA = new ContestDetailsRecyclerViewAdapter(futureContestsArrayList);
             FutureRV.setAdapter(futureRVA);
             futureRVA.notifyDataSetChanged();
         }
