@@ -1,13 +1,11 @@
 package com.rr.CPing.adapters;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,18 +21,14 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
 
     private final ArrayList<PlatformDetails> platformDetailsArrayList;
     Context context;
-    private AllParentRecyclerViewAdapter.OnSubItemClickListener subItemClickListener;
+    private ContestDetailsRecyclerViewAdapter.OnItemClickListener itemClickListener;
 
     public AllParentRecyclerViewAdapter(ArrayList<PlatformDetails> platformDetailsArrayList) {
         this.platformDetailsArrayList = platformDetailsArrayList;
     }
 
-    public void setOnSubItemClickListener(AllParentRecyclerViewAdapter.OnSubItemClickListener listener) {
-        subItemClickListener = listener;
-    }
-
-    public interface OnSubItemClickListener {
-        void onSubItemClick(int position);
+    public void setOnItemClickListener(ContestDetailsRecyclerViewAdapter.OnItemClickListener listener) {
+        itemClickListener = listener;
     }
 
     @NonNull
@@ -43,7 +37,7 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
         context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.all_recycler_view_sub_items, parent, false);
-        return new MyViewHolder(view, subItemClickListener);
+        return new MyViewHolder(view, itemClickListener);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -52,6 +46,7 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
         AllParentRecyclerViewAdapter.MyViewHolder myViewHolder = (MyViewHolder) holder;
 
         if (platformDetailsArrayList.isEmpty()) {
+//            Toast.makeText(context, "TAG from adapter: "+platformDetailsArrayList.size(), Toast.LENGTH_SHORT).show();
             myViewHolder.platformName.setVisibility(View.GONE);
             myViewHolder.platformRV.setVisibility(View.GONE);
         } else {
@@ -85,7 +80,7 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
                     myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.leetCodeColor));
                     break;
                 case "TopCoder":
-                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.topCoderColor));
+                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.codeForcesCandidateMasterColor));
                     break;
             }
 
@@ -102,12 +97,15 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
 
             platformRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
                 @Override
-                public void onItemClick(int position) {
-                    Toast.makeText(context, "Just Testing!!!", Toast.LENGTH_SHORT).show();
+                public void onItemClick(String platFormName, int position) {
+                    if (itemClickListener != null) {
+                        if (position != RecyclerView.NO_POSITION) {
+                            itemClickListener.onItemClick(platformDetails.getPlatformName(), position);
+                        }
+                    }
                 }
             });
         }
-
     }
 
     @Override
@@ -115,12 +113,16 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
         return platformDetailsArrayList.size();
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(String platformName, int position);
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView platformName;
         RecyclerView platformRV;
 
-        public MyViewHolder(@NonNull View itemView, OnSubItemClickListener listener) {
+        public MyViewHolder(@NonNull View itemView, ContestDetailsRecyclerViewAdapter.OnItemClickListener listener) {
             super(itemView);
 
             platformName = itemView.findViewById(R.id.platform_name_text_view);

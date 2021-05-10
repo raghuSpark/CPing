@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,21 +168,21 @@ public class CodeChefFragment extends Fragment {
 
         ongoingRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(String platFormName, int position) {
                 createPopupDialog(ongoingContestsArrayList, position);
             }
         });
 
         todayRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(String platFormName, int position) {
                 createPopupDialog(todayContestsArrayList, position);
             }
         });
 
         futureRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(String platFormName, int position) {
                 createPopupDialog(futureContestsArrayList, position);
             }
         });

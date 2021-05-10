@@ -91,7 +91,7 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(String platFormName, int position);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -108,7 +108,7 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
                     int pos = getAdapterPosition();
                     if (listener != null) {
                         if (pos != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(pos);
+                            listener.onItemClick("null", pos);
                         }
                     }
                 }
@@ -121,5 +121,4 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
             remainderIcon = itemView.findViewById(R.id.remainder_imageView);
         }
     }
-
 }

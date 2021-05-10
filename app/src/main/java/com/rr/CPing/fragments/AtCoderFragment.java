@@ -133,21 +133,21 @@ public class AtCoderFragment extends Fragment {
 
         ongoingRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(String platFormName, int position) {
                 createPopupDialog(ongoingContestsArrayList, position);
             }
         });
 
         todayRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(String platFormName, int position) {
                 createPopupDialog(todayContestsArrayList, position);
             }
         });
 
         futureRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(String platFormName, int position) {
                 createPopupDialog(futureContestsArrayList, position);
             }
         });

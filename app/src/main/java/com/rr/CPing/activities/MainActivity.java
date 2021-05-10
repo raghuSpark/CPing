@@ -59,10 +59,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.dash_board_menu) {
-//            Toast.makeText(this, "To be implemented!", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this,SettingsActivity.class));
             finish();
-//            finishAndRemoveTask();
         }
         return true;
     }
@@ -70,16 +68,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         dashBoardTabsAccessorAdapter.notifyDataSetChanged();
-//        Toast.makeText(this, "RAGHU", Toast.LENGTH_SHORT).show();
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Hello, "+ SharedPrefConfig.readAppUserName(this));
+        Objects.requireNonNull(getSupportActionBar()).setTitle("@"+ SharedPrefConfig.readAppUserName(this));
         super.onStart();
     }
 
     @Override
     protected void onResume() {
         dashBoardTabsAccessorAdapter.notifyDataSetChanged();
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Hello, "+ SharedPrefConfig.readAppUserName(this));
-//        Toast.makeText(this, "RAGHU", Toast.LENGTH_SHORT).show();
+        Objects.requireNonNull(getSupportActionBar()).setTitle("@"+ SharedPrefConfig.readAppUserName(this));
         super.onResume();
     }
 

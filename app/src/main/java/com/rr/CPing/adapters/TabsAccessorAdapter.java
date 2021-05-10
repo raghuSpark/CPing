@@ -21,6 +21,7 @@ import com.rr.CPing.fragments.LeetCodeFragment;
 import com.rr.CPing.fragments.TopCoderFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class TabsAccessorAdapter extends FragmentPagerAdapter {
 
@@ -36,7 +37,7 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
 //                    new TopCoderFragment())
 //    );
 
-    private ArrayList<CharSequence> pageTitlesArrayList = new ArrayList<>();
+    private ArrayList<String> pageTitlesArrayList = new ArrayList<>();
 
     private ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
 
@@ -48,20 +49,6 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
         ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(context);
 
         notifyDataSetChanged();
-
-//        if (SharedPrefConfig.readPlatformsCount(context) > 1) {
-//            fragmentArrayList.add(new AllFragment());
-//            pageTitlesArrayList.add("All");
-//        }
-//
-//        for (int i = 0; i < platformListItemArrayList.size(); i++) {
-//            if (platformListItemArrayList.get(i).isEnabled()) {
-////                Log.d("TAG", "TabsAccessorAdapter: "+platformListItemArrayList.get(i).getPos()+" , "+i);
-//                String platform = platformListItemArrayList.get(i).getPlatformName();
-//                pageTitlesArrayList.add(platform);
-//                fragmentArrayList.add(getFragment(platform));
-//            }
-//        }
     }
 
     private Fragment getFragment(String platform) {
@@ -114,19 +101,26 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
 
         ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(context);
 
-        if (SharedPrefConfig.readPlatformsCount(context) > 1) {
-            fragmentArrayList.add(new AllFragment());
-            pageTitlesArrayList.add("All");
-        }
-
         for (int i = 0; i < platformListItemArrayList.size(); i++) {
             if (platformListItemArrayList.get(i).isEnabled()) {
-//                Log.d("TAG", "TabsAccessorAdapter: "+platformListItemArrayList.get(i).getPos()+" , "+i);
                 String platform = platformListItemArrayList.get(i).getPlatformName();
                 pageTitlesArrayList.add(platform);
-                fragmentArrayList.add(getFragment(platform));
+//                fragmentArrayList.add(getFragment(platform));
             }
         }
+
+        // sorting array list
+        Collections.sort(pageTitlesArrayList);
+
+        for (String platform : pageTitlesArrayList) {
+            fragmentArrayList.add(getFragment(platform));
+        }
+
+        if (pageTitlesArrayList.size() > 1) {
+            fragmentArrayList.add(0, new AllFragment());
+            pageTitlesArrayList.add(0, "All");
+        }
+
         super.notifyDataSetChanged();
     }
 }

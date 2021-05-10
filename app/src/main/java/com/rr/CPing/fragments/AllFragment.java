@@ -1,13 +1,17 @@
 package com.rr.CPing.fragments;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -21,6 +25,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.AllParentRecyclerViewAdapter;
+import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
 import com.rr.CPing.classes.AtCoderUserDetails;
 import com.rr.CPing.classes.CodeChefUserDetails;
 import com.rr.CPing.classes.CodeForcesUserDetails;
@@ -30,6 +35,7 @@ import com.rr.CPing.classes.PlatformListItem;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class AllFragment extends Fragment {
@@ -37,6 +43,7 @@ public class AllFragment extends Fragment {
     private final ArrayList<PlatformDetails> ongoingPlatformsArrayList = new ArrayList<>();
     private final ArrayList<PlatformDetails> todayPlatformsArrayList = new ArrayList<>();
     private final ArrayList<PlatformDetails> futurePlatformsArrayList = new ArrayList<>();
+
     private SwipeRefreshLayout allSwipeRefreshLayout;
     private View groupFragmentView;
     private GraphView graphView;
@@ -49,6 +56,8 @@ public class AllFragment extends Fragment {
     private ArrayList<String> platforms;
 
     private RecyclerView OngoingRV, TodayRV, FutureRV;
+    private AllParentRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
+    private AlertDialog dialog;
 
     public AllFragment() {
         // Required empty public constructor
@@ -57,8 +66,6 @@ public class AllFragment extends Fragment {
     public static AllFragment newInstance(String param1, String param2) {
         AllFragment fragment = new AllFragment();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,28 +80,25 @@ public class AllFragment extends Fragment {
 
         ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(getContext());
 
-//        if (SharedPrefConfig.readPlatformsCount(getContext()) > 1) {
-//            fragmentArrayList.add(new AllFragment());
-//            pageTitlesArrayList.add("All");
-//        }
-
         for (int i = 0; i < platformListItemArrayList.size(); i++) {
             if (platformListItemArrayList.get(i).isEnabled()) {
-//                Log.d("TAG", "TabsAccessorAdapter: "+platformListItemArrayList.get(i).getPos()+" , "+i);
                 String platform = platformListItemArrayList.get(i).getPlatformName();
                 platforms.add(platform);
-                Log.d("TAG", "onCreate: " + platform);
             }
         }
 
+        Collections.sort(platforms);
+
         for (String platform : platforms) {
             ArrayList<ContestDetails> contestDetailsArrayList = jsonResponseDBHandler.getPlatformDetails(platform);
+
             ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>(),
                     todayContestsArrayList = new ArrayList<>(),
                     futureContestsArrayList = new ArrayList<>();
 
             for (ContestDetails cd : contestDetailsArrayList) {
-                if (isGreaterThan10days(cd.getContestDuration())) continue;
+                if (isGreaterThan10days(cd.getContestDuration()))
+                    continue;
                 if (!cd.getIsToday().equals("No")) {
                     todayContestsArrayList.add(cd);
                 } else if (cd.getContestStatus().equals("CODING")) {
@@ -103,6 +107,7 @@ public class AllFragment extends Fragment {
                     futureContestsArrayList.add(cd);
                 }
             }
+
             if (!ongoingContestsArrayList.isEmpty())
                 ongoingPlatformsArrayList.add(new PlatformDetails(platform, ongoingContestsArrayList));
             if (!todayContestsArrayList.isEmpty())
@@ -117,8 +122,7 @@ public class AllFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         groupFragmentView = inflater.inflate(R.layout.fragment_all, container, false);
@@ -165,7 +169,6 @@ public class AllFragment extends Fragment {
         initialize(2);
 
         // AtCoder Rating Cards
-
         if (platforms.contains("AtCoder")) {
             AtCoderUserDetails atCoderUserDetails = SharedPrefConfig.readInAtCoderPref(getContext());
             atCoderRating.setText(String.valueOf(atCoderUserDetails.getCurrentRating()));
@@ -211,7 +214,6 @@ public class AllFragment extends Fragment {
         }
 
         // CodeChef Graph
-
         ArrayList<Integer> codeChefRecentRatingsArrayList = new ArrayList<>();
 
         if (platforms.contains("CodeChef")) {
@@ -244,7 +246,6 @@ public class AllFragment extends Fragment {
 
         graphView.getViewport().setXAxisBoundsManual(true);
         graphView.getViewport().setMaxX(Math.max(codeChefRecentRatingsArrayList.size(), codeForcesRecentRatingsArrayList.size()));
-
         graphView.getViewport().setYAxisBoundsManual(true);
         graphView.getViewport().setMaxY(maxY);
         graphView.getViewport().setMinY(minY);
@@ -257,7 +258,106 @@ public class AllFragment extends Fragment {
             }
         }
 
+        // On Item Click Listener (Reminders, Visiting Website)
+
+        ongoingRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String platFormName, int position) {
+                createPopupDialog(getPlatformDetails(ongoingPlatformsArrayList, platFormName), position);
+            }
+        });
+
+        todayRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String platFormName, int position) {
+                createPopupDialog(getPlatformDetails(todayPlatformsArrayList, platFormName), position);
+            }
+        });
+
+        futureRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String platFormName, int position) {
+                createPopupDialog(getPlatformDetails(futurePlatformsArrayList, platFormName), position);
+            }
+        });
+
         return groupFragmentView;
+    }
+
+    private ArrayList<ContestDetails> getPlatformDetails(ArrayList<PlatformDetails> PlatformsArrayList, String platFormName) {
+        for (PlatformDetails platformDetails : PlatformsArrayList) {
+            if (platformDetails.getPlatformName().equals(platFormName)) {
+                return platformDetails.getPlatformContests();
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    private void createPopupDialog(ArrayList<ContestDetails> contestsArrayList, int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = getLayoutInflater().inflate(R.layout.contest_popup_dialog, null);
+
+        TextView platformTitle = view.findViewById(R.id.platform_title),
+                contestTitle = view.findViewById(R.id.contest_title),
+                startTime = view.findViewById(R.id.start_time),
+                endTime = view.findViewById(R.id.end_time),
+                visitWebsite = view.findViewById(R.id.visit_website),
+                appRemainder = view.findViewById(R.id.contest_remainder);
+        ImageView platformImage = view.findViewById(R.id.platform_title_image);
+
+        if (contestsArrayList.get(position).getContestStatus().equals("CODING")) {
+            appRemainder.setVisibility(View.GONE);
+        } else {
+            appRemainder.setVisibility(View.VISIBLE);
+        }
+
+        platformImage.setImageResource(getImageResource(contestsArrayList.get(position).getSite()));
+        platformTitle.setText(contestsArrayList.get(position).getSite());
+        contestTitle.setText(contestsArrayList.get(position).getContestName());
+        startTime.setText(contestsArrayList.get(position).getContestStartTime());
+        endTime.setText(contestsArrayList.get(position).getContestEndTime());
+
+        visitWebsite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
+                dialog.cancel();
+            }
+        });
+
+        appRemainder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: App Remainder functionality should be implemented
+                Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.show();
+    }
+
+    private int getImageResource(String site) {
+        switch (site) {
+            case "AtCoder":
+                return R.drawable.ic_at_coder_logo;
+            case "CodeChef":
+                return R.drawable.ic_codechef_logo;
+            case "CodeForces":
+                return R.drawable.ic_codeforces_logo;
+            case "HackerEarth":
+                return R.drawable.ic_hacker_earth_logo;
+            case "HackerRank":
+                return R.drawable.ic_hackerrank_logo;
+            case "Kick Start":
+                return R.drawable.ic_kickstart_logo;
+            case "LeetCode":
+                return R.drawable.ic_leetcode_logo;
+            case "TopCoder":
+                return R.drawable.ic_topcoder_logo;
+        }
+        return 0;
     }
 
     private void setCodeChefColors(String stars) {
@@ -390,21 +490,22 @@ public class AllFragment extends Fragment {
         if (i == 0) {
             OngoingRV.setHasFixedSize(true);
             OngoingRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            AllParentRecyclerViewAdapter ongoingRVA = new AllParentRecyclerViewAdapter(ongoingPlatformsArrayList);
+            ongoingRVA = new AllParentRecyclerViewAdapter(ongoingPlatformsArrayList);
             OngoingRV.setAdapter(ongoingRVA);
             ongoingRVA.notifyDataSetChanged();
         } else if (i == 1) {
             TodayRV.setHasFixedSize(true);
             TodayRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            AllParentRecyclerViewAdapter todayRVA = new AllParentRecyclerViewAdapter(todayPlatformsArrayList);
+            todayRVA = new AllParentRecyclerViewAdapter(todayPlatformsArrayList);
             TodayRV.setAdapter(todayRVA);
             todayRVA.notifyDataSetChanged();
         } else {
             FutureRV.setHasFixedSize(true);
             FutureRV.setLayoutManager(new LinearLayoutManager(getContext()));
-            AllParentRecyclerViewAdapter futureRVA = new AllParentRecyclerViewAdapter(futurePlatformsArrayList);
+            futureRVA = new AllParentRecyclerViewAdapter(futurePlatformsArrayList);
             FutureRV.setAdapter(futureRVA);
             futureRVA.notifyDataSetChanged();
         }
     }
+
 }

@@ -63,8 +63,6 @@ public class SplashActivity extends AppCompatActivity {
 
             getContestDetailsFromAPI();
 
-//            ArrayList<Boolean> enabledPlatforms = new ArrayList<>(4);
-
             ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(this);
 
             for (PlatformListItem platformListItem : platformListItemArrayList) {
@@ -86,21 +84,48 @@ public class SplashActivity extends AppCompatActivity {
 
             }
 
-//            getAC();
-//            getCC();
-//            getCF();
-//            getLC();
-
-            Handler handler = new Handler();
-            handler.postDelayed(() -> {
+            new Handler().postDelayed(() -> {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
             }, 7000);
         }
     }
 
+    private void getAC(String user_name) {
+        String platform_name = "atcoder";
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    AtCoderUserDetails item;
+                    if (!response.getString("level").equals("NA")) {
+                        item = new AtCoderUserDetails(response.getInt("rating"),
+                                response.getInt("highest"),
+                                response.getInt("rank"),
+                                response.getString("level"));
+                    } else {
+                        item = new AtCoderUserDetails(response.getInt("rating"),
+                                -1,
+                                -1,
+                                "NA");
+                    }
+                    SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+    }
+
     private void getCC(String user_name) {
-        Log.d("TAG", "getCC: ");
         String platform_name = "codechef";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -135,7 +160,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void getCF(String user_name) {
-        Log.d("TAG", "getCF: ");
         String platform_name = "codeforces";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -172,7 +196,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void getLC(String user_name) {
-        Log.d("TAG", "getLC: ");
         String platform_name = "leetcode";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -192,34 +215,6 @@ public class SplashActivity extends AppCompatActivity {
 
                     SharedPrefConfig.writeInLeetCodePref(getApplicationContext(), item);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        requestQueue.add(jsonObjectRequest);
-    }
-
-    private void getAC(String user_name) {
-        Log.d("TAG", "getAC: ");
-        String platform_name = "atcoder";
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    AtCoderUserDetails item = new AtCoderUserDetails(response.getInt("rating"),
-                            response.getInt("highest"),
-                            response.getInt("rank"),
-                            response.getString("level"));
-
-                    SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

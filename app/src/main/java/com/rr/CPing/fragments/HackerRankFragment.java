@@ -25,16 +25,12 @@ import java.util.ArrayList;
 
 public class HackerRankFragment extends Fragment {
 
-    private SwipeRefreshLayout hackerRankSwipeRefreshLayout;
-
-    private View groupFragmentView;
-
-    private TextView ongoing_nothing, today_nothing, future_nothing;
-
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
-
+    private SwipeRefreshLayout hackerRankSwipeRefreshLayout;
+    private View groupFragmentView;
+    private TextView ongoing_nothing, today_nothing, future_nothing;
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
 
@@ -120,21 +116,21 @@ public class HackerRankFragment extends Fragment {
 
         ongoingRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(String platFormName, int position) {
                 createPopupDialog(ongoingContestsArrayList, position);
             }
         });
 
         todayRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(String platFormName, int position) {
                 createPopupDialog(todayContestsArrayList, position);
             }
         });
 
         futureRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(String platFormName, int position) {
                 createPopupDialog(futureContestsArrayList, position);
             }
         });
@@ -142,7 +138,7 @@ public class HackerRankFragment extends Fragment {
         return groupFragmentView;
     }
 
-    private void createPopupDialog(ArrayList<ContestDetails> contestsArrayList,int position) {
+    private void createPopupDialog(ArrayList<ContestDetails> contestsArrayList, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View view = getLayoutInflater().inflate(R.layout.contest_popup_dialog, null);
 
