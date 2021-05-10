@@ -10,6 +10,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_margin="10dp"
+        android:contentDescription="@string/img"
         android:src="@drawable/ic_codechef_logo" />
 
     <LinearLayout
@@ -24,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito_semi_bold"
-            android:text="Platform Name"
+            android:text="@string/platform_name"
             android:textColor="@color/noInternetBG"
             android:textSize="18sp" />
 
@@ -33,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito_regular"
-            android:text="UserName"
+            android:text="@string/username"
             android:textColor="@color/noInternetBG"
             android:textSize="16sp" />
 
@@ -45,8 +46,9 @@
         android:layout_height="25dp"
         android:layout_gravity="center"
         android:layout_marginEnd="25dp"
-        android:rotation="45"
+        android:contentDescription="@string/img"
         android:padding="5dp"
+        android:rotation="45"
         android:src="@drawable/ic_pinned_icon" />
 
 </LinearLayout>

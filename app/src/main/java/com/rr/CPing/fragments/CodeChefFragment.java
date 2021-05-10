@@ -91,6 +91,7 @@ public class CodeChefFragment extends Fragment {
         codeChefSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // TODO: To be done
                 codeChefSwipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -102,7 +103,6 @@ public class CodeChefFragment extends Fragment {
             ongoing_nothing.setVisibility(View.GONE);
             OngoingRV.setVisibility(View.VISIBLE);
         }
-
         if (todayContestsArrayList.isEmpty()) {
             today_nothing.setVisibility(View.VISIBLE);
             TodayRV.setVisibility(View.GONE);
@@ -110,7 +110,6 @@ public class CodeChefFragment extends Fragment {
             today_nothing.setVisibility(View.GONE);
             TodayRV.setVisibility(View.VISIBLE);
         }
-
         if (futureContestsArrayList.isEmpty()) {
             future_nothing.setVisibility(View.VISIBLE);
             FutureRV.setVisibility(View.GONE);
@@ -151,13 +150,11 @@ public class CodeChefFragment extends Fragment {
         }
 
         LineGraphSeries<DataPoint> codeChefSeries = new LineGraphSeries<>(values);
-
         codeChefSeries.setColor(Color.rgb(255, 164, 161));
         codeChefSeries.setDrawDataPoints(true);
 
         graphView.getViewport().setXAxisBoundsManual(true);
         graphView.getViewport().setMaxX(recentRatingsArrayList.size());
-
         graphView.getViewport().setYAxisBoundsManual(true);
         graphView.getViewport().setMaxY(maxY);
         graphView.getViewport().setMinY(minY);
@@ -172,14 +169,12 @@ public class CodeChefFragment extends Fragment {
                 createPopupDialog(ongoingContestsArrayList, position);
             }
         });
-
         todayRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String platFormName, int position) {
                 createPopupDialog(todayContestsArrayList, position);
             }
         });
-
         futureRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String platFormName, int position) {

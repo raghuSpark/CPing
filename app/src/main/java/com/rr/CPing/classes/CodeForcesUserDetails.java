@@ -3,8 +3,8 @@ package com.rr.CPing.classes;
 import java.util.ArrayList;
 
 public class CodeForcesUserDetails {
-    private int currentRating,maxRating;
-    private String currentRank,maxRank;
+    private int currentRating, maxRating;
+    private String currentRank, maxRank;
     private ArrayList<String> recentContestRatings;
 
     public CodeForcesUserDetails(int currentRating, int maxRating, String currentRank, String maxRank, ArrayList<String> recentContestRatings) {

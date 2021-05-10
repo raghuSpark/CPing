@@ -52,11 +52,9 @@ public class SettingsActivity extends AppCompatActivity {
     private ListView platformsListView;
     private Button settingsSaveButton;
     private EditText appUsernameEditText;
-
     private ProgressBar settingsProgressBar;
 
     private ArrayList<PlatformListItem> platformNamesList;
-
     private ArrayList<Pair<String, String>> newlyAddedPlatforms = new ArrayList<>();
 
     private AlertDialog dialog;
@@ -96,7 +94,6 @@ public class SettingsActivity extends AppCompatActivity {
                         SharedPrefConfig.writeIsFirstTime(SettingsActivity.this, false);
                     }
                     if (!newlyAddedPlatforms.isEmpty()) {
-
                         for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
                             String un = newlyAddedPlatforms.get(i).second;
                             Log.d("TAG", "onClick: " + newlyAddedPlatforms.get(i).first + " , " + un);
@@ -116,8 +113,7 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                         }
 
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
+                        new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 startActivity(new Intent(SettingsActivity.this, MainActivity.class));
@@ -125,8 +121,7 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                         }, newlyAddedPlatforms.size() * 800);
                     } else {
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
+                        new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 startActivity(new Intent(SettingsActivity.this, MainActivity.class));
@@ -139,7 +134,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         appUsernameEditText.setText(SharedPrefConfig.readAppUserName(this));
-//        saveBtn.setEnabled(sharedPreferences.getInt("count", 0) != 0);
 
         appUsernameEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -157,7 +151,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         if (SharedPrefConfig.readIsFirstTime(this)) {
-//            saveBtn.setVisibility(View.VISIBLE);
             loadFirstTimeData();
         } else {
             loadData();
@@ -172,44 +165,13 @@ public class SettingsActivity extends AppCompatActivity {
                 if (!CheckInternet.isConnectedToInternet(SettingsActivity.this)) {
 
 //                    TODO: To be Done
-                    Toast.makeText(SettingsActivity.this, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingsActivity.this, "NETWORK ISSUE!", Toast.LENGTH_SHORT).show();
 
                 } else if (platformNamesList.get(position).isUserNameAllowed()) {
-
                     createPopupDialog(position);
-
-//                    builder.setTitle(platformNamesList.get(position).getPlatformName() + " Username");
-//                    View viewInflated = getLayoutInflater().inflate(R.layout.platforms_list_dialog, findViewById(android.R.id.content), false);
-//                    final EditText input = viewInflated.findViewById(R.id.platform_list_dialog_user_name);
-//                    if (platformNamesList.get(position).isEnabled())
-//                        input.setText(platformNamesList.get(position).getUserName());
-//                    builder.setView(viewInflated);
-//                    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                            String usernameInputString = input.getText().toString();
-//                            if (usernameInputString.contains(" "))
-//                                Toast.makeText(SettingsActivity.this, "Input contains white spaces", Toast.LENGTH_SHORT).show();
-//                            else {
-//                                if (usernameInputString.isEmpty())
-//                                    platformAdapter.setSelectedIndex(position, "");
-//                                else
-//                                    checkValidUsername(platformNamesList.get(position).getPlatformName().toLowerCase(), usernameInputString, position);
-//                            }
-//                        }
-//                    });
-//                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.cancel();
-//                        }
-//                    });
-//                    builder.show();
                 } else {
                     platformAdapter.setSelectedIndex(position, "");
                 }
-//                saveBtn.setEnabled(sharedPreferences.getInt("count", 0) != 0);
             }
         });
     }
@@ -250,28 +212,18 @@ public class SettingsActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-//                platformDialogSaveButton.setText("");
-
                 if (platformDialogUserName.getText().toString().isEmpty()) {
                     platformAdapter.setSelectedIndex(position, "");
                     Snackbar.make(v, "Invalid User Name!", Snackbar.LENGTH_SHORT).show();
-//                    platformDialogSaveButton.setText("Save");
                 } else {
-//                    platformDialogSaveButton.setClickable(false);
                     platformDialogSaveButton.setVisibility(View.GONE);
                     platformDialogRemoveButton.setVisibility(View.GONE);
                     platformDialogProgressBar.setVisibility(View.VISIBLE);
 
                     checkValidUsername(platformDialogProgressBar, platformDialogSaveButton, v, platformName, platformDialogUserName.getText().toString().trim(), position);
-
-//                    platformDialogProgressBar.setVisibility(View.GONE);
-//                    platformDialogSaveButton.setVisibility(View.VISIBLE);
-//                    platformDialogProgressBar.setVisibility(View.GONE);
-//                    platformDialogSaveButton.setText("Save");
                 }
             }
         });
-
         builder.setView(view);
         dialog = builder.create();
         dialog.show();
@@ -303,7 +255,6 @@ public class SettingsActivity extends AppCompatActivity {
                         newlyAddedPlatforms.add(new Pair<>(platform, username));
                         platformAdapter.setSelectedIndex(position, username);
                         dialog.dismiss();
-//                        saveBtn.setEnabled(sharedPreferences.getInt("count", 0) != 0);
                     } else {
                         Snackbar.make(v, "Invalid User Name!", Snackbar.LENGTH_SHORT).show();
                         platformDialogProgressBar.setVisibility(View.GONE);
@@ -366,7 +317,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void getCC(String user_name) {
-        Log.d("TAG", "getCCS: ");
         String platform_name = "codechef";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -401,7 +351,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void getCF(String user_name) {
-        Log.d("TAG", "getCFS: ");
         String platform_name = "codeforces";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -438,7 +387,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void getLC(String user_name) {
-        Log.d("TAG", "getLCS: ");
         String platform_name = "leetcode";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -472,7 +420,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void getAC(String user_name) {
-        Log.d("TAG", "getACS: ");
         String platform_name = "atcoder";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,

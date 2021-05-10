@@ -3,7 +3,7 @@ package com.rr.CPing.classes;
 import java.util.ArrayList;
 
 public class CodeChefUserDetails {
-    private int currentRating,highestRating;
+    private int currentRating, highestRating;
     private String currentStars;
     private ArrayList<Integer> recentContestRatings;
 

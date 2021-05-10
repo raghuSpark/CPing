@@ -77,6 +77,7 @@ public class HackerRankFragment extends Fragment {
         hackerRankSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // TODO: To be implemented
                 hackerRankSwipeRefreshLayout.setRefreshing(false);
             }
         });

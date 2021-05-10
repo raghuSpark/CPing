@@ -3,7 +3,7 @@ package com.rr.CPing.classes;
 public class ContestDetails {
     private String site, contestName, contestUrl;
     private int contestDuration;
-    private String contestStartTime, contestEndTime,isToday, contestStatus;
+    private String contestStartTime, contestEndTime, isToday, contestStatus;
 
     public ContestDetails(String site, String contestName, String contestUrl, int contestDuration, String contestStartTime, String contestEndTime, String isToday, String contestStatus) {
         this.site = site;

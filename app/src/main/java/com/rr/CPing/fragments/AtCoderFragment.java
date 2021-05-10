@@ -94,7 +94,6 @@ public class AtCoderFragment extends Fragment {
             ongoing_nothing.setVisibility(View.GONE);
             OngoingRV.setVisibility(View.VISIBLE);
         }
-
         if (todayContestsArrayList.isEmpty()) {
             today_nothing.setVisibility(View.VISIBLE);
             TodayRV.setVisibility(View.GONE);
@@ -102,7 +101,6 @@ public class AtCoderFragment extends Fragment {
             today_nothing.setVisibility(View.GONE);
             TodayRV.setVisibility(View.VISIBLE);
         }
-
         if (futureContestsArrayList.isEmpty()) {
             future_nothing.setVisibility(View.VISIBLE);
             FutureRV.setVisibility(View.GONE);

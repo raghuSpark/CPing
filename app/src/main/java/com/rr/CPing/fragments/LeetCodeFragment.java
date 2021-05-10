@@ -85,6 +85,7 @@ public class LeetCodeFragment extends Fragment {
         leetCodeSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // TODO: To be implemented
                 leetCodeSwipeRefreshLayout.setRefreshing(false);
             }
         });

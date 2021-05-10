@@ -124,7 +124,6 @@ public class AllFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         groupFragmentView = inflater.inflate(R.layout.fragment_all, container, false);
 
         findViewsByIds();
@@ -144,7 +143,6 @@ public class AllFragment extends Fragment {
             ongoing_nothing.setVisibility(View.GONE);
             OngoingRV.setVisibility(View.VISIBLE);
         }
-
         if (todayPlatformsArrayList.isEmpty()) {
             today_nothing.setVisibility(View.VISIBLE);
             TodayRV.setVisibility(View.GONE);
@@ -152,7 +150,6 @@ public class AllFragment extends Fragment {
             today_nothing.setVisibility(View.GONE);
             TodayRV.setVisibility(View.VISIBLE);
         }
-
         if (futurePlatformsArrayList.isEmpty()) {
             future_nothing.setVisibility(View.VISIBLE);
             FutureRV.setVisibility(View.GONE);
@@ -203,7 +200,6 @@ public class AllFragment extends Fragment {
             }
 
             LineGraphSeries<DataPoint> codeForcesSeries = new LineGraphSeries<>(codeForcesValues);
-
             codeForcesSeries.setColor(Color.rgb(72, 221, 205));
             codeForcesSeries.setDrawDataPoints(true);
 
@@ -507,5 +503,4 @@ public class AllFragment extends Fragment {
             futureRVA.notifyDataSetChanged();
         }
     }
-
 }

@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
 
 public class CheckInternet {
     public static boolean isConnectedToInternet(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (connectivityManager != null) {
             NetworkInfo[] info = connectivityManager.getAllNetworkInfo();
@@ -17,7 +17,6 @@ public class CheckInternet {
                 }
             }
         }
-
         return false;
     }
 }

@@ -28,7 +28,7 @@ public class SharedPrefConfig {
     public static String readAppUserName(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
-        return pref.getString("APP_USER_NAME","");
+        return pref.getString("APP_USER_NAME", "");
     }
 
     public static void writeIsFirstTime(Context context, boolean isFirstTime) {
@@ -42,7 +42,7 @@ public class SharedPrefConfig {
     public static boolean readIsFirstTime(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
-        return pref.getBoolean("IS_FIRST_TIME",true);
+        return pref.getBoolean("IS_FIRST_TIME", true);
     }
 
     public static void writePlatformsCount(Context context, int platformsCount) {
@@ -56,7 +56,7 @@ public class SharedPrefConfig {
     public static int readPlatformsCount(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
-        return pref.getInt("PLATFORMS_COUNT",0);
+        return pref.getInt("PLATFORMS_COUNT", 0);
     }
 
     public static void writePlatformsSelected(Context context, ArrayList<PlatformListItem> platformDetailsArrayList) {
@@ -74,7 +74,8 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("PLATFORM_DETAILS", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<PlatformListItem>>() {}.getType();
+        Type type = new TypeToken<ArrayList<PlatformListItem>>() {
+        }.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -93,7 +94,8 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("CC_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<CodeChefUserDetails>() {}.getType();
+        Type type = new TypeToken<CodeChefUserDetails>() {
+        }.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -112,7 +114,8 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("CF_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<CodeForcesUserDetails>() {}.getType();
+        Type type = new TypeToken<CodeForcesUserDetails>() {
+        }.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -131,7 +134,8 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("LC_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<LeetCodeUserDetails>() {}.getType();
+        Type type = new TypeToken<LeetCodeUserDetails>() {
+        }.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -150,7 +154,8 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("AC_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<AtCoderUserDetails>() {}.getType();
+        Type type = new TypeToken<AtCoderUserDetails>() {
+        }.getType();
         return gson.fromJson(jsonString, type);
     }
 }

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_row="0"
         android:layout_column="0"
         android:layout_marginStart="10dp"
@@ -11,8 +15,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/platform_title_image"
@@ -20,42 +23,34 @@
             android:layout_height="40dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/img"
             android:src="@drawable/ic_codechef_logo" />
 
         <TextView
             android:id="@+id/platform_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_bold"
             android:layout_gravity="center"
-            android:text="CodeForces"
             android:layout_marginStart="5dp"
+            android:fontFamily="@font/nunito_bold"
+            android:text="@string/codeforces"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
     </LinearLayout>
 
-<!--    <ImageView-->
-<!--        android:id="@+id/platform_image_2X"-->
-<!--        android:gravity="center"-->
-<!--        android:src="@drawable/ic_codechef_logo_2x"-->
-<!--        android:layout_row="0"-->
-<!--        android:layout_column="0"-->
-<!--        android:layout_margin="10dp"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"/>-->
-
     <ImageView
-        android:background="@color/tab_text_normal_color"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
         android:layout_row="1"
         android:layout_column="0"
-        android:layout_marginBottom="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_marginBottom="5dp"
+        android:background="@color/tab_text_normal_color"
+        android:contentDescription="@string/img" />
 
     <TextView
         android:id="@+id/contest_title"
@@ -67,7 +62,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/nunito_regular"
-        android:text="Contest Name and Details"
+        android:text="@string/contest_name_and_details"
         android:textColor="@color/black"
         android:textSize="18sp" />
 
@@ -84,7 +79,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="5dp"
             android:fontFamily="@font/nunito_semi_bold"
-            android:text="Start : "
+            android:text="@string/start"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -94,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/nunito_regular"
-            android:text="2021-15-05 2:30PM"
+            android:text="@string/dd_mm_yyyy_hh_mm_am_pm"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -113,7 +108,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="5dp"
             android:fontFamily="@font/nunito_semi_bold"
-            android:text="End   : "
+            android:text="@string/end"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -123,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/nunito_regular"
-            android:text="2021-15-05 2:30PM"
+            android:text="@string/dd_mm_yyyy_hh_mm_am_pm"
             android:textColor="@color/black"
             android:textSize="18sp" />
     </LinearLayout>
@@ -136,12 +131,12 @@
         android:layout_column="0"
         android:layout_margin="10dp"
         android:background="#7FCCFF"
-        android:drawableEnd="@drawable/ic_visit_website"
         android:fontFamily="@font/nunito_semi_bold"
         android:padding="13dp"
-        android:text="Visit website"
+        android:text="@string/visit_website"
         android:textColor="@color/noInternetBG"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        app:drawableEndCompat="@drawable/ic_visit_website" />
 
     <TextView
         android:id="@+id/contest_remainder"
@@ -153,22 +148,11 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="#7FCCFF"
-        android:drawableEnd="@drawable/ic_set_remainder"
         android:fontFamily="@font/nunito_semi_bold"
         android:padding="13dp"
-        android:text="Set in-app remainder"
+        android:text="@string/set_in_app_remainder"
         android:textColor="@color/noInternetBG"
-        android:textSize="19sp" />
-
-    <!--    <TextView-->
-    <!--        android:layout_row="7"-->
-    <!--        android:layout_column="0"-->
-    <!--        android:layout_margin="10dp"-->
-    <!--        android:textSize="19sp"-->
-    <!--        android:padding="9dp"-->
-    <!--        android:text="Set remainder in your default calendar"-->
-    <!--        android:fontFamily="@font/nunito_semi_bold"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"/>-->
+        android:textSize="19sp"
+        app:drawableEndCompat="@drawable/ic_set_remainder" />
 
 </GridLayout>

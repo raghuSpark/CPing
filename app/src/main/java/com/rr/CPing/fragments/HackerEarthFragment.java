@@ -78,6 +78,7 @@ public class HackerEarthFragment extends Fragment {
         hackerEarthSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // TODO: TO be implemented
                 hackerEarthSwipeRefreshLayout.setRefreshing(false);
             }
         });

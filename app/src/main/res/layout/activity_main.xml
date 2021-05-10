@@ -23,11 +23,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:drawableStart="@drawable/ic_no_internet"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/nunito_regular"
-                android:text="Offline"
-                android:textColor="@color/white" />
+                android:text="@string/offline"
+                android:textColor="@color/white"
+                app:drawableStartCompat="@drawable/ic_no_internet" />
 
         </FrameLayout>
 

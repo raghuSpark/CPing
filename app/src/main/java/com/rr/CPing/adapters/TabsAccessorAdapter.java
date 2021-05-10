@@ -27,23 +27,11 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
 
     Context context;
 
-//    private final ArrayList<CharSequence> pageTitlesArrayList = new ArrayList<>(
-//            Arrays.asList("All", "AtCoder", "CodeChef", "CodeForces", "HackerEarth", "HackerRank", "KickStart", "LeetCode", "TopCoder")
-//    );
-//
-//    private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>(
-//            Arrays.asList(new AllFragment(), new AtCoderFragment(), new CodeChefFragment(), new CodeForcesFragment(),
-//                    new HackerEarthFragment(), new HackerRankFragment(), new KickStartFragment(), new LeetCodeFragment(),
-//                    new TopCoderFragment())
-//    );
-
     private ArrayList<String> pageTitlesArrayList = new ArrayList<>();
-
     private ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
 
     public TabsAccessorAdapter(@NonNull FragmentManager fm, int behavior, Context context) {
         super(fm, behavior);
-
         this.context = context;
 
         ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(context);
@@ -84,7 +72,6 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
         int cnt = SharedPrefConfig.readPlatformsCount(context);
         if (cnt > 1) cnt++;
         return cnt;
-//        return 9;
     }
 
     @Nullable
@@ -95,7 +82,6 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
 
     @Override
     public void notifyDataSetChanged() {
-
         pageTitlesArrayList = new ArrayList<>();
         fragmentArrayList = new ArrayList<>();
 
@@ -105,7 +91,6 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
             if (platformListItemArrayList.get(i).isEnabled()) {
                 String platform = platformListItemArrayList.get(i).getPlatformName();
                 pageTitlesArrayList.add(platform);
-//                fragmentArrayList.add(getFragment(platform));
             }
         }
 

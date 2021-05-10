@@ -2,9 +2,9 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/codeChef_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/codeChef_swipe_refresh"
     tools:context=".fragments.CodeChefFragment">
 
     <ScrollView
@@ -17,7 +17,8 @@
 
             <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                tools:ignore="UselessParent">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -86,7 +87,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/nunito_regular"
                                 android:gravity="end"
-                                android:text="4★"
+                                android:text="@string/_4"
                                 android:textColor="@color/fourStar"
                                 android:textSize="17sp" />
 
@@ -97,7 +98,7 @@
                                 android:layout_weight="0.5"
                                 android:fontFamily="@font/nunito_extra_bold"
                                 android:gravity="end"
-                                android:text="1804"
+                                android:text="@string/_1111"
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 
@@ -124,16 +125,6 @@
                                 android:textColor="@color/black"
                                 android:textSize="20sp" />
 
-                            <!--                        <TextView-->
-                            <!--                            android:id="@+id/codeChef_max_rank"-->
-                            <!--                            android:layout_width="0dp"-->
-                            <!--                            android:layout_height="wrap_content"-->
-                            <!--                            android:layout_weight="1"-->
-                            <!--                            android:gravity="end"-->
-                            <!--                            android:text="pupil"-->
-                            <!--                            android:textColor="@color/codeForcesPupilColor"-->
-                            <!--                            android:textSize="17sp" />-->
-
                             <TextView
                                 android:id="@+id/codeChef_max_rating"
                                 android:layout_width="0dp"
@@ -141,7 +132,7 @@
                                 android:layout_weight="0.5"
                                 android:fontFamily="@font/nunito_extra_bold"
                                 android:gravity="end"
-                                android:text="1896"
+                                android:text="@string/_1111"
                                 android:textColor="@color/codeForcesNewbieColor"
                                 android:textSize="18sp" />
 

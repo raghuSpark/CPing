@@ -8,111 +8,106 @@
     android:background="@color/white"
     tools:context=".activities.SettingsActivity">
 
-<!--    <GridLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+        <include
+            android:id="@+id/settings_page_toolbar"
+            layout="@layout/app_bar_layout" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical">
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:elevation="0dp">
-
-            <include
-                android:id="@+id/settings_page_toolbar"
-                layout="@layout/app_bar_layout" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:text="@string/hello"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/editTextUserName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:fontFamily="@font/nunito_regular"
-                android:hint="@string/how_should_i_call_you"
-                android:inputType="textPersonName"
-                android:textColorHint="@color/tab_text_normal_color"
-                android:textColorLink="@color/appBlueColor"
-                android:textSize="19sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_row="2"
-            android:layout_column="0"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            android:padding="4dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:paddingStart="1dp"
-                android:paddingEnd="5dp"
-                android:text="@string/platforms"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <ListView
-                android:id="@+id/settings_platforms_list_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:nestedScrollingEnabled="false" />
-
-        </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/settings_page_progress_bar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="3"
-            android:layout_column="0"
-            android:layout_gravity="center" />
-
-        <Button
-            android:id="@+id/settings_save_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_row="3"
-            android:layout_column="0"
-            android:layout_margin="10dp"
-            android:background="@color/noInternetBG"
             android:fontFamily="@font/nunito_semi_bold"
-            android:text="Save"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="17sp" />
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="@string/hello"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
-    </GridLayout>
+        <EditText
+            android:id="@+id/editTextUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:autofillHints=""
+            android:fontFamily="@font/nunito_regular"
+            android:hint="@string/how_should_i_call_you"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/tab_text_normal_color"
+            android:textColorLink="@color/appBlueColor"
+            android:textSize="19sp" />
 
-<!--</ScrollView>-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:padding="4dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_semi_bold"
+            android:paddingStart="1dp"
+            android:paddingEnd="5dp"
+            android:text="@string/platforms"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <ListView
+            android:id="@+id/settings_platforms_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:nestedScrollingEnabled="false" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/settings_page_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="3"
+        android:layout_column="0"
+        android:layout_gravity="center" />
+
+    <Button
+        android:id="@+id/settings_save_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_row="3"
+        android:layout_column="0"
+        android:layout_margin="10dp"
+        android:background="@color/noInternetBG"
+        android:fontFamily="@font/nunito_semi_bold"
+        android:text="@string/save"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+
+</GridLayout>

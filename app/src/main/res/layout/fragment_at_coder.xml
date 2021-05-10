@@ -17,7 +17,8 @@
 
             <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                tools:ignore="UselessParent">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -63,7 +64,7 @@
                                 android:layout_weight="0.5"
                                 android:fontFamily="@font/nunito_bold"
                                 android:gravity="end"
-                                android:text="1051"
+                                android:text="@string/_1111"
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 
@@ -99,7 +100,7 @@
                                 android:layout_weight="0.5"
                                 android:fontFamily="@font/nunito_bold"
                                 android:gravity="end"
-                                android:text="1053"
+                                android:text="@string/_1111"
                                 android:textColor="@color/codeForcesNewbieColor"
                                 android:textSize="18sp" />
 
@@ -135,7 +136,7 @@
                                 android:layout_weight="0.5"
                                 android:fontFamily="@font/nunito_bold"
                                 android:gravity="end"
-                                android:text="King"
+                                android:text="@string/level"
                                 android:textColor="@color/atCoderKing"
                                 android:textSize="18sp" />
 
@@ -158,7 +159,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/nunito_semi_bold"
-                                android:text="Rank"
+                                android:text="@string/rank"
                                 android:textColor="@color/black"
                                 android:textSize="20sp" />
 
@@ -169,7 +170,7 @@
                                 android:layout_weight="0.5"
                                 android:fontFamily="@font/nunito_bold"
                                 android:gravity="end"
-                                android:text="26"
+                                android:text="@string/_1111"
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 

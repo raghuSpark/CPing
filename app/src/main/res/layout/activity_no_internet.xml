@@ -17,7 +17,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/network_error" />
 
     <TextView
         android:id="@+id/textView2"
@@ -25,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/nunito_semi_bold"
-        android:text="Oops! Your network injured."
+        android:text="@string/oops_your_network_injured"
         android:textColor="@color/noInternetBG"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/nunito_regular"
-        android:text="Make sure you are connected to internet."
+        android:text="@string/make_sure_you_are_connected_to_internet"
         android:textColor="@color/noInternetBG"
         android:textSize="16sp"
         android:paddingStart="30dp"
@@ -64,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/nunito_regular"
-        android:text="Would you like to continue with the old data?"
+        android:text="@string/would_you_like_to_continue_with_the_old_data"
         android:textColor="@color/noInternetBG"
         android:textSize="16sp"
         android:paddingStart="5dp"

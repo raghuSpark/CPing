@@ -80,6 +80,7 @@ public class TopCoderFragment extends Fragment {
         topCoderSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // TODO: To be implemented
                 topCoderSwipeRefreshLayout.setRefreshing(false);
             }
         });

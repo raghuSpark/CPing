@@ -9,6 +9,7 @@
         android:id="@+id/platform_list_dialog_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/img"
         android:padding="5dp"
         android:src="@drawable/ic_leetcode_logo_2x" />
 
@@ -17,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/nunito_semi_bold"
-        android:text="User Name"
+        android:text="@string/username"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
@@ -25,7 +26,10 @@
         android:id="@+id/platform_list_dialog_user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter a valid user name" />
+        android:autofillHints=""
+        android:hint="@string/enter_a_valid_user_name"
+        android:inputType="textAutoComplete"
+        android:maxLines="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,7 +54,7 @@
             android:layout_weight="1"
             android:background="@color/negativeChangeRed"
             android:fontFamily="@font/nunito_semi_bold"
-            android:text="Remove"
+            android:text="@string/remove"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -64,7 +68,7 @@
             android:layout_weight="1"
             android:background="@color/positiveChangeGreen"
             android:fontFamily="@font/nunito_semi_bold"
-            android:text="Save"
+            android:text="@string/save"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"

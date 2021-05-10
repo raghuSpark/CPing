@@ -2,9 +2,9 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/codeForces_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/codeForces_swipe_refresh"
     tools:context=".fragments.CodeForcesFragment">
 
     <ScrollView
@@ -17,7 +17,8 @@
 
             <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                tools:ignore="UselessParent">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -84,7 +85,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/nunito_regular"
                                 android:gravity="end"
-                                android:text="newbie"
+                                android:text="@string/rank"
                                 android:textColor="@color/codeForcesNewbieColor"
                                 android:textSize="17sp" />
 
@@ -95,7 +96,7 @@
                                 android:layout_weight="0.5"
                                 android:fontFamily="@font/nunito_extra_bold"
                                 android:gravity="end"
-                                android:text="1051"
+                                android:text="@string/_1111"
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 
@@ -129,7 +130,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/nunito_regular"
                                 android:gravity="end"
-                                android:text="pupil"
+                                android:text="@string/rank"
                                 android:textColor="@color/codeForcesPupilColor"
                                 android:textSize="17sp" />
 
@@ -140,7 +141,7 @@
                                 android:layout_weight="0.5"
                                 android:fontFamily="@font/nunito_extra_bold"
                                 android:gravity="end"
-                                android:text="1053"
+                                android:text="@string/_1111"
                                 android:textColor="@color/codeForcesNewbieColor"
                                 android:textSize="18sp" />
 

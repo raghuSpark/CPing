@@ -8,7 +8,7 @@ public class NetworkChangeListener extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (!CheckInternet.isConnectedToInternet(context)) {
-
+            // TODO: To be implemented
         }
     }
 }

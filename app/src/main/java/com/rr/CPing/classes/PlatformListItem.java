@@ -2,9 +2,9 @@ package com.rr.CPing.classes;
 
 public class PlatformListItem {
     private final String platformName;
+    private final boolean isUserNameAllowed;
     private String userName;
     private boolean isEnabled;
-    private final boolean isUserNameAllowed;
     private int logo, logo2X;
 
     public PlatformListItem(String platformName, String userName, boolean isEnabled, boolean isUserNameAllowed, int logo, int logo2X) {

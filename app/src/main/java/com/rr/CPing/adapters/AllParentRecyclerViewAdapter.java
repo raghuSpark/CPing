@@ -46,7 +46,6 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
         AllParentRecyclerViewAdapter.MyViewHolder myViewHolder = (MyViewHolder) holder;
 
         if (platformDetailsArrayList.isEmpty()) {
-//            Toast.makeText(context, "TAG from adapter: "+platformDetailsArrayList.size(), Toast.LENGTH_SHORT).show();
             myViewHolder.platformName.setVisibility(View.GONE);
             myViewHolder.platformRV.setVisibility(View.GONE);
         } else {
@@ -118,7 +117,6 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-
         TextView platformName;
         RecyclerView platformRV;
 

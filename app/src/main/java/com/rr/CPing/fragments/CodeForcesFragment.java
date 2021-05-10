@@ -89,6 +89,7 @@ public class CodeForcesFragment extends Fragment {
         codeForcesSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // TODO: To be implemented
                 codeForcesSwipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -149,13 +150,11 @@ public class CodeForcesFragment extends Fragment {
         }
 
         LineGraphSeries<DataPoint> codeForcesSeries = new LineGraphSeries<>(values);
-
         codeForcesSeries.setColor(Color.rgb(72, 221, 205));
         codeForcesSeries.setDrawDataPoints(true);
 
         graphView.getViewport().setXAxisBoundsManual(true);
         graphView.getViewport().setMaxX(recentRatingsArrayList.size());
-
         graphView.getViewport().setYAxisBoundsManual(true);
         graphView.getViewport().setMaxY(maxY);
         graphView.getViewport().setMinY(minY);

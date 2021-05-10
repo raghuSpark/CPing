@@ -16,12 +16,10 @@ import java.util.ArrayList;
 
 public class JSONResponseDBHandler extends SQLiteOpenHelper {
 
-    Context context;
-
     private static final String DATABASE_NAME = "jsonResponseDB.db";
     private static final int DATABASE_VERSION = 5;
-
     private static final String createTableQuery = "create table jsonResponse (site STRING" + ",contestName STRING" + ",contestUrl STRING" + ",contestDuration NUMBER" + ",contestStartDate STRING" + ",contestEndDate STRING" + ",isToday STRING" + ",contestStatus STRING)";
+    Context context;
 
     public JSONResponseDBHandler(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

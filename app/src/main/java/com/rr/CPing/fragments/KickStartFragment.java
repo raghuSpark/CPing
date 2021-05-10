@@ -78,6 +78,7 @@ public class KickStartFragment extends Fragment {
         kickStartSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // TODO: To be implemented
                 kickStartSwipeRefreshLayout.setRefreshing(false);
             }
         });
