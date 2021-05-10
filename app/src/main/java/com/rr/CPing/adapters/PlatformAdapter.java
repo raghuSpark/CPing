@@ -2,6 +2,7 @@ package com.rr.CPing.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ public class PlatformAdapter extends BaseAdapter {
         this.platformNames = platformName;
     }
 
-    public void setSelectedIndex(int id, String username) {
+    public void setSelectedIndex(int id, String username, boolean update) {
         boolean isEnabled = platformNames.get(id).isEnabled(),
                 isAllowed = platformNames.get(id).isUserNameAllowed();
 
@@ -44,8 +45,9 @@ public class PlatformAdapter extends BaseAdapter {
 //        sharedPreferences.edit().putInt("count", sharedPreferences.getInt("count", 0) + (platformListItem.isEnabled() ? 1 : -1)).apply();
 //        saveBtn.setEnabled(sharedPreferences.getInt("count", 0) != 0);
 
+        if(!update)
         SharedPrefConfig.writePlatformsCount(context, Math.max(SharedPrefConfig.readPlatformsCount(context) + (platformListItem.isEnabled() ? 1 : -1),0));
-
+        Log.d("TAG", "cnt "+SharedPrefConfig.readPlatformsCount(context));
         saveData();
 
         notifyDataSetChanged();

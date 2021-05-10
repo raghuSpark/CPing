@@ -207,7 +207,7 @@ public class SettingsActivity extends AppCompatActivity {
 //                    });
 //                    builder.show();
                 } else {
-                    platformAdapter.setSelectedIndex(position, "");
+                    platformAdapter.setSelectedIndex(position, "", false);
                 }
 //                saveBtn.setEnabled(sharedPreferences.getInt("count", 0) != 0);
             }
@@ -226,9 +226,12 @@ public class SettingsActivity extends AppCompatActivity {
         Button platformDialogRemoveButton = view.findViewById(R.id.platform_list_dialog_remove_button);
         ProgressBar platformDialogProgressBar = view.findViewById(R.id.platform_list_dialog_progress_bar);
 
-        if (!platformNamesList.get(position).getUserName().equals("null")) {
+        boolean update;
+        if (!platformNamesList.get(position).getUserName().isEmpty()) {
             platformDialogUserName.setText(platformNamesList.get(position).getUserName());
-        }
+            Log.d("TAG", "YES");
+            update = true;
+        }else update = false;
 
         platformDialogImage.setImageResource(platformNamesList.get(position).getLogo2X());
 
@@ -241,7 +244,7 @@ public class SettingsActivity extends AppCompatActivity {
         platformDialogRemoveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                platformAdapter.setSelectedIndex(position, "");
+                platformAdapter.setSelectedIndex(position, "", false);
                 dialog.cancel();
             }
         });
@@ -253,7 +256,7 @@ public class SettingsActivity extends AppCompatActivity {
 //                platformDialogSaveButton.setText("");
 
                 if (platformDialogUserName.getText().toString().isEmpty()) {
-                    platformAdapter.setSelectedIndex(position, "");
+                    platformAdapter.setSelectedIndex(position, "", false);
                     Snackbar.make(v, "Invalid User Name!", Snackbar.LENGTH_SHORT).show();
 //                    platformDialogSaveButton.setText("Save");
                 } else {
@@ -262,7 +265,7 @@ public class SettingsActivity extends AppCompatActivity {
                     platformDialogRemoveButton.setVisibility(View.GONE);
                     platformDialogProgressBar.setVisibility(View.VISIBLE);
 
-                    checkValidUsername(platformDialogProgressBar, platformDialogSaveButton, v, platformName, platformDialogUserName.getText().toString().trim(), position);
+                    checkValidUsername(platformDialogProgressBar, platformDialogSaveButton, v, platformName, platformDialogUserName.getText().toString().trim(), position, update);
 
 //                    platformDialogProgressBar.setVisibility(View.GONE);
 //                    platformDialogSaveButton.setVisibility(View.VISIBLE);
@@ -291,7 +294,7 @@ public class SettingsActivity extends AppCompatActivity {
         return null;
     }
 
-    private void checkValidUsername(ProgressBar platformDialogProgressBar, Button platformDialogSaveButton, View v, String platform, String username, int position) {
+    private void checkValidUsername(ProgressBar platformDialogProgressBar, Button platformDialogSaveButton, View v, String platform, String username, int position, boolean update) {
         String url = "https://competitive-coding-api.herokuapp.com/api/" + platform + "/" + username;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -301,7 +304,7 @@ public class SettingsActivity extends AppCompatActivity {
                     Log.e("response", response.getString("status"));
                     if (response.getString("status").equals("Success")) {
                         newlyAddedPlatforms.add(new Pair<>(platform, username));
-                        platformAdapter.setSelectedIndex(position, username);
+                        platformAdapter.setSelectedIndex(position, username, update);
                         dialog.dismiss();
 //                        saveBtn.setEnabled(sharedPreferences.getInt("count", 0) != 0);
                     } else {
