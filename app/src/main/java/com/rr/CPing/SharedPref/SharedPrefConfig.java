@@ -10,7 +10,6 @@ import com.rr.CPing.classes.AtCoderUserDetails;
 import com.rr.CPing.classes.CodeChefUserDetails;
 import com.rr.CPing.classes.CodeForcesUserDetails;
 import com.rr.CPing.classes.LeetCodeUserDetails;
-import com.rr.CPing.classes.PlatformDetails;
 import com.rr.CPing.classes.PlatformListItem;
 
 import java.lang.reflect.Type;
@@ -75,8 +74,7 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("PLATFORM_DETAILS", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<PlatformListItem>>() {
-        }.getType();
+        Type type = new TypeToken<ArrayList<PlatformListItem>>() {}.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -95,8 +93,7 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("CC_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<CodeChefUserDetails>() {
-        }.getType();
+        Type type = new TypeToken<CodeChefUserDetails>() {}.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -115,8 +112,7 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("CF_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<CodeForcesUserDetails>() {
-        }.getType();
+        Type type = new TypeToken<CodeForcesUserDetails>() {}.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -135,8 +131,7 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("LC_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<LeetCodeUserDetails>() {
-        }.getType();
+        Type type = new TypeToken<LeetCodeUserDetails>() {}.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -155,8 +150,7 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("AC_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<AtCoderUserDetails>() {
-        }.getType();
+        Type type = new TypeToken<AtCoderUserDetails>() {}.getType();
         return gson.fromJson(jsonString, type);
     }
 }

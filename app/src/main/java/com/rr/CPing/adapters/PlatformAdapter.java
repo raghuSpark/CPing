@@ -41,7 +41,10 @@ public class PlatformAdapter extends BaseAdapter {
         if (platformListItem.isEnabled()) platformNames.add(0, platformListItem);
         else platformNames.add(platformListItem);
 
-        SharedPrefConfig.writePlatformsCount(context, Math.max(SharedPrefConfig.readPlatformsCount(context) + (platformListItem.isEnabled() ? 1 : -1), 0));
+//        sharedPreferences.edit().putInt("count", sharedPreferences.getInt("count", 0) + (platformListItem.isEnabled() ? 1 : -1)).apply();
+//        saveBtn.setEnabled(sharedPreferences.getInt("count", 0) != 0);
+
+        SharedPrefConfig.writePlatformsCount(context, Math.max(SharedPrefConfig.readPlatformsCount(context) + (platformListItem.isEnabled() ? 1 : -1),0));
 
         saveData();
 

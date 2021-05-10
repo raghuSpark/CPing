@@ -53,8 +53,6 @@ public class SettingsActivity extends AppCompatActivity {
     private Button settingsSaveButton;
     private EditText appUsernameEditText;
 
-    private Toolbar dashBoardToolbar;
-
     private ProgressBar settingsProgressBar;
 
     private ArrayList<PlatformListItem> platformNamesList;
@@ -68,13 +66,17 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        findViewByIds();
-
         newlyAddedPlatforms = new ArrayList<>();
 
+        Toolbar dashBoardToolbar = findViewById(R.id.settings_page_toolbar);
         setSupportActionBar(dashBoardToolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        settingsSaveButton = findViewById(R.id.settings_save_button);
+        platformsListView = findViewById(R.id.settings_platforms_list_view);
+        appUsernameEditText = findViewById(R.id.editTextUserName);
+        settingsProgressBar = findViewById(R.id.settings_page_progress_bar);
 
         settingsProgressBar.setVisibility(View.GONE);
         settingsSaveButton.setVisibility(View.VISIBLE);
@@ -94,8 +96,10 @@ public class SettingsActivity extends AppCompatActivity {
                         SharedPrefConfig.writeIsFirstTime(SettingsActivity.this, false);
                     }
                     if (!newlyAddedPlatforms.isEmpty()) {
+
                         for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
                             String un = newlyAddedPlatforms.get(i).second;
+                            Log.d("TAG", "onClick: " + newlyAddedPlatforms.get(i).first + " , " + un);
                             switch (newlyAddedPlatforms.get(i).first) {
                                 case "at_coder":
                                     getAC(un);
@@ -112,15 +116,17 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                         }
 
-                        new Handler().postDelayed(new Runnable() {
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 startActivity(new Intent(SettingsActivity.this, MainActivity.class));
                                 finish();
                             }
-                        }, newlyAddedPlatforms.size() * 1000);
+                        }, newlyAddedPlatforms.size() * 800);
                     } else {
-                        new Handler().postDelayed(new Runnable() {
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 startActivity(new Intent(SettingsActivity.this, MainActivity.class));
@@ -150,10 +156,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        if (SharedPrefConfig.readIsFirstTime(this))
+        if (SharedPrefConfig.readIsFirstTime(this)) {
+//            saveBtn.setVisibility(View.VISIBLE);
             loadFirstTimeData();
-        else
+        } else {
             loadData();
+        }
 
         platformAdapter = new PlatformAdapter(this, platformNamesList);
         platformsListView.setAdapter(platformAdapter);
@@ -164,7 +172,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (!CheckInternet.isConnectedToInternet(SettingsActivity.this)) {
 
 //                    TODO: To be Done
-                    Toast.makeText(SettingsActivity.this, "NETWORK ISSUE!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingsActivity.this, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", Toast.LENGTH_SHORT).show();
 
                 } else if (platformNamesList.get(position).isUserNameAllowed()) {
 
@@ -204,14 +212,6 @@ public class SettingsActivity extends AppCompatActivity {
 //                saveBtn.setEnabled(sharedPreferences.getInt("count", 0) != 0);
             }
         });
-    }
-
-    private void findViewByIds() {
-        dashBoardToolbar = findViewById(R.id.settings_page_toolbar);
-        settingsSaveButton = findViewById(R.id.settings_save_button);
-        platformsListView = findViewById(R.id.settings_platforms_list_view);
-        appUsernameEditText = findViewById(R.id.editTextUserName);
-        settingsProgressBar = findViewById(R.id.settings_page_progress_bar);
     }
 
     private void createPopupDialog(int position) {
@@ -255,12 +255,19 @@ public class SettingsActivity extends AppCompatActivity {
                 if (platformDialogUserName.getText().toString().isEmpty()) {
                     platformAdapter.setSelectedIndex(position, "");
                     Snackbar.make(v, "Invalid User Name!", Snackbar.LENGTH_SHORT).show();
+//                    platformDialogSaveButton.setText("Save");
                 } else {
+//                    platformDialogSaveButton.setClickable(false);
                     platformDialogSaveButton.setVisibility(View.GONE);
                     platformDialogRemoveButton.setVisibility(View.GONE);
                     platformDialogProgressBar.setVisibility(View.VISIBLE);
 
                     checkValidUsername(platformDialogProgressBar, platformDialogSaveButton, v, platformName, platformDialogUserName.getText().toString().trim(), position);
+
+//                    platformDialogProgressBar.setVisibility(View.GONE);
+//                    platformDialogSaveButton.setVisibility(View.VISIBLE);
+//                    platformDialogProgressBar.setVisibility(View.GONE);
+//                    platformDialogSaveButton.setText("Save");
                 }
             }
         });
@@ -291,6 +298,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    Log.e("response", response.getString("status"));
                     if (response.getString("status").equals("Success")) {
                         newlyAddedPlatforms.add(new Pair<>(platform, username));
                         platformAdapter.setSelectedIndex(position, username);
@@ -358,6 +366,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void getCC(String user_name) {
+        Log.d("TAG", "getCCS: ");
         String platform_name = "codechef";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -392,6 +401,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void getCF(String user_name) {
+        Log.d("TAG", "getCFS: ");
         String platform_name = "codeforces";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -428,6 +438,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void getLC(String user_name) {
+        Log.d("TAG", "getLCS: ");
         String platform_name = "leetcode";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -461,6 +472,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void getAC(String user_name) {
+        Log.d("TAG", "getACS: ");
         String platform_name = "atcoder";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
