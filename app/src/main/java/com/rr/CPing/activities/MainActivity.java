@@ -1,12 +1,13 @@
 package com.rr.CPing.activities;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,12 +18,14 @@ import com.google.android.material.tabs.TabLayout;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.TabsAccessorAdapter;
+import com.rr.CPing.util.NetworkChangeListener;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     public FrameLayout internetConnectionFrameLayout;
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     private TabsAccessorAdapter dashBoardTabsAccessorAdapter;
 
     @Override
@@ -37,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar dashBoardToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(dashBoardToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Hello, "+ SharedPrefConfig.readAppUserName(this));
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Hello, " + SharedPrefConfig.readAppUserName(this));
 
         ViewPager dashBoardViewPager = findViewById(R.id.main_tabs_pager);
-        dashBoardTabsAccessorAdapter = new TabsAccessorAdapter(getSupportFragmentManager(), 1,this);
+        dashBoardTabsAccessorAdapter = new TabsAccessorAdapter(getSupportFragmentManager(), 1, this);
         dashBoardTabsAccessorAdapter.notifyDataSetChanged();
         dashBoardViewPager.setAdapter(dashBoardTabsAccessorAdapter);
 
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.dash_board_menu) {
-            startActivity(new Intent(MainActivity.this,SettingsActivity.class));
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             finish();
         }
         return true;
@@ -67,15 +70,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
         dashBoardTabsAccessorAdapter.notifyDataSetChanged();
-        Objects.requireNonNull(getSupportActionBar()).setTitle("@"+ SharedPrefConfig.readAppUserName(this));
+        Objects.requireNonNull(getSupportActionBar()).setTitle("@" + SharedPrefConfig.readAppUserName(this));
         super.onStart();
     }
 
     @Override
     protected void onResume() {
         dashBoardTabsAccessorAdapter.notifyDataSetChanged();
-        Objects.requireNonNull(getSupportActionBar()).setTitle("@"+ SharedPrefConfig.readAppUserName(this));
+        Objects.requireNonNull(getSupportActionBar()).setTitle("@" + SharedPrefConfig.readAppUserName(this));
         super.onResume();
     }
 
@@ -83,5 +88,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         dashBoardTabsAccessorAdapter.notifyDataSetChanged();
         super.onRestart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

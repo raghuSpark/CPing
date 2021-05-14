@@ -12,7 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CPing">
-        <activity android:name=".activities.NoInternetActivity"></activity>
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait">

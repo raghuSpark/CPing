@@ -27,7 +27,6 @@
     <string name="offline">Offline</string>
     <string name="oops_your_network_injured">Oops! Your network injured.</string>
     <string name="make_sure_you_are_connected_to_internet">Make sure you are connected to internet.</string>
-    <string name="would_you_like_to_continue_with_the_old_data">Would you like to continue with the old data?</string>
     <string name="network_error">Network Error</string>
     <string name="save">Save</string>
     <string name="remainder_icon">remainder icon</string>
@@ -49,4 +48,7 @@
     <string name="username">UserName</string>
     <string name="enter_a_valid_user_name">Enter a valid user name</string>
     <string name="remove">Remove</string>
+    <string name="launch_game">Launch game</string>
+    <string name="let_s_have_fun_for_a_while">Let us have fun for a while!</string>
+    <string name="retry">retry</string>
 </resources>

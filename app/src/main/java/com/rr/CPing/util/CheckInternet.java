@@ -13,10 +13,10 @@ public class CheckInternet {
             if (info != null) {
                 for (NetworkInfo networkInfo : info) {
                     if (networkInfo.getState() == NetworkInfo.State.CONNECTED)
-                        return true;
+                        return false;
                 }
             }
         }
-        return false;
+        return true;
     }
 }

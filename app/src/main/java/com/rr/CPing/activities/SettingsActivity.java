@@ -2,6 +2,8 @@ package com.rr.CPing.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -37,6 +39,7 @@ import com.rr.CPing.classes.CodeForcesUserDetails;
 import com.rr.CPing.classes.LeetCodeUserDetails;
 import com.rr.CPing.classes.PlatformListItem;
 import com.rr.CPing.util.CheckInternet;
+import com.rr.CPing.util.NetworkChangeListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +50,8 @@ import java.util.Collections;
 import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     private PlatformAdapter platformAdapter;
     private ListView platformsListView;
@@ -112,7 +117,6 @@ public class SettingsActivity extends AppCompatActivity {
                                     break;
                             }
                         }
-
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -162,8 +166,7 @@ public class SettingsActivity extends AppCompatActivity {
         platformsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!CheckInternet.isConnectedToInternet(SettingsActivity.this)) {
-
+                if (CheckInternet.isConnectedToInternet(SettingsActivity.this)) {
 //                    TODO: To be Done
                     Toast.makeText(SettingsActivity.this, "NETWORK ISSUE!", Toast.LENGTH_SHORT).show();
 
@@ -268,6 +271,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("response", Objects.requireNonNull(error.getMessage()));
+                Toast.makeText(SettingsActivity.this, "ERROR : " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         requestQueue.add(jsonObjectRequest);
@@ -444,6 +448,19 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         requestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 
 }

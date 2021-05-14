@@ -1,6 +1,8 @@
 package com.rr.CPing.activities;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -24,7 +26,7 @@ import com.rr.CPing.classes.ContestDetails;
 import com.rr.CPing.classes.LeetCodeUserDetails;
 import com.rr.CPing.classes.PlatformListItem;
 import com.rr.CPing.database.JSONResponseDBHandler;
-import com.rr.CPing.util.CheckInternet;
+import com.rr.CPing.util.NetworkChangeListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +37,7 @@ import java.util.Collections;
 
 public class SplashActivity extends AppCompatActivity {
 
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     private JSONResponseDBHandler jsonResponseDBHandler;
 
     @Override
@@ -44,13 +47,14 @@ public class SplashActivity extends AppCompatActivity {
 
         jsonResponseDBHandler = new JSONResponseDBHandler(this);
 
-        if (!CheckInternet.isConnectedToInternet(this)) {
-            Handler handler = new Handler();
-            handler.postDelayed(() -> {
-                startActivity(new Intent(SplashActivity.this, NoInternetActivity.class));
-                finish();
-            }, 2000);
-        } else if (SharedPrefConfig.readIsFirstTime(this) || SharedPrefConfig.readPlatformsCount(this) < 1) {
+//        if (CheckInternet.isConnectedToInternet(this)) {
+//            Handler handler = new Handler();
+//            handler.postDelayed(() -> {
+//                startActivity(new Intent(SplashActivity.this, NoInternetActivity.class));
+//                finish();
+//            }, 2000);
+//        } else
+        if (SharedPrefConfig.readIsFirstTime(this) || SharedPrefConfig.readPlatformsCount(this) < 1) {
             getContestDetailsFromAPI();
 
             Handler handler = new Handler();
@@ -251,5 +255,18 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, error -> Toast.makeText(SplashActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show());
         requestQueue.add(jsonArrayRequest);
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }
