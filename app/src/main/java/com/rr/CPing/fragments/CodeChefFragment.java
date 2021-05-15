@@ -27,6 +27,7 @@ import com.rr.CPing.classes.CodeChefUserDetails;
 import com.rr.CPing.classes.ContestDetails;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -37,25 +38,14 @@ public class CodeChefFragment extends Fragment {
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
     private SwipeRefreshLayout codeChefSwipeRefreshLayout;
     private View groupFragmentView;
-    private TextView currentRating, currentStars, maxRating;
+    private TextView codeChefUserName, currentRating, currentStars, maxRating;
     private TextView ongoing_nothing, today_nothing, future_nothing;
     private RecyclerView OngoingRV, TodayRV, FutureRV;
-
     private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
-
     private AlertDialog dialog;
 
     public CodeChefFragment() {
         // Required empty public constructor
-    }
-
-    public static CodeChefFragment newInstance(String param1, String param2) {
-        CodeChefFragment fragment = new CodeChefFragment();
-        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -88,12 +78,9 @@ public class CodeChefFragment extends Fragment {
 
         findViewsByIds();
 
-        codeChefSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // TODO: To be done
-                codeChefSwipeRefreshLayout.setRefreshing(false);
-            }
+        codeChefSwipeRefreshLayout.setOnRefreshListener(() -> {
+            // TODO: To be done
+            codeChefSwipeRefreshLayout.setRefreshing(false);
         });
 
         if (ongoingContestsArrayList.isEmpty()) {
@@ -129,6 +116,7 @@ public class CodeChefFragment extends Fragment {
 
         CodeChefUserDetails codeChefUserDetails = SharedPrefConfig.readInCodeChefPref(getContext());
 
+        codeChefUserName.setText(MessageFormat.format("@{0}", codeChefUserDetails.getUserName()));
         currentRating.setText(String.valueOf(codeChefUserDetails.getCurrentRating()));
         currentStars.setText(codeChefUserDetails.getCurrentStars());
         maxRating.setText(String.valueOf(codeChefUserDetails.getHighestRating()));
@@ -163,24 +151,9 @@ public class CodeChefFragment extends Fragment {
 
         // On Item Click Listener (Reminders, Visiting Website)
 
-        ongoingRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(ongoingContestsArrayList, position);
-            }
-        });
-        todayRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(todayContestsArrayList, position);
-            }
-        });
-        futureRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(futureContestsArrayList, position);
-            }
-        });
+        ongoingRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(ongoingContestsArrayList, position));
+        todayRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(todayContestsArrayList, position));
+        futureRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(futureContestsArrayList, position));
 
         return groupFragmentView;
     }
@@ -235,20 +208,14 @@ public class CodeChefFragment extends Fragment {
         startTime.setText(contestsArrayList.get(position).getContestStartTime());
         endTime.setText(contestsArrayList.get(position).getContestEndTime());
 
-        visitWebsite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
-                dialog.cancel();
-            }
+        visitWebsite.setOnClickListener(v -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
+            dialog.cancel();
         });
 
-        appRemainder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: App Remainder functionality should be implemented
-                Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
-            }
+        appRemainder.setOnClickListener(v -> {
+            // TODO: App Remainder functionality should be implemented
+            Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
         });
 
         builder.setView(view);
@@ -259,6 +226,7 @@ public class CodeChefFragment extends Fragment {
     private void findViewsByIds() {
         codeChefSwipeRefreshLayout = groupFragmentView.findViewById(R.id.codeChef_swipe_refresh);
 
+        codeChefUserName = groupFragmentView.findViewById(R.id.code_chef_user_name);
         currentRating = groupFragmentView.findViewById(R.id.codeChef_current_rating);
         currentStars = groupFragmentView.findViewById(R.id.codeChef_current_stars);
         maxRating = groupFragmentView.findViewById(R.id.codeChef_max_rating);

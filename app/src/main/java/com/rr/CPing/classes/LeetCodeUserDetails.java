@@ -1,9 +1,11 @@
 package com.rr.CPing.classes;
 
 public class LeetCodeUserDetails {
-    private String rank, totalProblemsSolved, acceptance_rate, easySolved, totalEasy, mediumSolved, totalMedium, hardSolved, totalHard;
+    private String userName,rank, totalProblemsSolved, acceptance_rate, easySolved, totalEasy,
+            mediumSolved, totalMedium, hardSolved, totalHard;
 
-    public LeetCodeUserDetails(String rank, String totalProblemsSolved, String acceptance_rate, String easySolved, String totalEasy, String mediumSolved, String totalMedium, String hardSolved, String totalHard) {
+    public LeetCodeUserDetails(String userName, String rank, String totalProblemsSolved, String acceptance_rate, String easySolved, String totalEasy, String mediumSolved, String totalMedium, String hardSolved, String totalHard) {
+        this.userName = userName;
         this.rank = rank;
         this.totalProblemsSolved = totalProblemsSolved;
         this.acceptance_rate = acceptance_rate;
@@ -13,6 +15,14 @@ public class LeetCodeUserDetails {
         this.totalMedium = totalMedium;
         this.hardSolved = hardSolved;
         this.totalHard = totalHard;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getRank() {

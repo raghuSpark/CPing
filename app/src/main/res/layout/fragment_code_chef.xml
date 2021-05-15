@@ -57,7 +57,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/code_chef_user_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_row="0"
@@ -65,6 +66,22 @@
                             android:layout_column="0"
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="15dp"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/nunito_extra_bold"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:text="@string/username"
+                            android:textColor="@color/noInternetBG"
+                            android:textSize="18sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_row="1"
+                            android:layout_rowWeight="1"
+                            android:layout_column="0"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
                             android:layout_marginEnd="10dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
@@ -107,7 +124,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_row="1"
+                            android:layout_row="2"
                             android:layout_rowWeight="1"
                             android:layout_column="0"
                             android:layout_margin="10dp"

@@ -37,10 +37,27 @@
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="15dp">
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/leet_code_user_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_row="0"
+                            android:layout_rowWeight="1"
+                            android:layout_column="0"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:fontFamily="@font/nunito_extra_bold"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:text="@string/username"
+                            android:textColor="@color/noInternetBG"
+                            android:textSize="18sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_row="1"
                             android:layout_rowWeight="1"
                             android:layout_column="0"
                             android:layout_marginStart="10dp"
@@ -77,7 +94,7 @@
                             android:id="@+id/leetCode_hard_seek_bar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_row="1"
+                            android:layout_row="2"
                             android:layout_rowWeight="1"
                             android:layout_column="0"
                             android:layout_marginStart="30dp"
@@ -92,7 +109,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_row="2"
+                            android:layout_row="3"
                             android:layout_rowWeight="1"
                             android:layout_column="0"
                             android:layout_marginStart="10dp"
@@ -130,7 +147,7 @@
                             android:id="@+id/leetCode_medium_seek_bar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_row="3"
+                            android:layout_row="4"
                             android:layout_rowWeight="1"
                             android:layout_column="0"
                             android:layout_marginStart="30dp"
@@ -145,7 +162,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_row="4"
+                            android:layout_row="5"
                             android:layout_rowWeight="1"
                             android:layout_column="0"
                             android:layout_marginStart="10dp"
@@ -183,7 +200,7 @@
                             android:id="@+id/leetCode_easy_seek_bar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_row="5"
+                            android:layout_row="6"
                             android:layout_rowWeight="1"
                             android:layout_column="0"
                             android:layout_marginStart="30dp"
@@ -199,7 +216,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_row="6"
+                            android:layout_row="7"
                             android:layout_rowWeight="1"
                             android:layout_column="0"
                             android:layout_marginStart="20dp"
@@ -234,7 +251,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_row="7"
+                            android:layout_row="8"
                             android:layout_rowWeight="1"
                             android:layout_column="0"
                             android:layout_marginStart="20dp"

@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -99,33 +97,28 @@ public class SplashActivity extends AppCompatActivity {
         String platform_name = "atcoder";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    AtCoderUserDetails item;
-                    if (!response.getString("level").equals("NA")) {
-                        item = new AtCoderUserDetails(response.getInt("rating"),
-                                response.getInt("highest"),
-                                response.getInt("rank"),
-                                response.getString("level"));
-                    } else {
-                        item = new AtCoderUserDetails(response.getInt("rating"),
-                                -1,
-                                -1,
-                                "NA");
-                    }
-                    SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+            try {
+                AtCoderUserDetails item;
+                if (!response.getString("level").equals("NA")) {
+                    item = new AtCoderUserDetails(
+                            user_name,
+                            response.getInt("rating"),
+                            response.getInt("highest"),
+                            response.getInt("rank"),
+                            response.getString("level"));
+                } else {
+                    item = new AtCoderUserDetails(user_name,
+                            response.getInt("rating"),
+                            -1,
+                            -1,
+                            "NA");
                 }
+                SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
+        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -133,33 +126,28 @@ public class SplashActivity extends AppCompatActivity {
         String platform_name = "codechef";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
-                    JSONArray jsonArray = response.getJSONArray("contest_ratings");
-                    int n = jsonArray.length();
-                    for (int i = 0; i < n; ++i) {
-                        recentRatingsArrayList.add(jsonArray.getJSONObject(i).getInt("rating"));
-                    }
-                    CodeChefUserDetails item = new CodeChefUserDetails(response.getInt("rating"),
-                            response.getInt("highest_rating"),
-                            response.getString("stars"),
-                            recentRatingsArrayList);
-
-                    SharedPrefConfig.writeInCodeChefPref(getApplicationContext(), item);
-
-                } catch (JSONException e) {
-                    Log.d("TAG", "onResponse: ERROR");
-                    e.printStackTrace();
+                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+            try {
+                ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
+                JSONArray jsonArray = response.getJSONArray("contest_ratings");
+                int n = jsonArray.length();
+                for (int i = 0; i < n; ++i) {
+                    recentRatingsArrayList.add(jsonArray.getJSONObject(i).getInt("rating"));
                 }
+                CodeChefUserDetails item = new CodeChefUserDetails(
+                        user_name,
+                        response.getInt("rating"),
+                        response.getInt("highest_rating"),
+                        response.getString("stars"),
+                        recentRatingsArrayList);
+
+                SharedPrefConfig.writeInCodeChefPref(getApplicationContext(), item);
+
+            } catch (JSONException e) {
+                Log.d("TAG", "onResponse: ERROR");
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        });
+        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -167,35 +155,28 @@ public class SplashActivity extends AppCompatActivity {
         String platform_name = "codeforces";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    ArrayList<String> recentRatingsArrayList = new ArrayList<>();
-                    JSONArray jsonArray = response.getJSONArray("contests");
-                    int n = jsonArray.length();
-                    for (int i = 0; i < n; i++) {
-                        recentRatingsArrayList.add(jsonArray.getJSONObject(i).getString("New Rating"));
-                    }
-                    Collections.reverse(recentRatingsArrayList);
-                    CodeForcesUserDetails item = new CodeForcesUserDetails(response.getInt("rating"),
-                            response.getInt("max rating"),
-                            response.getString("rank"),
-                            response.getString("max rank"),
-                            recentRatingsArrayList);
-
-                    SharedPrefConfig.writeInCodeForcesPref(getApplicationContext(), item);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+            try {
+                ArrayList<String> recentRatingsArrayList = new ArrayList<>();
+                JSONArray jsonArray = response.getJSONArray("contests");
+                int n = jsonArray.length();
+                for (int i = 0; i < n; i++) {
+                    recentRatingsArrayList.add(jsonArray.getJSONObject(i).getString("New Rating"));
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                Collections.reverse(recentRatingsArrayList);
+                CodeForcesUserDetails item = new CodeForcesUserDetails(user_name,
+                        response.getInt("rating"),
+                        response.getInt("max rating"),
+                        response.getString("rank"),
+                        response.getString("max rank"),
+                        recentRatingsArrayList);
 
+                SharedPrefConfig.writeInCodeForcesPref(getApplicationContext(), item);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+        }, error -> Log.d("TAG", "getCF: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -203,32 +184,25 @@ public class SplashActivity extends AppCompatActivity {
         String platform_name = "leetcode";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    LeetCodeUserDetails item = new LeetCodeUserDetails(response.getString("ranking"),
-                            response.getString("total_problems_solved"),
-                            response.getString("acceptance_rate"),
-                            response.getString("easy_questions_solved"),
-                            response.getString("total_easy_questions"),
-                            response.getString("medium_questions_solved"),
-                            response.getString("total_medium_questions"),
-                            response.getString("hard_questions_solved"),
-                            response.getString("total_hard_questions"));
+                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+            try {
+                LeetCodeUserDetails item = new LeetCodeUserDetails(user_name,
+                        response.getString("ranking"),
+                        response.getString("total_problems_solved"),
+                        response.getString("acceptance_rate"),
+                        response.getString("easy_questions_solved"),
+                        response.getString("total_easy_questions"),
+                        response.getString("medium_questions_solved"),
+                        response.getString("total_medium_questions"),
+                        response.getString("hard_questions_solved"),
+                        response.getString("total_hard_questions"));
 
-                    SharedPrefConfig.writeInLeetCodePref(getApplicationContext(), item);
+                SharedPrefConfig.writeInLeetCodePref(getApplicationContext(), item);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
+        }, error -> Log.d("TAG", "getLC: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 

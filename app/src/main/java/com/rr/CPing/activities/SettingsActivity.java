@@ -1,6 +1,5 @@
 package com.rr.CPing.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -11,7 +10,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,8 +23,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
@@ -38,12 +34,10 @@ import com.rr.CPing.classes.CodeChefUserDetails;
 import com.rr.CPing.classes.CodeForcesUserDetails;
 import com.rr.CPing.classes.LeetCodeUserDetails;
 import com.rr.CPing.classes.PlatformListItem;
-import com.rr.CPing.util.CheckInternet;
 import com.rr.CPing.util.NetworkChangeListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +48,6 @@ public class SettingsActivity extends AppCompatActivity {
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     private PlatformAdapter platformAdapter;
-    private ListView platformsListView;
     private Button settingsSaveButton;
     private EditText appUsernameEditText;
     private ProgressBar settingsProgressBar;
@@ -77,62 +70,53 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         settingsSaveButton = findViewById(R.id.settings_save_button);
-        platformsListView = findViewById(R.id.settings_platforms_list_view);
+        ListView platformsListView = findViewById(R.id.settings_platforms_list_view);
         appUsernameEditText = findViewById(R.id.editTextUserName);
         settingsProgressBar = findViewById(R.id.settings_page_progress_bar);
 
         settingsProgressBar.setVisibility(View.GONE);
         settingsSaveButton.setVisibility(View.VISIBLE);
 
-        settingsSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (appUsernameEditText.getText().toString().isEmpty()) {
-                    Toast.makeText(SettingsActivity.this, "How should I call you?", Toast.LENGTH_SHORT).show();
-                } else if (SharedPrefConfig.readPlatformsCount(SettingsActivity.this) == 0) {
-                    Toast.makeText(SettingsActivity.this, "No Platform is selected!", Toast.LENGTH_SHORT).show();
-                } else {
-                    settingsSaveButton.setVisibility(View.GONE);
-                    settingsProgressBar.setVisibility(View.VISIBLE);
+        settingsSaveButton.setOnClickListener(v -> {
+            if (appUsernameEditText.getText().toString().isEmpty()) {
+                Toast.makeText(SettingsActivity.this, "How should I call you?", Toast.LENGTH_SHORT).show();
+            } else if (SharedPrefConfig.readPlatformsCount(SettingsActivity.this) == 0) {
+                Toast.makeText(SettingsActivity.this, "No Platform is selected!", Toast.LENGTH_SHORT).show();
+            } else {
+                settingsSaveButton.setVisibility(View.GONE);
+                settingsProgressBar.setVisibility(View.VISIBLE);
 
-                    if (SharedPrefConfig.readIsFirstTime(SettingsActivity.this)) {
-                        SharedPrefConfig.writeIsFirstTime(SettingsActivity.this, false);
-                    }
-                    if (!newlyAddedPlatforms.isEmpty()) {
-                        for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
-                            String un = newlyAddedPlatforms.get(i).second;
-                            Log.d("TAG", "onClick: " + newlyAddedPlatforms.get(i).first + " , " + un);
-                            switch (newlyAddedPlatforms.get(i).first) {
-                                case "at_coder":
-                                    getAC(un);
-                                    break;
-                                case "codechef":
-                                    getCC(un);
-                                    break;
-                                case "codeforces":
-                                    getCF(un);
-                                    break;
-                                case "leetcode":
-                                    getLC(un);
-                                    break;
-                            }
+                if (SharedPrefConfig.readIsFirstTime(SettingsActivity.this)) {
+                    SharedPrefConfig.writeIsFirstTime(SettingsActivity.this, false);
+                }
+                if (!newlyAddedPlatforms.isEmpty()) {
+                    for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
+                        String un = newlyAddedPlatforms.get(i).second;
+                        Log.d("TAG", "onClick: " + newlyAddedPlatforms.get(i).first + " , " + un);
+                        switch (newlyAddedPlatforms.get(i).first) {
+                            case "at_coder":
+                                getAC(un);
+                                break;
+                            case "codechef":
+                                getCC(un);
+                                break;
+                            case "codeforces":
+                                getCF(un);
+                                break;
+                            case "leetcode":
+                                getLC(un);
+                                break;
                         }
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-                                finish();
-                            }
-                        }, newlyAddedPlatforms.size() * 800);
-                    } else {
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-                                finish();
-                            }
-                        }, 800);
                     }
+                    new Handler().postDelayed(() -> {
+                        startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                        finish();
+                    }, newlyAddedPlatforms.size() * 1200);
+                } else {
+                    new Handler().postDelayed(() -> {
+                        startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                        finish();
+                    }, 500);
                 }
             }
         });
@@ -163,18 +147,11 @@ public class SettingsActivity extends AppCompatActivity {
         platformAdapter = new PlatformAdapter(this, platformNamesList);
         platformsListView.setAdapter(platformAdapter);
 
-        platformsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (CheckInternet.isConnectedToInternet(SettingsActivity.this)) {
-//                    TODO: To be Done
-                    Toast.makeText(SettingsActivity.this, "NETWORK ISSUE!", Toast.LENGTH_SHORT).show();
-
-                } else if (platformNamesList.get(position).isUserNameAllowed()) {
-                    createPopupDialog(position);
-                } else {
-                    platformAdapter.setSelectedIndex(position, "");
-                }
+        platformsListView.setOnItemClickListener((parent, view, position, id) -> {
+            if (platformNamesList.get(position).isUserNameAllowed()) {
+                createPopupDialog(position);
+            } else {
+                platformAdapter.setSelectedIndex(position, "");
             }
         });
     }
@@ -203,28 +180,21 @@ public class SettingsActivity extends AppCompatActivity {
             platformDialogRemoveButton.setVisibility(View.GONE);
         }
 
-        platformDialogRemoveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                platformAdapter.setSelectedIndex(position, "");
-                dialog.cancel();
-            }
+        platformDialogRemoveButton.setOnClickListener(v -> {
+            platformAdapter.setSelectedIndex(position, "");
+            dialog.cancel();
         });
 
-        platformDialogSaveButton.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(View v) {
-                if (platformDialogUserName.getText().toString().isEmpty()) {
-                    platformAdapter.setSelectedIndex(position, "");
-                    Snackbar.make(v, "Invalid User Name!", Snackbar.LENGTH_SHORT).show();
-                } else {
-                    platformDialogSaveButton.setVisibility(View.GONE);
-                    platformDialogRemoveButton.setVisibility(View.GONE);
-                    platformDialogProgressBar.setVisibility(View.VISIBLE);
+        platformDialogSaveButton.setOnClickListener(v -> {
+            if (platformDialogUserName.getText().toString().isEmpty()) {
+                platformAdapter.setSelectedIndex(position, "");
+                Snackbar.make(v, "Invalid User Name!", Snackbar.LENGTH_SHORT).show();
+            } else {
+                platformDialogSaveButton.setVisibility(View.GONE);
+                platformDialogRemoveButton.setVisibility(View.GONE);
+                platformDialogProgressBar.setVisibility(View.VISIBLE);
 
-                    checkValidUsername(platformDialogProgressBar, platformDialogSaveButton, v, platformName, platformDialogUserName.getText().toString().trim(), position);
-                }
+                checkValidUsername(platformDialogProgressBar, platformDialogSaveButton, v, platformName, platformDialogUserName.getText().toString().trim(), position);
             }
         });
         builder.setView(view);
@@ -249,30 +219,24 @@ public class SettingsActivity extends AppCompatActivity {
     private void checkValidUsername(ProgressBar platformDialogProgressBar, Button platformDialogSaveButton, View v, String platform, String username, int position) {
         String url = "https://competitive-coding-api.herokuapp.com/api/" + platform + "/" + username;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    Log.e("response", response.getString("status"));
-                    if (response.getString("status").equals("Success")) {
-                        newlyAddedPlatforms.add(new Pair<>(platform, username));
-                        platformAdapter.setSelectedIndex(position, username);
-                        dialog.dismiss();
-                    } else {
-                        Snackbar.make(v, "Invalid User Name!", Snackbar.LENGTH_SHORT).show();
-                        platformDialogProgressBar.setVisibility(View.GONE);
-                        platformDialogSaveButton.setVisibility(View.VISIBLE);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+            try {
+                Log.e("response", response.getString("status"));
+                if (response.getString("status").equals("Success")) {
+                    newlyAddedPlatforms.add(new Pair<>(platform, username));
+                    platformAdapter.setSelectedIndex(position, username);
+                    dialog.dismiss();
+                } else {
+                    Snackbar.make(v, "Invalid User Name!", Snackbar.LENGTH_SHORT).show();
+                    platformDialogProgressBar.setVisibility(View.GONE);
+                    platformDialogSaveButton.setVisibility(View.VISIBLE);
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("response", Objects.requireNonNull(error.getMessage()));
-                Toast.makeText(SettingsActivity.this, "ERROR : " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+        }, error -> {
+            Log.e("response", Objects.requireNonNull(error.getMessage()));
+            Toast.makeText(SettingsActivity.this, "ERROR : " + error.getMessage(), Toast.LENGTH_SHORT).show();
         });
         requestQueue.add(jsonObjectRequest);
     }
@@ -324,33 +288,28 @@ public class SettingsActivity extends AppCompatActivity {
         String platform_name = "codechef";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
-                    JSONArray jsonArray = response.getJSONArray("contest_ratings");
-                    int n = jsonArray.length();
-                    for (int i = 0; i < n; ++i) {
-                        recentRatingsArrayList.add(jsonArray.getJSONObject(i).getInt("rating"));
-                    }
-                    CodeChefUserDetails item = new CodeChefUserDetails(response.getInt("rating"),
-                            response.getInt("highest_rating"),
-                            response.getString("stars"),
-                            recentRatingsArrayList);
-
-                    SharedPrefConfig.writeInCodeChefPref(getApplicationContext(), item);
-
-                } catch (JSONException e) {
-                    Log.d("TAG", "onResponse: ERROR");
-                    e.printStackTrace();
+                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+            try {
+                ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
+                JSONArray jsonArray = response.getJSONArray("contest_ratings");
+                int n = jsonArray.length();
+                for (int i = 0; i < n; ++i) {
+                    recentRatingsArrayList.add(jsonArray.getJSONObject(i).getInt("rating"));
                 }
+                CodeChefUserDetails item = new CodeChefUserDetails(
+                        user_name,
+                        response.getInt("rating"),
+                        response.getInt("highest_rating"),
+                        response.getString("stars"),
+                        recentRatingsArrayList);
+
+                SharedPrefConfig.writeInCodeChefPref(getApplicationContext(), item);
+
+            } catch (JSONException e) {
+                Log.d("TAG", "onResponse: ERROR");
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        });
+        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -358,35 +317,29 @@ public class SettingsActivity extends AppCompatActivity {
         String platform_name = "codeforces";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    ArrayList<String> recentRatingsArrayList = new ArrayList<>();
-                    JSONArray jsonArray = response.getJSONArray("contests");
-                    int n = jsonArray.length();
-                    for (int i = 0; i < n; i++) {
-                        recentRatingsArrayList.add(jsonArray.getJSONObject(i).getString("New Rating"));
-                    }
-                    Collections.reverse(recentRatingsArrayList);
-                    CodeForcesUserDetails item = new CodeForcesUserDetails(response.getInt("rating"),
-                            response.getInt("max rating"),
-                            response.getString("rank"),
-                            response.getString("max rank"),
-                            recentRatingsArrayList);
-
-                    SharedPrefConfig.writeInCodeForcesPref(getApplicationContext(), item);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+            try {
+                ArrayList<String> recentRatingsArrayList = new ArrayList<>();
+                JSONArray jsonArray = response.getJSONArray("contests");
+                int n = jsonArray.length();
+                for (int i = 0; i < n; i++) {
+                    recentRatingsArrayList.add(jsonArray.getJSONObject(i).getString("New Rating"));
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                Collections.reverse(recentRatingsArrayList);
+                CodeForcesUserDetails item = new CodeForcesUserDetails(user_name,
+                        response.getInt(
+                                "rating"),
+                        response.getInt("max rating"),
+                        response.getString("rank"),
+                        response.getString("max rank"),
+                        recentRatingsArrayList);
 
+                SharedPrefConfig.writeInCodeForcesPref(getApplicationContext(), item);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -394,32 +347,26 @@ public class SettingsActivity extends AppCompatActivity {
         String platform_name = "leetcode";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    LeetCodeUserDetails item = new LeetCodeUserDetails(response.getString("ranking"),
-                            response.getString("total_problems_solved"),
-                            response.getString("acceptance_rate"),
-                            response.getString("easy_questions_solved"),
-                            response.getString("total_easy_questions"),
-                            response.getString("medium_questions_solved"),
-                            response.getString("total_medium_questions"),
-                            response.getString("hard_questions_solved"),
-                            response.getString("total_hard_questions"));
+                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+            try {
+                LeetCodeUserDetails item = new LeetCodeUserDetails(user_name,
+                        response.getString(
+                                "ranking"),
+                        response.getString("total_problems_solved"),
+                        response.getString("acceptance_rate"),
+                        response.getString("easy_questions_solved"),
+                        response.getString("total_easy_questions"),
+                        response.getString("medium_questions_solved"),
+                        response.getString("total_medium_questions"),
+                        response.getString("hard_questions_solved"),
+                        response.getString("total_hard_questions"));
 
-                    SharedPrefConfig.writeInLeetCodePref(getApplicationContext(), item);
+                SharedPrefConfig.writeInLeetCodePref(getApplicationContext(), item);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
+        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -427,26 +374,20 @@ public class SettingsActivity extends AppCompatActivity {
         String platform_name = "atcoder";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    AtCoderUserDetails item = new AtCoderUserDetails(response.getInt("rating"),
-                            response.getInt("highest"),
-                            response.getInt("rank"),
-                            response.getString("level"));
+                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+            try {
+                AtCoderUserDetails item = new AtCoderUserDetails(
+                        user_name,
+                        response.getInt("rating"),
+                        response.getInt("highest"),
+                        response.getInt("rank"),
+                        response.getString("level"));
 
-                    SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
+        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 

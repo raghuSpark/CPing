@@ -31,22 +31,12 @@ public class KickStartFragment extends Fragment {
     private SwipeRefreshLayout kickStartSwipeRefreshLayout;
     private View groupFragmentView;
     private TextView ongoing_nothing, today_nothing, future_nothing;
-
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
     private AlertDialog dialog;
 
     public KickStartFragment() {
         // Required empty public constructor
-    }
-
-    public static KickStartFragment newInstance(String param1, String param2) {
-        KickStartFragment fragment = new KickStartFragment();
-        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -75,12 +65,9 @@ public class KickStartFragment extends Fragment {
 
         findViewsById();
 
-        kickStartSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // TODO: To be implemented
-                kickStartSwipeRefreshLayout.setRefreshing(false);
-            }
+        kickStartSwipeRefreshLayout.setOnRefreshListener(() -> {
+            // TODO: To be implemented
+            kickStartSwipeRefreshLayout.setRefreshing(false);
         });
 
         if (ongoingContestsArrayList.isEmpty()) {
@@ -116,26 +103,9 @@ public class KickStartFragment extends Fragment {
 
         // On Item Click Listener (Reminders, Visiting Website)
 
-        ongoingRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(ongoingContestsArrayList, position);
-            }
-        });
-
-        todayRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(todayContestsArrayList, position);
-            }
-        });
-
-        futureRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(futureContestsArrayList, position);
-            }
-        });
+        ongoingRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(ongoingContestsArrayList, position));
+        todayRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(todayContestsArrayList, position));
+        futureRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(futureContestsArrayList, position));
 
         return groupFragmentView;
     }
@@ -164,20 +134,14 @@ public class KickStartFragment extends Fragment {
         startTime.setText(contestsArrayList.get(position).getContestStartTime());
         endTime.setText(contestsArrayList.get(position).getContestEndTime());
 
-        visitWebsite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
-                dialog.cancel();
-            }
+        visitWebsite.setOnClickListener(v -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
+            dialog.cancel();
         });
 
-        appRemainder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: App Remainder functionality should be implemented
-                Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
-            }
+        appRemainder.setOnClickListener(v -> {
+            // TODO: App Remainder functionality should be implemented
+            Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
         });
 
         builder.setView(view);

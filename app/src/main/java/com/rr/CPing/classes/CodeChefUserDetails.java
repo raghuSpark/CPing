@@ -3,15 +3,25 @@ package com.rr.CPing.classes;
 import java.util.ArrayList;
 
 public class CodeChefUserDetails {
+    private String userName;
     private int currentRating, highestRating;
     private String currentStars;
     private ArrayList<Integer> recentContestRatings;
 
-    public CodeChefUserDetails(int currentRating, int highestRating, String currentStars, ArrayList<Integer> recentContestRatings) {
+    public CodeChefUserDetails(String userName, int currentRating, int highestRating, String currentStars, ArrayList<Integer> recentContestRatings) {
+        this.userName = userName;
         this.currentRating = currentRating;
         this.highestRating = highestRating;
         this.currentStars = currentStars;
         this.recentContestRatings = recentContestRatings;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public int getCurrentRating() {

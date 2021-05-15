@@ -39,24 +39,14 @@ public class CodeForcesFragment extends Fragment {
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
     private SwipeRefreshLayout codeForcesSwipeRefreshLayout;
     private View groupFragmentView;
-    private TextView currentRating, currentRank, maxRating, maxRank;
+    private TextView codeForcesUserName, currentRating, currentRank, maxRating, maxRank;
     private TextView ongoing_nothing, today_nothing, future_nothing;
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
-
     private AlertDialog dialog;
 
     public CodeForcesFragment() {
         // Required empty public constructor
-    }
-
-    public static CodeForcesFragment newInstance(String param1, String param2) {
-        CodeForcesFragment fragment = new CodeForcesFragment();
-        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -78,20 +68,15 @@ public class CodeForcesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         groupFragmentView = inflater.inflate(R.layout.fragment_code_forces, container, false);
 
         findViewsByIds();
 
-        codeForcesSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // TODO: To be implemented
-                codeForcesSwipeRefreshLayout.setRefreshing(false);
-            }
+        codeForcesSwipeRefreshLayout.setOnRefreshListener(() -> {
+            // TODO: To be implemented
+            codeForcesSwipeRefreshLayout.setRefreshing(false);
         });
 
         if (ongoingContestsArrayList.isEmpty()) {
@@ -129,6 +114,7 @@ public class CodeForcesFragment extends Fragment {
 
         CodeForcesUserDetails codeForcesUserDetails = SharedPrefConfig.readInCodeForcesPref(getContext());
 
+        codeForcesUserName.setText(String.format("@%s", codeForcesUserDetails.getUserName()));
         currentRating.setText(String.valueOf(codeForcesUserDetails.getCurrentRating()));
         currentRank.setText(codeForcesUserDetails.getCurrentRank());
         maxRating.setText(String.valueOf(codeForcesUserDetails.getMaxRating()));
@@ -163,26 +149,9 @@ public class CodeForcesFragment extends Fragment {
 
         // On Item Click Listener (Reminders, Visiting Website)
 
-        ongoingRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(ongoingContestsArrayList, position);
-            }
-        });
-
-        todayRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(todayContestsArrayList, position);
-            }
-        });
-
-        futureRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(futureContestsArrayList, position);
-            }
-        });
+        ongoingRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(ongoingContestsArrayList, position));
+        todayRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(todayContestsArrayList, position));
+        futureRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(futureContestsArrayList, position));
 
         return groupFragmentView;
     }
@@ -211,20 +180,14 @@ public class CodeForcesFragment extends Fragment {
         startTime.setText(contestsArrayList.get(position).getContestStartTime());
         endTime.setText(contestsArrayList.get(position).getContestEndTime());
 
-        visitWebsite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
-                dialog.cancel();
-            }
+        visitWebsite.setOnClickListener(v -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
+            dialog.cancel();
         });
 
-        appRemainder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: App Remainder functionality should be implemented
-                Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
-            }
+        appRemainder.setOnClickListener(v -> {
+            // TODO: App Remainder functionality should be implemented
+            Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
         });
 
         builder.setView(view);
@@ -235,6 +198,7 @@ public class CodeForcesFragment extends Fragment {
     private void findViewsByIds() {
         codeForcesSwipeRefreshLayout = groupFragmentView.findViewById(R.id.codeForces_swipe_refresh);
 
+        codeForcesUserName = groupFragmentView.findViewById(R.id.codeForces_user_name);
         currentRating = groupFragmentView.findViewById(R.id.codeForces_current_rating);
         currentRank = groupFragmentView.findViewById(R.id.codeForces_current_rank);
         maxRating = groupFragmentView.findViewById(R.id.codeForces_max_rating);

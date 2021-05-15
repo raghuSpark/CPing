@@ -25,7 +25,6 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.AllParentRecyclerViewAdapter;
-import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
 import com.rr.CPing.classes.AtCoderUserDetails;
 import com.rr.CPing.classes.CodeChefUserDetails;
 import com.rr.CPing.classes.CodeForcesUserDetails;
@@ -48,26 +47,17 @@ public class AllFragment extends Fragment {
     private View groupFragmentView;
     private GraphView graphView;
     private TextView ongoing_nothing, today_nothing, future_nothing, allRatingsChangeTextView;
-    private LinearLayout codeForcesRatingChanges, codeChefRatingChanges, leetCodeRatingChanges, atCoderRatingChanges;
+    private LinearLayout codeForcesRatingChanges, codeChefRatingChanges, atCoderRatingChanges;
     private CardView allGraphsCardView, allRatingsCardView;
-    private TextView codeForcesRating, codeForcesRank, codeChefRating, codeChefStars,
-            leetCodeRating, leetCodeRank, atCoderRating, atCoderLevel;
-    private TextView codeForcesGraphBelow, codeChefGraphBelow, leetCodeGraphBelow, atCoderGraphBelow;
+    private TextView codeForcesRating, codeForcesRank, codeChefRating, codeChefStars, atCoderRating, atCoderLevel;
+    private TextView codeForcesGraphBelow, codeChefGraphBelow, atCoderGraphBelow;
     private ArrayList<String> platforms;
-
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private AllParentRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
     private AlertDialog dialog;
 
     public AllFragment() {
         // Required empty public constructor
-    }
-
-    public static AllFragment newInstance(String param1, String param2) {
-        AllFragment fragment = new AllFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -128,12 +118,9 @@ public class AllFragment extends Fragment {
 
         findViewsByIds();
 
-        allSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // TODO: Data should be updated here
-                allSwipeRefreshLayout.setRefreshing(false);
-            }
+        allSwipeRefreshLayout.setOnRefreshListener(() -> {
+            // TODO: Data should be updated here
+            allSwipeRefreshLayout.setRefreshing(false);
         });
 
         if (ongoingPlatformsArrayList.isEmpty()) {
@@ -256,26 +243,11 @@ public class AllFragment extends Fragment {
 
         // On Item Click Listener (Reminders, Visiting Website)
 
-        ongoingRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(getPlatformDetails(ongoingPlatformsArrayList, platFormName), position);
-            }
-        });
+        ongoingRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(getPlatformDetails(ongoingPlatformsArrayList, platFormName), position));
 
-        todayRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(getPlatformDetails(todayPlatformsArrayList, platFormName), position);
-            }
-        });
+        todayRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(getPlatformDetails(todayPlatformsArrayList, platFormName), position));
 
-        futureRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(getPlatformDetails(futurePlatformsArrayList, platFormName), position);
-            }
-        });
+        futureRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(getPlatformDetails(futurePlatformsArrayList, platFormName), position));
 
         return groupFragmentView;
     }
@@ -313,20 +285,14 @@ public class AllFragment extends Fragment {
         startTime.setText(contestsArrayList.get(position).getContestStartTime());
         endTime.setText(contestsArrayList.get(position).getContestEndTime());
 
-        visitWebsite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
-                dialog.cancel();
-            }
+        visitWebsite.setOnClickListener(v -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
+            dialog.cancel();
         });
 
-        appRemainder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: App Remainder functionality should be implemented
-                Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
-            }
+        appRemainder.setOnClickListener(v -> {
+            // TODO: App Remainder functionality should be implemented
+            Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
         });
 
         builder.setView(view);
@@ -452,21 +418,21 @@ public class AllFragment extends Fragment {
 
         codeForcesRatingChanges = groupFragmentView.findViewById(R.id.all_code_forces_rating_card);
         codeChefRatingChanges = groupFragmentView.findViewById(R.id.all_code_chef_rating_card);
-        leetCodeRatingChanges = groupFragmentView.findViewById(R.id.all_leet_code_rating_card);
+//        leetCodeRatingChanges = groupFragmentView.findViewById(R.id.all_leet_code_rating_card);
         atCoderRatingChanges = groupFragmentView.findViewById(R.id.all_at_coder_rating_card);
 
         codeForcesRating = groupFragmentView.findViewById(R.id.all_code_forces_current_rating);
         codeForcesRank = groupFragmentView.findViewById(R.id.all_code_forces_current_rank);
         codeChefRating = groupFragmentView.findViewById(R.id.all_code_chef_current_rating);
         codeChefStars = groupFragmentView.findViewById(R.id.all_code_chef_current_stars);
-        leetCodeRating = groupFragmentView.findViewById(R.id.all_leet_code_current_rating);
-        leetCodeRank = groupFragmentView.findViewById(R.id.all_leet_code_current_rank);
+//        leetCodeRating = groupFragmentView.findViewById(R.id.all_leet_code_current_rating);
+//        leetCodeRank = groupFragmentView.findViewById(R.id.all_leet_code_current_rank);
         atCoderRating = groupFragmentView.findViewById(R.id.all_at_coder_current_rating);
         atCoderLevel = groupFragmentView.findViewById(R.id.all_at_coder_current_level);
 
         codeForcesGraphBelow = groupFragmentView.findViewById(R.id.code_forces_graph_below);
         codeChefGraphBelow = groupFragmentView.findViewById(R.id.code_chef_graph_below);
-        leetCodeGraphBelow = groupFragmentView.findViewById(R.id.leet_code_graph_below);
+//        leetCodeGraphBelow = groupFragmentView.findViewById(R.id.leet_code_graph_below);
         atCoderGraphBelow = groupFragmentView.findViewById(R.id.at_coder_graph_below);
 
         // Contest Details

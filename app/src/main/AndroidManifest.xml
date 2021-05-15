@@ -14,7 +14,7 @@
         android:theme="@style/Theme.CPing">
         <activity
             android:name=".activities.SplashActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,18 +23,10 @@
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".activities.MainActivity"
-            android:screenOrientation="portrait">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+            android:screenOrientation="fullSensor"/>
     </application>
 
 </manifest>

@@ -1,14 +1,24 @@
 package com.rr.CPing.classes;
 
 public class AtCoderUserDetails {
+    private String userName;
     private int currentRating, highestRating, currentRank;
     private String currentLevel;
 
-    public AtCoderUserDetails(int currentRating, int highestRating, int currentRank, String currentLevel) {
+    public AtCoderUserDetails(String userName, int currentRating, int highestRating, int currentRank, String currentLevel) {
+        this.userName = userName;
         this.currentRating = currentRating;
         this.highestRating = highestRating;
         this.currentRank = currentRank;
         this.currentLevel = currentLevel;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public int getCurrentRating() {

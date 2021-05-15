@@ -36,22 +36,13 @@ public class LeetCodeFragment extends Fragment {
     private View groupFragmentView;
     private TextView ongoing_nothing, today_nothing, future_nothing;
     private SeekBar hardSeekBar, mediumSeekBar, easySeekBar;
-    private TextView acceptanceRate, totalProblemsSolved, leetCodeMedium, leetCodeEasy, leetCodeHard;
+    private TextView leetCodeUserName, acceptanceRate, totalProblemsSolved, leetCodeMedium, leetCodeEasy, leetCodeHard;
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
     private AlertDialog dialog;
 
     public LeetCodeFragment() {
         // Required empty public constructor
-    }
-
-    public static LeetCodeFragment newInstance(String param1, String param2) {
-        LeetCodeFragment fragment = new LeetCodeFragment();
-        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -82,12 +73,9 @@ public class LeetCodeFragment extends Fragment {
 
         findViewsByIds();
 
-        leetCodeSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // TODO: To be implemented
-                leetCodeSwipeRefreshLayout.setRefreshing(false);
-            }
+        leetCodeSwipeRefreshLayout.setOnRefreshListener(() -> {
+            // TODO: To be implemented
+            leetCodeSwipeRefreshLayout.setRefreshing(false);
         });
 
         hardSeekBar.setOnTouchListener((v, event) -> false);
@@ -199,6 +187,7 @@ public class LeetCodeFragment extends Fragment {
         easySeekBar.setMax(Integer.parseInt(leetCodeUserDetails.getTotalEasy()));
         easySeekBar.setProgress(Integer.parseInt(leetCodeUserDetails.getEasySolved()));
 
+        leetCodeUserName.setText("@" + leetCodeUserDetails.getUserName());
         leetCodeHard.setText(leetCodeUserDetails.getHardSolved() + "/" + leetCodeUserDetails.getTotalHard());
         leetCodeMedium.setText(leetCodeUserDetails.getMediumSolved() + "/" + leetCodeUserDetails.getTotalMedium());
         leetCodeEasy.setText(leetCodeUserDetails.getEasySolved() + "/" + leetCodeUserDetails.getTotalEasy());
@@ -208,26 +197,9 @@ public class LeetCodeFragment extends Fragment {
 
         // On Item Click Listener (Reminders, Visiting Website)
 
-        ongoingRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(ongoingContestsArrayList, position);
-            }
-        });
-
-        todayRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(todayContestsArrayList, position);
-            }
-        });
-
-        futureRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String platFormName, int position) {
-                createPopupDialog(futureContestsArrayList, position);
-            }
-        });
+        ongoingRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(ongoingContestsArrayList, position));
+        todayRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(todayContestsArrayList, position));
+        futureRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(futureContestsArrayList, position));
 
         return groupFragmentView;
     }
@@ -256,20 +228,14 @@ public class LeetCodeFragment extends Fragment {
         startTime.setText(contestsArrayList.get(position).getContestStartTime());
         endTime.setText(contestsArrayList.get(position).getContestEndTime());
 
-        visitWebsite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
-                dialog.cancel();
-            }
+        visitWebsite.setOnClickListener(v -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
+            dialog.cancel();
         });
 
-        appRemainder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: App Remainder functionality should be implemented
-                Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
-            }
+        appRemainder.setOnClickListener(v -> {
+            // TODO: App Remainder functionality should be implemented
+            Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
         });
 
         builder.setView(view);
@@ -280,6 +246,7 @@ public class LeetCodeFragment extends Fragment {
     private void findViewsByIds() {
         leetCodeSwipeRefreshLayout = groupFragmentView.findViewById(R.id.leet_code_swipe_refresh);
 
+        leetCodeUserName = groupFragmentView.findViewById(R.id.leet_code_user_name);
         acceptanceRate = groupFragmentView.findViewById(R.id.leetCode_acceptance_rate);
         totalProblemsSolved = groupFragmentView.findViewById(R.id.leetCode_total_solved_problems);
 
