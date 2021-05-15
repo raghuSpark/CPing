@@ -2,7 +2,7 @@
     <string name="app_name">CPing</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="rating_changes">Rating Changes</string>
+    <string name="rating_changes">Ratings &amp; Ranks</string>
     <string name="nothing_to_show">Nothing to show</string>
     <string name="atcoder">AtCoder</string>
     <string name="leetcode">LeetCode</string>

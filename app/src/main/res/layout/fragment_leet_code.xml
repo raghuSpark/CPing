@@ -52,7 +52,7 @@
                             android:paddingEnd="10dp"
                             android:text="@string/username"
                             android:textColor="@color/noInternetBG"
-                            android:textSize="18sp" />
+                            android:textSize="19sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

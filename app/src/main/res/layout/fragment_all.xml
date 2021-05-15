@@ -41,7 +41,7 @@
                             android:id="@+id/all_graph_view"
                             android:layout_width="match_parent"
                             android:layout_height="250dp"
-                            android:layout_margin="10dp"
+                            android:layout_margin="5dp"
                             android:background="@color/white"
                             android:nestedScrollingEnabled="true"
                             android:scrollbars="horizontal|vertical" />
