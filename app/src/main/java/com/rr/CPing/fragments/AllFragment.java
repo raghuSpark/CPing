@@ -1,5 +1,6 @@
 package com.rr.CPing.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
@@ -10,7 +11,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,6 @@ import com.rr.CPing.database.JSONResponseDBHandler;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -259,9 +259,7 @@ public class AllFragment extends Fragment {
         // On Item Click Listener (Reminders, Visiting Website)
 
         ongoingRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(getPlatformDetails(ongoingPlatformsArrayList, platFormName), position));
-
         todayRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(getPlatformDetails(todayPlatformsArrayList, platFormName), position));
-
         futureRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(getPlatformDetails(futurePlatformsArrayList, platFormName), position));
 
         return groupFragmentView;
@@ -276,6 +274,7 @@ public class AllFragment extends Fragment {
         return new ArrayList<>();
     }
 
+    @SuppressLint("QueryPermissionsNeeded")
     private void createPopupDialog(ArrayList<ContestDetails> contestsArrayList, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View view = getLayoutInflater().inflate(R.layout.contest_popup_dialog, null);
@@ -285,7 +284,8 @@ public class AllFragment extends Fragment {
                 startTime = view.findViewById(R.id.start_time),
                 endTime = view.findViewById(R.id.end_time),
                 visitWebsite = view.findViewById(R.id.visit_website),
-                appRemainder = view.findViewById(R.id.contest_remainder);
+                appRemainder = view.findViewById(R.id.in_app_remainder),
+                googleRemainder = view.findViewById(R.id.google_remainder);
         ImageView platformImage = view.findViewById(R.id.platform_title_image);
 
         if (contestsArrayList.get(position).getContestStatus().equals("CODING")) {
@@ -306,50 +306,50 @@ public class AllFragment extends Fragment {
         });
 
         appRemainder.setOnClickListener(v -> {
-//            createNotificationChannel();
-//            Toast.makeText(getContext(), "Reminder Set", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(getContext(), ReminderBroadCast.class);
-//            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
-//            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
-//            long t1 = System.currentTimeMillis();
-//            long t2 = 1000*10;
-//            alarmManager.set(AlarmManager.RTC_WAKEUP, t1+t2, pendingIntent);
-//            dialog.cancel();
-//            Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//            i.addCategory(Intent.CATEGORY_DEFAULT);
-//            i.setData(Uri.parse("package:" + getActivity().getPackageName()));
-//            startActivity(i);
+            createNotificationChannel();
+            Toast.makeText(getContext(), "Reminder Set", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getContext(), ReminderBroadCast.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+            AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(getActivity()).getSystemService(ALARM_SERVICE);
+            long t1 = System.currentTimeMillis();
+            long t2 = 1000 * 10;
+            alarmManager.set(AlarmManager.RTC_WAKEUP, t1 + t2, pendingIntent);
+            dialog.cancel();
+            Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            i.addCategory(Intent.CATEGORY_DEFAULT);
+            i.setData(Uri.parse("package:" + getActivity().getPackageName()));
+            startActivity(i);
         });
 
-//        googleRemainder.setOnClickListener(v -> {
-//            Calendar start = Calendar.getInstance();
-//            Calendar end = Calendar.getInstance();
-//            Date startDate = convertISO8601ToDate(contestsArrayList.get(position).getContestStartTime());
-//            Date endDate = convertISO8601ToDate(contestsArrayList.get(position).getContestEndTime());
-//            if(startDate!=null) start.setTime(startDate);
-//            if(endDate!=null) end.setTime(endDate);
-//
-//            Intent intent = new Intent(Intent.ACTION_INSERT);
-//            intent.setData(CalendarContract.Events.CONTENT_URI);
-//            intent.putExtra(CalendarContract.Events.TITLE, contestsArrayList.get(position).getContestName());
-//            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start.getTimeInMillis());
-//            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end.getTimeInMillis());
-//
-//            if(intent.resolveActivity(getActivity().getPackageManager()) != null){
-//                startActivity(intent);
-//            }else{
-//                Toast.makeText(getContext(), "There is no app that support this action", Toast.LENGTH_SHORT).show();
-//            }
-//            dialog.cancel();
-//        });
+        googleRemainder.setOnClickListener(v -> {
+            Calendar start = Calendar.getInstance();
+            Calendar end = Calendar.getInstance();
+            Date startDate = convertISO8601ToDate(contestsArrayList.get(position).getContestStartTime());
+            Date endDate = convertISO8601ToDate(contestsArrayList.get(position).getContestEndTime());
+            if (startDate != null) start.setTime(startDate);
+            if (endDate != null) end.setTime(endDate);
+
+            Intent intent = new Intent(Intent.ACTION_INSERT);
+            intent.setData(CalendarContract.Events.CONTENT_URI);
+            intent.putExtra(CalendarContract.Events.TITLE, contestsArrayList.get(position).getContestName());
+            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start.getTimeInMillis());
+            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end.getTimeInMillis());
+
+            if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                Toast.makeText(getContext(), "There is no app that support this action", Toast.LENGTH_SHORT).show();
+            }
+            dialog.cancel();
+        });
 
         builder.setView(view);
         dialog = builder.create();
         dialog.show();
     }
 
-    private Date convertISO8601ToDate(String dateString){
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    private Date convertISO8601ToDate(String dateString) {
+        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         try {
             return df.parse(dateString);
         } catch (ParseException e) {
@@ -358,14 +358,14 @@ public class AllFragment extends Fragment {
         return null;
     }
 
-    private void createNotificationChannel(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel("notify_contest", "Notification Channel 1", NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.setDescription("This notification channel is used to notify user.");
             notificationChannel.enableVibration(true);
             notificationChannel.enableLights(true);
 
-            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            NotificationManager notificationManager = Objects.requireNonNull(getActivity()).getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(notificationChannel);
         }
     }

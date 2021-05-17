@@ -193,7 +193,7 @@ public class CodeChefFragment extends Fragment {
                 startTime = view.findViewById(R.id.start_time),
                 endTime = view.findViewById(R.id.end_time),
                 visitWebsite = view.findViewById(R.id.visit_website),
-                appRemainder = view.findViewById(R.id.contest_remainder);
+                appRemainder = view.findViewById(R.id.in_app_remainder);
         ImageView platformImage = view.findViewById(R.id.platform_title_image);
 
         if (contestsArrayList.get(position).getContestStatus().equals("CODING")) {

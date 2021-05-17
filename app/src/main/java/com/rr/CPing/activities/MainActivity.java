@@ -122,8 +122,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         } catch (Exception e) {
             e.printStackTrace();
-
-            Log.d("TAG", "error");
+            Log.d("TAG", "error: "+e.getMessage());
             try {
                 Intent intent = new Intent("action.coloros.safecenter.FloatWindowListActivity");
                 intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.floatwindow.FloatWindowListActivity"));

@@ -139,7 +139,7 @@
         app:drawableEndCompat="@drawable/ic_visit_website" />
 
     <TextView
-        android:id="@+id/contest_remainder"
+        android:id="@+id/in_app_remainder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_row="6"
@@ -154,5 +154,22 @@
         android:textColor="@color/noInternetBG"
         android:textSize="19sp"
         app:drawableEndCompat="@drawable/ic_set_remainder" />
+
+    <TextView
+        android:id="@+id/google_remainder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_row="7"
+        android:layout_column="0"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#7FCCFF"
+        android:fontFamily="@font/nunito_semi_bold"
+        android:padding="13dp"
+        android:text="@string/set_google_remainder"
+        android:textColor="@color/noInternetBG"
+        android:textSize="19sp"
+        app:drawableEndCompat="@drawable/ic_google_icon" />
 
 </GridLayout>
