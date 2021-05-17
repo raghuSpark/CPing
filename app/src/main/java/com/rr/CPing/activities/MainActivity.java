@@ -1,9 +1,13 @@
 package com.rr.CPing.activities;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +39,20 @@ public class MainActivity extends AppCompatActivity {
 
         internetConnectionFrameLayout = findViewById(R.id.internet_connection_frame);
 
+        if (Build.MANUFACTURER.equalsIgnoreCase("oppo")) {
+            initOPPO();
+        } else if (Build.MANUFACTURER.equalsIgnoreCase("vivo")) {
+            autoLaunchVivo(MainActivity.this);
+        } else if (Build.MANUFACTURER.equalsIgnoreCase("xiaomi")) {
+            try {
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
+                startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         // TODO: A condition has to be checked.
         internetConnectionFrameLayout.setVisibility(View.GONE);
 
@@ -49,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout dashBoardTabLayout = findViewById(R.id.main_tabs);
         dashBoardTabLayout.setupWithViewPager(dashBoardViewPager);
+
     }
 
     @Override
@@ -94,5 +113,58 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         unregisterReceiver(networkChangeListener);
         super.onStop();
+    }
+
+    private void initOPPO() {
+        try {
+            Intent i = new Intent(Intent.ACTION_MAIN);
+            i.setComponent(new ComponentName("com.oppo.safe", "com.oppo.safe.permission.floatwindow.FloatWindowListActivity"));
+            startActivity(i);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Log.d("TAG", "error");
+            try {
+                Intent intent = new Intent("action.coloros.safecenter.FloatWindowListActivity");
+                intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.floatwindow.FloatWindowListActivity"));
+                startActivity(intent);
+            } catch (Exception ee) {
+                ee.printStackTrace();
+
+                try {
+                    Intent i = new Intent("com.coloros.safecenter");
+                    i.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.sysfloatwindow.FloatWindowListActivity"));
+                    startActivity(i);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+    private static void autoLaunchVivo(Context context) {
+        try {
+            Intent intent = new Intent();
+            intent.setComponent(new ComponentName("com.iqoo.secure",
+                    "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity"));
+            context.startActivity(intent);
+        } catch (Exception e) {
+            try {
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName("com.vivo.permissionmanager",
+                        "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+                context.startActivity(intent);
+            } catch (Exception ex) {
+                try {
+                    Intent intent = new Intent();
+                    intent.setClassName("com.iqoo.secure",
+                            "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager");
+                    context.startActivity(intent);
+                } catch (Exception exx) {
+                    ex.printStackTrace();
+                }
+            }
+        }
     }
 }

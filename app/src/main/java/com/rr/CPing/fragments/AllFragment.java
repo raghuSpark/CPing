@@ -1,10 +1,16 @@
 package com.rr.CPing.fragments;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +29,7 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.rr.CPing.R;
+import com.rr.CPing.ReminderBroadCast;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.AllParentRecyclerViewAdapter;
 import com.rr.CPing.classes.AtCoderUserDetails;
@@ -33,9 +40,17 @@ import com.rr.CPing.classes.PlatformDetails;
 import com.rr.CPing.classes.PlatformListItem;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Objects;
+
+import static android.content.Context.ALARM_SERVICE;
 
 public class AllFragment extends Fragment {
 
@@ -291,13 +306,68 @@ public class AllFragment extends Fragment {
         });
 
         appRemainder.setOnClickListener(v -> {
-            // TODO: App Remainder functionality should be implemented
-            Toast.makeText(getContext(), "To be implemented!", Toast.LENGTH_SHORT).show();
+//            createNotificationChannel();
+//            Toast.makeText(getContext(), "Reminder Set", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(getContext(), ReminderBroadCast.class);
+//            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+//            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+//            long t1 = System.currentTimeMillis();
+//            long t2 = 1000*10;
+//            alarmManager.set(AlarmManager.RTC_WAKEUP, t1+t2, pendingIntent);
+//            dialog.cancel();
+//            Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//            i.addCategory(Intent.CATEGORY_DEFAULT);
+//            i.setData(Uri.parse("package:" + getActivity().getPackageName()));
+//            startActivity(i);
         });
+
+//        googleRemainder.setOnClickListener(v -> {
+//            Calendar start = Calendar.getInstance();
+//            Calendar end = Calendar.getInstance();
+//            Date startDate = convertISO8601ToDate(contestsArrayList.get(position).getContestStartTime());
+//            Date endDate = convertISO8601ToDate(contestsArrayList.get(position).getContestEndTime());
+//            if(startDate!=null) start.setTime(startDate);
+//            if(endDate!=null) end.setTime(endDate);
+//
+//            Intent intent = new Intent(Intent.ACTION_INSERT);
+//            intent.setData(CalendarContract.Events.CONTENT_URI);
+//            intent.putExtra(CalendarContract.Events.TITLE, contestsArrayList.get(position).getContestName());
+//            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start.getTimeInMillis());
+//            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end.getTimeInMillis());
+//
+//            if(intent.resolveActivity(getActivity().getPackageManager()) != null){
+//                startActivity(intent);
+//            }else{
+//                Toast.makeText(getContext(), "There is no app that support this action", Toast.LENGTH_SHORT).show();
+//            }
+//            dialog.cancel();
+//        });
 
         builder.setView(view);
         dialog = builder.create();
         dialog.show();
+    }
+
+    private Date convertISO8601ToDate(String dateString){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        try {
+            return df.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel notificationChannel = new NotificationChannel("notify_contest", "Notification Channel 1", NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.setDescription("This notification channel is used to notify user.");
+            notificationChannel.enableVibration(true);
+            notificationChannel.enableLights(true);
+
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
     }
 
     private int getImageResource(String site) {

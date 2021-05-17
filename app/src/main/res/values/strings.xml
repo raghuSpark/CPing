@@ -51,4 +51,5 @@
     <string name="launch_game">Launch game</string>
     <string name="let_s_have_fun_for_a_while">Let us have fun for a while!</string>
     <string name="retry">retry</string>
+    <string name="date_format">"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"</string>
 </resources>
