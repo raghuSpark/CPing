@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.rr.CPing.SharedPref.SharedPrefConfig;
-import com.rr.CPing.classes.PlatformListItem;
+import com.rr.CPing.model.PlatformListItem;
 import com.rr.CPing.fragments.AllFragment;
 import com.rr.CPing.fragments.AtCoderFragment;
 import com.rr.CPing.fragments.CodeChefFragment;

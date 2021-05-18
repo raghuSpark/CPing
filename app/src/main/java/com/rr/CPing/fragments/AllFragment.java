@@ -3,15 +3,13 @@ package com.rr.CPing.fragments;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,15 +28,16 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.rr.CPing.R;
-import com.rr.CPing.ReminderBroadCast;
+import com.rr.CPing.model.SetRankColor;
+import com.rr.CPing.util.ReminderBroadCast;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.AllParentRecyclerViewAdapter;
-import com.rr.CPing.classes.AtCoderUserDetails;
-import com.rr.CPing.classes.CodeChefUserDetails;
-import com.rr.CPing.classes.CodeForcesUserDetails;
-import com.rr.CPing.classes.ContestDetails;
-import com.rr.CPing.classes.PlatformDetails;
-import com.rr.CPing.classes.PlatformListItem;
+import com.rr.CPing.model.AtCoderUserDetails;
+import com.rr.CPing.model.CodeChefUserDetails;
+import com.rr.CPing.model.CodeForcesUserDetails;
+import com.rr.CPing.model.ContestDetails;
+import com.rr.CPing.model.PlatformDetails;
+import com.rr.CPing.model.PlatformListItem;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.text.DateFormat;
@@ -70,6 +69,7 @@ public class AllFragment extends Fragment {
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private AllParentRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
     private AlertDialog dialog;
+    private SetRankColor setRankColor;
 
     public AllFragment() {
         // Required empty public constructor
@@ -82,6 +82,7 @@ public class AllFragment extends Fragment {
         JSONResponseDBHandler jsonResponseDBHandler = new JSONResponseDBHandler(getContext());
 
         platforms = new ArrayList<>();
+        setRankColor = new SetRankColor(getContext());
 
         ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(getContext());
 
@@ -173,7 +174,8 @@ public class AllFragment extends Fragment {
             atCoderRating.setText(String.valueOf(atCoderUserDetails.getCurrentRating()));
             atCoderLevel.setText(atCoderUserDetails.getCurrentLevel());
 
-            setAtCoderColors(atCoderUserDetails.getCurrentLevel());
+//            setAtCoderColors(atCoderUserDetails.getCurrentLevel());
+            atCoderLevel.setTextColor(setRankColor.getAtCoderColor(atCoderUserDetails.getCurrentLevel()));
         } else {
             atCoderGraphBelow.setVisibility(View.GONE);
             atCoderRatingChanges.setVisibility(View.GONE);
@@ -188,7 +190,8 @@ public class AllFragment extends Fragment {
             codeForcesRating.setText(String.valueOf(codeForcesUserDetails.getCurrentRating()));
             codeForcesRank.setText(codeForcesUserDetails.getCurrentRank());
 
-            setCodeForcesColors(codeForcesUserDetails.getCurrentRank());
+//            setCodeForcesColors(codeForcesUserDetails.getCurrentRank());
+            codeForcesRank.setTextColor(setRankColor.getCodeforcesColor(codeForcesUserDetails.getCurrentRank()));
 
             codeForcesRecentRatingsArrayList = codeForcesUserDetails.getRecentContestRatings();
 
@@ -220,7 +223,8 @@ public class AllFragment extends Fragment {
             codeChefRating.setText(String.valueOf(codeChefUserDetails.getCurrentRating()));
             codeChefStars.setText(codeChefUserDetails.getCurrentStars());
 
-            setCodeChefColors(codeChefUserDetails.getCurrentStars());
+//            setCodeChefColors(codeChefUserDetails.getCurrentStars());
+            codeChefStars.setTextColor(setRankColor.getCodeChefColor(codeChefUserDetails.getCurrentStars()));
 
             codeChefRecentRatingsArrayList = codeChefUserDetails.getRecentContestRatings();
             DataPoint[] codeChefValues = new DataPoint[codeChefRecentRatingsArrayList.size()];
@@ -306,19 +310,20 @@ public class AllFragment extends Fragment {
         });
 
         appRemainder.setOnClickListener(v -> {
-            createNotificationChannel();
             Toast.makeText(getContext(), "Reminder Set", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getContext(), ReminderBroadCast.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+            intent.putExtra("ContestName", contestsArrayList.get(position).getContestName());
+            Log.e("TAG", contestsArrayList.get(position).getContestName());
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), (int) System.currentTimeMillis(), intent, 0);
             AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(getActivity()).getSystemService(ALARM_SERVICE);
             long t1 = System.currentTimeMillis();
             long t2 = 1000 * 10;
             alarmManager.set(AlarmManager.RTC_WAKEUP, t1 + t2, pendingIntent);
             dialog.cancel();
-            Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            i.addCategory(Intent.CATEGORY_DEFAULT);
-            i.setData(Uri.parse("package:" + getActivity().getPackageName()));
-            startActivity(i);
+//            Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//            i.addCategory(Intent.CATEGORY_DEFAULT);
+//            i.setData(Uri.parse("package:" + getActivity().getPackageName()));
+//            startActivity(i);
         });
 
         googleRemainder.setOnClickListener(v -> {
@@ -358,18 +363,6 @@ public class AllFragment extends Fragment {
         return null;
     }
 
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel("notify_contest", "Notification Channel 1", NotificationManager.IMPORTANCE_HIGH);
-            notificationChannel.setDescription("This notification channel is used to notify user.");
-            notificationChannel.enableVibration(true);
-            notificationChannel.enableLights(true);
-
-            NotificationManager notificationManager = Objects.requireNonNull(getActivity()).getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(notificationChannel);
-        }
-    }
-
     private int getImageResource(String site) {
         switch (site) {
             case "AtCoder":
@@ -390,90 +383,6 @@ public class AllFragment extends Fragment {
                 return R.drawable.ic_topcoder_logo;
         }
         return 0;
-    }
-
-    private void setCodeChefColors(String stars) {
-        switch (stars) {
-            case "1★":
-                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.oneStar));
-                break;
-            case "2★":
-                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.twoStar));
-                break;
-            case "3★":
-                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.threeStar));
-                break;
-            case "4★":
-                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.fourStar));
-                break;
-            case "5★":
-                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.fiveStar));
-                break;
-            case "6★":
-                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.sixStar));
-                break;
-            case "7★":
-                codeChefStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.sevenStar));
-                break;
-        }
-    }
-
-    private void setCodeForcesColors(String rank) {
-        switch (rank) {
-            case "newbie":
-                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesNewbieColor));
-                break;
-            case "pupil":
-                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesPupilColor));
-                break;
-            case "specialist":
-                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesSpecialistColor));
-                break;
-            case "expert":
-                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesExpertColor));
-                break;
-            case "candidate master":
-                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesCandidateMasterColor));
-                break;
-            case "master":
-            case "international master":
-                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesMasterColor));
-                break;
-            case "grandmaster":
-            case "legendary grandmaster":
-            case "international grandmaster":
-                codeForcesRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesGrandMasterColor));
-                break;
-        }
-    }
-
-    private void setAtCoderColors(String level) {
-        switch (level) {
-            case "5 Dan":
-                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderFiveDan));
-                break;
-            case "6 Dan":
-                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderSixDan));
-                break;
-            case "7 Dan":
-                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderSevenDan));
-                break;
-            case "8 Dan":
-                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderEightDan));
-                break;
-            case "9 Dan":
-                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderNineDan));
-                break;
-            case "10 Dan":
-                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderTenDan));
-                break;
-            case "Legend":
-                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderLegend));
-                break;
-            case "King":
-                atCoderLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderKing));
-                break;
-        }
     }
 
     private void findViewsByIds() {

@@ -17,12 +17,12 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
-import com.rr.CPing.classes.AtCoderUserDetails;
-import com.rr.CPing.classes.CodeChefUserDetails;
-import com.rr.CPing.classes.CodeForcesUserDetails;
-import com.rr.CPing.classes.ContestDetails;
-import com.rr.CPing.classes.LeetCodeUserDetails;
-import com.rr.CPing.classes.PlatformListItem;
+import com.rr.CPing.model.AtCoderUserDetails;
+import com.rr.CPing.model.CodeChefUserDetails;
+import com.rr.CPing.model.CodeForcesUserDetails;
+import com.rr.CPing.model.ContestDetails;
+import com.rr.CPing.model.LeetCodeUserDetails;
+import com.rr.CPing.model.PlatformListItem;
 import com.rr.CPing.database.JSONResponseDBHandler;
 import com.rr.CPing.util.NetworkChangeListener;
 

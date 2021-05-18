@@ -1,5 +1,7 @@
 package com.rr.CPing.activities;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -68,6 +70,20 @@ public class MainActivity extends AppCompatActivity {
         TabLayout dashBoardTabLayout = findViewById(R.id.main_tabs);
         dashBoardTabLayout.setupWithViewPager(dashBoardViewPager);
 
+        createNotificationChannel();
+
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel("notify_contest", "Contest Reminder", NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.setDescription("This notification channel is used to notify user.");
+            notificationChannel.enableVibration(true);
+            notificationChannel.enableLights(true);
+
+            NotificationManager notificationManager = Objects.requireNonNull(getSystemService(NotificationManager.class));
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
     }
 
     @Override

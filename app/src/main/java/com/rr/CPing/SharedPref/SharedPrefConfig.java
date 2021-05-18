@@ -6,11 +6,11 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.rr.CPing.classes.AtCoderUserDetails;
-import com.rr.CPing.classes.CodeChefUserDetails;
-import com.rr.CPing.classes.CodeForcesUserDetails;
-import com.rr.CPing.classes.LeetCodeUserDetails;
-import com.rr.CPing.classes.PlatformListItem;
+import com.rr.CPing.model.AtCoderUserDetails;
+import com.rr.CPing.model.CodeChefUserDetails;
+import com.rr.CPing.model.CodeForcesUserDetails;
+import com.rr.CPing.model.LeetCodeUserDetails;
+import com.rr.CPing.model.PlatformListItem;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -74,8 +74,7 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("PLATFORM_DETAILS", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<PlatformListItem>>() {
-        }.getType();
+        Type type = new TypeToken<ArrayList<PlatformListItem>>() {}.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -94,8 +93,7 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("CC_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<CodeChefUserDetails>() {
-        }.getType();
+        Type type = new TypeToken<CodeChefUserDetails>() {}.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -114,8 +112,7 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("CF_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<CodeForcesUserDetails>() {
-        }.getType();
+        Type type = new TypeToken<CodeForcesUserDetails>() {}.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -134,8 +131,7 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("LC_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<LeetCodeUserDetails>() {
-        }.getType();
+        Type type = new TypeToken<LeetCodeUserDetails>() {}.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -154,8 +150,7 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("AC_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<AtCoderUserDetails>() {
-        }.getType();
+        Type type = new TypeToken<AtCoderUserDetails>() {}.getType();
         return gson.fromJson(jsonString, type);
     }
 }

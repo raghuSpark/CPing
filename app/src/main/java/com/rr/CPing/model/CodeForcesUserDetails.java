@@ -1,4 +1,4 @@
-package com.rr.CPing.classes;
+package com.rr.CPing.model;
 
 import java.util.ArrayList;
 

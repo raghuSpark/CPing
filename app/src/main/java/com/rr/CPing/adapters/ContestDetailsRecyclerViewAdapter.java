@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rr.CPing.R;
-import com.rr.CPing.classes.ContestDetails;
+import com.rr.CPing.model.ContestDetails;
 
 import java.util.ArrayList;
 

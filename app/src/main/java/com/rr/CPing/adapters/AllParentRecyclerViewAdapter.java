@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rr.CPing.R;
-import com.rr.CPing.classes.ContestDetails;
-import com.rr.CPing.classes.PlatformDetails;
+import com.rr.CPing.model.ContestDetails;
+import com.rr.CPing.model.PlatformDetails;
 
 import java.util.ArrayList;
 

@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.rr.CPing.classes.ContestDetails;
+import com.rr.CPing.model.ContestDetails;
 
 import java.util.ArrayList;
 

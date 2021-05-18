@@ -1,4 +1,4 @@
-package com.rr.CPing.classes;
+package com.rr.CPing.model;
 
 public class ContestDetails {
     private String site, contestName, contestUrl;

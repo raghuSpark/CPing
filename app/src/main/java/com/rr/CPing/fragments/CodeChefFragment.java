@@ -21,15 +21,15 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.rr.CPing.R;
+import com.rr.CPing.model.SetRankColor;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
-import com.rr.CPing.classes.CodeChefUserDetails;
-import com.rr.CPing.classes.ContestDetails;
+import com.rr.CPing.model.CodeChefUserDetails;
+import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class CodeChefFragment extends Fragment {
 
@@ -43,6 +43,7 @@ public class CodeChefFragment extends Fragment {
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
     private AlertDialog dialog;
+    private SetRankColor setRankColor;
 
     public CodeChefFragment() {
         // Required empty public constructor
@@ -54,6 +55,7 @@ public class CodeChefFragment extends Fragment {
 
         JSONResponseDBHandler jsonResponseDBHandler = new JSONResponseDBHandler(getContext());
         ArrayList<ContestDetails> contestDetailsArrayList = jsonResponseDBHandler.getPlatformDetails("CodeChef");
+        setRankColor = new SetRankColor(getContext());
 
         //Contest Details Recycler View
 
@@ -121,7 +123,8 @@ public class CodeChefFragment extends Fragment {
         currentStars.setText(codeChefUserDetails.getCurrentStars());
         maxRating.setText(String.valueOf(codeChefUserDetails.getHighestRating()));
 
-        setColors(codeChefUserDetails.getCurrentStars());
+//        setColors(codeChefUserDetails.getCurrentStars());
+        currentStars.setTextColor(setRankColor.getCodeChefColor(codeChefUserDetails.getCurrentStars()));
 
         GraphView graphView = groupFragmentView.findViewById(R.id.codeChef_graph_view);
 
@@ -156,32 +159,6 @@ public class CodeChefFragment extends Fragment {
         futureRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(futureContestsArrayList, position));
 
         return groupFragmentView;
-    }
-
-    private void setColors(String stars) {
-        switch (stars) {
-            case "1★":
-                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.oneStar));
-                break;
-            case "2★":
-                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.twoStar));
-                break;
-            case "3★":
-                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.threeStar));
-                break;
-            case "4★":
-                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.fourStar));
-                break;
-            case "5★":
-                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.fiveStar));
-                break;
-            case "6★":
-                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.sixStar));
-                break;
-            case "7★":
-                currentStars.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.sevenStar));
-                break;
-        }
     }
 
     private void createPopupDialog(ArrayList<ContestDetails> contestsArrayList, int position) {

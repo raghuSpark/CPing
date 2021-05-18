@@ -21,8 +21,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
-import com.rr.CPing.classes.ContestDetails;
-import com.rr.CPing.classes.LeetCodeUserDetails;
+import com.rr.CPing.model.ContestDetails;
+import com.rr.CPing.model.LeetCodeUserDetails;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;

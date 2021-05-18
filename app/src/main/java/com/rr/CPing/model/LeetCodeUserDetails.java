@@ -1,4 +1,4 @@
-package com.rr.CPing.classes;
+package com.rr.CPing.model;
 
 public class LeetCodeUserDetails {
     private String userName,rank, totalProblemsSolved, acceptance_rate, easySolved, totalEasy,

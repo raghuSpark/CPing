@@ -29,7 +29,7 @@
         <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="fullSensor"/>
-        <receiver android:name=".ReminderBroadCast"/>
+        <receiver android:name=".util.ReminderBroadCast"/>
     </application>
 
 </manifest>

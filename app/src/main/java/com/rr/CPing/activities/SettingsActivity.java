@@ -29,11 +29,11 @@ import com.google.android.material.snackbar.Snackbar;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.PlatformAdapter;
-import com.rr.CPing.classes.AtCoderUserDetails;
-import com.rr.CPing.classes.CodeChefUserDetails;
-import com.rr.CPing.classes.CodeForcesUserDetails;
-import com.rr.CPing.classes.LeetCodeUserDetails;
-import com.rr.CPing.classes.PlatformListItem;
+import com.rr.CPing.model.AtCoderUserDetails;
+import com.rr.CPing.model.CodeChefUserDetails;
+import com.rr.CPing.model.CodeForcesUserDetails;
+import com.rr.CPing.model.LeetCodeUserDetails;
+import com.rr.CPing.model.PlatformListItem;
 import com.rr.CPing.util.NetworkChangeListener;
 
 import org.json.JSONArray;

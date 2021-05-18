@@ -1,6 +1,5 @@
 package com.rr.CPing.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,14 +22,14 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.rr.CPing.R;
+import com.rr.CPing.model.SetRankColor;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
-import com.rr.CPing.classes.CodeForcesUserDetails;
-import com.rr.CPing.classes.ContestDetails;
+import com.rr.CPing.model.CodeForcesUserDetails;
+import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class CodeForcesFragment extends Fragment {
 
@@ -44,6 +43,7 @@ public class CodeForcesFragment extends Fragment {
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
     private AlertDialog dialog;
+    private SetRankColor setRankColor;
 
     public CodeForcesFragment() {
         // Required empty public constructor
@@ -55,6 +55,7 @@ public class CodeForcesFragment extends Fragment {
 
         JSONResponseDBHandler jsonResponseDBHandler = new JSONResponseDBHandler(getContext());
         ArrayList<ContestDetails> contestDetailsArrayList = jsonResponseDBHandler.getPlatformDetails("CodeForces");
+        setRankColor = new SetRankColor(getContext());
 
         for (ContestDetails cd : contestDetailsArrayList) {
             if (!cd.getIsToday().equals("No")) {
@@ -120,7 +121,9 @@ public class CodeForcesFragment extends Fragment {
         maxRating.setText(String.valueOf(codeForcesUserDetails.getMaxRating()));
         maxRank.setText(codeForcesUserDetails.getMaxRank());
 
-        setColors(codeForcesUserDetails.getCurrentRank(), codeForcesUserDetails.getMaxRank());
+//        setColors(codeForcesUserDetails.getCurrentRank(), codeForcesUserDetails.getMaxRank());
+        currentRank.setTextColor(setRankColor.getCodeforcesColor(codeForcesUserDetails.getCurrentRank()));
+        maxRank.setTextColor(setRankColor.getCodeforcesColor(codeForcesUserDetails.getMaxRank()));
 
         GraphView graphView = groupFragmentView.findViewById(R.id.codeForces_graph_view);
 
@@ -211,62 +214,6 @@ public class CodeForcesFragment extends Fragment {
         OngoingRV = groupFragmentView.findViewById(R.id.codeForces_ongoing_recycler_view);
         TodayRV = groupFragmentView.findViewById(R.id.codeForces_today_recycler_view);
         FutureRV = groupFragmentView.findViewById(R.id.codeForces_future_recyclerView);
-    }
-
-    @SuppressLint("ResourceAsColor")
-    private void setColors(String rank1, String rank2) {
-        switch (rank1) {
-            case "newbie":
-                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesNewbieColor));
-                break;
-            case "pupil":
-                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesPupilColor));
-                break;
-            case "specialist":
-                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesSpecialistColor));
-                break;
-            case "expert":
-                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesExpertColor));
-                break;
-            case "candidate master":
-                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesCandidateMasterColor));
-                break;
-            case "master":
-            case "international master":
-                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesMasterColor));
-                break;
-            case "grandmaster":
-            case "legendary grandmaster":
-            case "international grandmaster":
-                currentRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesGrandMasterColor));
-                break;
-        }
-        switch (rank2) {
-            case "newbie":
-                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesNewbieColor));
-                break;
-            case "pupil":
-                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesPupilColor));
-                break;
-            case "specialist":
-                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesSpecialistColor));
-                break;
-            case "expert":
-                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesExpertColor));
-                break;
-            case "candidate master":
-                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesCandidateMasterColor));
-                break;
-            case "master":
-            case "international master":
-                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesMasterColor));
-                break;
-            case "grandmaster":
-            case "legendary grandmaster":
-            case "international grandmaster":
-                maxRank.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.codeForcesGrandMasterColor));
-                break;
-        }
     }
 
     private void initialize(int i) {

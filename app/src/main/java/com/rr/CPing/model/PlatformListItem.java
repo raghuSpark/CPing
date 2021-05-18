@@ -1,4 +1,4 @@
-package com.rr.CPing.classes;
+package com.rr.CPing.model;
 
 public class PlatformListItem {
     private final String platformName;

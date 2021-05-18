@@ -1,6 +1,5 @@
 package com.rr.CPing.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,14 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.rr.CPing.R;
+import com.rr.CPing.model.SetRankColor;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
-import com.rr.CPing.classes.AtCoderUserDetails;
-import com.rr.CPing.classes.ContestDetails;
+import com.rr.CPing.model.AtCoderUserDetails;
+import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class AtCoderFragment extends Fragment {
 
@@ -39,6 +38,7 @@ public class AtCoderFragment extends Fragment {
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
     private AlertDialog dialog;
+    private SetRankColor setRankColor;
 
     public AtCoderFragment() {
         // Required empty public constructor
@@ -50,6 +50,7 @@ public class AtCoderFragment extends Fragment {
 
         JSONResponseDBHandler jsonResponseDBHandler = new JSONResponseDBHandler(getContext());
         ArrayList<ContestDetails> contestDetailsArrayList = jsonResponseDBHandler.getPlatformDetails("AtCoder");
+        setRankColor = new SetRankColor(getContext());
 
         for (ContestDetails cd : contestDetailsArrayList) {
             if (!cd.getIsToday().equals("No")) {
@@ -110,7 +111,8 @@ public class AtCoderFragment extends Fragment {
         currentRank.setText(String.valueOf(atCoderUserDetails.getCurrentRank()));
         currentLevel.setText(atCoderUserDetails.getCurrentLevel());
 
-        setColors(atCoderUserDetails.getCurrentLevel());
+//        setColors(atCoderUserDetails.getCurrentLevel());
+        currentLevel.setTextColor(setRankColor.getAtCoderColor(atCoderUserDetails.getCurrentLevel()));
 
         // On Item Click Listener (Reminders, Visiting Website)
 
@@ -158,36 +160,6 @@ public class AtCoderFragment extends Fragment {
         builder.setView(view);
         dialog = builder.create();
         dialog.show();
-    }
-
-    @SuppressLint("ResourceAsColor")
-    private void setColors(String level) {
-        switch (level) {
-            case "5 Dan":
-                currentLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderFiveDan));
-                break;
-            case "6 Dan":
-                currentLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderSixDan));
-                break;
-            case "7 Dan":
-                currentLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderSevenDan));
-                break;
-            case "8 Dan":
-                currentLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderEightDan));
-                break;
-            case "9 Dan":
-                currentLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderNineDan));
-                break;
-            case "10 Dan":
-                currentLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderTenDan));
-                break;
-            case "Legend":
-                currentLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderLegend));
-                break;
-            case "King":
-                currentLevel.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.atCoderKing));
-                break;
-        }
     }
 
     private void findViewsByIds() {

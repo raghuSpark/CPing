@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
-import com.rr.CPing.classes.PlatformListItem;
+import com.rr.CPing.model.PlatformListItem;
 
 import java.util.ArrayList;
 
