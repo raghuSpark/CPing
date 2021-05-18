@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.rr.CPing.SharedPref.SharedPrefConfig;
-import com.rr.CPing.model.PlatformListItem;
 import com.rr.CPing.fragments.AllFragment;
 import com.rr.CPing.fragments.AtCoderFragment;
 import com.rr.CPing.fragments.CodeChefFragment;
@@ -19,6 +18,7 @@ import com.rr.CPing.fragments.HackerRankFragment;
 import com.rr.CPing.fragments.KickStartFragment;
 import com.rr.CPing.fragments.LeetCodeFragment;
 import com.rr.CPing.fragments.TopCoderFragment;
+import com.rr.CPing.model.PlatformListItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,8 +33,6 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
     public TabsAccessorAdapter(@NonNull FragmentManager fm, int behavior, Context context) {
         super(fm, behavior);
         this.context = context;
-
-        ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(context);
 
         notifyDataSetChanged();
     }
@@ -69,9 +67,7 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        int cnt = SharedPrefConfig.readPlatformsCount(context);
-        if (cnt > 1) cnt++;
-        return cnt;
+        return SharedPrefConfig.readPlatformsCount(context);
     }
 
     @Nullable
