@@ -19,6 +19,7 @@ import com.rr.CPing.R;
 import com.rr.CPing.model.ContestDetails;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
 
@@ -52,7 +53,7 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
 
         myViewHolder.name.setText(contest.getContestName());
 
-        String text = "On: " + contest.getContestStartTime().substring(0, 10);
+        String text = "On: " + getDate(contest.getContestStartTime().substring(0, 10));
         SpannableString spannableString = new SpannableString(text);
         spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -72,6 +73,12 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
 
         if (contest.getContestStatus().equals("CODING"))
             myViewHolder.remainderIcon.setImageResource(R.drawable.ic_contest_running);
+    }
+
+    private String getDate(String date) {
+        ArrayList<String> months = new ArrayList<>(Arrays.asList("Jan", "Feb", "Mar", "Apr", "May",
+                "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"));
+        return date.substring(8, 10) + " " + months.get(Integer.parseInt(date.substring(5, 7)) - 1) + ", " + date.substring(0, 4);
     }
 
     private String findDuration(int contestDuration) {
@@ -102,14 +109,11 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
         public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    if (listener != null) {
-                        if (pos != RecyclerView.NO_POSITION) {
-                            listener.onItemClick("null", pos);
-                        }
+            itemView.setOnClickListener(v -> {
+                int pos = getAdapterPosition();
+                if (listener != null) {
+                    if (pos != RecyclerView.NO_POSITION) {
+                        listener.onItemClick("null", pos);
                     }
                 }
             });

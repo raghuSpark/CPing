@@ -294,8 +294,10 @@ public class AllFragment extends Fragment {
 
         if (contestsArrayList.get(position).getContestStatus().equals("CODING")) {
             appRemainder.setVisibility(View.GONE);
+            googleRemainder.setVisibility(View.GONE);
         } else {
             appRemainder.setVisibility(View.VISIBLE);
+            googleRemainder.setVisibility(View.VISIBLE);
         }
 
         platformImage.setImageResource(getImageResource(contestsArrayList.get(position).getSite()));
@@ -343,7 +345,8 @@ public class AllFragment extends Fragment {
             if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
                 startActivity(intent);
             } else {
-                Toast.makeText(getContext(), "There is no app that support this action", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "No application found supporting this feature!",
+                        Toast.LENGTH_SHORT).show();
             }
             dialog.cancel();
         });
