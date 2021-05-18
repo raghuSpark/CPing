@@ -2,16 +2,20 @@ package com.rr.CPing.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -25,9 +29,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
+import com.rr.CPing.database.JSONResponseDBHandler;
 import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.model.LeetCodeUserDetails;
-import com.rr.CPing.database.JSONResponseDBHandler;
 import com.rr.CPing.util.ReminderBroadCast;
 
 import java.text.DateFormat;
@@ -52,7 +56,6 @@ public class LeetCodeFragment extends Fragment {
     private TextView leetCodeUserName, acceptanceRate, totalProblemsSolved, leetCodeMedium, leetCodeEasy, leetCodeHard;
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
-    private AlertDialog dialog;
 
     public LeetCodeFragment() {
         // Required empty public constructor
@@ -210,26 +213,27 @@ public class LeetCodeFragment extends Fragment {
 
         // On Item Click Listener (Reminders, Visiting Website)
 
-        ongoingRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(ongoingContestsArrayList, position));
-        todayRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(todayContestsArrayList, position));
-        futureRVA.setOnItemClickListener((platFormName, position) -> createPopupDialog(futureContestsArrayList, position));
+        ongoingRVA.setOnItemClickListener((platFormName, position) -> showBottomSheetDialog(ongoingContestsArrayList, position));
+        todayRVA.setOnItemClickListener((platFormName, position) -> showBottomSheetDialog(todayContestsArrayList, position));
+        futureRVA.setOnItemClickListener((platFormName, position) -> showBottomSheetDialog(futureContestsArrayList, position));
 
         return groupFragmentView;
     }
 
     @SuppressLint("QueryPermissionsNeeded")
-    private void createPopupDialog(ArrayList<ContestDetails> contestsArrayList, int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        View view = getLayoutInflater().inflate(R.layout.contest_popup_dialog, null);
+    private void showBottomSheetDialog(ArrayList<ContestDetails> contestsArrayList, int position) {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottom_sheet_layout);
 
-        TextView platformTitle = view.findViewById(R.id.platform_title),
-                contestTitle = view.findViewById(R.id.contest_title),
-                startTime = view.findViewById(R.id.start_time),
-                endTime = view.findViewById(R.id.end_time),
-                visitWebsite = view.findViewById(R.id.visit_website),
-                appRemainder = view.findViewById(R.id.in_app_remainder),
-                googleRemainder = view.findViewById(R.id.google_remainder);
-        ImageView platformImage = view.findViewById(R.id.platform_title_image);
+        TextView platformTitle = dialog.findViewById(R.id.bottom_sheet_platform_title),
+                contestTitle = dialog.findViewById(R.id.bottom_sheet_contest_title),
+                startTime = dialog.findViewById(R.id.bottom_sheet_start_time),
+                endTime = dialog.findViewById(R.id.bottom_sheet_end_time),
+                visitWebsite = dialog.findViewById(R.id.bottom_sheet_visit_website),
+                appRemainder = dialog.findViewById(R.id.bottom_sheet_in_app_remainder),
+                googleRemainder = dialog.findViewById(R.id.bottom_sheet_google_remainder);
+        ImageView platformImage = dialog.findViewById(R.id.bottom_sheet_platform_title_image);
 
         if (contestsArrayList.get(position).getContestStatus().equals("CODING")) {
             appRemainder.setVisibility(View.GONE);
@@ -284,14 +288,17 @@ public class LeetCodeFragment extends Fragment {
             if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
                 startActivity(intent);
             } else {
-                Toast.makeText(getContext(), "No application found supporting this feature!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "No application found supporting this feature!",
+                        Toast.LENGTH_SHORT).show();
             }
             dialog.cancel();
         });
 
-        builder.setView(view);
-        dialog = builder.create();
         dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.BottomSheetAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
     private Date convertISO8601ToDate(String dateString) {
