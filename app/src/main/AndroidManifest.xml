@@ -8,15 +8,13 @@
     <uses-permission android:name="android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND"/>
 
     <application
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CPing">
         <activity
-            android:name=".activities.SplashActivity"
-            android:screenOrientation="fullSensor">
+            android:name=".activities.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,11 +22,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SettingsActivity"
-            android:screenOrientation="fullSensor" />
+            android:name=".activities.SettingsActivity" />
         <activity
-            android:name=".activities.MainActivity"
-            android:screenOrientation="fullSensor"/>
+            android:name=".activities.MainActivity"/>
         <receiver android:name=".util.ReminderBroadCast"/>
     </application>
 

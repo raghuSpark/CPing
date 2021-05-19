@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -111,7 +112,7 @@ public class SettingsActivity extends AppCompatActivity {
                     new Handler().postDelayed(() -> {
                         startActivity(new Intent(SettingsActivity.this, MainActivity.class));
                         finish();
-                    }, newlyAddedPlatforms.size() * 1200);
+                    }, newlyAddedPlatforms.size() * 1300);
                 } else {
                     new Handler().postDelayed(() -> {
                         startActivity(new Intent(SettingsActivity.this, MainActivity.class));
@@ -119,6 +120,11 @@ public class SettingsActivity extends AppCompatActivity {
                     }, 500);
                 }
             }
+        });
+
+        appUsernameEditText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) appUsernameEditText.clearFocus();
+            return false;
         });
 
         appUsernameEditText.setText(SharedPrefConfig.readAppUserName(this));
@@ -171,6 +177,11 @@ public class SettingsActivity extends AppCompatActivity {
         if (!platformNamesList.get(position).getUserName().equals("null")) {
             platformDialogUserName.setText(platformNamesList.get(position).getUserName());
         }
+
+        platformDialogUserName.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) platformDialogImage.clearFocus();
+            return false;
+        });
 
         platformDialogImage.setImageResource(platformNamesList.get(position).getLogo2X());
 

@@ -30,10 +30,12 @@
         android:autofillHints="true"
         android:focusedByDefault="true"
         android:hint="@string/enter_a_valid_user_name"
+        android:imeOptions="actionDone"
         android:inputType="textAutoComplete"
         android:maxLines="1"
         android:minLines="1"
         android:saveEnabled="true"
+        android:theme="@style/EditTextTheme"
         tools:targetApi="o" />
 
     <LinearLayout
