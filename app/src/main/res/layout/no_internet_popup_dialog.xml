@@ -39,47 +39,64 @@
         android:textColor="@color/noInternetBG"
         android:textSize="16sp" />
 
-    <ImageButton
+    <Button
         android:id="@+id/no_internet_retry_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_row="3"
         android:layout_column="0"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/ic_reload"
-        android:contentDescription="@string/retry" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_row="4"
-        android:layout_column="0"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="8dp"
-        android:drawablePadding="15dp"
-        android:fontFamily="@font/nunito_semi_bold"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
-        android:text="@string/let_s_have_fun_for_a_while"
-        android:textColor="@color/noInternetBG"
-        android:textSize="16sp" />
-
-    <Button
-        android:id="@+id/no_internet_game_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_row="5"
-        android:layout_column="0"
+        android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="15dp"
         android:background="@drawable/buttons_cping"
         android:fontFamily="@font/nunito_semi_bold"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:text="@string/launch_game"
+        android:text="@string/retry"
         android:textAllCaps="false"
         android:textSize="18sp" />
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/no_internet_retry_button"-->
+<!--        android:layout_width="30dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:layout_row="3"-->
+<!--        android:layout_column="0"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_marginBottom="40dp"-->
+<!--        android:background="@drawable/ic_reload"-->
+<!--        android:contentDescription="@string/retry" />-->
+
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_row="4"-->
+<!--        android:layout_column="0"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:drawablePadding="15dp"-->
+<!--        android:fontFamily="@font/nunito_semi_bold"-->
+<!--        android:paddingStart="5dp"-->
+<!--        android:paddingEnd="5dp"-->
+<!--        android:text="@string/let_s_have_fun_for_a_while"-->
+<!--        android:textColor="@color/noInternetBG"-->
+<!--        android:textSize="16sp" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/no_internet_game_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_row="5"-->
+<!--        android:layout_column="0"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginBottom="15dp"-->
+<!--        android:background="@drawable/buttons_cping"-->
+<!--        android:fontFamily="@font/nunito_semi_bold"-->
+<!--        android:paddingStart="20dp"-->
+<!--        android:paddingEnd="20dp"-->
+<!--        android:text="@string/launch_game"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textSize="18sp" />-->
 
 </GridLayout>

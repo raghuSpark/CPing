@@ -1,168 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/bottom_sheet_dialog_bg"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
 
     <ImageView
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_bottom_sheet_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/img" />
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/img"
+        android:src="@drawable/ic_bottom_sheet_top" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
-            android:orientation="horizontal"
-            tools:ignore="UseCompoundDrawables">
-
-            <ImageView
-                android:id="@+id/bottom_sheet_platform_title_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:contentDescription="@string/img"
-                android:src="@drawable/ic_codechef_logo" />
-
-            <TextView
-                android:id="@+id/bottom_sheet_platform_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="5dp"
-                android:fontFamily="@font/nunito_bold"
-                android:text="@string/codeforces"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/tab_text_normal_color"
-            android:contentDescription="@string/img" />
+            android:id="@+id/bottom_sheet_platform_title_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/img"
+            android:src="@drawable/ic_codechef_logo" />
 
         <TextView
-            android:id="@+id/bottom_sheet_contest_title"
-            android:layout_width="match_parent"
+            android:id="@+id/bottom_sheet_platform_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/nunito_bold"
+            android:text="@string/codeforces"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/tab_text_normal_color"
+        android:contentDescription="@string/img" />
+
+    <TextView
+        android:id="@+id/bottom_sheet_contest_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/nunito_regular"
+        android:text="@string/contest_name_and_details"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/nunito_regular"
-            android:text="@string/contest_name_and_details"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/nunito_semi_bold"
+            android:text="@string/start"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/bottom_sheet_start_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/nunito_regular"
+            android:text="@string/dd_mm_yyyy_hh_mm_am_pm"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/start"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/bottom_sheet_start_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:fontFamily="@font/nunito_regular"
-                android:text="@string/dd_mm_yyyy_hh_mm_am_pm"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/end"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/bottom_sheet_end_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:fontFamily="@font/nunito_regular"
-                android:text="@string/dd_mm_yyyy_hh_mm_am_pm"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/bottom_sheet_visit_website"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="#7FCCFF"
-            android:fontFamily="@font/nunito_semi_bold"
-            android:padding="13dp"
-            android:text="@string/visit_website"
-            android:textColor="@color/noInternetBG"
-            android:textSize="19sp"
-            app:drawableEndCompat="@drawable/ic_visit_website" />
-
-        <TextView
-            android:id="@+id/bottom_sheet_in_app_remainder"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="#7FCCFF"
+            android:layout_marginEnd="5dp"
             android:fontFamily="@font/nunito_semi_bold"
-            android:padding="13dp"
-            android:text="@string/set_in_app_remainder"
-            android:textColor="@color/noInternetBG"
-            android:textSize="19sp"
-            app:drawableEndCompat="@drawable/ic_set_remainder" />
+            android:text="@string/end"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/bottom_sheet_google_remainder"
+            android:id="@+id/bottom_sheet_end_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="#7FCCFF"
-            android:fontFamily="@font/nunito_semi_bold"
-            android:padding="13dp"
-            android:text="@string/set_google_remainder"
-            android:textColor="@color/noInternetBG"
-            android:textSize="19sp"
-            app:drawableEndCompat="@drawable/ic_google_icon" />
+            android:fontFamily="@font/nunito_regular"
+            android:text="@string/dd_mm_yyyy_hh_mm_am_pm"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/bottom_sheet_visit_website"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/buttons_cping"
+        android:fontFamily="@font/nunito_semi_bold"
+        android:padding="13dp"
+        android:text="@string/visit_website"
+        android:textColor="@color/noInternetBG"
+        android:textSize="19sp"
+        app:drawableEndCompat="@drawable/ic_visit_website" />
+
+    <TextView
+        android:id="@+id/bottom_sheet_in_app_remainder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/buttons_cping"
+        android:fontFamily="@font/nunito_semi_bold"
+        android:padding="13dp"
+        android:text="@string/set_in_app_remainder"
+        android:textColor="@color/noInternetBG"
+        android:textSize="19sp"
+        app:drawableEndCompat="@drawable/ic_set_remainder" />
+
+    <TextView
+        android:id="@+id/bottom_sheet_google_remainder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/buttons_cping"
+        android:fontFamily="@font/nunito_semi_bold"
+        android:padding="13dp"
+        android:text="@string/set_google_remainder"
+        android:textColor="@color/noInternetBG"
+        android:textSize="19sp"
+        app:drawableEndCompat="@drawable/ic_google_icon" />
 
 </LinearLayout>
