@@ -24,7 +24,6 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
@@ -49,7 +48,7 @@ public class LeetCodeFragment extends Fragment {
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
-    private SwipeRefreshLayout leetCodeSwipeRefreshLayout;
+
     private View groupFragmentView;
     private TextView ongoing_nothing, today_nothing, future_nothing;
     private SeekBar hardSeekBar, mediumSeekBar, easySeekBar;
@@ -88,11 +87,6 @@ public class LeetCodeFragment extends Fragment {
         groupFragmentView = inflater.inflate(R.layout.fragment_leet_code, container, false);
 
         findViewsByIds();
-
-        leetCodeSwipeRefreshLayout.setOnRefreshListener(() -> {
-            // TODO: To be implemented
-            leetCodeSwipeRefreshLayout.setRefreshing(false);
-        });
 
         hardSeekBar.setOnTouchListener((v, event) -> false);
         mediumSeekBar.setOnTouchListener((v, event) -> false);
@@ -312,8 +306,6 @@ public class LeetCodeFragment extends Fragment {
     }
 
     private void findViewsByIds() {
-        leetCodeSwipeRefreshLayout = groupFragmentView.findViewById(R.id.leet_code_swipe_refresh);
-
         leetCodeUserName = groupFragmentView.findViewById(R.id.leet_code_user_name);
         acceptanceRate = groupFragmentView.findViewById(R.id.leetCode_acceptance_rate);
         totalProblemsSolved = groupFragmentView.findViewById(R.id.leetCode_total_solved_problems);

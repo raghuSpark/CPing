@@ -2,7 +2,6 @@ package com.rr.CPing.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -24,7 +23,6 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
@@ -50,13 +48,13 @@ public class AtCoderFragment extends Fragment {
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
-    private SwipeRefreshLayout atCoderSwipeRefreshLayout;
+
     private View groupFragmentView;
     private TextView atCoderUserName, currentRating, highestRating, currentLevel, currentRank;
     private TextView ongoing_nothing, today_nothing, future_nothing;
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
-    private AlertDialog dialog;
+
     private SetRankColor setRankColor;
 
     public AtCoderFragment() {
@@ -88,8 +86,6 @@ public class AtCoderFragment extends Fragment {
         groupFragmentView = inflater.inflate(R.layout.fragment_at_coder, container, false);
 
         findViewsByIds();
-
-        atCoderSwipeRefreshLayout.setOnRefreshListener(() -> atCoderSwipeRefreshLayout.setRefreshing(false));
 
         if (ongoingContestsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
@@ -234,8 +230,6 @@ public class AtCoderFragment extends Fragment {
     }
 
     private void findViewsByIds() {
-        atCoderSwipeRefreshLayout = groupFragmentView.findViewById(R.id.atCoder_swipe_refresh);
-
         atCoderUserName = groupFragmentView.findViewById(R.id.at_coder_user_name);
         currentRating = groupFragmentView.findViewById(R.id.atCoder_current_rating);
         highestRating = groupFragmentView.findViewById(R.id.atCoder_max_rating);

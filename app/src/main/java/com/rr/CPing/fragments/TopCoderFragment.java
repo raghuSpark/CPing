@@ -23,7 +23,6 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.rr.CPing.R;
 import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
@@ -46,7 +45,7 @@ public class TopCoderFragment extends Fragment {
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
-    private SwipeRefreshLayout topCoderSwipeRefreshLayout;
+
     private View groupFragmentView;
     private TextView ongoing_nothing, today_nothing, future_nothing;
     private RecyclerView OngoingRV, TodayRV, FutureRV;
@@ -80,11 +79,6 @@ public class TopCoderFragment extends Fragment {
         groupFragmentView = inflater.inflate(R.layout.fragment_top_coder, container, false);
 
         findViewByIds();
-
-        topCoderSwipeRefreshLayout.setOnRefreshListener(() -> {
-            // TODO: To be implemented
-            topCoderSwipeRefreshLayout.setRefreshing(false);
-        });
 
         if (ongoingContestsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
@@ -218,8 +212,6 @@ public class TopCoderFragment extends Fragment {
     }
 
     private void findViewByIds() {
-        topCoderSwipeRefreshLayout = groupFragmentView.findViewById(R.id.topCoder_swipe_refresh);
-
         ongoing_nothing = groupFragmentView.findViewById(R.id.topCoder_ongoing_nothing);
         today_nothing = groupFragmentView.findViewById(R.id.topCoder_today_nothing);
         future_nothing = groupFragmentView.findViewById(R.id.topCoder_future_nothing);
