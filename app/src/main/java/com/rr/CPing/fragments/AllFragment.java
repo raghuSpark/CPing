@@ -2,6 +2,7 @@ package com.rr.CPing.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -16,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,19 +46,14 @@ import com.rr.CPing.model.PlatformListItem;
 import com.rr.CPing.model.SetRankColor;
 import com.rr.CPing.util.ReminderBroadCast;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Objects;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -81,6 +76,8 @@ public class AllFragment extends Fragment {
 
     private SetRankColor setRankColor;
     private DateTimeHandler dateTimeHandler;
+
+    private AlertDialog dialog;
 
     public AllFragment() {
         // Required empty public constructor
@@ -347,39 +344,42 @@ public class AllFragment extends Fragment {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
-    private void showAlarmSelectorDialog(ContestDetails contestDetails, Calendar start){
-        final Dialog dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.alarm_selector_layout);
+    private void showAlarmSelectorDialog(ContestDetails contestDetails, Calendar start) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = getLayoutInflater().inflate(R.layout.alarm_selector_layout, null);
 
-        Spinner spinner = dialog.findViewById(R.id.spinner);
+        Spinner spinner = view.findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.times, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.dropdown_item);
         spinner.setAdapter(adapter);
-        dialog.show();
 
-        dialog.findViewById(R.id.saveReminder).setOnClickListener(view -> {
+        view.findViewById(R.id.saveReminder).setOnClickListener(v -> {
+            Toast.makeText(getContext(), "Reminder set!", Toast.LENGTH_SHORT).show();
             setNotification(getNum(spinner.getSelectedItem().toString()), contestDetails, start);
             dialog.cancel();
         });
 
-        dialog.findViewById(R.id.discardReminder).setOnClickListener(view -> dialog.cancel());
+        view.findViewById(R.id.discardReminder).setOnClickListener(v -> dialog.cancel());
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.show();
     }
 
-    private int getNum(String s){
-        if(s.charAt(1)==' ') return Integer.parseInt(s.substring(0,1));
-        return Integer.parseInt(s.substring(0,2));
+    private int getNum(String s) {
+        if (s.charAt(1) == ' ') return Integer.parseInt(s.substring(0, 1));
+        return Integer.parseInt(s.substring(0, 2));
     }
 
-    private void setNotification(int time, ContestDetails contestDetails, Calendar start){
+    private void setNotification(int time, ContestDetails contestDetails, Calendar start) {
         Intent intent = new Intent(getContext(), ReminderBroadCast.class);
         intent.putExtra("ContestName", contestDetails.getContestName());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), (int) System.currentTimeMillis(), intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(getActivity()).getSystemService(ALARM_SERVICE);
         long t1 = start.getTimeInMillis();
         long t2 = 60000 * time;
-        Log.e("TAG", String.valueOf(t1-t2));
-        alarmManager.set(AlarmManager.RTC_WAKEUP, t1-t2, pendingIntent);
+        Log.e("TAG", String.valueOf(t1 - t2));
+        alarmManager.set(AlarmManager.RTC_WAKEUP, t1 - t2, pendingIntent);
         Toast.makeText(getContext(), "Reminder Set", Toast.LENGTH_SHORT).show();
     }
 

@@ -39,6 +39,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG = "SplashActivity";
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    int count = 0;
     private JSONResponseDBHandler jsonResponseDBHandler;
 
     @Override
@@ -65,7 +66,7 @@ public class SplashActivity extends AppCompatActivity {
             handler.postDelayed(() -> {
                 startActivity(new Intent(SplashActivity.this, SettingsActivity.class));
                 finish();
-            }, 3000);
+            }, 1000);
         } else {
             jsonResponseDBHandler.deleteAll();
 
@@ -73,8 +74,20 @@ public class SplashActivity extends AppCompatActivity {
 
             ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(this);
 
-            for (PlatformListItem platformListItem : platformListItemArrayList) {
+            count = 0;
 
+            for (PlatformListItem platformListItem : platformListItemArrayList) {
+                switch (platformListItem.getPlatformName()) {
+                    case "AtCoder":
+                    case "LeetCode":
+                    case "CodeChef":
+                    case "CodeForces":
+                        count++;
+                        break;
+                }
+            }
+
+            for (PlatformListItem platformListItem : platformListItemArrayList) {
                 switch (platformListItem.getPlatformName()) {
                     case "AtCoder":
                         getAC(platformListItem.getUserName());
@@ -89,13 +102,14 @@ public class SplashActivity extends AppCompatActivity {
                         getLC(platformListItem.getUserName());
                         break;
                 }
-
             }
 
-            new Handler().postDelayed(() -> {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                finish();
-            }, 7000);
+            if (count == 0) {
+                new Handler().postDelayed(() -> {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                }, 1000);
+            }
         }
     }
 
@@ -119,6 +133,11 @@ public class SplashActivity extends AppCompatActivity {
                             -1,
                             -1,
                             "NA");
+                }
+                count--;
+                if (count <= 0) {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
                 }
                 SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
             } catch (JSONException e) {
@@ -148,7 +167,11 @@ public class SplashActivity extends AppCompatActivity {
                         recentRatingsArrayList);
 
                 SharedPrefConfig.writeInCodeChefPref(getApplicationContext(), item);
-
+                count--;
+                if (count <= 0) {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                }
             } catch (JSONException e) {
                 Log.d(TAG, "onResponse: " + e.getMessage());
                 e.printStackTrace();
@@ -178,7 +201,11 @@ public class SplashActivity extends AppCompatActivity {
                         recentRatingsArrayList);
 
                 SharedPrefConfig.writeInCodeForcesPref(getApplicationContext(), item);
-
+                count--;
+                if (count == 0) {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -204,7 +231,11 @@ public class SplashActivity extends AppCompatActivity {
                         response.getString("total_hard_questions"));
 
                 SharedPrefConfig.writeInLeetCodePref(getApplicationContext(), item);
-
+                count--;
+                if (count == 0) {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

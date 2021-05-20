@@ -94,9 +94,9 @@ public class SettingsActivity extends AppCompatActivity {
                 if (!newlyAddedPlatforms.isEmpty()) {
                     for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
                         String un = newlyAddedPlatforms.get(i).second;
-//                        Log.d("TAG", "onClick: " + newlyAddedPlatforms.get(i).first + " , " + un);
+                        Log.d(TAG, "onCreate: "+newlyAddedPlatforms.get(i).first+" , "+un);
                         switch (newlyAddedPlatforms.get(i).first) {
-                            case "at_coder":
+                            case "atcoder":
                                 getAC(un);
                                 break;
                             case "codechef":

@@ -6,16 +6,15 @@ import androidx.core.content.ContextCompat;
 
 import com.rr.CPing.R;
 
-import java.util.Objects;
-
 public class SetRankColor {
 
     private final Context context;
+
     public SetRankColor(Context context) {
         this.context = context;
     }
 
-    public int getAtCoderColor(String level){
+    public int getAtCoderColor(String level) {
         switch (level) {
             case "5 Dan":
                 return ContextCompat.getColor(context, R.color.atCoderFiveDan);
@@ -37,7 +36,7 @@ public class SetRankColor {
         return -1;
     }
 
-    public int getCodeChefColor(String stars){
+    public int getCodeChefColor(String stars) {
         switch (stars) {
             case "1★":
                 return ContextCompat.getColor(context, R.color.oneStar);
@@ -57,7 +56,7 @@ public class SetRankColor {
         return -1;
     }
 
-    public int getCodeforcesColor(String rank){
+    public int getCodeforcesColor(String rank) {
         switch (rank) {
             case "newbie":
                 return ContextCompat.getColor(context, R.color.codeForcesNewbieColor);
