@@ -2,7 +2,6 @@ package com.rr.CPing.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -24,12 +23,11 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.rr.CPing.R;
 import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
-import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.database.JSONResponseDBHandler;
+import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.util.ReminderBroadCast;
 
 import java.text.DateFormat;
@@ -47,12 +45,11 @@ public class HackerEarthFragment extends Fragment {
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
-    private SwipeRefreshLayout hackerEarthSwipeRefreshLayout;
+
     private View groupFragmentView;
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
     private TextView ongoing_nothing, today_nothing, future_nothing;
-    private AlertDialog dialog;
 
     public HackerEarthFragment() {
         // Required empty public constructor
@@ -81,11 +78,6 @@ public class HackerEarthFragment extends Fragment {
         groupFragmentView = inflater.inflate(R.layout.fragment_hacker_earth, container, false);
 
         findViewsByIds();
-
-        hackerEarthSwipeRefreshLayout.setOnRefreshListener(() -> {
-            // TODO: TO be implemented
-            hackerEarthSwipeRefreshLayout.setRefreshing(false);
-        });
 
         if (ongoingContestsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
@@ -219,8 +211,6 @@ public class HackerEarthFragment extends Fragment {
     }
 
     private void findViewsByIds() {
-        hackerEarthSwipeRefreshLayout = groupFragmentView.findViewById(R.id.hackerEarth_swipe_refresh);
-
         ongoing_nothing = groupFragmentView.findViewById(R.id.hackerEarth_ongoing_nothing);
         today_nothing = groupFragmentView.findViewById(R.id.hackerEarth_today_nothing);
         future_nothing = groupFragmentView.findViewById(R.id.hackerEarth_future_nothing);

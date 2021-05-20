@@ -2,7 +2,6 @@ package com.rr.CPing.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -24,18 +23,17 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.rr.CPing.R;
-import com.rr.CPing.model.SetRankColor;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
+import com.rr.CPing.database.JSONResponseDBHandler;
 import com.rr.CPing.model.CodeChefUserDetails;
 import com.rr.CPing.model.ContestDetails;
-import com.rr.CPing.database.JSONResponseDBHandler;
+import com.rr.CPing.model.SetRankColor;
 import com.rr.CPing.util.ReminderBroadCast;
 
 import java.text.DateFormat;
@@ -54,13 +52,13 @@ public class CodeChefFragment extends Fragment {
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
-    private SwipeRefreshLayout codeChefSwipeRefreshLayout;
+
     private View groupFragmentView;
     private TextView codeChefUserName, currentRating, currentStars, maxRating;
     private TextView ongoing_nothing, today_nothing, future_nothing;
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
-    private AlertDialog dialog;
+
     private SetRankColor setRankColor;
 
     public CodeChefFragment() {
@@ -97,11 +95,6 @@ public class CodeChefFragment extends Fragment {
         groupFragmentView = inflater.inflate(R.layout.fragment_code_chef, container, false);
 
         findViewsByIds();
-
-        codeChefSwipeRefreshLayout.setOnRefreshListener(() -> {
-            // TODO: To be done
-            codeChefSwipeRefreshLayout.setRefreshing(false);
-        });
 
         if (ongoingContestsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
@@ -271,8 +264,6 @@ public class CodeChefFragment extends Fragment {
     }
 
     private void findViewsByIds() {
-        codeChefSwipeRefreshLayout = groupFragmentView.findViewById(R.id.codeChef_swipe_refresh);
-
         codeChefUserName = groupFragmentView.findViewById(R.id.code_chef_user_name);
         currentRating = groupFragmentView.findViewById(R.id.codeChef_current_rating);
         currentStars = groupFragmentView.findViewById(R.id.codeChef_current_stars);

@@ -25,7 +25,6 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -60,7 +59,6 @@ public class AllFragment extends Fragment {
     private final ArrayList<PlatformDetails> todayPlatformsArrayList = new ArrayList<>();
     private final ArrayList<PlatformDetails> futurePlatformsArrayList = new ArrayList<>();
 
-    private SwipeRefreshLayout allSwipeRefreshLayout;
     private View groupFragmentView;
     private GraphView graphView;
     private TextView ongoing_nothing, today_nothing, future_nothing, allRatingsChangeTextView;
@@ -135,11 +133,6 @@ public class AllFragment extends Fragment {
         groupFragmentView = inflater.inflate(R.layout.fragment_all, container, false);
 
         findViewsByIds();
-
-        allSwipeRefreshLayout.setOnRefreshListener(() -> {
-            // TODO: Data should be updated here
-            allSwipeRefreshLayout.setRefreshing(false);
-        });
 
         if (ongoingPlatformsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
@@ -394,9 +387,6 @@ public class AllFragment extends Fragment {
     }
 
     private void findViewsByIds() {
-
-        allSwipeRefreshLayout = groupFragmentView.findViewById(R.id.all_swipe_refresh);
-
         allRatingsChangeTextView = groupFragmentView.findViewById(R.id.all_rating_changes_text_view);
         allGraphsCardView = groupFragmentView.findViewById(R.id.all_graphs_card_view);
         allRatingsCardView = groupFragmentView.findViewById(R.id.all_ratings_card_view);

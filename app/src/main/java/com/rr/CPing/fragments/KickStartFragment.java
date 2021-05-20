@@ -2,7 +2,6 @@ package com.rr.CPing.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -24,7 +23,6 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.rr.CPing.R;
 import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
@@ -47,7 +45,7 @@ public class KickStartFragment extends Fragment {
     private final ArrayList<ContestDetails> ongoingContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> todayContestsArrayList = new ArrayList<>();
     private final ArrayList<ContestDetails> futureContestsArrayList = new ArrayList<>();
-    private SwipeRefreshLayout kickStartSwipeRefreshLayout;
+
     private View groupFragmentView;
     private TextView ongoing_nothing, today_nothing, future_nothing;
     private RecyclerView OngoingRV, TodayRV, FutureRV;
@@ -82,11 +80,6 @@ public class KickStartFragment extends Fragment {
         groupFragmentView = inflater.inflate(R.layout.fragment_kick_start, container, false);
 
         findViewsById();
-
-        kickStartSwipeRefreshLayout.setOnRefreshListener(() -> {
-            // TODO: To be implemented
-            kickStartSwipeRefreshLayout.setRefreshing(false);
-        });
 
         if (ongoingContestsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
@@ -220,8 +213,6 @@ public class KickStartFragment extends Fragment {
     }
 
     private void findViewsById() {
-        kickStartSwipeRefreshLayout = groupFragmentView.findViewById(R.id.kickStart_swipe_refresh);
-
         ongoing_nothing = groupFragmentView.findViewById(R.id.kickStart_ongoing_nothing);
         today_nothing = groupFragmentView.findViewById(R.id.kickStart_today_nothing);
         future_nothing = groupFragmentView.findViewById(R.id.kickStart_future_nothing);
