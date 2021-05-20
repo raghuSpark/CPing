@@ -16,8 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,19 +41,25 @@ import com.rr.CPing.model.AtCoderUserDetails;
 import com.rr.CPing.model.CodeChefUserDetails;
 import com.rr.CPing.model.CodeForcesUserDetails;
 import com.rr.CPing.model.ContestDetails;
+import com.rr.CPing.model.DateTimeHandler;
 import com.rr.CPing.model.PlatformDetails;
 import com.rr.CPing.model.PlatformListItem;
 import com.rr.CPing.model.SetRankColor;
 import com.rr.CPing.util.ReminderBroadCast;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Objects;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -73,6 +82,7 @@ public class AllFragment extends Fragment {
     private AllParentRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
 
     private SetRankColor setRankColor;
+    private DateTimeHandler dateTimeHandler;
 
     public AllFragment() {
         // Required empty public constructor
@@ -86,6 +96,7 @@ public class AllFragment extends Fragment {
 
         platforms = new ArrayList<>();
         setRankColor = new SetRankColor(getContext());
+        dateTimeHandler = new DateTimeHandler();
 
         ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(getContext());
 
@@ -176,7 +187,6 @@ public class AllFragment extends Fragment {
             atCoderRating.setText(String.valueOf(atCoderUserDetails.getCurrentRating()));
             atCoderLevel.setText(atCoderUserDetails.getCurrentLevel());
 
-//            setAtCoderColors(atCoderUserDetails.getCurrentLevel());
             atCoderLevel.setTextColor(setRankColor.getAtCoderColor(atCoderUserDetails.getCurrentLevel()));
         } else {
             atCoderGraphBelow.setVisibility(View.GONE);
@@ -192,7 +202,6 @@ public class AllFragment extends Fragment {
             codeForcesRating.setText(String.valueOf(codeForcesUserDetails.getCurrentRating()));
             codeForcesRank.setText(codeForcesUserDetails.getCurrentRank());
 
-//            setCodeForcesColors(codeForcesUserDetails.getCurrentRank());
             codeForcesRank.setTextColor(setRankColor.getCodeforcesColor(codeForcesUserDetails.getCurrentRank()));
 
             codeForcesRecentRatingsArrayList = codeForcesUserDetails.getRecentContestRatings();
@@ -225,7 +234,6 @@ public class AllFragment extends Fragment {
             codeChefRating.setText(String.valueOf(codeChefUserDetails.getCurrentRating()));
             codeChefStars.setText(codeChefUserDetails.getCurrentStars());
 
-//            setCodeChefColors(codeChefUserDetails.getCurrentStars());
             codeChefStars.setTextColor(setRankColor.getCodeChefColor(codeChefUserDetails.getCurrentStars()));
 
             codeChefRecentRatingsArrayList = codeChefUserDetails.getRecentContestRatings();
@@ -295,6 +303,11 @@ public class AllFragment extends Fragment {
                 googleRemainder = dialog.findViewById(R.id.bottom_sheet_google_remainder);
         ImageView platformImage = dialog.findViewById(R.id.bottom_sheet_platform_title_image);
 
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+        dateTimeHandler.setCalender(start, contestsArrayList.get(position).getContestStartTime());
+        dateTimeHandler.setCalender(end, contestsArrayList.get(position).getContestEndTime());
+
         if (contestsArrayList.get(position).getContestStatus().equals("CODING")) {
             appRemainder.setVisibility(View.GONE);
             googleRemainder.setVisibility(View.GONE);
@@ -306,8 +319,8 @@ public class AllFragment extends Fragment {
         platformImage.setImageResource(getImageResource(contestsArrayList.get(position).getSite()));
         platformTitle.setText(contestsArrayList.get(position).getSite());
         contestTitle.setText(contestsArrayList.get(position).getContestName());
-        startTime.setText(contestsArrayList.get(position).getContestStartTime());
-        endTime.setText(contestsArrayList.get(position).getContestEndTime());
+        startTime.setText(dateTimeHandler.getCompleteDetails(start));
+        endTime.setText(dateTimeHandler.getCompleteDetails(end));
 
         visitWebsite.setOnClickListener(v -> {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
@@ -315,30 +328,11 @@ public class AllFragment extends Fragment {
         });
 
         appRemainder.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Reminder Set", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getContext(), ReminderBroadCast.class);
-            intent.putExtra("ContestName", contestsArrayList.get(position).getContestName());
-            Log.e("TAG", contestsArrayList.get(position).getContestName());
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), (int) System.currentTimeMillis(), intent, 0);
-            AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(getActivity()).getSystemService(ALARM_SERVICE);
-            long t1 = System.currentTimeMillis();
-            long t2 = 1000 * 10;
-            alarmManager.set(AlarmManager.RTC_WAKEUP, t1 + t2, pendingIntent);
             dialog.cancel();
-//            Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//            i.addCategory(Intent.CATEGORY_DEFAULT);
-//            i.setData(Uri.parse("package:" + getActivity().getPackageName()));
-//            startActivity(i);
+            showAlarmSelectorDialog(contestsArrayList.get(position), start);
         });
 
         googleRemainder.setOnClickListener(v -> {
-            Calendar start = Calendar.getInstance();
-            Calendar end = Calendar.getInstance();
-            Date startDate = convertISO8601ToDate(contestsArrayList.get(position).getContestStartTime());
-            Date endDate = convertISO8601ToDate(contestsArrayList.get(position).getContestEndTime());
-            if (startDate != null) start.setTime(startDate);
-            if (endDate != null) end.setTime(endDate);
-
             Intent intent = new Intent(Intent.ACTION_INSERT);
             intent.setData(CalendarContract.Events.CONTENT_URI);
             intent.putExtra(CalendarContract.Events.TITLE, contestsArrayList.get(position).getContestName());
@@ -348,8 +342,7 @@ public class AllFragment extends Fragment {
             if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
                 startActivity(intent);
             } else {
-                Toast.makeText(getContext(), "No application found supporting this feature!",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "No application found supporting this feature!", Toast.LENGTH_SHORT).show();
             }
             dialog.cancel();
         });
@@ -359,6 +352,42 @@ public class AllFragment extends Fragment {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.BottomSheetAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
+
+    private void showAlarmSelectorDialog(ContestDetails contestDetails, Calendar start){
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.alarm_selector_layout);
+
+        Spinner spinner = dialog.findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.times, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        dialog.show();
+
+        dialog.findViewById(R.id.saveReminder).setOnClickListener(view -> {
+            setNotification(getNum(spinner.getSelectedItem().toString()), contestDetails, start);
+            dialog.cancel();
+        });
+
+        dialog.findViewById(R.id.discardReminder).setOnClickListener(view -> dialog.cancel());
+    }
+
+    private int getNum(String s){
+        if(s.charAt(1)==' ') return Integer.parseInt(s.substring(0,1));
+        return Integer.parseInt(s.substring(0,2));
+    }
+
+    private void setNotification(int time, ContestDetails contestDetails, Calendar start){
+        Intent intent = new Intent(getContext(), ReminderBroadCast.class);
+        intent.putExtra("ContestName", contestDetails.getContestName());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), (int) System.currentTimeMillis(), intent, 0);
+        AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(getActivity()).getSystemService(ALARM_SERVICE);
+        long t1 = start.getTimeInMillis();
+        long t2 = 60000 * time;
+        Log.e("TAG", String.valueOf(t1-t2));
+        alarmManager.set(AlarmManager.RTC_WAKEUP, t1-t2, pendingIntent);
+        Toast.makeText(getContext(), "Reminder Set", Toast.LENGTH_SHORT).show();
     }
 
     private Date convertISO8601ToDate(String dateString) {

@@ -17,18 +17,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rr.CPing.R;
 import com.rr.CPing.model.ContestDetails;
+import com.rr.CPing.model.DateTimeHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
 
     private final ArrayList<ContestDetails> contestDetailsArrayList;
     Context context;
     private ContestDetailsRecyclerViewAdapter.OnItemClickListener itemClickListener;
+    private final DateTimeHandler dateTimeHandler;
 
     public ContestDetailsRecyclerViewAdapter(ArrayList<ContestDetails> contestDetailsArrayList) {
         this.contestDetailsArrayList = contestDetailsArrayList;
+        dateTimeHandler = new DateTimeHandler();
     }
 
     public void setOnItemClickListener(ContestDetailsRecyclerViewAdapter.OnItemClickListener listener) {
@@ -50,16 +55,18 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
         ContestDetailsRecyclerViewAdapter.MyViewHolder myViewHolder = (MyViewHolder) holder;
 
         ContestDetails contest = contestDetailsArrayList.get(position);
+        Calendar start = Calendar.getInstance();
+        dateTimeHandler.setCalender(start, contest.getContestStartTime());
 
         myViewHolder.name.setText(contest.getContestName());
 
-        String text = "On: " + getDate(contest.getContestStartTime().substring(0, 10));
+        String text = "On: " + dateTimeHandler.getDate(start);
         SpannableString spannableString = new SpannableString(text);
         spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         myViewHolder.startDate.setText(spannableString);
 
-        text = "At: " + contest.getContestStartTime().substring(11, 16);
+        text = "At: " + dateTimeHandler.getTime(start);
         spannableString = new SpannableString(text);
         spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -73,12 +80,6 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
 
         if (contest.getContestStatus().equals("CODING"))
             myViewHolder.remainderIcon.setImageResource(R.drawable.ic_contest_running);
-    }
-
-    private String getDate(String date) {
-        ArrayList<String> months = new ArrayList<>(Arrays.asList("Jan", "Feb", "Mar", "Apr", "May",
-                "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"));
-        return date.substring(8, 10) + " " + months.get(Integer.parseInt(date.substring(5, 7)) - 1) + ", " + date.substring(0, 4);
     }
 
     private String findDuration(int contestDuration) {

@@ -53,4 +53,12 @@
     <string name="retry">Retry</string>
     <string name="date_format">"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"</string>
     <string name="set_google_remainder">Set google remainder</string>
+
+    <string-array name="times">
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+    </string-array>
+
 </resources>
