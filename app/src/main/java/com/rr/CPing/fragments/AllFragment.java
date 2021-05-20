@@ -69,7 +69,7 @@ public class AllFragment extends Fragment {
     private TextView codeForcesRating, codeForcesRank, codeChefRating, codeChefStars, atCoderRating, atCoderLevel;
     private TextView codeForcesGraphBelow, codeChefGraphBelow, atCoderGraphBelow;
     private ArrayList<String> platforms;
-    private RecyclerView OngoingRV, TodayRV, FutureRV;
+    private RecyclerView ongoingRV, todayRV, futureRV;
     private AllParentRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
 
     private SetRankColor setRankColor;
@@ -91,8 +91,7 @@ public class AllFragment extends Fragment {
 
         for (int i = 0; i < platformListItemArrayList.size(); i++) {
             if (platformListItemArrayList.get(i).isEnabled()) {
-                String platform = platformListItemArrayList.get(i).getPlatformName();
-                platforms.add(platform);
+                platforms.add(platformListItemArrayList.get(i).getPlatformName());
             }
         }
 
@@ -144,24 +143,24 @@ public class AllFragment extends Fragment {
 
         if (ongoingPlatformsArrayList.isEmpty()) {
             ongoing_nothing.setVisibility(View.VISIBLE);
-            OngoingRV.setVisibility(View.GONE);
+            ongoingRV.setVisibility(View.GONE);
         } else {
             ongoing_nothing.setVisibility(View.GONE);
-            OngoingRV.setVisibility(View.VISIBLE);
+            ongoingRV.setVisibility(View.VISIBLE);
         }
         if (todayPlatformsArrayList.isEmpty()) {
             today_nothing.setVisibility(View.VISIBLE);
-            TodayRV.setVisibility(View.GONE);
+            todayRV.setVisibility(View.GONE);
         } else {
             today_nothing.setVisibility(View.GONE);
-            TodayRV.setVisibility(View.VISIBLE);
+            todayRV.setVisibility(View.VISIBLE);
         }
         if (futurePlatformsArrayList.isEmpty()) {
             future_nothing.setVisibility(View.VISIBLE);
-            FutureRV.setVisibility(View.GONE);
+            futureRV.setVisibility(View.GONE);
         } else {
             future_nothing.setVisibility(View.GONE);
-            FutureRV.setVisibility(View.VISIBLE);
+            futureRV.setVisibility(View.VISIBLE);
         }
 
         // 0 -> Ongoing
@@ -429,31 +428,31 @@ public class AllFragment extends Fragment {
         today_nothing = groupFragmentView.findViewById(R.id.all_today_nothing);
         future_nothing = groupFragmentView.findViewById(R.id.all_future_nothing);
 
-        OngoingRV = groupFragmentView.findViewById(R.id.all_ongoing_contests_recycler_view);
-        TodayRV = groupFragmentView.findViewById(R.id.all_today_contests_recycler_view);
-        FutureRV = groupFragmentView.findViewById(R.id.all_future_contests_recycler_view);
+        ongoingRV = groupFragmentView.findViewById(R.id.all_ongoing_contests_recycler_view);
+        todayRV = groupFragmentView.findViewById(R.id.all_today_contests_recycler_view);
+        futureRV = groupFragmentView.findViewById(R.id.all_future_contests_recycler_view);
 
         graphView = groupFragmentView.findViewById(R.id.all_graph_view);
     }
 
     private void initialize(int i) {
         if (i == 0) {
-            OngoingRV.setHasFixedSize(true);
-            OngoingRV.setLayoutManager(new LinearLayoutManager(getContext()));
+            ongoingRV.setHasFixedSize(true);
+            ongoingRV.setLayoutManager(new LinearLayoutManager(getContext()));
             ongoingRVA = new AllParentRecyclerViewAdapter(ongoingPlatformsArrayList);
-            OngoingRV.setAdapter(ongoingRVA);
+            ongoingRV.setAdapter(ongoingRVA);
             ongoingRVA.notifyDataSetChanged();
         } else if (i == 1) {
-            TodayRV.setHasFixedSize(true);
-            TodayRV.setLayoutManager(new LinearLayoutManager(getContext()));
+            todayRV.setHasFixedSize(true);
+            todayRV.setLayoutManager(new LinearLayoutManager(getContext()));
             todayRVA = new AllParentRecyclerViewAdapter(todayPlatformsArrayList);
-            TodayRV.setAdapter(todayRVA);
+            todayRV.setAdapter(todayRVA);
             todayRVA.notifyDataSetChanged();
         } else {
-            FutureRV.setHasFixedSize(true);
-            FutureRV.setLayoutManager(new LinearLayoutManager(getContext()));
+            futureRV.setHasFixedSize(true);
+            futureRV.setLayoutManager(new LinearLayoutManager(getContext()));
             futureRVA = new AllParentRecyclerViewAdapter(futurePlatformsArrayList);
-            FutureRV.setAdapter(futureRVA);
+            futureRV.setAdapter(futureRVA);
             futureRVA.notifyDataSetChanged();
         }
     }

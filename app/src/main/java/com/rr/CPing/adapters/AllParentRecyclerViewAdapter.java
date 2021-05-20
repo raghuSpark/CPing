@@ -37,7 +37,7 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
         context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.all_recycler_view_sub_items, parent, false);
-        return new MyViewHolder(view, itemClickListener);
+        return new MyViewHolder(view);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -94,13 +94,10 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
             myViewHolder.platformRV.setAdapter(platformRVA);
             platformRVA.notifyDataSetChanged();
 
-            platformRVA.setOnItemClickListener(new ContestDetailsRecyclerViewAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(String platFormName, int position) {
-                    if (itemClickListener != null) {
-                        if (position != RecyclerView.NO_POSITION) {
-                            itemClickListener.onItemClick(platformDetails.getPlatformName(), position);
-                        }
+            platformRVA.setOnItemClickListener((platFormName, position1) -> {
+                if (itemClickListener != null) {
+                    if (position1 != RecyclerView.NO_POSITION) {
+                        itemClickListener.onItemClick(platformDetails.getPlatformName(), position1);
                     }
                 }
             });
@@ -112,15 +109,11 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
         return platformDetailsArrayList.size();
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(String platformName, int position);
-    }
-
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView platformName;
         RecyclerView platformRV;
 
-        public MyViewHolder(@NonNull View itemView, ContestDetailsRecyclerViewAdapter.OnItemClickListener listener) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             platformName = itemView.findViewById(R.id.platform_name_text_view);

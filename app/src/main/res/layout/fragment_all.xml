@@ -8,7 +8,7 @@
     android:background="@color/background"
     tools:context=".fragments.AllFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -18,7 +18,7 @@
 
             <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 tools:ignore="UselessParent">
 
                 <androidx.cardview.widget.CardView
@@ -427,6 +427,6 @@
 
         </FrameLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -12,8 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,16 +28,40 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    public FrameLayout internetConnectionFrameLayout;
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     private TabsAccessorAdapter dashBoardTabsAccessorAdapter;
+
+    private static void autoLaunchVivo(Context context) {
+        try {
+            Intent intent = new Intent();
+            intent.setComponent(new ComponentName("com.iqoo.secure",
+                    "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity"));
+            context.startActivity(intent);
+        } catch (Exception e) {
+            try {
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName("com.vivo.permissionmanager",
+                        "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+                context.startActivity(intent);
+            } catch (Exception ex) {
+                try {
+                    Intent intent = new Intent();
+                    intent.setClassName("com.iqoo.secure",
+                            "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager");
+                    context.startActivity(intent);
+                } catch (Exception exx) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        internetConnectionFrameLayout = findViewById(R.id.internet_connection_frame);
+//        internetConnectionFrameLayout = findViewById(R.id.internet_connection_frame);
 
         if (Build.MANUFACTURER.equalsIgnoreCase("oppo")) {
             initOPPO();
@@ -54,9 +76,6 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
-        // TODO: A condition has to be checked.
-        internetConnectionFrameLayout.setVisibility(View.GONE);
 
         Toolbar dashBoardToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(dashBoardToolbar);
@@ -138,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("TAG", "error: "+e.getMessage());
+            Log.d("TAG", "error: " + e.getMessage());
             try {
                 Intent intent = new Intent("action.coloros.safecenter.FloatWindowListActivity");
                 intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.floatwindow.FloatWindowListActivity"));
@@ -155,31 +174,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-        }
-    }
-
-    private static void autoLaunchVivo(Context context) {
-        try {
-            Intent intent = new Intent();
-            intent.setComponent(new ComponentName("com.iqoo.secure",
-                    "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity"));
-            context.startActivity(intent);
-        } catch (Exception e) {
-            try {
-                Intent intent = new Intent();
-                intent.setComponent(new ComponentName("com.vivo.permissionmanager",
-                        "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
-                context.startActivity(intent);
-            } catch (Exception ex) {
-                try {
-                    Intent intent = new Intent();
-                    intent.setClassName("com.iqoo.secure",
-                            "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager");
-                    context.startActivity(intent);
-                } catch (Exception exx) {
-                    ex.printStackTrace();
-                }
-            }
         }
     }
 }

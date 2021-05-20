@@ -86,9 +86,10 @@ public class JSONResponseDBHandler extends SQLiteOpenHelper {
                     contestsList.add(new ContestDetails(site, contestName, contestUrl, contestDuration, contestStartDate, contestEndDate, isToday, contestStatus));
                 }
             }
-        } else {
-//            Toast.makeText(context, "Nothing to show in "+platform+"!", Toast.LENGTH_SHORT).show();
         }
+//        else {
+//            Toast.makeText(context, "Nothing to show in "+platform+"!", Toast.LENGTH_SHORT).show();
+//        }
 
         sqLiteDatabase.close();
         return contestsList;
