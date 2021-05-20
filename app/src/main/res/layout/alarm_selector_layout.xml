@@ -22,8 +22,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:padding="10dp"
-        android:textAlignment="viewStart" />
+        android:background="@drawable/custom_spinner_design" />
 
     <LinearLayout
         android:layout_width="match_parent"

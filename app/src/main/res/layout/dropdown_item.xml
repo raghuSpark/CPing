@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:fontFamily="@font/nunito_regular"
+    android:fontFamily="@font/nunito_light"
     android:paddingStart="15dp"
     android:paddingTop="10dp"
     android:paddingEnd="15dp"
