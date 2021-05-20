@@ -132,6 +132,17 @@
                 android:textColor="@color/black"
                 android:textSize="19sp" />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_row="3"
+                android:layout_column="0"
+                android:layout_margin="10dp"
+                android:clickable="false"
+                android:text="@string/save"
+                android:textSize="19sp"
+                android:visibility="invisible" />
+
         </GridLayout>
 
     </androidx.core.widget.NestedScrollView>

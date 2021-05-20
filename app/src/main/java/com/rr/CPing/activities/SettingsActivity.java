@@ -46,6 +46,7 @@ import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private static final String TAG = "SettingsActivity";
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     private PlatformAdapter platformAdapter;
@@ -93,7 +94,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (!newlyAddedPlatforms.isEmpty()) {
                     for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
                         String un = newlyAddedPlatforms.get(i).second;
-                        Log.d("TAG", "onClick: " + newlyAddedPlatforms.get(i).first + " , " + un);
+//                        Log.d("TAG", "onClick: " + newlyAddedPlatforms.get(i).first + " , " + un);
                         switch (newlyAddedPlatforms.get(i).first) {
                             case "at_coder":
                                 getAC(un);
@@ -179,7 +180,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         platformDialogUserName.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) platformDialogImage.clearFocus();
+            if (actionId == EditorInfo.IME_ACTION_DONE) platformDialogUserName.clearFocus();
             return false;
         });
 
@@ -232,12 +233,17 @@ public class SettingsActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {
-                Log.e("response", response.getString("status"));
                 if (response.getString("status").equals("Success")) {
                     newlyAddedPlatforms.add(new Pair<>(platform, username));
                     platformAdapter.setSelectedIndex(position, username);
                     dialog.dismiss();
                 } else {
+                    for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
+                        if (newlyAddedPlatforms.get(i).first.equals(platform)) {
+                            newlyAddedPlatforms.remove(i);
+                            break;
+                        }
+                    }
                     Snackbar.make(v, "Invalid User Name!", Snackbar.LENGTH_SHORT).show();
                     platformDialogProgressBar.setVisibility(View.GONE);
                     platformDialogSaveButton.setVisibility(View.VISIBLE);
@@ -245,10 +251,7 @@ public class SettingsActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> {
-            Log.e("response", Objects.requireNonNull(error.getMessage()));
-            Toast.makeText(SettingsActivity.this, "ERROR : " + error.getMessage(), Toast.LENGTH_SHORT).show();
-        });
+        }, error -> Toast.makeText(SettingsActivity.this, "ERROR : " + error.getMessage(), Toast.LENGTH_SHORT).show());
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -317,10 +320,10 @@ public class SettingsActivity extends AppCompatActivity {
                 SharedPrefConfig.writeInCodeChefPref(getApplicationContext(), item);
 
             } catch (JSONException e) {
-                Log.d("TAG", "onResponse: ERROR");
+                Log.d(TAG, "onResponse: " + e.getMessage());
                 e.printStackTrace();
             }
-        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
+        }, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -350,7 +353,7 @@ public class SettingsActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
+        }, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -377,7 +380,7 @@ public class SettingsActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
+        }, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -398,7 +401,7 @@ public class SettingsActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
+        }, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 

@@ -17,13 +17,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
+import com.rr.CPing.database.JSONResponseDBHandler;
 import com.rr.CPing.model.AtCoderUserDetails;
 import com.rr.CPing.model.CodeChefUserDetails;
 import com.rr.CPing.model.CodeForcesUserDetails;
 import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.model.LeetCodeUserDetails;
 import com.rr.CPing.model.PlatformListItem;
-import com.rr.CPing.database.JSONResponseDBHandler;
 import com.rr.CPing.util.NetworkChangeListener;
 
 import org.json.JSONArray;
@@ -35,6 +35,7 @@ import java.util.Collections;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private static final String TAG = "SplashActivity";
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     private JSONResponseDBHandler jsonResponseDBHandler;
 
@@ -118,7 +119,7 @@ public class SplashActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
+        }, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -144,10 +145,10 @@ public class SplashActivity extends AppCompatActivity {
                 SharedPrefConfig.writeInCodeChefPref(getApplicationContext(), item);
 
             } catch (JSONException e) {
-                Log.d("TAG", "onResponse: ERROR");
+                Log.d(TAG, "onResponse: " + e.getMessage());
                 e.printStackTrace();
             }
-        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
+        }, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -176,7 +177,7 @@ public class SplashActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> Log.d("TAG", "getCF: " + error.getMessage()));
+        }, error -> Log.d(TAG, "getCF: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
