@@ -109,9 +109,15 @@ public class AtCoderFragment extends Fragment {
 
         // On Item Click Listener (Reminders, Visiting Website)
 
-        ongoingRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(getContext(), ongoingContestsArrayList, position, getLayoutInflater()));
-        todayRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(getContext(), todayContestsArrayList, position, getLayoutInflater()));
-        futureRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(getContext(), futureContestsArrayList, position, getLayoutInflater()));
+        ongoingRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(null, ongoingRVA, getContext(),
+                ongoingContestsArrayList
+                , position, getLayoutInflater()));
+        todayRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(null, todayRVA, getContext(),
+                todayContestsArrayList,
+                position, getLayoutInflater()));
+        futureRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(null, futureRVA, getContext(),
+                futureContestsArrayList,
+                position, getLayoutInflater()));
 
         return groupFragmentView;
     }

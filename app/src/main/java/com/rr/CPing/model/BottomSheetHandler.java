@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
+import com.rr.CPing.adapters.AllParentRecyclerViewAdapter;
+import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
 import com.rr.CPing.util.ReminderBroadCast;
 
 import java.text.ParseException;
@@ -41,16 +43,22 @@ public class BottomSheetHandler {
 
     Context context;
     AlertDialog dialog;
+    ContestDetailsRecyclerViewAdapter contestDetailsRecyclerViewAdapter;
+    AllParentRecyclerViewAdapter allParentRecyclerViewAdapter;
 
     public BottomSheetHandler() {
     }
 
     @SuppressLint("QueryPermissionsNeeded")
-    public void showBottomSheetDialog(Context context,
+    public void showBottomSheetDialog(AllParentRecyclerViewAdapter allParentRecyclerViewAdapter,
+                                      ContestDetailsRecyclerViewAdapter contestDetailsRecyclerViewAdapter,
+                                      Context context,
                                       ArrayList<ContestDetails> contestsArrayList,
                                       int position,
                                       LayoutInflater layoutInflater) {
         this.context = context;
+        this.contestDetailsRecyclerViewAdapter = contestDetailsRecyclerViewAdapter;
+        this.allParentRecyclerViewAdapter = allParentRecyclerViewAdapter;
 
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -199,6 +207,10 @@ public class BottomSheetHandler {
                 currentList.add(contestDetails.getContestName());
                 SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
             }
+
+            if (allParentRecyclerViewAdapter == null)
+                contestDetailsRecyclerViewAdapter.notifyDataSetChanged();
+            else allParentRecyclerViewAdapter.notifyDataSetChanged();
 
             setNotification(getNum(spinner.getSelectedItem().toString()), contestDetails, start);
             dialog.cancel();

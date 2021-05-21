@@ -67,7 +67,9 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return SharedPrefConfig.readPlatformsCount(context);
+        int count = SharedPrefConfig.readPlatformsCount(context);
+        if (count > 1) count++;
+        return count;
     }
 
     @Nullable

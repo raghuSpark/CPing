@@ -233,15 +233,21 @@ public class AllFragment extends Fragment {
 
         // On Item Click Listener (Reminders, Visiting Website)
 
-        ongoingRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(getContext(),
-                getPlatformDetails(ongoingPlatformsArrayList, platFormName), position,
-                getLayoutInflater()));
-        todayRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(getContext(),
-                getPlatformDetails(todayPlatformsArrayList, platFormName), position,
-                getLayoutInflater()));
-        futureRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(getContext(),
-                getPlatformDetails(futurePlatformsArrayList, platFormName), position,
-                getLayoutInflater()));
+        ongoingRVA.setOnItemClickListener((platFormName, position) -> {
+            new BottomSheetHandler().showBottomSheetDialog(ongoingRVA, null, getContext(),
+                    getPlatformDetails(ongoingPlatformsArrayList, platFormName), position,
+                    getLayoutInflater());
+        });
+        todayRVA.setOnItemClickListener((platFormName, position) -> {
+            new BottomSheetHandler().showBottomSheetDialog(todayRVA, null, getContext(),
+                    getPlatformDetails(todayPlatformsArrayList, platFormName), position,
+                    getLayoutInflater());
+        });
+        futureRVA.setOnItemClickListener((platFormName, position) -> {
+            new BottomSheetHandler().showBottomSheetDialog(futureRVA, null, getContext(),
+                    getPlatformDetails(futurePlatformsArrayList, platFormName), position,
+                    getLayoutInflater());
+        });
 
         return groupFragmentView;
     }

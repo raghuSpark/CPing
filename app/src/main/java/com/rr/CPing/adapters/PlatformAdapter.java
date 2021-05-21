@@ -97,5 +97,4 @@ public class PlatformAdapter extends BaseAdapter {
 
         return convertView;
     }
-
 }
