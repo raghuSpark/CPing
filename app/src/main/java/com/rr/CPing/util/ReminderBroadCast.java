@@ -12,6 +12,7 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.rr.CPing.AlarmRingingActivity;
 import com.rr.CPing.R;
 import com.rr.CPing.activities.MainActivity;
 import com.rr.CPing.activities.SplashActivity;
@@ -31,5 +32,9 @@ public class ReminderBroadCast extends BroadcastReceiver {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify((int) System.currentTimeMillis(), builder.build());
+
+        Intent alarmIntent = new Intent(context, AlarmRingingActivity.class);
+        alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(alarmIntent);
     }
 }

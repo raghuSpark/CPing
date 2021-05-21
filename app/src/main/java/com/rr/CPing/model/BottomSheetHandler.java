@@ -247,7 +247,7 @@ public class BottomSheetHandler {
         long t1 = start.getTimeInMillis();
         long t2 = 60000 * time;
         Log.e("TAG", String.valueOf(t1 - t2));
-        alarmManager.set(AlarmManager.RTC_WAKEUP, t1 - t2, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
         Toast.makeText(context, "Reminder Set", Toast.LENGTH_SHORT).show();
     }
 }
