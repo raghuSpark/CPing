@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,11 +82,18 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
         if (contest.getContestStatus().equals("CODING"))
             myViewHolder.remainderIcon.setImageResource(R.drawable.ic_contest_running);
         else {
-            ArrayList<String> currentList = SharedPrefConfig.readInIdsOfReminderContests(context);
-            if (currentList.size()!=0 && currentList.contains(contest.getContestName()))
+            ArrayList<Pair<String, Long>> currentList = SharedPrefConfig.readInIdsOfReminderContests(context);
+            if (currentList.size() != 0 && isContains(currentList, contestDetailsArrayList.get(position).getContestName()))
                 myViewHolder.remainderIcon.setImageResource(R.drawable.ic_reminder_added);
             else myViewHolder.remainderIcon.setImageResource(R.drawable.ic_add_reminder);
         }
+    }
+
+    private boolean isContains(ArrayList<Pair<String, Long>> currentList, String contestName) {
+        for (Pair<String, Long> p : currentList) {
+            if (p.first.equals(contestName)) return true;
+        }
+        return false;
     }
 
     private String findDuration(int contestDuration) {

@@ -13,6 +13,7 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
+        android:contentDescription="@string/img"
         android:src="@drawable/ic_reminder_added"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

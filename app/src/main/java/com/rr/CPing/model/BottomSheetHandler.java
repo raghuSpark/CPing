@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -202,9 +203,12 @@ public class BottomSheetHandler {
         view.findViewById(R.id.saveReminder).setOnClickListener(v -> {
             Toast.makeText(context, "Reminder set!", Toast.LENGTH_SHORT).show();
 
-            ArrayList<String> currentList = SharedPrefConfig.readInIdsOfReminderContests(context);
-            if (currentList.size() == 0 || !currentList.contains(contestDetails.getContestName())) {
-                currentList.add(contestDetails.getContestName());
+            ArrayList<Pair<String, Long>> currentList =
+                    SharedPrefConfig.readInIdsOfReminderContests(context);
+            if (currentList.size() == 0 || !isContains(currentList,
+                    contestDetails.getContestName())) {
+                currentList.add(new Pair<>(contestDetails.getContestName(),
+                        System.currentTimeMillis()));
                 SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
             }
 
@@ -221,6 +225,13 @@ public class BottomSheetHandler {
         builder.setView(view);
         dialog = builder.create();
         dialog.show();
+    }
+
+    private boolean isContains(ArrayList<Pair<String, Long>> currentList, String contestName) {
+        for (Pair<String, Long> p : currentList) {
+            if (p.first.equals(contestName)) return true;
+        }
+        return false;
     }
 
     private long getTimeFromNow(String startTime) {

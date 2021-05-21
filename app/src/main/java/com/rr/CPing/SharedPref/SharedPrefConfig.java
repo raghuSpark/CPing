@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Pair;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -162,7 +163,7 @@ public class SharedPrefConfig {
 
     @SuppressLint("MutatingSharedPrefs")
     public static void writeInIdsOfReminderContests(Context context,
-                                                    ArrayList<String> contestsWithReminderAdded) {
+                                                    ArrayList<Pair<String, Long>> contestsWithReminderAdded) {
         Gson gson = new Gson();
         String jsonString = gson.toJson(contestsWithReminderAdded);
 
@@ -172,12 +173,12 @@ public class SharedPrefConfig {
         editor.apply();
     }
 
-    public static ArrayList<String> readInIdsOfReminderContests(Context context) {
+    public static ArrayList<Pair<String, Long>> readInIdsOfReminderContests(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String jsonString = pref.getString("CONTEST_REMINDERS", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<String>>() {
+        Type type = new TypeToken<ArrayList<Pair<String, Long>>>() {
         }.getType();
         if (gson.fromJson(jsonString, type) == null) return new ArrayList<>();
         return gson.fromJson(jsonString, type);
