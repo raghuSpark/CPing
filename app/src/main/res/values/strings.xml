@@ -55,12 +55,11 @@
     <string name="set_google_remainder">Set google remainder</string>
     <string name="discard">Discard</string>
     <string name="remind_me_before">Remind me before :</string>
-
-    <string-array name="times">
-        <item>5 minutes</item>
-        <item>10 minutes</item>
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-    </string-array>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="snooze">SNOOZE</string>
+    <string name="dismiss">DISMISS</string>
+    <string name="starts_in_30_minutes">Starts in 30 minutes</string>
+    <string name="snooze_time">Snooze time :</string>
 
 </resources>

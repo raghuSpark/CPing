@@ -23,7 +23,9 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/custom_spinner_design"
-        android:padding="10dp" />
+        android:dropDownVerticalOffset="40dp"
+        android:padding="10dp"
+        android:spinnerMode="dropdown" />
 
     <LinearLayout
         android:layout_width="match_parent"

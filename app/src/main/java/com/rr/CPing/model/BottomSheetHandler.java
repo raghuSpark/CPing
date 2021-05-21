@@ -26,8 +26,12 @@ import android.widget.Toast;
 import com.rr.CPing.R;
 import com.rr.CPing.util.ReminderBroadCast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -161,10 +165,21 @@ public class BottomSheetHandler {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = layoutInflater.inflate(R.layout.alarm_selector_layout, null);
 
+        ArrayList<String> beforeTimesArray = new ArrayList<>();
+
+        // Gives time in milli-seconds
+        long timeFromNow = getTimeFromNow(contestDetails.getContestStartTime());
+        //Gives Time in minutes
+        timeFromNow /= 60000;
+
+        for (long i = 5; i < Math.min(timeFromNow, 35); i += 5) {
+            beforeTimesArray.add(i + " minutes");
+        }
+
         Spinner spinner = view.findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.times,
-                android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(R.layout.dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
+                android.R.layout.simple_spinner_item, beforeTimesArray);
+        adapter.setDropDownViewResource(R.layout.drop_down_item);
         spinner.setAdapter(adapter);
 
         view.findViewById(R.id.saveReminder).setOnClickListener(v -> {
@@ -178,6 +193,21 @@ public class BottomSheetHandler {
         builder.setView(view);
         dialog = builder.create();
         dialog.show();
+    }
+
+    private long getTimeFromNow(String startTime) {
+//        2021-05-22T12:00:00.000Z
+        String currentTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+                Locale.getDefault()).format(new Date());
+
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        try {
+            return Math.abs(Objects.requireNonNull(simpleDateFormat.parse(startTime)).getTime() - Objects.requireNonNull(simpleDateFormat.parse(currentTime)).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     private int getImageResource(String site) {
