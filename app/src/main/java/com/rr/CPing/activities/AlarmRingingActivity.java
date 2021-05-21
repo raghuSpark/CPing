@@ -1,8 +1,10 @@
-package com.rr.CPing;
+package com.rr.CPing.activities;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.rr.CPing.R;
 
 public class AlarmRingingActivity extends AppCompatActivity {
 

@@ -94,7 +94,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (!newlyAddedPlatforms.isEmpty()) {
                     for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
                         String un = newlyAddedPlatforms.get(i).second;
-                        Log.d(TAG, "onCreate: "+newlyAddedPlatforms.get(i).first+" , "+un);
+                        Log.d(TAG, "onCreate: " + newlyAddedPlatforms.get(i).first + " , " + un);
                         switch (newlyAddedPlatforms.get(i).first) {
                             case "atcoder":
                                 getAC(un);
@@ -234,6 +234,12 @@ public class SettingsActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {
                 if (response.getString("status").equals("Success")) {
+                    for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
+                        if (newlyAddedPlatforms.get(i).first.equals(platform)) {
+                            newlyAddedPlatforms.remove(i);
+                            break;
+                        }
+                    }
                     newlyAddedPlatforms.add(new Pair<>(platform, username));
                     platformAdapter.setSelectedIndex(position, username);
                     dialog.dismiss();
