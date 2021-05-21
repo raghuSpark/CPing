@@ -74,7 +74,8 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("PLATFORM_DETAILS", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<PlatformListItem>>() {}.getType();
+        Type type = new TypeToken<ArrayList<PlatformListItem>>() {
+        }.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -93,7 +94,8 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("CC_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<CodeChefUserDetails>() {}.getType();
+        Type type = new TypeToken<CodeChefUserDetails>() {
+        }.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -112,7 +114,8 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("CF_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<CodeForcesUserDetails>() {}.getType();
+        Type type = new TypeToken<CodeForcesUserDetails>() {
+        }.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -131,7 +134,8 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("LC_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<LeetCodeUserDetails>() {}.getType();
+        Type type = new TypeToken<LeetCodeUserDetails>() {
+        }.getType();
         return gson.fromJson(jsonString, type);
     }
 
@@ -150,7 +154,29 @@ public class SharedPrefConfig {
         String jsonString = pref.getString("AC_USER", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<AtCoderUserDetails>() {}.getType();
+        Type type = new TypeToken<AtCoderUserDetails>() {
+        }.getType();
+        return gson.fromJson(jsonString, type);
+    }
+
+    public static void writeInIdsOfReminderContests(Context context,
+                                                    AtCoderUserDetails atCoderUserDetails) {
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(atCoderUserDetails);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("AC_USER", jsonString);
+        editor.apply();
+    }
+
+    public static AtCoderUserDetails readInIdsOfReminderContests(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        String jsonString = pref.getString("AC_USER", "");
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<AtCoderUserDetails>() {
+        }.getType();
         return gson.fromJson(jsonString, type);
     }
 }

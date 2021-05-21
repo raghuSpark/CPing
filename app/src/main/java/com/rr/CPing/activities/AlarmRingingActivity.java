@@ -1,4 +1,4 @@
-package com.rr.CPing;
+package com.rr.CPing.activities;
 
 import android.app.KeyguardManager;
 import android.os.Build;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.rr.CPing.R;
 
 public class AlarmRingingActivity extends AppCompatActivity {
 

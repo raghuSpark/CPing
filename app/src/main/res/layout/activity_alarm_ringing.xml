@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/alarm_screen_background"
-    tools:context=".AlarmRingingActivity">
+    tools:context=".activities.AlarmRingingActivity">
 
     <ImageView
         android:id="@+id/imageView2"

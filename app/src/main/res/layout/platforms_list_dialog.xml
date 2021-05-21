@@ -36,6 +36,7 @@
         android:maxLines="1"
         android:minLines="1"
         android:saveEnabled="true"
+        android:selectAllOnFocus="true"
         android:theme="@style/EditTextTheme"
         tools:targetApi="o" />
 

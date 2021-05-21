@@ -94,7 +94,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (!newlyAddedPlatforms.isEmpty()) {
                     for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
                         String un = newlyAddedPlatforms.get(i).second;
-                        Log.d(TAG, "onCreate: "+newlyAddedPlatforms.get(i).first+" , "+un);
+                        Log.d(TAG, "onCreate: " + newlyAddedPlatforms.get(i).first + " , " + un);
                         switch (newlyAddedPlatforms.get(i).first) {
                             case "atcoder":
                                 getAC(un);
@@ -158,7 +158,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (platformNamesList.get(position).isUserNameAllowed()) {
                 createPopupDialog(position);
             } else {
-                platformAdapter.setSelectedIndex(position, "");
+                platformAdapter.setSelectedIndex(position, "", false);
             }
         });
     }
@@ -175,9 +175,14 @@ public class SettingsActivity extends AppCompatActivity {
         Button platformDialogRemoveButton = view.findViewById(R.id.platform_list_dialog_remove_button);
         ProgressBar platformDialogProgressBar = view.findViewById(R.id.platform_list_dialog_progress_bar);
 
-        if (!platformNamesList.get(position).getUserName().equals("null")) {
+//        if (!platformNamesList.get(position).getUserName().equals("null")) {
+//            platformDialogUserName.setText(platformNamesList.get(position).getUserName());
+//        }
+        boolean update;
+        if (!platformNamesList.get(position).getUserName().isEmpty()) {
             platformDialogUserName.setText(platformNamesList.get(position).getUserName());
-        }
+            update = true;
+        } else update = false;
 
         platformDialogUserName.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) platformDialogUserName.clearFocus();
@@ -193,20 +198,22 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         platformDialogRemoveButton.setOnClickListener(v -> {
-            platformAdapter.setSelectedIndex(position, "");
+            platformAdapter.setSelectedIndex(position, "", false);
             dialog.cancel();
         });
 
         platformDialogSaveButton.setOnClickListener(v -> {
             if (platformDialogUserName.getText().toString().isEmpty()) {
-                platformAdapter.setSelectedIndex(position, "");
+                platformAdapter.setSelectedIndex(position, "", false);
                 Snackbar.make(v, "Invalid User Name!", Snackbar.LENGTH_SHORT).show();
             } else {
                 platformDialogSaveButton.setVisibility(View.GONE);
                 platformDialogRemoveButton.setVisibility(View.GONE);
                 platformDialogProgressBar.setVisibility(View.VISIBLE);
 
-                checkValidUsername(platformDialogProgressBar, platformDialogSaveButton, v, platformName, platformDialogUserName.getText().toString().trim(), position);
+                checkValidUsername(platformDialogProgressBar, platformDialogSaveButton, v,
+                        platformName, platformDialogUserName.getText().toString().trim(),
+                        position, update);
             }
         });
         builder.setView(view);
@@ -228,14 +235,22 @@ public class SettingsActivity extends AppCompatActivity {
         return null;
     }
 
-    private void checkValidUsername(ProgressBar platformDialogProgressBar, Button platformDialogSaveButton, View v, String platform, String username, int position) {
+    private void checkValidUsername(ProgressBar platformDialogProgressBar,
+                                    Button platformDialogSaveButton, View v, String platform,
+                                    String username, int position, boolean update) {
         String url = "https://competitive-coding-api.herokuapp.com/api/" + platform + "/" + username;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {
                 if (response.getString("status").equals("Success")) {
+                    for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
+                        if (newlyAddedPlatforms.get(i).first.equals(platform)) {
+                            newlyAddedPlatforms.remove(i);
+                            break;
+                        }
+                    }
                     newlyAddedPlatforms.add(new Pair<>(platform, username));
-                    platformAdapter.setSelectedIndex(position, username);
+                    platformAdapter.setSelectedIndex(position, username, update);
                     dialog.dismiss();
                 } else {
                     for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
