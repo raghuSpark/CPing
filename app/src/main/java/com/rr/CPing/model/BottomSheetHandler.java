@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rr.CPing.R;
+import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.util.ReminderBroadCast;
 
 import java.text.ParseException;
@@ -92,22 +93,30 @@ public class BottomSheetHandler {
         });
 
         appRemainder.setOnClickListener(v -> {
+            if (getTimeFromNow(contestsArrayList.get(position).getContestStartTime()) / 60000 <= 5) {
+                Toast.makeText(context, "This contest is going to start in less than 5 minutes!", Toast.LENGTH_SHORT).show();
+            } else {
+                showAlarmSelectorDialog(contestsArrayList.get(position), start, layoutInflater);
+            }
             dialog.cancel();
-            showAlarmSelectorDialog(contestsArrayList.get(position), start, layoutInflater);
         });
 
         googleRemainder.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_INSERT);
-            intent.setData(CalendarContract.Events.CONTENT_URI);
-            intent.putExtra(CalendarContract.Events.TITLE, contestsArrayList.get(position).getContestName());
-            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start.getTimeInMillis());
-            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end.getTimeInMillis());
-
-            if (intent.resolveActivity(Objects.requireNonNull(context).getPackageManager()) != null) {
-                context.startActivity(intent);
+            if (getTimeFromNow(contestsArrayList.get(position).getContestStartTime()) / 60000 <= 5) {
+                Toast.makeText(context, "This contest is going to start in less than 5 minutes!", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(context, "No application found supporting this feature!",
-                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Intent.ACTION_INSERT);
+                intent.setData(CalendarContract.Events.CONTENT_URI);
+                intent.putExtra(CalendarContract.Events.TITLE, contestsArrayList.get(position).getContestName());
+                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start.getTimeInMillis());
+                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end.getTimeInMillis());
+
+                if (intent.resolveActivity(Objects.requireNonNull(context).getPackageManager()) != null) {
+                    context.startActivity(intent);
+                } else {
+                    Toast.makeText(context, "No application found supporting this feature!",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
             dialog.cancel();
         });
@@ -184,6 +193,13 @@ public class BottomSheetHandler {
 
         view.findViewById(R.id.saveReminder).setOnClickListener(v -> {
             Toast.makeText(context, "Reminder set!", Toast.LENGTH_SHORT).show();
+
+            ArrayList<String> currentList = SharedPrefConfig.readInIdsOfReminderContests(context);
+            if (currentList.size() == 0 || !currentList.contains(contestDetails.getContestName())) {
+                currentList.add(contestDetails.getContestName());
+                SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
+            }
+
             setNotification(getNum(spinner.getSelectedItem().toString()), contestDetails, start);
             dialog.cancel();
         });
@@ -240,10 +256,8 @@ public class BottomSheetHandler {
     private void setNotification(int time, ContestDetails contestDetails, Calendar start) {
         Intent intent = new Intent(context, ReminderBroadCast.class);
         intent.putExtra("ContestName", contestDetails.getContestName());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                (int) System.currentTimeMillis(), intent, 0);
-        AlarmManager alarmManager =
-                (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intent, 0);
+        AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
         long t1 = start.getTimeInMillis();
         long t2 = 60000 * time;
         Log.e("TAG", String.valueOf(t1 - t2));

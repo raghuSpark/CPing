@@ -17,13 +17,11 @@ public class AlarmRingingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_alarm_ringing);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-
             setShowWhenLocked(true);
             setTurnScreenOn(true);
-            KeyguardManager keyguardManager = (KeyguardManager) getSystemService(this.KEYGUARD_SERVICE);
+            KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
             keyguardManager.requestDismissKeyguard(this, null);
-        }
-        else {
+        } else {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                     WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |

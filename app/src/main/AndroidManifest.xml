@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.rr.CPing">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -7,8 +8,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND" />
 
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -19,7 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CPing">
-<!--        <activity android:name=".AlarmRingingActivity" />-->
+        <!--        <activity android:name=".AlarmRingingActivity" />-->
         <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,12 +34,13 @@
         <receiver android:name=".util.ReminderBroadCast" />
         <activity
             android:name=".activities.AlarmRingingActivity"
-            android:parentActivityName=".activities.SplashActivity"
             android:excludeFromRecents="true"
+            android:parentActivityName=".activities.SplashActivity"
+            android:showForAllUsers="true"
             android:showOnLockScreen="true"
             android:showWhenLocked="true"
             android:turnScreenOn="true"
-            android:showForAllUsers="true" />
+            tools:targetApi="o_mr1" />
     </application>
 
 </manifest>

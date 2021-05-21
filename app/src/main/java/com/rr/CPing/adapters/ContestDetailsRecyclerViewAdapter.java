@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rr.CPing.R;
+import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.model.BottomSheetHandler;
 import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.model.DateTimeHandler;
@@ -79,6 +80,12 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
 
         if (contest.getContestStatus().equals("CODING"))
             myViewHolder.remainderIcon.setImageResource(R.drawable.ic_contest_running);
+        else {
+            ArrayList<String> currentList = SharedPrefConfig.readInIdsOfReminderContests(context);
+            if (currentList.size()!=0 && currentList.contains(contest.getContestName()))
+                myViewHolder.remainderIcon.setImageResource(R.drawable.ic_reminder_added);
+            else myViewHolder.remainderIcon.setImageResource(R.drawable.ic_add_reminder);
+        }
     }
 
     private String findDuration(int contestDuration) {
