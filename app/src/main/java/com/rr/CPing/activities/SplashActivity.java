@@ -61,7 +61,7 @@ public class SplashActivity extends AppCompatActivity {
 //        } else
         if (SharedPrefConfig.readIsFirstTime(this) || SharedPrefConfig.readPlatformsCount(this) < 1) {
             getContestDetailsFromAPI();
-            new Handler().postDelayed(this::goToNextActivity, 1000);
+            new Handler().postDelayed(this::goToSettingsActivity, 1000);
         } else {
             jsonResponseDBHandler.deleteAll();
 
@@ -100,13 +100,18 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             if (count == 0) {
-                new Handler().postDelayed(this::goToNextActivity, 500);
+                new Handler().postDelayed(this::goToMainActivity, 500);
             }
         }
     }
 
-    private void goToNextActivity() {
+    private void goToSettingsActivity() {
         startActivity(new Intent(SplashActivity.this, SettingsActivity.class));
+        finish();
+    }
+
+    private void goToMainActivity() {
+        startActivity(new Intent(SplashActivity.this, MainActivity.class));
         finish();
     }
 
@@ -133,21 +138,21 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 count--;
                 if (count <= 0) {
-                    goToNextActivity();
+                    goToMainActivity();
                 }
                 SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
             } catch (JSONException e) {
                 e.printStackTrace();
                 count--;
                 if (count <= 0) {
-                    goToNextActivity();
+                    goToSettingsActivity();
                 }
             }
         }, error -> {
             Log.d(TAG, "onErrorResponse: " + error.getMessage());
             count--;
             if (count <= 0) {
-                goToNextActivity();
+                goToSettingsActivity();
             }
         });
         requestQueue.add(jsonObjectRequest);
@@ -175,21 +180,21 @@ public class SplashActivity extends AppCompatActivity {
                 SharedPrefConfig.writeInCodeChefPref(getApplicationContext(), item);
                 count--;
                 if (count <= 0) {
-                    goToNextActivity();
+                    goToMainActivity();
                 }
             } catch (JSONException e) {
                 Log.d(TAG, "onResponse: " + e.getMessage());
                 e.printStackTrace();
                 count--;
                 if (count <= 0) {
-                    goToNextActivity();
+                    goToSettingsActivity();
                 }
             }
         }, error -> {
             Log.d(TAG, "onErrorResponse: " + error.getMessage());
             count--;
             if (count <= 0) {
-                goToNextActivity();
+                goToSettingsActivity();
             }
         });
         requestQueue.add(jsonObjectRequest);
@@ -218,21 +223,20 @@ public class SplashActivity extends AppCompatActivity {
                 SharedPrefConfig.writeInCodeForcesPref(getApplicationContext(), item);
                 count--;
                 if (count == 0) {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                    finish();
+                    goToMainActivity();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 count--;
                 if (count <= 0) {
-                    goToNextActivity();
+                    goToSettingsActivity();
                 }
             }
         }, error -> {
             Log.d(TAG, "getCF: " + error.getMessage());
             count--;
             if (count <= 0) {
-                goToNextActivity();
+                goToSettingsActivity();
             }
         });
         requestQueue.add(jsonObjectRequest);
@@ -258,21 +262,20 @@ public class SplashActivity extends AppCompatActivity {
                 SharedPrefConfig.writeInLeetCodePref(getApplicationContext(), item);
                 count--;
                 if (count == 0) {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                    finish();
+                    goToMainActivity();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 count--;
                 if (count <= 0) {
-                    goToNextActivity();
+                    goToSettingsActivity();
                 }
             }
         }, error -> {
             Log.d("TAG", "getLC: " + error.getMessage());
             count--;
             if (count <= 0) {
-                goToNextActivity();
+                goToSettingsActivity();
             }
         });
         requestQueue.add(jsonObjectRequest);

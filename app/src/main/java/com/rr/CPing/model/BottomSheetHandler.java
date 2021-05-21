@@ -78,8 +78,8 @@ public class BottomSheetHandler {
         platformImage.setImageResource(getImageResource(contestsArrayList.get(position).getSite()));
         platformTitle.setText(contestsArrayList.get(position).getSite());
         contestTitle.setText(contestsArrayList.get(position).getContestName());
-        startTime.setText(dateTimeHandler.getCompleteDetails(start));
-        endTime.setText(dateTimeHandler.getCompleteDetails(end));
+        startTime.setText(properFormat(dateTimeHandler.getCompleteDetails(start)));
+        endTime.setText(properFormat(dateTimeHandler.getCompleteDetails(end)));
 
         visitWebsite.setOnClickListener(v -> {
             context.startActivity(new Intent(Intent.ACTION_VIEW,
@@ -115,8 +115,49 @@ public class BottomSheetHandler {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
-    public void showAlarmSelectorDialog(ContestDetails contestDetails,
-                                        Calendar start, LayoutInflater layoutInflater) {
+    private StringBuilder properFormat(String completeDetails) {
+        int spaceCount = 0;
+        StringBuilder ans = new StringBuilder();
+        for (int i = 0; i < completeDetails.length(); i++) {
+            if (completeDetails.charAt(i) == ' ') {
+                spaceCount++;
+            }
+            if (spaceCount == 3) {
+                ans.append(',');
+                ans.insert(0, ", ");
+                StringBuilder hr_24Time = new StringBuilder();
+                for (int j = i + 1; j <= i + 5; j++) {
+                    hr_24Time.append(completeDetails.charAt(j));
+                }
+                ans.insert(0, hr_24To12Format(hr_24Time));
+                i += 5;
+                spaceCount++;
+            } else ans.append(completeDetails.charAt(i));
+        }
+        return ans;
+    }
+
+    public StringBuilder hr_24To12Format(StringBuilder hr_24Time) {
+        int h1 = (int) hr_24Time.charAt(0) - '0';
+        int h2 = (int) hr_24Time.charAt(1) - '0';
+
+        int hh = h1 * 10 + h2;
+        String Meridian = (hh < 12) ? "AM" : "PM";
+
+        hh %= 12;
+        StringBuilder hr_12Time;
+        if (hh == 0) {
+            hr_12Time = new StringBuilder("12");
+        } else {
+            hr_12Time = new StringBuilder(Integer.toString(hh));
+        }
+        for (int i = 2; i < 5; i++) hr_12Time.append(hr_24Time.charAt(i));
+        hr_12Time.append(" ").append(Meridian);
+        return hr_12Time;
+    }
+
+    private void showAlarmSelectorDialog(ContestDetails contestDetails,
+                                         Calendar start, LayoutInflater layoutInflater) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = layoutInflater.inflate(R.layout.alarm_selector_layout, null);
 

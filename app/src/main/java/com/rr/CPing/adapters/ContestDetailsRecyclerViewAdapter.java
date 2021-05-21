@@ -16,20 +16,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rr.CPing.R;
+import com.rr.CPing.model.BottomSheetHandler;
 import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.model.DateTimeHandler;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 
 public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
 
     private final ArrayList<ContestDetails> contestDetailsArrayList;
+    private final DateTimeHandler dateTimeHandler;
     Context context;
     private ContestDetailsRecyclerViewAdapter.OnItemClickListener itemClickListener;
-    private final DateTimeHandler dateTimeHandler;
 
     public ContestDetailsRecyclerViewAdapter(ArrayList<ContestDetails> contestDetailsArrayList) {
         this.contestDetailsArrayList = contestDetailsArrayList;
@@ -66,7 +65,7 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
 
         myViewHolder.startDate.setText(spannableString);
 
-        text = "At: " + dateTimeHandler.getTime(start);
+        text = "At: " + new BottomSheetHandler().hr_24To12Format(new StringBuilder(dateTimeHandler.getTime(start)));
         spannableString = new SpannableString(text);
         spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
