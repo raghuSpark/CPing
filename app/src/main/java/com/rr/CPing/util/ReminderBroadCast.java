@@ -4,17 +4,13 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.rr.CPing.AlarmRingingActivity;
 import com.rr.CPing.R;
-import com.rr.CPing.activities.MainActivity;
+import com.rr.CPing.activities.AlarmRingingActivity;
 import com.rr.CPing.activities.SplashActivity;
 
 public class ReminderBroadCast extends BroadcastReceiver {

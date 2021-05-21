@@ -32,7 +32,7 @@
 
         <receiver android:name=".util.ReminderBroadCast" />
         <activity
-            android:name=".AlarmRingingActivity"
+            android:name=".activities.AlarmRingingActivity"
             android:parentActivityName=".activities.SplashActivity"
             android:excludeFromRecents="true"
             android:showOnLockScreen="true"
