@@ -61,12 +61,7 @@ public class SplashActivity extends AppCompatActivity {
 //        } else
         if (SharedPrefConfig.readIsFirstTime(this) || SharedPrefConfig.readPlatformsCount(this) < 1) {
             getContestDetailsFromAPI();
-
-            Handler handler = new Handler();
-            handler.postDelayed(() -> {
-                startActivity(new Intent(SplashActivity.this, SettingsActivity.class));
-                finish();
-            }, 1000);
+            new Handler().postDelayed(this::goToNextActivity, 1000);
         } else {
             jsonResponseDBHandler.deleteAll();
 
@@ -105,12 +100,14 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             if (count == 0) {
-                new Handler().postDelayed(() -> {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                    finish();
-                }, 1000);
+                new Handler().postDelayed(this::goToNextActivity, 500);
             }
         }
+    }
+
+    private void goToNextActivity() {
+        startActivity(new Intent(SplashActivity.this, SettingsActivity.class));
+        finish();
     }
 
     private void getAC(String user_name) {
@@ -136,14 +133,23 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 count--;
                 if (count <= 0) {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                    finish();
+                    goToNextActivity();
                 }
                 SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
             } catch (JSONException e) {
                 e.printStackTrace();
+                count--;
+                if (count <= 0) {
+                    goToNextActivity();
+                }
             }
-        }, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage()));
+        }, error -> {
+            Log.d(TAG, "onErrorResponse: " + error.getMessage());
+            count--;
+            if (count <= 0) {
+                goToNextActivity();
+            }
+        });
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -169,14 +175,23 @@ public class SplashActivity extends AppCompatActivity {
                 SharedPrefConfig.writeInCodeChefPref(getApplicationContext(), item);
                 count--;
                 if (count <= 0) {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                    finish();
+                    goToNextActivity();
                 }
             } catch (JSONException e) {
                 Log.d(TAG, "onResponse: " + e.getMessage());
                 e.printStackTrace();
+                count--;
+                if (count <= 0) {
+                    goToNextActivity();
+                }
             }
-        }, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage()));
+        }, error -> {
+            Log.d(TAG, "onErrorResponse: " + error.getMessage());
+            count--;
+            if (count <= 0) {
+                goToNextActivity();
+            }
+        });
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -208,8 +223,18 @@ public class SplashActivity extends AppCompatActivity {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                count--;
+                if (count <= 0) {
+                    goToNextActivity();
+                }
             }
-        }, error -> Log.d(TAG, "getCF: " + error.getMessage()));
+        }, error -> {
+            Log.d(TAG, "getCF: " + error.getMessage());
+            count--;
+            if (count <= 0) {
+                goToNextActivity();
+            }
+        });
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -238,8 +263,18 @@ public class SplashActivity extends AppCompatActivity {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                count--;
+                if (count <= 0) {
+                    goToNextActivity();
+                }
             }
-        }, error -> Log.d("TAG", "getLC: " + error.getMessage()));
+        }, error -> {
+            Log.d("TAG", "getLC: " + error.getMessage());
+            count--;
+            if (count <= 0) {
+                goToNextActivity();
+            }
+        });
         requestQueue.add(jsonObjectRequest);
     }
 

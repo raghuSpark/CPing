@@ -1,28 +1,12 @@
 package com.rr.CPing.fragments;
 
-import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -37,25 +21,16 @@ import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.AllParentRecyclerViewAdapter;
 import com.rr.CPing.database.JSONResponseDBHandler;
 import com.rr.CPing.model.AtCoderUserDetails;
+import com.rr.CPing.model.BottomSheetHandler;
 import com.rr.CPing.model.CodeChefUserDetails;
 import com.rr.CPing.model.CodeForcesUserDetails;
 import com.rr.CPing.model.ContestDetails;
-import com.rr.CPing.model.DateTimeHandler;
 import com.rr.CPing.model.PlatformDetails;
 import com.rr.CPing.model.PlatformListItem;
 import com.rr.CPing.model.SetRankColor;
-import com.rr.CPing.util.ReminderBroadCast;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
-import java.util.Objects;
-
-import static android.content.Context.ALARM_SERVICE;
 
 public class AllFragment extends Fragment {
 
@@ -75,9 +50,6 @@ public class AllFragment extends Fragment {
     private AllParentRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
 
     private SetRankColor setRankColor;
-    private DateTimeHandler dateTimeHandler;
-
-    private AlertDialog dialog;
 
     public AllFragment() {
         // Required empty public constructor
@@ -91,7 +63,6 @@ public class AllFragment extends Fragment {
 
         platforms = new ArrayList<>();
         setRankColor = new SetRankColor(getContext());
-        dateTimeHandler = new DateTimeHandler();
 
         ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(getContext());
 
@@ -262,9 +233,15 @@ public class AllFragment extends Fragment {
 
         // On Item Click Listener (Reminders, Visiting Website)
 
-        ongoingRVA.setOnItemClickListener((platFormName, position) -> showBottomSheetDialog(getPlatformDetails(ongoingPlatformsArrayList, platFormName), position));
-        todayRVA.setOnItemClickListener((platFormName, position) -> showBottomSheetDialog(getPlatformDetails(todayPlatformsArrayList, platFormName), position));
-        futureRVA.setOnItemClickListener((platFormName, position) -> showBottomSheetDialog(getPlatformDetails(futurePlatformsArrayList, platFormName), position));
+        ongoingRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(getContext(),
+                getPlatformDetails(ongoingPlatformsArrayList, platFormName), position,
+                getLayoutInflater()));
+        todayRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(getContext(),
+                getPlatformDetails(todayPlatformsArrayList, platFormName), position,
+                getLayoutInflater()));
+        futureRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(getContext(),
+                getPlatformDetails(futurePlatformsArrayList, platFormName), position,
+                getLayoutInflater()));
 
         return groupFragmentView;
     }
@@ -276,143 +253,6 @@ public class AllFragment extends Fragment {
             }
         }
         return new ArrayList<>();
-    }
-
-    @SuppressLint("QueryPermissionsNeeded")
-    private void showBottomSheetDialog(ArrayList<ContestDetails> contestsArrayList, int position) {
-        final Dialog dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.bottom_sheet_layout);
-
-        TextView platformTitle = dialog.findViewById(R.id.bottom_sheet_platform_title),
-                contestTitle = dialog.findViewById(R.id.bottom_sheet_contest_title),
-                startTime = dialog.findViewById(R.id.bottom_sheet_start_time),
-                endTime = dialog.findViewById(R.id.bottom_sheet_end_time),
-                visitWebsite = dialog.findViewById(R.id.bottom_sheet_visit_website),
-                appRemainder = dialog.findViewById(R.id.bottom_sheet_in_app_remainder),
-                googleRemainder = dialog.findViewById(R.id.bottom_sheet_google_remainder);
-        ImageView platformImage = dialog.findViewById(R.id.bottom_sheet_platform_title_image);
-
-        Calendar start = Calendar.getInstance();
-        Calendar end = Calendar.getInstance();
-        dateTimeHandler.setCalender(start, contestsArrayList.get(position).getContestStartTime());
-        dateTimeHandler.setCalender(end, contestsArrayList.get(position).getContestEndTime());
-
-        if (contestsArrayList.get(position).getContestStatus().equals("CODING")) {
-            appRemainder.setVisibility(View.GONE);
-            googleRemainder.setVisibility(View.GONE);
-        } else {
-            appRemainder.setVisibility(View.VISIBLE);
-            googleRemainder.setVisibility(View.VISIBLE);
-        }
-
-        platformImage.setImageResource(getImageResource(contestsArrayList.get(position).getSite()));
-        platformTitle.setText(contestsArrayList.get(position).getSite());
-        contestTitle.setText(contestsArrayList.get(position).getContestName());
-        startTime.setText(dateTimeHandler.getCompleteDetails(start));
-        endTime.setText(dateTimeHandler.getCompleteDetails(end));
-
-        visitWebsite.setOnClickListener(v -> {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(contestsArrayList.get(position).getContestUrl())));
-            dialog.cancel();
-        });
-
-        appRemainder.setOnClickListener(v -> {
-            dialog.cancel();
-            showAlarmSelectorDialog(contestsArrayList.get(position), start);
-        });
-
-        googleRemainder.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_INSERT);
-            intent.setData(CalendarContract.Events.CONTENT_URI);
-            intent.putExtra(CalendarContract.Events.TITLE, contestsArrayList.get(position).getContestName());
-            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start.getTimeInMillis());
-            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end.getTimeInMillis());
-
-            if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
-                startActivity(intent);
-            } else {
-                Toast.makeText(getContext(), "No application found supporting this feature!", Toast.LENGTH_SHORT).show();
-            }
-            dialog.cancel();
-        });
-
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = R.style.BottomSheetAnimation;
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
-    }
-
-    private void showAlarmSelectorDialog(ContestDetails contestDetails, Calendar start) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        View view = getLayoutInflater().inflate(R.layout.alarm_selector_layout, null);
-
-        Spinner spinner = view.findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.times, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(R.layout.dropdown_item);
-        spinner.setAdapter(adapter);
-
-        view.findViewById(R.id.saveReminder).setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Reminder set!", Toast.LENGTH_SHORT).show();
-            setNotification(getNum(spinner.getSelectedItem().toString()), contestDetails, start);
-            dialog.cancel();
-        });
-
-        view.findViewById(R.id.discardReminder).setOnClickListener(v -> dialog.cancel());
-
-        builder.setView(view);
-        dialog = builder.create();
-        dialog.show();
-    }
-
-    private int getNum(String s) {
-        if (s.charAt(1) == ' ') return Integer.parseInt(s.substring(0, 1));
-        return Integer.parseInt(s.substring(0, 2));
-    }
-
-    private void setNotification(int time, ContestDetails contestDetails, Calendar start) {
-        Intent intent = new Intent(getContext(), ReminderBroadCast.class);
-        intent.putExtra("ContestName", contestDetails.getContestName());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), (int) System.currentTimeMillis(), intent, 0);
-        AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(getActivity()).getSystemService(ALARM_SERVICE);
-        long t1 = start.getTimeInMillis();
-        long t2 = 60000 * time;
-        Log.e("TAG", String.valueOf(t1 - t2));
-        alarmManager.set(AlarmManager.RTC_WAKEUP, t1 - t2, pendingIntent);
-        Toast.makeText(getContext(), "Reminder Set", Toast.LENGTH_SHORT).show();
-    }
-
-    private Date convertISO8601ToDate(String dateString) {
-        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        try {
-            return df.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private int getImageResource(String site) {
-        switch (site) {
-            case "AtCoder":
-                return R.drawable.ic_at_coder_logo;
-            case "CodeChef":
-                return R.drawable.ic_codechef_logo;
-            case "CodeForces":
-                return R.drawable.ic_codeforces_logo;
-            case "HackerEarth":
-                return R.drawable.ic_hacker_earth_logo;
-            case "HackerRank":
-                return R.drawable.ic_hackerrank_logo;
-            case "Kick Start":
-                return R.drawable.ic_kickstart_logo;
-            case "LeetCode":
-                return R.drawable.ic_leetcode_logo;
-            case "TopCoder":
-                return R.drawable.ic_topcoder_logo;
-        }
-        return 0;
     }
 
     private void findViewsByIds() {
