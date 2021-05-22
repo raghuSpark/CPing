@@ -185,7 +185,7 @@ public class BottomSheetHandler {
 
             ArrayList<AlarmIdClass> currentList =
                     SharedPrefConfig.readInIdsOfReminderContests(context);
-            if (currentList.size() == 0 || !isContains(currentList,
+            if (currentList.isEmpty() || !isContains(currentList,
                     contestDetails.getContestName())) {
                 currentList.add(new AlarmIdClass(contestDetails.getContestName(),
                         getTimeFromNow(contestDetails.getContestStartTime()),
@@ -197,8 +197,8 @@ public class BottomSheetHandler {
                 contestDetailsRecyclerViewAdapter.notifyDataSetChanged();
             else allParentRecyclerViewAdapter.notifyDataSetChanged();
 
-            setNotification(getNum(spinner.getSelectedItem().toString()), contestDetails, start);
             dialog.cancel();
+            setNotification(getNum(spinner.getSelectedItem().toString()), contestDetails, start);
         });
 
         view.findViewById(R.id.discardReminder).setOnClickListener(v -> dialog.cancel());

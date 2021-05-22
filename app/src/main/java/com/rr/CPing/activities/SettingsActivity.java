@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -49,22 +47,21 @@ public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = "SettingsActivity";
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
+    // For making loading tasks in background
+    boolean saveButtonClicked = false;
+    int stillLoadingCount = 0;
+
     private PlatformAdapter platformAdapter;
     private Button settingsSaveButton;
     private EditText appUsernameEditText;
     private ProgressBar settingsProgressBar;
-
     private ArrayList<PlatformListItem> platformNamesList;
-    private ArrayList<Pair<String, String>> newlyAddedPlatforms = new ArrayList<>();
-
     private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-        newlyAddedPlatforms = new ArrayList<>();
 
         Toolbar dashBoardToolbar = findViewById(R.id.settings_page_toolbar);
         setSupportActionBar(dashBoardToolbar);
@@ -85,40 +82,35 @@ public class SettingsActivity extends AppCompatActivity {
             } else if (SharedPrefConfig.readPlatformsCount(SettingsActivity.this) == 0) {
                 Toast.makeText(SettingsActivity.this, "No Platform is selected!", Toast.LENGTH_SHORT).show();
             } else {
+                saveButtonClicked = true;
+
                 settingsSaveButton.setVisibility(View.GONE);
                 settingsProgressBar.setVisibility(View.VISIBLE);
 
                 if (SharedPrefConfig.readIsFirstTime(SettingsActivity.this)) {
                     SharedPrefConfig.writeIsFirstTime(SettingsActivity.this, false);
                 }
-                if (!newlyAddedPlatforms.isEmpty()) {
-                    for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
-                        String un = newlyAddedPlatforms.get(i).second;
-                        Log.d(TAG, "onCreate: " + newlyAddedPlatforms.get(i).first + " , " + un);
-                        switch (newlyAddedPlatforms.get(i).first) {
-                            case "atcoder":
-                                getAC(un);
-                                break;
-                            case "codechef":
-                                getCC(un);
-                                break;
-                            case "codeforces":
-                                getCF(un);
-                                break;
-                            case "leetcode":
-                                getLC(un);
-                                break;
-                        }
-                    }
-                    new Handler().postDelayed(() -> {
-                        startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-                        finish();
-                    }, newlyAddedPlatforms.size() * 1300);
-                } else {
-                    new Handler().postDelayed(() -> {
-                        startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-                        finish();
-                    }, 500);
+//                if (!newlyAddedPlatforms.isEmpty()) {
+//                    for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
+//                        String un = newlyAddedPlatforms.get(i).second;
+//                        switch (newlyAddedPlatforms.get(i).first) {
+//                            case "atcoder":
+//                                getAC(un);
+//                                break;
+//                            case "codechef":
+//                                getCC(un);
+//                                break;
+//                            case "codeforces":
+//                                getCF(un);
+//                                break;
+//                            case "leetcode":
+//                                getLC(un);
+//                                break;
+//                        }
+//                    }
+                if (stillLoadingCount <= 0) {
+                    startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                    finish();
                 }
             }
         });
@@ -175,9 +167,6 @@ public class SettingsActivity extends AppCompatActivity {
         Button platformDialogRemoveButton = view.findViewById(R.id.platform_list_dialog_remove_button);
         ProgressBar platformDialogProgressBar = view.findViewById(R.id.platform_list_dialog_progress_bar);
 
-//        if (!platformNamesList.get(position).getUserName().equals("null")) {
-//            platformDialogUserName.setText(platformNamesList.get(position).getUserName());
-//        }
         boolean update;
         if (!platformNamesList.get(position).getUserName().isEmpty()) {
             platformDialogUserName.setText(platformNamesList.get(position).getUserName());
@@ -243,22 +232,36 @@ public class SettingsActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {
                 if (response.getString("status").equals("Success")) {
-                    for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
-                        if (newlyAddedPlatforms.get(i).first.equals(platform)) {
-                            newlyAddedPlatforms.remove(i);
+//                    for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
+//                        if (newlyAddedPlatforms.get(i).first.equals(platform)) {
+//                            newlyAddedPlatforms.remove(i);
+//                            break;
+//                        }
+//                    }
+//                    newlyAddedPlatforms.add(new Pair<>(platform, username));
+                    switch (platform) {
+                        case "atcoder":
+                            getAC(username);
                             break;
-                        }
+                        case "codechef":
+                            getCC(username);
+                            break;
+                        case "codeforces":
+                            getCF(username);
+                            break;
+                        case "leetcode":
+                            getLC(username);
+                            break;
                     }
-                    newlyAddedPlatforms.add(new Pair<>(platform, username));
                     platformAdapter.setSelectedIndex(position, username, update);
                     dialog.dismiss();
                 } else {
-                    for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
-                        if (newlyAddedPlatforms.get(i).first.equals(platform)) {
-                            newlyAddedPlatforms.remove(i);
-                            break;
-                        }
-                    }
+//                    for (int i = 0; i < newlyAddedPlatforms.size(); i++) {
+//                        if (newlyAddedPlatforms.get(i).first.equals(platform)) {
+//                            newlyAddedPlatforms.remove(i);
+//                            break;
+//                        }
+//                    }
                     Snackbar.make(v, "Invalid User Name!", Snackbar.LENGTH_SHORT).show();
                     platformDialogProgressBar.setVisibility(View.GONE);
                     platformDialogSaveButton.setVisibility(View.VISIBLE);
@@ -270,7 +273,6 @@ public class SettingsActivity extends AppCompatActivity {
                 platformDialogSaveButton.setVisibility(View.VISIBLE);
             }
         }, error -> {
-//            Toast.makeText(SettingsActivity.this, "ERROR : " + error.getMessage(), Toast.LENGTH_SHORT).show();
             Snackbar.make(v, "Some error occurred! Retry again...", Snackbar.LENGTH_SHORT).show();
             platformDialogProgressBar.setVisibility(View.GONE);
             platformDialogSaveButton.setVisibility(View.VISIBLE);
@@ -302,8 +304,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
-        super.finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        super.finish();
     }
 
     @Override
@@ -313,15 +315,17 @@ public class SettingsActivity extends AppCompatActivity {
         } else if (SharedPrefConfig.readPlatformsCount(this) == 0) {
             Toast.makeText(this, "No Platform is selected!", Toast.LENGTH_SHORT).show();
         } else {
-            if (newlyAddedPlatforms.isEmpty()) {
+            if (stillLoadingCount <= 0) {
                 startActivity(new Intent(SettingsActivity.this, MainActivity.class));
                 finish();
                 super.onBackPressed();
-            } else Toast.makeText(this, "Settings not saved!", Toast.LENGTH_SHORT).show();
+            } else Toast.makeText(this, "Settings are not yet saved!", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void getCC(String user_name) {
+        stillLoadingCount++;
+
         String platform_name = "codechef";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -341,16 +345,31 @@ public class SettingsActivity extends AppCompatActivity {
                         recentRatingsArrayList);
 
                 SharedPrefConfig.writeInCodeChefPref(getApplicationContext(), item);
+                stillLoadingCount--;
 
+                if (stillLoadingCount <= 0 && saveButtonClicked) {
+                    startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                    finish();
+                }
             } catch (JSONException e) {
                 Log.d(TAG, "onResponse: " + e.getMessage());
                 e.printStackTrace();
+                stillLoadingCount--;
             }
-        }, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage()));
+        }, error -> {
+            Log.d(TAG, "onErrorResponse: " + error.getMessage());
+            stillLoadingCount--;
+        });
+        if (stillLoadingCount <= 0 && saveButtonClicked) {
+            startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+            finish();
+        }
         requestQueue.add(jsonObjectRequest);
     }
 
     private void getCF(String user_name) {
+        stillLoadingCount++;
+
         String platform_name = "codeforces";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -372,15 +391,30 @@ public class SettingsActivity extends AppCompatActivity {
                         recentRatingsArrayList);
 
                 SharedPrefConfig.writeInCodeForcesPref(getApplicationContext(), item);
+                stillLoadingCount--;
 
+                if (stillLoadingCount <= 0 && saveButtonClicked) {
+                    startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                    finish();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
+                stillLoadingCount--;
             }
-        }, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage()));
+        }, error -> {
+            stillLoadingCount--;
+            Log.d(TAG, "onErrorResponse: " + error.getMessage());
+        });
+        if (stillLoadingCount <= 0 && saveButtonClicked) {
+            startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+            finish();
+        }
         requestQueue.add(jsonObjectRequest);
     }
 
     private void getLC(String user_name) {
+        stillLoadingCount++;
+
         String platform_name = "leetcode";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -399,15 +433,30 @@ public class SettingsActivity extends AppCompatActivity {
                         response.getString("total_hard_questions"));
 
                 SharedPrefConfig.writeInLeetCodePref(getApplicationContext(), item);
+                stillLoadingCount--;
 
+                if (stillLoadingCount <= 0 && saveButtonClicked) {
+                    startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                    finish();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
+                stillLoadingCount--;
             }
-        }, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage()));
+        }, error -> {
+            stillLoadingCount--;
+            Log.d(TAG, "onErrorResponse: " + error.getMessage());
+        });
+        if (stillLoadingCount <= 0 && saveButtonClicked) {
+            startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+            finish();
+        }
         requestQueue.add(jsonObjectRequest);
     }
 
     private void getAC(String user_name) {
+        stillLoadingCount++;
+
         String platform_name = "atcoder";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -421,10 +470,24 @@ public class SettingsActivity extends AppCompatActivity {
                         response.getString("level"));
 
                 SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
+                stillLoadingCount--;
+
+                if (stillLoadingCount <= 0 && saveButtonClicked) {
+                    startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                    finish();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
+                stillLoadingCount--;
             }
-        }, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage()));
+        }, error -> {
+            Log.d(TAG, "onErrorResponse: " + error.getMessage());
+            stillLoadingCount--;
+        });
+        if (stillLoadingCount <= 0 && saveButtonClicked) {
+            startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+            finish();
+        }
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -440,5 +503,4 @@ public class SettingsActivity extends AppCompatActivity {
         unregisterReceiver(networkChangeListener);
         super.onStop();
     }
-
 }

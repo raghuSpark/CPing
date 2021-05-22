@@ -28,6 +28,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true);
             setTurnScreenOn(true);
+            setVisible(true);
             KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
             keyguardManager.requestDismissKeyguard(this, null);
         } else {

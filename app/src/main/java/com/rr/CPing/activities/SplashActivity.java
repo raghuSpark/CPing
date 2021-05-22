@@ -60,7 +60,7 @@ public class SplashActivity extends AppCompatActivity {
                 break;
             }
         }
-        if (isPresent && currentList.size() > 0) currentList.remove(i);
+        if (isPresent && !currentList.isEmpty()) currentList.remove(i);
         SharedPrefConfig.writeInIdsOfReminderContests(this, currentList);
 
         jsonResponseDBHandler = new JSONResponseDBHandler(this);
