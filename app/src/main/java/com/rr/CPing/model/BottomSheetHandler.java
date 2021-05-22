@@ -92,7 +92,7 @@ public class BottomSheetHandler {
         //TODO: Spinner time setting by 5 chesindhi maarchaali
         //TODO: Sound for alarm
         //TODO: icon not changing when deleted reminder
-        //TODO: Few more bugs
+        //TODO: Few more bugs to be fixed...
 
         ArrayList<AlarmIdClass> currentList =
                 SharedPrefConfig.readInIdsOfReminderContests(context);
