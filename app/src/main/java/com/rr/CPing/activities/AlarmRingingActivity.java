@@ -4,7 +4,7 @@ import android.app.KeyguardManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +13,7 @@ import com.rr.CPing.R;
 
 public class AlarmRingingActivity extends AppCompatActivity {
 
-    private Button dismissButton, snoozeButton, snoozeTimeIncreaseButton,
+    private ImageView dismissButton, snoozeButton, snoozeTimeIncreaseButton,
             snoozeTimeDecreaseButton;
     private TextView snoozeTimeTextView, platformNameTextView, contestNameTextView,
             timeDescriptionTextView;
@@ -34,7 +34,8 @@ public class AlarmRingingActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                     WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
     }
 

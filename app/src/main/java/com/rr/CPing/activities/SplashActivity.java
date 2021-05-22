@@ -53,12 +53,14 @@ public class SplashActivity extends AppCompatActivity {
 
         ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(this);
         int i;
+        boolean isPresent = false;
         for (i = 0; i < currentList.size(); i++) {
             if (currentList.get(i).getStartTime() >= System.currentTimeMillis() + 300000) {
+                isPresent = true;
                 break;
             }
         }
-        if (currentList.size() > 0) currentList.remove(i);
+        if (isPresent && currentList.size() > 0) currentList.remove(i);
         SharedPrefConfig.writeInIdsOfReminderContests(this, currentList);
 
         jsonResponseDBHandler = new JSONResponseDBHandler(this);
