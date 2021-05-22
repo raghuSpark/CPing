@@ -20,10 +20,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/alarm_platform_name_text_View"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/nunito_bold"
         android:gravity="center"
         android:text="@string/platform_name"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/alarm_contest_name_text_View"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito_semi_bold"
@@ -44,10 +44,10 @@
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/alarm_platform_name_text_View" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/alarm_time_description_text_View"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -58,7 +58,7 @@
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/alarm_contest_name_text_View" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3">
+        app:layout_constraintTop_toBottomOf="@+id/alarm_time_description_text_View">
 
         <TextView
             android:layout_width="0dp"
@@ -82,11 +82,13 @@
             android:textColor="@color/black"
             android:textSize="25sp" />
 
-        <TextView
+        <Button
+            android:id="@+id/alarm_snooze_time_decrease_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="0.5"
+            android:background="@drawable/alarm_activity_buttons"
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="@font/nunito_bold"
@@ -97,6 +99,7 @@
             android:textSize="50sp" />
 
         <TextView
+            android:id="@+id/alarm_snooze_time_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -107,11 +110,13 @@
             android:textColor="@color/black"
             android:textSize="25sp" />
 
-        <TextView
+        <Button
+            android:id="@+id/alarm_snooze_time_increase_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="0.5"
+            android:background="@drawable/alarm_activity_buttons"
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="@font/nunito_bold"
@@ -134,66 +139,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout
+        <Button
+            android:id="@+id/alarm_snooze_button"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/alarm_activity_buttons"
             android:clickable="true"
+            android:drawableTop="@drawable/ic_snooze_icon"
+            android:drawablePadding="10dp"
             android:focusable="true"
+            android:fontFamily="@font/nunito_bold"
             android:foreground="?android:attr/selectableItemBackground"
-            android:orientation="vertical">
+            android:padding="15dp"
+            android:text="@string/snooze"
+            android:textColor="@color/black" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/transparent"
-                android:contentDescription="@string/img"
-                android:src="@drawable/ic_snooze_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/snooze"
-                android:textColor="@color/black"
-                android:textSize="17sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <Button
+            android:id="@+id/alarm_dismiss_button"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/alarm_activity_buttons"
             android:clickable="true"
+            android:drawableTop="@drawable/ic_dismiss_icon"
+            android:drawablePadding="10dp"
             android:focusable="true"
+            android:fontFamily="@font/nunito_bold"
             android:foreground="?android:attr/selectableItemBackground"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/transparent"
-                android:contentDescription="@string/img"
-                android:rotation="45"
-                android:src="@drawable/ic_dismiss_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/dismiss"
-                android:textColor="@color/black"
-                android:textSize="17sp" />
-
-        </LinearLayout>
+            android:padding="15dp"
+            android:text="@string/dismiss"
+            android:textColor="@color/black" />
 
     </LinearLayout>
 

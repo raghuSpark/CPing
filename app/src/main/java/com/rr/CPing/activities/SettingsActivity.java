@@ -265,8 +265,16 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                Snackbar.make(v, "Some error occurred! Retry again...", Snackbar.LENGTH_SHORT).show();
+                platformDialogProgressBar.setVisibility(View.GONE);
+                platformDialogSaveButton.setVisibility(View.VISIBLE);
             }
-        }, error -> Toast.makeText(SettingsActivity.this, "ERROR : " + error.getMessage(), Toast.LENGTH_SHORT).show());
+        }, error -> {
+//            Toast.makeText(SettingsActivity.this, "ERROR : " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            Snackbar.make(v, "Some error occurred! Retry again...", Snackbar.LENGTH_SHORT).show();
+            platformDialogProgressBar.setVisibility(View.GONE);
+            platformDialogSaveButton.setVisibility(View.VISIBLE);
+        });
         requestQueue.add(jsonObjectRequest);
     }
 
