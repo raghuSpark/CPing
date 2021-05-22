@@ -77,7 +77,7 @@
             android:layout_gravity="center"
             android:layout_weight="2"
             android:fontFamily="@font/nunito_semi_bold"
-            android:gravity="start"
+            android:gravity="center"
             android:text="@string/snooze_time"
             android:textColor="@color/black"
             android:textSize="22sp" />
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:fontFamily="@font/nunito_regular"
+            android:fontFamily="@font/nunito_bold"
             android:gravity="center"
             android:text="@string/_1111"
             android:textColor="@color/black"
