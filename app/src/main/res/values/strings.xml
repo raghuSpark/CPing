@@ -29,12 +29,12 @@
     <string name="make_sure_you_are_connected_to_internet">Make sure you are connected to internet.</string>
     <string name="network_error">Network Error</string>
     <string name="save">Save</string>
-    <string name="remainder_icon">remainder icon</string>
+    <string name="reminder_icon">reminder icon</string>
     <string name="img">img</string>
     <string name="end">End&#160;&#160;&#160;:</string>
     <string name="start">Start :</string>
     <string name="visit_website">Visit website</string>
-    <string name="set_in_app_remainder">Set in-app remainder</string>
+    <string name="set_in_app_reminder">Set in-app reminder</string>
     <string name="contest_name_and_details">Contest Name and Details</string>
     <string name="dd_mm_yyyy_hh_mm_am_pm">DD-MM-YYYY HH:MM AM/PM</string>
     <string name="contest_name">Contest Name</string>
@@ -52,8 +52,8 @@
     <string name="let_s_have_fun_for_a_while">Let us have fun for a while!</string>
     <string name="retry">Retry</string>
     <string name="date_format">"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"</string>
-    <string name="set_google_remainder">Set google remainder</string>
-    <string name="discard">Discard</string>
+    <string name="set_google_reminder">Set google reminder</string>
+    <string name="discard">Cancel</string>
     <string name="remind_me_before">Remind me before :</string>
     <string name="plus">+</string>
     <string name="minus">-</string>

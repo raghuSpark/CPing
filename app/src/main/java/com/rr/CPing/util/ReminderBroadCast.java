@@ -17,6 +17,7 @@ public class ReminderBroadCast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String contestName = intent.getStringExtra("ContestName");
+
         Log.e("TAG", contestName);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notify_contest")
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -30,6 +31,7 @@ public class ReminderBroadCast extends BroadcastReceiver {
         notificationManager.notify((int) System.currentTimeMillis(), builder.build());
 
         Intent alarmIntent = new Intent(context, AlarmRingingActivity.class);
+        alarmIntent.putExtra("ContestName",contestName);
         alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(alarmIntent);
     }

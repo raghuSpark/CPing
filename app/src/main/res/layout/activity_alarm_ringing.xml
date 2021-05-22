@@ -20,18 +20,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.08" />
 
-    <TextView
-        android:id="@+id/alarm_platform_name_text_View"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_bold"
-        android:gravity="center"
-        android:text="@string/platform_name"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+<!--    <TextView-->
+<!--        android:id="@+id/alarm_platform_name_text_View"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/nunito_bold"-->
+<!--        android:gravity="center"-->
+<!--        android:text="@string/platform_name"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="25sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/imageView2" />-->
 
     <TextView
         android:id="@+id/alarm_contest_name_text_View"
@@ -44,7 +44,7 @@
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alarm_platform_name_text_View" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView
         android:id="@+id/alarm_time_description_text_View"
@@ -59,64 +59,64 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alarm_contest_name_text_View" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/alarm_snooze_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alarm_time_description_text_View">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/linearLayout2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="15dp"-->
+<!--        android:layout_marginEnd="15dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/alarm_snooze_button"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/alarm_time_description_text_View">-->
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="2"
-            android:fontFamily="@font/nunito_semi_bold"
-            android:gravity="center"
-            android:text="@string/snooze_time"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
+<!--        <TextView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_weight="2"-->
+<!--            android:fontFamily="@font/nunito_semi_bold"-->
+<!--            android:gravity="center"-->
+<!--            android:text="@string/snooze_time"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="22sp" />-->
 
-        <ImageView
-            android:id="@+id/alarm_snooze_time_decrease_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:clickable="true"
-            android:contentDescription="@string/img"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_decrease_snooze_icon" />
+<!--        <ImageView-->
+<!--            android:id="@+id/alarm_snooze_time_decrease_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="0.5"-->
+<!--            android:clickable="true"-->
+<!--            android:contentDescription="@string/img"-->
+<!--            android:focusable="true"-->
+<!--            android:foreground="?android:attr/selectableItemBackground"-->
+<!--            android:src="@drawable/ic_decrease_snooze_icon" />-->
 
-        <TextView
-            android:id="@+id/alarm_snooze_time_text_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:fontFamily="@font/nunito_bold"
-            android:gravity="center"
-            android:text="@string/_1111"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/alarm_snooze_time_text_view"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_weight="1"-->
+<!--            android:fontFamily="@font/nunito_bold"-->
+<!--            android:gravity="center"-->
+<!--            android:text="@string/_1111"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="22sp" />-->
 
-        <ImageView
-            android:id="@+id/alarm_snooze_time_increase_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:clickable="true"
-            android:contentDescription="@string/img"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_increase_snooze_icon" />
+<!--        <ImageView-->
+<!--            android:id="@+id/alarm_snooze_time_increase_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="0.5"-->
+<!--            android:clickable="true"-->
+<!--            android:contentDescription="@string/img"-->
+<!--            android:focusable="true"-->
+<!--            android:foreground="?android:attr/selectableItemBackground"-->
+<!--            android:src="@drawable/ic_increase_snooze_icon" />-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
     <ImageView
         android:id="@+id/alarm_snooze_button"

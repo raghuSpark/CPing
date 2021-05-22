@@ -82,17 +82,23 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
             myViewHolder.remainderIcon.setImageResource(R.drawable.ic_contest_running);
         else {
             ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(context);
-            if (currentList.size() != 0 && isContains(currentList, contestDetailsArrayList.get(position).getContestName()))
-                myViewHolder.remainderIcon.setImageResource(R.drawable.ic_reminder_added);
-            else myViewHolder.remainderIcon.setImageResource(R.drawable.ic_add_reminder);
+            int index = getIndexFromList(currentList,
+                    contestDetailsArrayList.get(position).getContestName());
+            if (currentList.isEmpty() || index == -1)
+                myViewHolder.remainderIcon.setImageResource(R.drawable.ic_add_reminder);
+            else if (currentList.get(index).isInAppReminderSet()) {
+                if (!currentList.get(index).isGoogleReminderSet())
+                    myViewHolder.remainderIcon.setImageResource(R.drawable.ic_in_app_reminder_added);
+                else myViewHolder.remainderIcon.setImageResource(R.drawable.ic_reminder_added);
+            } else myViewHolder.remainderIcon.setImageResource(R.drawable.ic_google_reminder_added);
         }
     }
 
-    private boolean isContains(ArrayList<AlarmIdClass> currentList, String contestName) {
-        for (AlarmIdClass alarmIdClass : currentList) {
-            if (alarmIdClass.getContestNameAsID().equals(contestName)) return true;
+    private int getIndexFromList(ArrayList<AlarmIdClass> currentList, String contestName) {
+        for (int i = 0; i < currentList.size(); ++i) {
+            if (currentList.get(i).getContestNameAsID().equals(contestName)) return i;
         }
-        return false;
+        return -1;
     }
 
     private String findDuration(int contestDuration) {
