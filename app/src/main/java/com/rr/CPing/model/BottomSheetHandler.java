@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -180,39 +181,48 @@ public class BottomSheetHandler {
         adapter.setDropDownViewResource(R.layout.drop_down_item);
         spinner.setAdapter(adapter);
 
+        ArrayList<AlarmIdClass> currentList =
+                SharedPrefConfig.readInIdsOfReminderContests(context);
+        int index = getIndexFromList(currentList, contestDetails.getContestName());
+        if (currentList.isEmpty() || index==-1) {
+            index = currentList.size();
+            currentList.add(new AlarmIdClass(contestDetails.getContestName(),
+                    getTimeFromNow(contestDetails.getContestStartTime()),
+                    System.currentTimeMillis()/1000));
+            SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
+        }else{
+            Button button = view.findViewById(R.id.discardReminder);
+            button.setText("DELETE");
+            deleteNotification(currentList.get(index).getAlarmSetTime(), contestDetails.getContestName());
+        }
+
+        int finalIndex = index;
         view.findViewById(R.id.saveReminder).setOnClickListener(v -> {
             Toast.makeText(context, "Reminder set!", Toast.LENGTH_SHORT).show();
-
-            ArrayList<AlarmIdClass> currentList =
-                    SharedPrefConfig.readInIdsOfReminderContests(context);
-            if (currentList.isEmpty() || !isContains(currentList,
-                    contestDetails.getContestName())) {
-                currentList.add(new AlarmIdClass(contestDetails.getContestName(),
-                        getTimeFromNow(contestDetails.getContestStartTime()),
-                        System.currentTimeMillis()));
-                SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
-            }
 
             if (allParentRecyclerViewAdapter == null)
                 contestDetailsRecyclerViewAdapter.notifyDataSetChanged();
             else allParentRecyclerViewAdapter.notifyDataSetChanged();
 
+            setNotification(getNum(spinner.getSelectedItem().toString()), contestDetails, start, currentList.get(finalIndex).getAlarmSetTime());
             dialog.cancel();
-            setNotification(getNum(spinner.getSelectedItem().toString()), contestDetails, start);
         });
 
-        view.findViewById(R.id.discardReminder).setOnClickListener(v -> dialog.cancel());
+        view.findViewById(R.id.discardReminder).setOnClickListener(v ->{
+            dialog.cancel();
+            deleteNotification(currentList.get(finalIndex).getAlarmSetTime(), contestDetails.getContestName());
+        });
 
         builder.setView(view);
         dialog = builder.create();
         dialog.show();
     }
 
-    private boolean isContains(ArrayList<AlarmIdClass> currentList, String contestName) {
-        for (AlarmIdClass alarmIdClass : currentList) {
-            if (alarmIdClass.getContestNameAsID().equals(contestName)) return true;
+    private int getIndexFromList(ArrayList<AlarmIdClass> currentList, String contestName){
+        for(int i=0; i<currentList.size(); ++i){
+            if(currentList.get(i).getContestNameAsID().equals(contestName)) return i;
         }
-        return false;
+        return -1;
     }
 
     private long getTimeFromNow(String startTime) {
@@ -257,15 +267,24 @@ public class BottomSheetHandler {
         return Integer.parseInt(s.substring(0, 2));
     }
 
-    private void setNotification(int time, ContestDetails contestDetails, Calendar start) {
+    private void setNotification(int time, ContestDetails contestDetails, Calendar start, long id) {
         Intent intent = new Intent(context, ReminderBroadCast.class);
         intent.putExtra("ContestName", contestDetails.getContestName());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
         long t1 = start.getTimeInMillis();
         long t2 = 60000 * time;
         Log.e("TAG", String.valueOf(t1 - t2));
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
         Toast.makeText(context, "Reminder Set", Toast.LENGTH_SHORT).show();
+    }
+
+    private void deleteNotification(long id, String contestName){
+        Intent intent = new Intent(context, ReminderBroadCast.class);
+        intent.putExtra("ContestName", contestName);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
+        pendingIntent.cancel();
+        alarmManager.cancel(pendingIntent);
     }
 }
