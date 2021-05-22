@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
-import com.rr.CPing.model.BottomSheetHandler;
+import com.rr.CPing.model.AlarmIdClass;
 import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.model.DateTimeHandler;
 
@@ -67,7 +66,7 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
 
         myViewHolder.startDate.setText(spannableString);
 
-        text = "At: " + new BottomSheetHandler().hr_24To12Format(new StringBuilder(dateTimeHandler.getTime(start)));
+        text = "At: " + DateTimeHandler.hr_24To12Format(new StringBuilder(dateTimeHandler.getTime(start)));
         spannableString = new SpannableString(text);
         spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -82,16 +81,16 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
         if (contest.getContestStatus().equals("CODING"))
             myViewHolder.remainderIcon.setImageResource(R.drawable.ic_contest_running);
         else {
-            ArrayList<Pair<String, Long>> currentList = SharedPrefConfig.readInIdsOfReminderContests(context);
+            ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(context);
             if (currentList.size() != 0 && isContains(currentList, contestDetailsArrayList.get(position).getContestName()))
                 myViewHolder.remainderIcon.setImageResource(R.drawable.ic_reminder_added);
             else myViewHolder.remainderIcon.setImageResource(R.drawable.ic_add_reminder);
         }
     }
 
-    private boolean isContains(ArrayList<Pair<String, Long>> currentList, String contestName) {
-        for (Pair<String, Long> p : currentList) {
-            if (p.first.equals(contestName)) return true;
+    private boolean isContains(ArrayList<AlarmIdClass> currentList, String contestName) {
+        for (AlarmIdClass alarmIdClass : currentList) {
+            if (alarmIdClass.getContestNameAsID().equals(contestName)) return true;
         }
         return false;
     }

@@ -4,10 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Pair;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.rr.CPing.model.AlarmIdClass;
 import com.rr.CPing.model.AtCoderUserDetails;
 import com.rr.CPing.model.CodeChefUserDetails;
 import com.rr.CPing.model.CodeForcesUserDetails;
@@ -163,22 +163,22 @@ public class SharedPrefConfig {
 
     @SuppressLint("MutatingSharedPrefs")
     public static void writeInIdsOfReminderContests(Context context,
-                                                    ArrayList<Pair<String, Long>> contestsWithReminderAdded) {
+                                                    ArrayList<AlarmIdClass> contestsWithReminderAdded) {
         Gson gson = new Gson();
         String jsonString = gson.toJson(contestsWithReminderAdded);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putString("CONTEST_REMINDERS", jsonString);
+        editor.putString("CONTEST_REMINDERS_IDS", jsonString);
         editor.apply();
     }
 
-    public static ArrayList<Pair<String, Long>> readInIdsOfReminderContests(Context context) {
+    public static ArrayList<AlarmIdClass> readInIdsOfReminderContests(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        String jsonString = pref.getString("CONTEST_REMINDERS", "");
+        String jsonString = pref.getString("CONTEST_REMINDERS_IDS", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<Pair<String, Long>>>() {
+        Type type = new TypeToken<ArrayList<AlarmIdClass>>() {
         }.getType();
         if (gson.fromJson(jsonString, type) == null) return new ArrayList<>();
         return gson.fromJson(jsonString, type);

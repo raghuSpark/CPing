@@ -20,6 +20,7 @@ import com.android.volley.toolbox.Volley;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.database.JSONResponseDBHandler;
+import com.rr.CPing.model.AlarmIdClass;
 import com.rr.CPing.model.AtCoderUserDetails;
 import com.rr.CPing.model.CodeChefUserDetails;
 import com.rr.CPing.model.CodeForcesUserDetails;
@@ -49,6 +50,16 @@ public class SplashActivity extends AppCompatActivity {
 
         ImageView logoBellImage = findViewById(R.id.logo_bell);
         logoBellImage.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
+
+        ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(this);
+        int i;
+        for (i = 0; i < currentList.size(); i++) {
+            if (currentList.get(i).getStartTime() >= System.currentTimeMillis() + 300000) {
+                break;
+            }
+        }
+        if (currentList.size() > 0) currentList.remove(i);
+        SharedPrefConfig.writeInIdsOfReminderContests(this, currentList);
 
         jsonResponseDBHandler = new JSONResponseDBHandler(this);
 

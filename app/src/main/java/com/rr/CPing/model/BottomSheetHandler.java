@@ -12,7 +12,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -151,31 +150,12 @@ public class BottomSheetHandler {
                 for (int j = i + 1; j <= i + 5; j++) {
                     hr_24Time.append(completeDetails.charAt(j));
                 }
-                ans.insert(0, hr_24To12Format(hr_24Time));
+                ans.insert(0, DateTimeHandler.hr_24To12Format(hr_24Time));
                 i += 5;
                 spaceCount++;
             } else ans.append(completeDetails.charAt(i));
         }
         return ans;
-    }
-
-    public StringBuilder hr_24To12Format(StringBuilder hr_24Time) {
-        int h1 = (int) hr_24Time.charAt(0) - '0';
-        int h2 = (int) hr_24Time.charAt(1) - '0';
-
-        int hh = h1 * 10 + h2;
-        String Meridian = (hh < 12) ? "AM" : "PM";
-
-        hh %= 12;
-        StringBuilder hr_12Time;
-        if (hh == 0) {
-            hr_12Time = new StringBuilder("12");
-        } else {
-            hr_12Time = new StringBuilder(Integer.toString(hh));
-        }
-        for (int i = 2; i < 5; i++) hr_12Time.append(hr_24Time.charAt(i));
-        hr_12Time.append(" ").append(Meridian);
-        return hr_12Time;
     }
 
     private void showAlarmSelectorDialog(ContestDetails contestDetails,
@@ -203,11 +183,12 @@ public class BottomSheetHandler {
         view.findViewById(R.id.saveReminder).setOnClickListener(v -> {
             Toast.makeText(context, "Reminder set!", Toast.LENGTH_SHORT).show();
 
-            ArrayList<Pair<String, Long>> currentList =
+            ArrayList<AlarmIdClass> currentList =
                     SharedPrefConfig.readInIdsOfReminderContests(context);
             if (currentList.size() == 0 || !isContains(currentList,
                     contestDetails.getContestName())) {
-                currentList.add(new Pair<>(contestDetails.getContestName(),
+                currentList.add(new AlarmIdClass(contestDetails.getContestName(),
+                        getTimeFromNow(contestDetails.getContestStartTime()),
                         System.currentTimeMillis()));
                 SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
             }
@@ -227,9 +208,9 @@ public class BottomSheetHandler {
         dialog.show();
     }
 
-    private boolean isContains(ArrayList<Pair<String, Long>> currentList, String contestName) {
-        for (Pair<String, Long> p : currentList) {
-            if (p.first.equals(contestName)) return true;
+    private boolean isContains(ArrayList<AlarmIdClass> currentList, String contestName) {
+        for (AlarmIdClass alarmIdClass : currentList) {
+            if (alarmIdClass.getContestNameAsID().equals(contestName)) return true;
         }
         return false;
     }
