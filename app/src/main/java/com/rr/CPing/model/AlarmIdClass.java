@@ -3,11 +3,14 @@ package com.rr.CPing.model;
 public class AlarmIdClass {
     private String contestNameAsID;
     private long startTime, alarmSetTime;
+    private boolean isInAppReminderSet, isGoogleReminderSet;
 
-    public AlarmIdClass(String contestNameAsID, long startTime, long alarmSetTime) {
+    public AlarmIdClass(String contestNameAsID, long startTime, long alarmSetTime, boolean isInAppReminderSet, boolean isGoogleReminderSet) {
         this.contestNameAsID = contestNameAsID;
         this.startTime = startTime;
         this.alarmSetTime = alarmSetTime;
+        this.isInAppReminderSet = isInAppReminderSet;
+        this.isGoogleReminderSet = isGoogleReminderSet;
     }
 
     public String getContestNameAsID() {
@@ -32,5 +35,21 @@ public class AlarmIdClass {
 
     public void setAlarmSetTime(long alarmSetTime) {
         this.alarmSetTime = alarmSetTime;
+    }
+
+    public boolean isInAppReminderSet() {
+        return isInAppReminderSet;
+    }
+
+    public void setInAppReminderSet(boolean inAppReminderSet) {
+        isInAppReminderSet = inAppReminderSet;
+    }
+
+    public boolean isGoogleReminderSet() {
+        return isGoogleReminderSet;
+    }
+
+    public void setGoogleReminderSet(boolean googleReminderSet) {
+        isGoogleReminderSet = googleReminderSet;
     }
 }
