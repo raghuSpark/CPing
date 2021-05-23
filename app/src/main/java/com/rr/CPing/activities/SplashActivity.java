@@ -78,11 +78,10 @@ public class SplashActivity extends AppCompatActivity {
         } else {
             jsonResponseDBHandler.deleteAll();
 
+            count = 1;
             getContestDetailsFromAPI();
 
             ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(this);
-
-            count = 0;
 
             for (PlatformListItem platformListItem : platformListItemArrayList) {
                 switch (platformListItem.getPlatformName()) {
@@ -112,7 +111,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }
 
-            if (count == 0) {
+            if (count <= 0) {
                 new Handler().postDelayed(this::goToMainActivity, 500);
             }
         }
@@ -312,10 +311,24 @@ public class SplashActivity extends AppCompatActivity {
                     );
                     jsonResponseDBHandler.addItem(item);
                 }
+                count--;
+                if (count <= 0) {
+                    goToMainActivity();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
+                count--;
+                if (count <= 0) {
+                    goToSettingsActivity();
+                }
             }
-        }, error -> Toast.makeText(SplashActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show());
+        }, error -> {
+            Toast.makeText(SplashActivity.this, "Something went wrong!",
+                    Toast.LENGTH_SHORT).show();
+            if (count <= 0) {
+                goToSettingsActivity();
+            }
+        });
         requestQueue.add(jsonArrayRequest);
     }
 

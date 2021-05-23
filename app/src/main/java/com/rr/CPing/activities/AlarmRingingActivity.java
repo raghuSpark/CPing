@@ -1,10 +1,7 @@
 package com.rr.CPing.activities;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
 import android.app.KeyguardManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -17,9 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.model.AlarmIdClass;
-import com.rr.CPing.util.ReminderBroadCast;
+import com.rr.CPing.model.BottomSheetHandler;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class AlarmRingingActivity extends AppCompatActivity {
 
@@ -44,20 +42,24 @@ public class AlarmRingingActivity extends AppCompatActivity {
                 SharedPrefConfig.readInIdsOfReminderContests(this);
         int index = getIndexFromList(idClassArrayList, contestName);
 
+        AlarmIdClass alarmIdClass = idClassArrayList.get(index);
+        timeDescriptionTextView.setText("Starts in " + (System.currentTimeMillis() - idClassArrayList.get(index).getStartTime()) / 1000 + " minutes");
+
         idClassArrayList.remove(index);
         SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
 
-        AlarmIdClass alarmIdClass = idClassArrayList.get(index);
-
-        timeDescriptionTextView.setText("Starts in " + (System.currentTimeMillis() - idClassArrayList.get(index).getStartTime()) / 1000 + " minutes");
-        dismissButton.setOnClickListener(v -> {
-            finish();
-        });
+        dismissButton.setOnClickListener(v -> finish());
 
         snoozeButton.setOnClickListener(v -> {
             alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
             idClassArrayList.add(alarmIdClass);
-            setNotification();
+
+            SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
+
+            Toast.makeText(this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
+
+            new BottomSheetHandler().setNotification(5, contestName, Calendar.getInstance(),
+                    System.currentTimeMillis() / 1000, true);
             finish();
         });
 
@@ -76,18 +78,17 @@ public class AlarmRingingActivity extends AppCompatActivity {
         }
     }
 
-    private void setNotification() {
-        Intent intent = new Intent(this, ReminderBroadCast.class);
-        intent.putExtra("ContestName", contestName);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,
-                (int) System.currentTimeMillis() / 1000, intent, 0);
-        AlarmManager alarmManager =
-                (AlarmManager) this.getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000,
-                pendingIntent);
-        Toast.makeText(this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
-    }
+//    private void setNotification() {
+//        Intent intent = new Intent(this, ReminderBroadCast.class);
+//        intent.putExtra("ContestName", contestName);
+//
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,
+//                (int) System.currentTimeMillis() / 1000, intent, 0);
+//        AlarmManager alarmManager =
+//                (AlarmManager) this.getSystemService(ALARM_SERVICE);
+//        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000,
+//                pendingIntent);
+//    }
 
     private int getIndexFromList(ArrayList<AlarmIdClass> currentList, String contestName) {
         for (int i = 0; i < currentList.size(); ++i) {
@@ -102,5 +103,4 @@ public class AlarmRingingActivity extends AppCompatActivity {
         contestNameTextView = findViewById(R.id.alarm_contest_name_text_View);
         timeDescriptionTextView = findViewById(R.id.alarm_time_description_text_View);
     }
-
 }
