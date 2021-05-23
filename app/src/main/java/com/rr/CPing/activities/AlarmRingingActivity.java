@@ -5,7 +5,7 @@ import android.app.KeyguardManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +21,7 @@ import java.util.Calendar;
 
 public class AlarmRingingActivity extends AppCompatActivity {
 
-    private ImageView dismissButton, snoozeButton;
+    private Button dismissButton, snoozeButton;
     private TextView contestNameTextView,
             timeDescriptionTextView;
 
