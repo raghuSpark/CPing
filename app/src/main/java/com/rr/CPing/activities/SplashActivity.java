@@ -64,7 +64,7 @@ public class SplashActivity extends AppCompatActivity {
         SharedPrefConfig.writeInIdsOfReminderContests(this, currentList);
 
         jsonResponseDBHandler = new JSONResponseDBHandler(this);
-
+        count = 1;
 //        if (CheckInternet.isConnectedToInternet(this)) {
 //            Handler handler = new Handler();
 //            handler.postDelayed(() -> {
@@ -73,13 +73,12 @@ public class SplashActivity extends AppCompatActivity {
 //            }, 2000);
 //        } else
         if (SharedPrefConfig.readIsFirstTime(this) || SharedPrefConfig.readPlatformsCount(this) < 1) {
-            getContestDetailsFromAPI();
-            new Handler().postDelayed(this::goToSettingsActivity, 1000);
+            getContestDetailsFromAPI(true);
+            if (count <= 0) goToSettingsActivity();
         } else {
             jsonResponseDBHandler.deleteAll();
 
-            count = 1;
-            getContestDetailsFromAPI();
+            getContestDetailsFromAPI(false);
 
             ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(this);
 
@@ -293,7 +292,7 @@ public class SplashActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void getContestDetailsFromAPI() {
+    private void getContestDetailsFromAPI(boolean isFirstTime) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
                 "https://kontests.net/api/v1/all", null, response -> {
@@ -313,7 +312,8 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 count--;
                 if (count <= 0) {
-                    goToMainActivity();
+                    if (isFirstTime) goToSettingsActivity();
+                    else goToMainActivity();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
