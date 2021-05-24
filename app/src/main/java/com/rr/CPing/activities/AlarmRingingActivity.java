@@ -7,6 +7,7 @@ import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.Settings;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -54,7 +55,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
         findViewByIds();
 
         MediaPlayer player = MediaPlayer.create(this,
-                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+                Settings.System.DEFAULT_RINGTONE_URI);
         player.start();
 
         contestName = getIntent().getStringExtra("ContestName");

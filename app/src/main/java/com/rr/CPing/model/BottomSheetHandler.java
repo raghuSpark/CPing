@@ -121,6 +121,7 @@ public class BottomSheetHandler {
         });
 
         appRemainder.setOnClickListener(v -> {
+//            2021-05-24T13:00:00.000Z
             if (getTimeFromNow(contestsArrayList.get(position).getContestStartTime()) / 60000 <= 5) {
                 Toast.makeText(context, "This contest is going to start in less than 5 minutes!", Toast.LENGTH_SHORT).show();
             } else {
@@ -312,6 +313,7 @@ public class BottomSheetHandler {
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         try {
+            Toast.makeText(context, "kjgkv", Toast.LENGTH_SHORT).show();
             return Math.abs(Objects.requireNonNull(simpleDateFormat.parse(startTime)).getTime() - Objects.requireNonNull(simpleDateFormat.parse(currentTime)).getTime());
         } catch (ParseException e) {
             e.printStackTrace();

@@ -3,7 +3,6 @@ package com.rr.CPing.activities;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -31,51 +30,49 @@ public class MainActivity extends AppCompatActivity {
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     private TabsAccessorAdapter dashBoardTabsAccessorAdapter;
 
-    private static void autoLaunchVivo(Context context) {
-        try {
-            Intent intent = new Intent();
-            intent.setComponent(new ComponentName("com.iqoo.secure",
-                    "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity"));
-            context.startActivity(intent);
-        } catch (Exception e) {
-            try {
-                Intent intent = new Intent();
-                intent.setComponent(new ComponentName("com.vivo.permissionmanager",
-                        "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
-                context.startActivity(intent);
-            } catch (Exception ex) {
-                try {
-                    Intent intent = new Intent();
-                    intent.setClassName("com.iqoo.secure",
-                            "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager");
-                    context.startActivity(intent);
-                } catch (Exception exx) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-    }
+//    private static void autoLaunchVivo(Context context) {
+//        try {
+//            Intent intent = new Intent();
+//            intent.setComponent(new ComponentName("com.iqoo.secure",
+//                    "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity"));
+//            context.startActivity(intent);
+//        } catch (Exception e) {
+//            try {
+//                Intent intent = new Intent();
+//                intent.setComponent(new ComponentName("com.vivo.permissionmanager",
+//                        "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+//                context.startActivity(intent);
+//            } catch (Exception ex) {
+//                try {
+//                    Intent intent = new Intent();
+//                    intent.setClassName("com.iqoo.secure",
+//                            "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager");
+//                    context.startActivity(intent);
+//                } catch (Exception exx) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        internetConnectionFrameLayout = findViewById(R.id.internet_connection_frame);
-
-        if (Build.MANUFACTURER.equalsIgnoreCase("oppo")) {
-            initOPPO();
-        } else if (Build.MANUFACTURER.equalsIgnoreCase("vivo")) {
-            autoLaunchVivo(MainActivity.this);
-        } else if (Build.MANUFACTURER.equalsIgnoreCase("xiaomi")) {
-            try {
-                Intent intent = new Intent();
-                intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
-                startActivity(intent);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+//        if (Build.MANUFACTURER.equalsIgnoreCase("oppo")) {
+//            initOPPO();
+//        } else if (Build.MANUFACTURER.equalsIgnoreCase("vivo")) {
+//            autoLaunchVivo(MainActivity.this);
+//        } else if (Build.MANUFACTURER.equalsIgnoreCase("xiaomi")) {
+//            try {
+//                Intent intent = new Intent();
+//                intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
+//                startActivity(intent);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         Toolbar dashBoardToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(dashBoardToolbar);
@@ -173,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
                     e1.printStackTrace();
                 }
             }
-
         }
     }
 }
