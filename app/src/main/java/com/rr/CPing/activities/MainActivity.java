@@ -29,9 +29,10 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 2323;
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     private TabsAccessorAdapter dashBoardTabsAccessorAdapter;
-    public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE= 2323;
+
 //    private static void autoLaunchVivo(Context context) {
 //        try {
 //            Intent intent = new Intent();
@@ -64,9 +65,10 @@ public class MainActivity extends AppCompatActivity {
 
 //if the user already granted the permission or the API is below Android 10 no need to ask for permission
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-                !Settings.canDrawOverlays(this))
-        {RequestPermission();}
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+                !Settings.canDrawOverlays(this)) {
+            RequestPermission();
+        }
 
 //        if (Build.MANUFACTURER.equalsIgnoreCase("oppo")) {
 //            initOPPO();
@@ -95,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         dashBoardTabLayout.setupWithViewPager(dashBoardViewPager);
 
         createNotificationChannel();
-
     }
 
     private void RequestPermission() {
@@ -117,12 +118,11 @@ public class MainActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (!Settings.canDrawOverlays(this)) {
 //                    PermissionDenied();
-                    Toast.makeText(this, "Permisson ivaara!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Give permission to appear on top, to get full screen reminders...", Toast.LENGTH_SHORT).show();
                 }
-                else
-                {
-                    // Permission Granted-System will work
-                }
+//                else {
+//                    // Permission Granted-System will work
+//                }
 
             }
         }

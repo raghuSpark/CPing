@@ -2,11 +2,12 @@ package com.rr.CPing.activities;
 
 import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
-import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.provider.Settings;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -55,9 +56,9 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
         findViewByIds();
 
-        MediaPlayer player = MediaPlayer.create(this,
-                Settings.System.DEFAULT_RINGTONE_URI);
-        player.start();
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        ringtone.play();
 
         contestName = getIntent().getStringExtra("ContestName");
         contestNameTextView.setText(contestName);
@@ -98,13 +99,13 @@ public class AlarmRingingActivity extends AppCompatActivity {
                             contestName, Calendar.getInstance(),
                             System.currentTimeMillis() / 1000, true);
                 }
-                player.stop();
+                ringtone.stop();
                 finish();
             }
         };
 
         dismissButton.setOnClickListener(v -> {
-            player.stop();
+            ringtone.stop();
             finish();
         });
 
@@ -122,7 +123,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
                         Calendar.getInstance(),
                         System.currentTimeMillis() / 1000, true);
             }
-            player.stop();
+            ringtone.stop();
             finish();
         });
     }

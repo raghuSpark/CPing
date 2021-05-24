@@ -86,7 +86,6 @@ public class BottomSheetHandler {
         }
 
         //TODO: Spinner time setting by 5 chesindhi maarchaali
-        //TODO: Android 11 alarm when screen is locked
         //TODO: Alarm times to be set properly
 
         ArrayList<AlarmIdClass> currentList =
