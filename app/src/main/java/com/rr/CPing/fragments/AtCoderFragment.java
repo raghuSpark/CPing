@@ -40,6 +40,14 @@ public class AtCoderFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        ongoingRVA.notifyDataSetChanged();
+        todayRVA.notifyDataSetChanged();
+        futureRVA.notifyDataSetChanged();
+        super.onResume();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

@@ -90,9 +90,8 @@ public class BottomSheetHandler {
         }
 
         //TODO: Spinner time setting by 5 chesindhi maarchaali
-        //TODO: Sound for alarm
-        //TODO: icon not changing when deleted reminder
-        //TODO: Few more bugs to be fixed...
+        //TODO: Android 11 alarm when screen is locked
+        //TODO: Alarm times to be set properly
 
         ArrayList<AlarmIdClass> currentList =
                 SharedPrefConfig.readInIdsOfReminderContests(context);
@@ -200,7 +199,7 @@ public class BottomSheetHandler {
 
     @SuppressLint("SetTextI18n")
     public void showAlarmSelectorDialog(ContestDetails contestDetails,
-                                         Calendar start, LayoutInflater layoutInflater) {
+                                        Calendar start, LayoutInflater layoutInflater) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = layoutInflater.inflate(R.layout.alarm_selector_layout, null);
         builder.setView(view);
@@ -222,8 +221,7 @@ public class BottomSheetHandler {
         }
 
         Spinner spinner = view.findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
-                android.R.layout.simple_spinner_item, beforeTimesArray);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, beforeTimesArray);
         adapter.setDropDownViewResource(R.layout.drop_down_item);
         spinner.setAdapter(adapter);
 
@@ -235,12 +233,11 @@ public class BottomSheetHandler {
         if (!currentList.isEmpty() && index != -1) {
             if (currentList.get(index).isInAppReminderSet()) {
                 discardButton.setText("Delete");
-                deleteNotificationTime =
-                        (int) ((currentList.get(index).getStartTime() - currentList.get(index).getAlarmSetTime()));
-                spinner.setSelection(1);
+                deleteNotificationTime = (int) ((currentList.get(index).getStartTime() - currentList.get(index).getAlarmSetTime()) / 1000);
+                spinner.setSelection(0);
                 Log.d("TAG",
                         "showAlarmSelectorDialog: " + currentList.get(index).getStartTime() + " , " + currentList.get(index).getAlarmSetTime() +
-                                " , " + (deleteNotificationTime/60000));
+                                " , " + (deleteNotificationTime));
             } else {
                 discardButton.setText("Cancel");
                 currentList.get(index).setInAppReminderSet(true);
@@ -276,8 +273,9 @@ public class BottomSheetHandler {
                 contestDetailsRecyclerViewAdapter.notifyDataSetChanged();
             else allParentRecyclerViewAdapter.notifyDataSetChanged();
 
-            setNotification(getNum(spinner.getSelectedItem().toString()), contestDetails.getContestName(), start,
-                    id, false);
+            setNotification(context, getNum(spinner.getSelectedItem().toString()),
+                    contestDetails.getContestName(), start,
+                    id / 1000, false);
         });
 
         discardButton.setOnClickListener(v -> {
@@ -348,16 +346,12 @@ public class BottomSheetHandler {
         return Integer.parseInt(s.substring(0, 2));
     }
 
-    public void setNotification(int time, String contestName, Calendar start,
+    public void setNotification(Context context, int time, String contestName, Calendar start,
                                 long id, boolean isSnooze) {
         Intent intent = new Intent(context, ReminderBroadCast.class);
         intent.putExtra("ContestName", contestName);
 
         if (isSnooze) {
-            if (allParentRecyclerViewAdapter == null)
-                contestDetailsRecyclerViewAdapter.notifyDataSetChanged();
-            else allParentRecyclerViewAdapter.notifyDataSetChanged();
-
             Toast.makeText(context, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
         }
 
@@ -368,8 +362,7 @@ public class BottomSheetHandler {
         long t2 = 60000 * time;
         Log.e("TAG", String.valueOf(t1 - t2));
 
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000,
-                pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
     }
 
     private void deleteNotification(long id, String contestName) {

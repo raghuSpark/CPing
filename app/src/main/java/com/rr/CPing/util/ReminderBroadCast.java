@@ -4,7 +4,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -18,7 +17,6 @@ public class ReminderBroadCast extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String contestName = intent.getStringExtra("ContestName");
 
-        Log.e("TAG", contestName);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notify_contest")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(contestName)
@@ -31,7 +29,7 @@ public class ReminderBroadCast extends BroadcastReceiver {
         notificationManager.notify((int) System.currentTimeMillis(), builder.build());
 
         Intent alarmIntent = new Intent(context, AlarmRingingActivity.class);
-        alarmIntent.putExtra("ContestName",contestName);
+        alarmIntent.putExtra("ContestName", contestName);
         alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(alarmIntent);
     }

@@ -6,7 +6,7 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.CountDownTimer;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,7 +21,6 @@ import com.rr.CPing.model.BottomSheetHandler;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Objects;
 
 public class AlarmRingingActivity extends AppCompatActivity {
 
@@ -36,6 +35,21 @@ public class AlarmRingingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_ringing);
+
+        Toast.makeText(this, "JFCKVLGIGV BLJHOG", Toast.LENGTH_LONG).show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setShowWhenLocked(true);
+            setTurnScreenOn(true);
+            setVisible(true);
+            KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+            keyguardManager.requestDismissKeyguard(this, null);
+        } else {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
 
         findViewByIds();
 
@@ -56,6 +70,37 @@ public class AlarmRingingActivity extends AppCompatActivity {
         idClassArrayList.remove(index);
         SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
 
+        new CountDownTimer(60000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                if (Math.abs(alarmIdClass.getStartTime() - System.currentTimeMillis()) / 60000 <= 5) {
+                    Toast.makeText(AlarmRingingActivity.this, "This contest is going to start in " +
+                                    "less than 5 minutes!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
+                    idClassArrayList.add(alarmIdClass);
+
+                    SharedPrefConfig.writeInIdsOfReminderContests(AlarmRingingActivity.this,
+                            idClassArrayList);
+
+                    Toast.makeText(AlarmRingingActivity.this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
+
+                    new BottomSheetHandler().setNotification(AlarmRingingActivity.this, 5,
+                            contestName, Calendar.getInstance(),
+                            System.currentTimeMillis() / 1000, true);
+                }
+                player.stop();
+                finish();
+            }
+        };
+
         dismissButton.setOnClickListener(v -> {
             player.stop();
             finish();
@@ -71,54 +116,14 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
                 SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
                 Toast.makeText(this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
-                new BottomSheetHandler().setNotification(5, contestName, Calendar.getInstance(),
-                        System.currentTimeMillis(), true);
+                new BottomSheetHandler().setNotification(AlarmRingingActivity.this, 5, contestName,
+                        Calendar.getInstance(),
+                        System.currentTimeMillis() / 1000, true);
             }
             player.stop();
             finish();
         });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            setShowWhenLocked(true);
-            setTurnScreenOn(true);
-            setVisible(true);
-            KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
-            keyguardManager.requestDismissKeyguard(this, null);
-        } else {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-
-        new Handler().postDelayed(() -> {
-            alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
-            idClassArrayList.add(alarmIdClass);
-
-            SharedPrefConfig.writeInIdsOfReminderContests(AlarmRingingActivity.this,
-                    idClassArrayList);
-
-            player.stop();
-            Toast.makeText(AlarmRingingActivity.this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
-
-            new BottomSheetHandler().setNotification(5, contestName, Calendar.getInstance(),
-                    System.currentTimeMillis() / 1000, true);
-            finish();
-        }, 60000);
     }
-
-//    private void setNotification() {
-//        Intent intent = new Intent(this, ReminderBroadCast.class);
-//        intent.putExtra("ContestName", contestName);
-//
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,
-//                (int) System.currentTimeMillis() / 1000, intent, 0);
-//        AlarmManager alarmManager =
-//                (AlarmManager) this.getSystemService(ALARM_SERVICE);
-//        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000,
-//                pendingIntent);
-//    }
 
     private int getIndexFromList(ArrayList<AlarmIdClass> currentList, String contestName) {
         for (int i = 0; i < currentList.size(); ++i) {

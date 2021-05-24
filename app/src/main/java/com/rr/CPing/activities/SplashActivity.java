@@ -65,13 +65,6 @@ public class SplashActivity extends AppCompatActivity {
 
         jsonResponseDBHandler = new JSONResponseDBHandler(this);
         count = 1;
-//        if (CheckInternet.isConnectedToInternet(this)) {
-//            Handler handler = new Handler();
-//            handler.postDelayed(() -> {
-//                startActivity(new Intent(SplashActivity.this, NoInternetActivity.class));
-//                finish();
-//            }, 2000);
-//        } else
         if (SharedPrefConfig.readIsFirstTime(this) || SharedPrefConfig.readPlatformsCount(this) < 1) {
             getContestDetailsFromAPI(true);
             if (count <= 0) goToSettingsActivity();
