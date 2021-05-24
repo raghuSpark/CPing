@@ -2,8 +2,11 @@ package com.rr.CPing.activities;
 
 import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ import com.rr.CPing.model.BottomSheetHandler;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class AlarmRingingActivity extends AppCompatActivity {
 
@@ -34,8 +38,12 @@ public class AlarmRingingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_alarm_ringing);
 
         findViewByIds();
-        contestName = getIntent().getStringExtra("ContestName");
 
+        MediaPlayer player = MediaPlayer.create(this,
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+        player.start();
+
+        contestName = getIntent().getStringExtra("ContestName");
         contestNameTextView.setText(contestName);
 
         ArrayList<AlarmIdClass> idClassArrayList =
@@ -48,18 +56,25 @@ public class AlarmRingingActivity extends AppCompatActivity {
         idClassArrayList.remove(index);
         SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
 
-        dismissButton.setOnClickListener(v -> finish());
+        dismissButton.setOnClickListener(v -> {
+            player.stop();
+            finish();
+        });
 
         snoozeButton.setOnClickListener(v -> {
-            alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
-            idClassArrayList.add(alarmIdClass);
+            if (Math.abs(alarmIdClass.getStartTime() - System.currentTimeMillis()) / 60000 <= 5) {
+                Toast.makeText(this, "This contest is going to start in less than 5 minutes!",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
+                idClassArrayList.add(alarmIdClass);
 
-            SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
-
-            Toast.makeText(this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
-
-            new BottomSheetHandler().setNotification(5, contestName, Calendar.getInstance(),
-                    System.currentTimeMillis() / 1000, true);
+                SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
+                Toast.makeText(this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
+                new BottomSheetHandler().setNotification(5, contestName, Calendar.getInstance(),
+                        System.currentTimeMillis(), true);
+            }
+            player.stop();
             finish();
         });
 
@@ -76,6 +91,21 @@ public class AlarmRingingActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
+
+        new Handler().postDelayed(() -> {
+            alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
+            idClassArrayList.add(alarmIdClass);
+
+            SharedPrefConfig.writeInIdsOfReminderContests(AlarmRingingActivity.this,
+                    idClassArrayList);
+
+            player.stop();
+            Toast.makeText(AlarmRingingActivity.this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
+
+            new BottomSheetHandler().setNotification(5, contestName, Calendar.getInstance(),
+                    System.currentTimeMillis() / 1000, true);
+            finish();
+        }, 60000);
     }
 
 //    private void setNotification() {

@@ -150,7 +150,7 @@ public class BottomSheetHandler {
                     if (idClassArrayList.isEmpty() || index == -1) {
                         idClassArrayList.add(new AlarmIdClass(contestsArrayList.get(position).getContestName(),
                                 getTimeFromNow(contestsArrayList.get(position).getContestStartTime()),
-                                System.currentTimeMillis() / 1000, false, true));
+                                System.currentTimeMillis(), false, true));
                     } else {
                         idClassArrayList.get(index).setGoogleReminderSet(true);
                     }
@@ -199,7 +199,7 @@ public class BottomSheetHandler {
     }
 
     @SuppressLint("SetTextI18n")
-    private void showAlarmSelectorDialog(ContestDetails contestDetails,
+    public void showAlarmSelectorDialog(ContestDetails contestDetails,
                                          Calendar start, LayoutInflater layoutInflater) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = layoutInflater.inflate(R.layout.alarm_selector_layout, null);
@@ -235,11 +235,12 @@ public class BottomSheetHandler {
         if (!currentList.isEmpty() && index != -1) {
             if (currentList.get(index).isInAppReminderSet()) {
                 discardButton.setText("Delete");
-
                 deleteNotificationTime =
-                        (int) ((currentList.get(index).getStartTime() / 1000 - currentList.get(index).getAlarmSetTime()));
-                spinner.setSelection(deleteNotificationTime / 5 - 1);
-                Log.d("TAG", "showAlarmSelectorDialog: " + (deleteNotificationTime / 5 - 1));
+                        (int) ((currentList.get(index).getStartTime() - currentList.get(index).getAlarmSetTime()));
+                spinner.setSelection(1);
+                Log.d("TAG",
+                        "showAlarmSelectorDialog: " + currentList.get(index).getStartTime() + " , " + currentList.get(index).getAlarmSetTime() +
+                                " , " + (deleteNotificationTime/60000));
             } else {
                 discardButton.setText("Cancel");
                 currentList.get(index).setInAppReminderSet(true);
@@ -250,7 +251,7 @@ public class BottomSheetHandler {
             Toast.makeText(context, "Reminder set!", Toast.LENGTH_SHORT).show();
             dialog.cancel();
 
-            long id = System.currentTimeMillis() / 1000;
+            long id = System.currentTimeMillis();
             boolean temp = false;
             if (discardButton.getText().equals("Delete")) {
                 deleteNotification(
