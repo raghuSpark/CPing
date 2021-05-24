@@ -121,7 +121,7 @@ public class BottomSheetHandler {
         });
 
         appRemainder.setOnClickListener(v -> {
-            if (getTimeFromNow(contestsArrayList.get(position).getContestStartTime()) / 60000 <= 5) {
+            if (getTimeFromNow(start) / 60000 <= 5) {
                 Toast.makeText(context, "This contest is going to start in less than 5 minutes!", Toast.LENGTH_SHORT).show();
             } else {
                 showAlarmSelectorDialog(contestsArrayList.get(position), start, layoutInflater);
@@ -130,7 +130,7 @@ public class BottomSheetHandler {
         });
 
         googleRemainder.setOnClickListener(v -> {
-            if (getTimeFromNow(contestsArrayList.get(position).getContestStartTime()) / 60000 <= 5) {
+            if (getTimeFromNow(start) / 60000 <= 5) {
                 Toast.makeText(context, "This contest is going to start in less than 5 minutes!", Toast.LENGTH_SHORT).show();
             } else {
                 Intent intent = new Intent(Intent.ACTION_INSERT);
@@ -148,7 +148,7 @@ public class BottomSheetHandler {
 
                     if (idClassArrayList.isEmpty() || index == -1) {
                         idClassArrayList.add(new AlarmIdClass(contestsArrayList.get(position).getContestName(),
-                                getTimeFromNow(contestsArrayList.get(position).getContestStartTime()),
+                                getTimeFromNow(start),
                                 System.currentTimeMillis(), false, true));
                     } else {
                         idClassArrayList.get(index).setGoogleReminderSet(true);
@@ -212,7 +212,7 @@ public class BottomSheetHandler {
         ArrayList<String> beforeTimesArray = new ArrayList<>();
 
         // Gives time in milli-seconds
-        long timeFromNow = getTimeFromNow(contestDetails.getContestStartTime());
+        long timeFromNow = getTimeFromNow(start);
         //Gives Time in minutes
         timeFromNow /= 60000;
 
@@ -264,7 +264,7 @@ public class BottomSheetHandler {
                 currentList.get(index).setAlarmSetTime(id);
                 currentList.get(index).setInAppReminderSet(true);
             } else currentList.add(new AlarmIdClass(contestDetails.getContestName(),
-                    getTimeFromNow(contestDetails.getContestStartTime()),
+                    getTimeFromNow(start),
                     id, true, false));
 
             SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
@@ -304,19 +304,9 @@ public class BottomSheetHandler {
         return -1;
     }
 
-    private long getTimeFromNow(String startTime) {
-//        2021-05-22T12:00:00.000Z
-        String currentTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
-                Locale.getDefault()).format(new Date());
-
-        @SuppressLint("SimpleDateFormat")
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        try {
-            return Math.abs(Objects.requireNonNull(simpleDateFormat.parse(startTime)).getTime() - Objects.requireNonNull(simpleDateFormat.parse(currentTime)).getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return 0;
+    private long getTimeFromNow(Calendar startTime) {
+        Log.e("TAG", startTime.getTimeInMillis()+" ");
+        return startTime.getTimeInMillis()-System.currentTimeMillis();
     }
 
     private int getImageResource(String site) {
