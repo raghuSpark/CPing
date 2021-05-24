@@ -2,17 +2,19 @@ package com.rr.CPing.activities;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     private TabsAccessorAdapter dashBoardTabsAccessorAdapter;
-
+    public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE= 2323;
 //    private static void autoLaunchVivo(Context context) {
 //        try {
 //            Intent intent = new Intent();
@@ -60,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//if the user already granted the permission or the API is below Android 10 no need to ask for permission
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+                !Settings.canDrawOverlays(this))
+        {RequestPermission();}
+
 //        if (Build.MANUFACTURER.equalsIgnoreCase("oppo")) {
 //            initOPPO();
 //        } else if (Build.MANUFACTURER.equalsIgnoreCase("vivo")) {
@@ -88,6 +96,36 @@ public class MainActivity extends AppCompatActivity {
 
         createNotificationChannel();
 
+    }
+
+    private void RequestPermission() {
+        // Check if Android M or higher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Show alert dialog to the user saying a separate permission is needed
+            // Launch the settings activity if the user prefers
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + this.getPackageName()));
+            startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!Settings.canDrawOverlays(this)) {
+//                    PermissionDenied();
+                    Toast.makeText(this, "Permisson ivaara!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    // Permission Granted-System will work
+                }
+
+            }
+        }
     }
 
     private void createNotificationChannel() {
@@ -147,29 +185,29 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    private void initOPPO() {
-        try {
-            Intent i = new Intent(Intent.ACTION_MAIN);
-            i.setComponent(new ComponentName("com.oppo.safe", "com.oppo.safe.permission.floatwindow.FloatWindowListActivity"));
-            startActivity(i);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("TAG", "error: " + e.getMessage());
-            try {
-                Intent intent = new Intent("action.coloros.safecenter.FloatWindowListActivity");
-                intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.floatwindow.FloatWindowListActivity"));
-                startActivity(intent);
-            } catch (Exception ee) {
-                ee.printStackTrace();
-
-                try {
-                    Intent i = new Intent("com.coloros.safecenter");
-                    i.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.sysfloatwindow.FloatWindowListActivity"));
-                    startActivity(i);
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }
-    }
+//    private void initOPPO() {
+//        try {
+//            Intent i = new Intent(Intent.ACTION_MAIN);
+//            i.setComponent(new ComponentName("com.oppo.safe", "com.oppo.safe.permission.floatwindow.FloatWindowListActivity"));
+//            startActivity(i);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            Log.d("TAG", "error: " + e.getMessage());
+//            try {
+//                Intent intent = new Intent("action.coloros.safecenter.FloatWindowListActivity");
+//                intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.floatwindow.FloatWindowListActivity"));
+//                startActivity(intent);
+//            } catch (Exception ee) {
+//                ee.printStackTrace();
+//
+//                try {
+//                    Intent i = new Intent("com.coloros.safecenter");
+//                    i.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.sysfloatwindow.FloatWindowListActivity"));
+//                    startActivity(i);
+//                } catch (Exception e1) {
+//                    e1.printStackTrace();
+//                }
+//            }
+//        }
+//    }
 }

@@ -61,5 +61,8 @@
     <string name="dismiss">DISMISS</string>
     <string name="starts_in_30_minutes">Starts in 30 minutes</string>
     <string name="snooze_time">Snooze time :</string>
+    <string name="title_activity_alarm_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

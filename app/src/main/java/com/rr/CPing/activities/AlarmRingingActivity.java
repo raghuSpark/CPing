@@ -3,7 +3,6 @@ package com.rr.CPing.activities;
 import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
 import android.media.MediaPlayer;
-import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -35,9 +34,11 @@ public class AlarmRingingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_alarm_ringing);
 
-        Toast.makeText(this, "JFCKVLGIGV BLJHOG", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "ALL ASSAM!!!", Toast.LENGTH_LONG).show();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true);
             setTurnScreenOn(true);

@@ -30,12 +30,8 @@ import com.rr.CPing.adapters.AllParentRecyclerViewAdapter;
 import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
 import com.rr.CPing.util.ReminderBroadCast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -228,16 +224,13 @@ public class BottomSheetHandler {
         ArrayList<AlarmIdClass> currentList =
                 SharedPrefConfig.readInIdsOfReminderContests(context);
         int index = getIndexFromList(currentList, contestDetails.getContestName());
-        int deleteNotificationTime;
+//        int deleteNotificationTime;
 
         if (!currentList.isEmpty() && index != -1) {
             if (currentList.get(index).isInAppReminderSet()) {
                 discardButton.setText("Delete");
-                deleteNotificationTime = (int) ((currentList.get(index).getStartTime() - currentList.get(index).getAlarmSetTime()) / 1000);
+//                deleteNotificationTime = (int) ((currentList.get(index).getStartTime() - currentList.get(index).getAlarmSetTime()) / 1000);
                 spinner.setSelection(0);
-                Log.d("TAG",
-                        "showAlarmSelectorDialog: " + currentList.get(index).getStartTime() + " , " + currentList.get(index).getAlarmSetTime() +
-                                " , " + (deleteNotificationTime));
             } else {
                 discardButton.setText("Cancel");
                 currentList.get(index).setInAppReminderSet(true);
@@ -305,8 +298,8 @@ public class BottomSheetHandler {
     }
 
     private long getTimeFromNow(Calendar startTime) {
-        Log.e("TAG", startTime.getTimeInMillis()+" ");
-        return startTime.getTimeInMillis()-System.currentTimeMillis();
+        Log.e("TAG", startTime.getTimeInMillis() + " ");
+        return startTime.getTimeInMillis() - System.currentTimeMillis();
     }
 
     private int getImageResource(String site) {
