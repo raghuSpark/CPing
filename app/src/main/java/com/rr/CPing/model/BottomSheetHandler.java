@@ -310,7 +310,7 @@ public class BottomSheetHandler {
             case "CodeForces":
                 return R.drawable.ic_codeforces_logo;
             case "HackerEarth":
-                return R.drawable.ic_hacker_earth_logo;
+                return R.drawable.ic_hackerearth_logo;
             case "HackerRank":
                 return R.drawable.ic_hackerrank_logo;
             case "Kick Start":

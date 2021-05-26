@@ -30,6 +30,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
+                android:backgroundTint="@color/cardBackground"
                 app:cardCornerRadius="15dp">
 
                 <LinearLayout
@@ -42,7 +43,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
                         android:layout_margin="5dp"
-                        android:background="@color/white"
+                        android:background="@color/cardBackground"
                         android:nestedScrollingEnabled="true"
                         android:scrollbars="horizontal|vertical" />
 
@@ -61,7 +62,7 @@
                             android:drawablePadding="3dp"
                             android:fontFamily="@font/nunito_regular"
                             android:text="@string/codeforces"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             app:drawableStartCompat="@drawable/ic_cf" />
 
                         <TextView
@@ -72,7 +73,7 @@
                             android:drawablePadding="3dp"
                             android:fontFamily="@font/nunito_regular"
                             android:text="@string/codechef"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             app:drawableStartCompat="@drawable/ic_cc" />
 
                         <TextView
@@ -83,7 +84,7 @@
                             android:drawablePadding="3dp"
                             android:fontFamily="@font/nunito_regular"
                             android:text="@string/leetcode"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:visibility="gone"
                             app:drawableStartCompat="@drawable/ic_lc" />
 
@@ -95,7 +96,7 @@
                             android:drawablePadding="3dp"
                             android:fontFamily="@font/nunito_regular"
                             android:text="@string/atcoder"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:visibility="gone"
                             app:drawableStartCompat="@drawable/ic_ac" />
 
@@ -117,7 +118,7 @@
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/rating_changes"
-                android:textColor="@color/black"
+                android:textColor="@color/fontColor"
                 android:textSize="20sp" />
 
             <androidx.cardview.widget.CardView
@@ -128,6 +129,7 @@
                 android:layout_column="0"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
+                android:backgroundTint="@color/cardBackground"
                 app:cardCornerRadius="15dp">
 
                 <GridLayout
@@ -156,7 +158,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_extra_bold"
                             android:text="@string/_1111"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="20sp" />
 
                         <TextView
@@ -164,7 +166,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_regular"
                             android:text="@string/codeforces"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="14sp" />
 
                         <TextView
@@ -198,7 +200,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_extra_bold"
                             android:text="@string/_1111"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="20sp" />
 
                         <TextView
@@ -206,7 +208,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_regular"
                             android:text="@string/codechef"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="14sp" />
 
                         <TextView
@@ -240,7 +242,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_extra_bold"
                             android:text="@string/_1111"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="20sp" />
 
                         <TextView
@@ -248,7 +250,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_regular"
                             android:text="@string/leetcode"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="14sp" />
 
                         <TextView
@@ -281,7 +283,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_extra_bold"
                             android:text="@string/_1111"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="20sp" />
 
                         <TextView
@@ -289,7 +291,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_regular"
                             android:text="@string/atcoder"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="14sp" />
 
                         <TextView
@@ -318,7 +320,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/ongoing_contests"
-                android:textColor="@color/black"
+                android:textColor="@color/fontColor"
                 android:textSize="20sp" />
 
             <TextView
@@ -356,7 +358,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/today"
-                android:textColor="@color/black"
+                android:textColor="@color/fontColor"
                 android:textSize="20sp" />
 
             <TextView
@@ -394,7 +396,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/future_contests"
-                android:textColor="@color/black"
+                android:textColor="@color/fontColor"
                 android:textSize="20sp" />
 
             <TextView

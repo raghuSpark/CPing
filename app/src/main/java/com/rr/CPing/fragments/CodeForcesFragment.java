@@ -140,6 +140,9 @@ public class CodeForcesFragment extends Fragment {
         codeForcesSeries.setColor(Color.rgb(72, 221, 205));
         codeForcesSeries.setDrawDataPoints(true);
 
+        graphView.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.fontColor));
+        graphView.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.fontColor));
+        graphView.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(R.color.fontColor));
         graphView.getViewport().setXAxisBoundsManual(true);
         graphView.getViewport().setMaxX(recentRatingsArrayList.size());
         graphView.getViewport().setYAxisBoundsManual(true);

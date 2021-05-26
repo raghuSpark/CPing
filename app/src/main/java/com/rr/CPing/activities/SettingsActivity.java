@@ -66,6 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar dashBoardToolbar = findViewById(R.id.settings_page_toolbar);
         setSupportActionBar(dashBoardToolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
+        dashBoardToolbar.setTitleTextColor(getResources().getColor(R.color.fontColor));
         getSupportActionBar().setHomeButtonEnabled(true);
 
         settingsSaveButton = findViewById(R.id.settings_save_button);
@@ -258,7 +259,7 @@ public class SettingsActivity extends AppCompatActivity {
         platformNamesList.add(new PlatformListItem("AtCoder", "", false, true, R.drawable.ic_at_coder_logo, R.drawable.ic_at_coder_logo));
         platformNamesList.add(new PlatformListItem("CodeChef", "", false, true, R.drawable.ic_codechef_logo, R.drawable.ic_codechef_logo_2x));
         platformNamesList.add(new PlatformListItem("CodeForces", "", false, true, R.drawable.ic_codeforces_logo, R.drawable.ic_codeforces_logo_2x));
-        platformNamesList.add(new PlatformListItem("HackerEarth", "", false, false, R.drawable.ic_hacker_earth_logo, -1));
+        platformNamesList.add(new PlatformListItem("HackerEarth", "", false, false, R.drawable.ic_hackerearth_logo, -1));
         platformNamesList.add(new PlatformListItem("HackerRank", "", false, false, R.drawable.ic_hackerrank_logo, -1));
         platformNamesList.add(new PlatformListItem("Kick Start", "", false, false, R.drawable.ic_kickstart_logo, -1));
         platformNamesList.add(new PlatformListItem("LeetCode", "", false, true, R.drawable.ic_leetcode_logo, R.drawable.ic_leetcode_logo_2x));

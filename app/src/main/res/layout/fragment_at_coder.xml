@@ -5,6 +5,7 @@
     android:id="@+id/atCoder_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".fragments.AtCoderFragment">
 
     <!--    <androidx.core.widget.NestedScrollView-->
@@ -28,6 +29,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
+                android:backgroundTint="@color/cardBackground"
                 app:cardCornerRadius="15dp">
 
                 <GridLayout
@@ -71,7 +73,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/nunito_semi_bold"
                             android:text="@string/current_rating"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="20sp" />
 
                         <TextView
@@ -82,7 +84,7 @@
                             android:fontFamily="@font/nunito_bold"
                             android:gravity="end"
                             android:text="@string/_1111"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="18sp" />
 
                     </LinearLayout>
@@ -107,7 +109,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/nunito_semi_bold"
                             android:text="@string/max_rating"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="20sp" />
 
                         <TextView
@@ -143,7 +145,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/nunito_semi_bold"
                             android:text="@string/level"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="20sp" />
 
                         <TextView
@@ -177,7 +179,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/nunito_semi_bold"
                             android:text="@string/rank"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="20sp" />
 
                         <TextView
@@ -188,7 +190,7 @@
                             android:fontFamily="@font/nunito_bold"
                             android:gravity="end"
                             android:text="@string/_1111"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="18sp" />
 
                     </LinearLayout>
@@ -207,7 +209,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/ongoing_contests"
-                android:textColor="@color/black"
+                android:textColor="@color/fontColor"
                 android:textSize="20sp" />
 
             <TextView
@@ -246,7 +248,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/today"
-                android:textColor="@color/black"
+                android:textColor="@color/fontColor"
                 android:textSize="20sp" />
 
             <TextView
@@ -285,7 +287,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/future_contests"
-                android:textColor="@color/black"
+                android:textColor="@color/fontColor"
                 android:textSize="20sp" />
 
             <TextView

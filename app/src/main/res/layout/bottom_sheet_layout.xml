@@ -43,7 +43,7 @@
             android:layout_marginStart="5dp"
             android:fontFamily="@font/nunito_bold"
             android:text="@string/codeforces"
-            android:textColor="@color/black"
+            android:textColor="@color/fontColor"
             android:textSize="20sp" />
 
     </LinearLayout>
@@ -66,7 +66,7 @@
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/nunito_regular"
         android:text="@string/contest_name_and_details"
-        android:textColor="@color/black"
+        android:textColor="@color/fontColor"
         android:textSize="18sp" />
 
     <LinearLayout
@@ -81,7 +81,7 @@
             android:layout_marginEnd="5dp"
             android:fontFamily="@font/nunito_semi_bold"
             android:text="@string/start"
-            android:textColor="@color/black"
+            android:textColor="@color/fontColor"
             android:textSize="18sp" />
 
         <TextView
@@ -91,7 +91,7 @@
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/nunito_regular"
             android:text="@string/dd_mm_yyyy_hh_mm_am_pm"
-            android:textColor="@color/black"
+            android:textColor="@color/blackAndWhiteFont"
             android:textSize="18sp" />
 
     </LinearLayout>
@@ -108,7 +108,7 @@
             android:layout_marginEnd="5dp"
             android:fontFamily="@font/nunito_semi_bold"
             android:text="@string/end"
-            android:textColor="@color/black"
+            android:textColor="@color/fontColor"
             android:textSize="18sp" />
 
         <TextView
@@ -118,7 +118,7 @@
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/nunito_regular"
             android:text="@string/dd_mm_yyyy_hh_mm_am_pm"
-            android:textColor="@color/black"
+            android:textColor="@color/blackAndWhiteFont"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -134,7 +134,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:padding="13dp"
         android:text="@string/visit_website"
-        android:textColor="@color/noInternetBG"
+        android:textColor="@color/bottomSheetButtonTextColor"
         android:textSize="19sp"
         app:drawableEndCompat="@drawable/ic_visit_website" />
 
@@ -152,7 +152,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:padding="13dp"
         android:text="@string/set_in_app_reminder"
-        android:textColor="@color/noInternetBG"
+        android:textColor="@color/bottomSheetButtonTextColor"
         android:textSize="19sp"
         app:drawableEndCompat="@drawable/ic_set_remainder" />
 
@@ -170,7 +170,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:padding="13dp"
         android:text="@string/set_google_reminder"
-        android:textColor="@color/noInternetBG"
+        android:textColor="@color/bottomSheetButtonTextColor"
         android:textSize="19sp"
         app:drawableEndCompat="@drawable/ic_google_icon" />
 

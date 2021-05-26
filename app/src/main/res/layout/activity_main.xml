@@ -42,13 +42,13 @@
             android:layout_marginTop="-15dp"
             app:tabIndicator="@drawable/tab_bottom_line"
             app:tabIndicatorAnimationMode="elastic"
-            app:tabIndicatorColor="#000000"
+            app:tabIndicatorColor="@color/tab_indicator_color"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorGravity="bottom"
             app:tabMode="auto"
             app:tabPaddingBottom="-20dp"
             app:tabRippleColor="@color/background"
-            app:tabSelectedTextColor="@color/black"
+            app:tabSelectedTextColor="@color/blackAndWhiteFont"
             app:tabTextAppearance="@style/tab_text"
             app:tabTextColor="@color/tab_text_normal_color" />
 

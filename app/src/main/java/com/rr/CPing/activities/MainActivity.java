@@ -86,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar dashBoardToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(dashBoardToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Hello, " + SharedPrefConfig.readAppUserName(this));
+        Objects.requireNonNull(getSupportActionBar()).setTitle("@" + SharedPrefConfig.readAppUserName(this));
+        dashBoardToolbar.setTitleTextColor(getResources().getColor(R.color.fontColor));
 
         ViewPager dashBoardViewPager = findViewById(R.id.main_tabs_pager);
         dashBoardTabsAccessorAdapter = new TabsAccessorAdapter(getSupportFragmentManager(), 1, this);

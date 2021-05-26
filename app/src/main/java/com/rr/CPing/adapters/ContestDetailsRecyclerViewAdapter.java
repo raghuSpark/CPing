@@ -2,7 +2,6 @@ package com.rr.CPing.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -13,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rr.CPing.R;
@@ -62,19 +62,19 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
 
         String text = "On: " + dateTimeHandler.getDate(start);
         SpannableString spannableString = new SpannableString(text);
-        spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.fontColor)), 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         myViewHolder.startDate.setText(spannableString);
 
         text = "At: " + DateTimeHandler.hr_24To12Format(new StringBuilder(dateTimeHandler.getTime(start)));
         spannableString = new SpannableString(text);
-        spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.fontColor)), 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         myViewHolder.startTime.setText(spannableString);
 
         text = "Duration: " + findDuration(contest.getContestDuration());
         spannableString = new SpannableString(text);
-        spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.fontColor)), 0, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         myViewHolder.duration.setText(spannableString);
 

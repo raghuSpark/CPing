@@ -142,6 +142,9 @@ public class CodeChefFragment extends Fragment {
         codeChefSeries.setColor(Color.rgb(255, 164, 161));
         codeChefSeries.setDrawDataPoints(true);
 
+        graphView.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.fontColor));
+        graphView.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.fontColor));
+        graphView.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(R.color.fontColor));
         graphView.getViewport().setXAxisBoundsManual(true);
         graphView.getViewport().setMaxX(recentRatingsArrayList.size());
         graphView.getViewport().setYAxisBoundsManual(true);

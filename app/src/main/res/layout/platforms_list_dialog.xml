@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/settingsBackground"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -20,7 +21,7 @@
         android:layout_marginTop="5dp"
         android:fontFamily="@font/nunito_semi_bold"
         android:text="@string/username"
-        android:textColor="@color/black"
+        android:textColor="@color/blackAndWhiteFont"
         android:textSize="20sp" />
 
     <EditText
@@ -37,6 +38,8 @@
         android:minLines="1"
         android:saveEnabled="true"
         android:selectAllOnFocus="true"
+        android:textColor="@color/fontColor"
+        android:textColorHint="@color/greyAndBlackFont"
         android:theme="@style/EditTextTheme"
         tools:targetApi="o" />
 
@@ -62,7 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@color/negativeChangeRed"
+            android:background="@drawable/buttons_cping"
+            android:backgroundTint="@color/negativeChangeRed"
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="@font/nunito_semi_bold"
@@ -79,7 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@color/positiveChangeGreen"
+            android:background="@drawable/buttons_cping"
+            android:backgroundTint="@color/positiveChangeGreen"
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="@font/nunito_semi_bold"

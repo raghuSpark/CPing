@@ -29,6 +29,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
+                android:backgroundTint="@color/cardBackground"
                 app:cardCornerRadius="10dp">
 
                 <GridLayout
@@ -85,7 +86,7 @@
                             android:fontFamily="@font/nunito_semi_bold"
                             android:gravity="end"
                             android:text="@string/_1111"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="18sp" />
 
                     </LinearLayout>
@@ -137,7 +138,7 @@
                             android:fontFamily="@font/nunito_semi_bold"
                             android:gravity="end"
                             android:text="@string/_1111"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -190,7 +191,7 @@
                             android:fontFamily="@font/nunito_semi_bold"
                             android:gravity="end"
                             android:text="@string/_1111"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -232,7 +233,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/nunito_semi_bold"
                             android:text="@string/total_problems_solved"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="17sp" />
 
                         <TextView
@@ -243,7 +244,7 @@
                             android:fontFamily="@font/nunito_bold"
                             android:gravity="end"
                             android:text="@string/_1111"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="17sp" />
 
                     </LinearLayout>
@@ -265,7 +266,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/nunito_semi_bold"
                             android:text="@string/acceptance_rate"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="17sp" />
 
                         <TextView
@@ -276,7 +277,7 @@
                             android:fontFamily="@font/nunito_bold"
                             android:gravity="end"
                             android:text="@string/_1111"
-                            android:textColor="@color/black"
+                            android:textColor="@color/fontColor"
                             android:textSize="17sp" />
 
                     </LinearLayout>
@@ -295,7 +296,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/ongoing_contests"
-                android:textColor="@color/black"
+                android:textColor="@color/fontColor"
                 android:textSize="20sp" />
 
             <TextView
@@ -334,7 +335,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/today"
-                android:textColor="@color/black"
+                android:textColor="@color/fontColor"
                 android:textSize="20sp" />
 
             <TextView
@@ -373,7 +374,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/future_contests"
-                android:textColor="@color/black"
+                android:textColor="@color/fontColor"
                 android:textSize="20sp" />
 
             <TextView

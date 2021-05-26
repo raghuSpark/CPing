@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#EDF5FA</color>
+    <color name="background">#202231</color>
     <color name="transparent">#00000000</color>
 
-    <color name="noInternetBG">#2F2E41</color>
+    <color name="noInternetBG">#D0D1BE</color>
 
     <color name="appBlueColor">#0099FF</color>
 
-    <color name="tab_text_normal_color">#8B8686</color>
+    <color name="tab_text_normal_color">#CACFE7</color>
     <color name="negativeChangeRed">#F04243</color>
     <color name="positiveChangeGreen">#46CA7F</color>
 
     // Font color
-    <color name="fontColor">#000000</color>
-    <color name="greyAndBlackFont">#8B8686</color>
-    <color name="blackAndWhiteFont">#000000</color>
-    <color name="whiteAndBlackFont">#FFFFFF</color>
+    <color name="fontColor">#CACFE7</color>
+    <color name="greyAndBlackFont">#CACFE7</color>
+    <color name="blackAndWhiteFont">#FFFFFF</color>
+    <color name="whiteAndBlackFont">#000000</color>
 
-    <color name="settingsBackground">#FFFFFF</color>
-    <color name="tab_indicator_color">#000000</color>
-    <color name="SplashBackground">#FFFFFF</color>
-    <color name="cardBackground">#FFFFFF</color>
-    <color name="ratingsChangesBackground">#EDF5FA</color>
+    <color name="settingsBackground">#34384B</color>
+    <color name="tab_indicator_color">#FFFFFF</color>
+    <color name="SplashBackground">#34384B</color>
+    <color name="cardBackground">#35364A</color>
+    <color name="ratingsChangesBackground">#2E2F41</color>
 
-    <color name="buttonTextLightColor">#FFFFFF</color>
+    <color name="buttonTextLightColor">#000000</color>
 
-    <color name="bottomSheetTop">#434075</color>
+    <color name="bottomSheetTop">#CACFE7</color>
     <color name="bottomSheetButtonTextColor">#2F2E41</color>
 
-    <color name="addReminderColor">#FEA758</color>
-    <color name="reminderAddedColor">#46CA7F</color>
+    <color name="addReminderColor">#FFCC9D</color>
+    <color name="reminderAddedColor">#86FFBC</color>
 
-    <color name="hackerEarthLogoColor">#2C3454</color>
-
+    <color name="hackerEarthLogoColor">#A6B8FD</color>
     // CodeForces rating colors
 
-    <color name="codeForcesNewbieColor">#808080</color>
-    <color name="codeForcesPupilColor">#008000</color>
+    <color name="codeForcesNewbieColor">#E8E4E4</color>
+    <color name="codeForcesPupilColor">#62ED62</color>
     <color name="codeForcesSpecialistColor">#03a89e</color>
-    <color name="codeForcesExpertColor">#0000ff</color>
+    <color name="codeForcesExpertColor">#7777FB</color>
     <color name="codeForcesCandidateMasterColor">#a0a</color>
     <color name="codeForcesMasterColor">#ff8c00</color>
     <color name="codeForcesGrandMasterColor">#ff0000</color>
@@ -47,7 +46,7 @@
 
     <color name="oneStar">#666</color>
     <color name="twoStar">#1e7d22</color>
-    <color name="threeStar">#36c</color>
+    <color name="threeStar">#6B98F3</color>
     <color name="fourStar">#684273</color>
     <color name="fiveStar">#ffbf00</color>
     <color name="sixStar">#ff7f00</color>
@@ -69,23 +68,23 @@
     // 2000-2399
     <color name="atCoderLegend">#F47B00</color>
     // 2400-2799
-    <color name="atCoderKing">#F30000</color>
+    <color name="atCoderKing">#F04243</color>
     // 2800
 
     // LeetCode Colors
 
-    <color name="leetCodeHardColor">#e91e63</color>
+    <color name="leetCodeHardColor">#F04243</color>
     <color name="leetCodeMediumColor">#fb8c00</color>
     <color name="leetCodeEasyColor">#43a047</color>
     <color name="leetCodeRankColor">#008000</color>
 
 
-    <color name="codeChefColor">#804827</color>
+    <color name="codeChefColor">#D18D66</color>
     <color name="codeForcesColor">#1F8CCC</color>
     <color name="leetCodeColor">#FFA116</color>
     <color name="atCoderColor">#337ab7</color>
     <color name="topCoderColor">#ffa45d</color>
-    <color name="hackerEarthColor">#323754</color>
+    <color name="hackerEarthColor">#94A3FA</color>
     <color name="hackerRankColor">#1ba94c</color>
     <color name="kickStartColor">#fe112d</color>
 

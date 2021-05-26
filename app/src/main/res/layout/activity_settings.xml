@@ -5,7 +5,7 @@
     android:id="@+id/settings_page_grid_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/settingsBackground"
     android:descendantFocusability="beforeDescendants"
     android:theme="@style/Widget.AppCompat.Light.ActionBar"
     tools:context=".activities.SettingsActivity">
@@ -52,7 +52,7 @@
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
                     android:text="@string/hello"
-                    android:textColor="@color/black"
+                    android:textColor="@color/fontColor"
                     android:textSize="20sp" />
 
                 <EditText
@@ -71,6 +71,7 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:textColor="@color/noInternetBG"
                     android:textColorHint="@color/tab_text_normal_color"
                     android:textColorLink="@color/appBlueColor"
                     android:textSize="19sp"
@@ -97,7 +98,7 @@
                     android:paddingStart="1dp"
                     android:paddingEnd="5dp"
                     android:text="@string/platforms"
-                    android:textColor="@color/black"
+                    android:textColor="@color/fontColor"
                     android:textSize="20sp" />
 
                 <ListView
@@ -133,7 +134,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:text="@string/save"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/buttonTextLightColor"
                 android:textSize="19sp" />
 
             <Button

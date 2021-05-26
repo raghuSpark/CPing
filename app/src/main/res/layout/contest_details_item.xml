@@ -7,6 +7,7 @@
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
     android:layout_marginBottom="5dp"
+    android:backgroundTint="@color/cardBackground"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
@@ -32,7 +33,7 @@
                 android:layout_margin="5dp"
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/contest_name"
-                android:textColor="@color/black"
+                android:textColor="@color/fontColor"
                 android:textSize="18sp" />
 
             <LinearLayout
@@ -50,7 +51,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/nunito_semi_bold"
                     android:text="@string/on"
-                    android:textColor="@color/tab_text_normal_color"
+                    android:textColor="@color/blackAndWhiteFont"
                     android:textSize="17sp" />
 
                 <TextView
@@ -60,7 +61,7 @@
                     android:layout_weight="0.7"
                     android:fontFamily="@font/nunito_semi_bold"
                     android:text="@string/at"
-                    android:textColor="@color/tab_text_normal_color"
+                    android:textColor="@color/blackAndWhiteFont"
                     android:textSize="17sp" />
 
             </LinearLayout>
@@ -74,7 +75,7 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/contest_duration"
-                android:textColor="@color/tab_text_normal_color"
+                android:textColor="@color/blackAndWhiteFont"
                 android:textSize="18sp" />
 
         </LinearLayout>
