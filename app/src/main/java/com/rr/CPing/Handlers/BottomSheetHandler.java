@@ -1,4 +1,4 @@
-package com.rr.CPing.model;
+package com.rr.CPing.Handlers;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -28,6 +28,8 @@ import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.AllParentRecyclerViewAdapter;
 import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
+import com.rr.CPing.model.AlarmIdClass;
+import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.util.ReminderBroadCast;
 
 import java.util.ArrayList;
@@ -84,9 +86,6 @@ public class BottomSheetHandler {
             appRemainder.setVisibility(View.VISIBLE);
             googleRemainder.setVisibility(View.VISIBLE);
         }
-
-        //TODO: Spinner time setting by 5 chesindhi maarchaali
-        //TODO: Alarm times to be set properly
 
         ArrayList<AlarmIdClass> currentList =
                 SharedPrefConfig.readInIdsOfReminderContests(context);
@@ -220,8 +219,7 @@ public class BottomSheetHandler {
         adapter.setDropDownViewResource(R.layout.drop_down_item);
         spinner.setAdapter(adapter);
 
-        ArrayList<AlarmIdClass> currentList =
-                SharedPrefConfig.readInIdsOfReminderContests(context);
+        ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(context);
         int index = getIndexFromList(currentList, contestDetails.getContestName());
 //        int deleteNotificationTime;
 

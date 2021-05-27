@@ -1,5 +1,6 @@
 package com.rr.CPing.activities;
 
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     private TabsAccessorAdapter dashBoardTabsAccessorAdapter;
 
+    private AlertDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +45,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //if the user already granted the permission to appear on top or the API is below Android 10 no need to ask for permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-                !Settings.canDrawOverlays(this)) {
-            RequestPermission();
+
+        if (!SharedPrefConfig.readDoNotAskAgain(this) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !Settings.canDrawOverlays(this)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            View view = getLayoutInflater().inflate(R.layout.appear_on_top_permission_dialog, null);
+            builder.setView(view);
+
+            view.findViewById(R.id.allow_permission).setOnClickListener(v -> {
+                RequestPermission();
+                dialog.cancel();
+            });
+
+            view.findViewById(R.id.deny_permission).setOnClickListener(v -> {
+                Toast.makeText(MainActivity.this, "Permission is required to show full screen reminders.", Toast.LENGTH_SHORT).show();
+                dialog.cancel();
+            });
+
+            view.findViewById(R.id.deny_and_do_not_ask_permission).setOnClickListener(v -> {
+                Toast.makeText(MainActivity.this, "Permission is required to show full screen reminders.", Toast.LENGTH_SHORT).show();
+                SharedPrefConfig.writeDoNotAskAgain(MainActivity.this, true);
+                dialog.cancel();
+            });
+
+            dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
         }
 
 //        if (Build.MANUFACTURER.equalsIgnoreCase("oppo")) {
@@ -83,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (!Settings.canDrawOverlays(this)) {
-                    Toast.makeText(this, "Give permission to appear on top, to get full screen reminders...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Permission is required to show full screen reminders.", Toast.LENGTH_SHORT).show();
                 }
             }
         }

@@ -19,6 +19,20 @@ import java.util.ArrayList;
 
 public class SharedPrefConfig {
 
+    public static void writeDoNotAskAgain(Context context, boolean canAsk) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putBoolean("DO_NOT_ASK_AGAIN", canAsk);
+        editor.apply();
+    }
+
+    public static boolean readDoNotAskAgain(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return pref.getBoolean("DO_NOT_ASK_AGAIN", false);
+    }
+
     public static void writeAppTheme(Context context, int theme) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = pref.edit();

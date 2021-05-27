@@ -1,4 +1,4 @@
-package com.rr.CPing.model;
+package com.rr.CPing.Handlers;
 
 import android.content.Context;
 
@@ -6,11 +6,11 @@ import androidx.core.content.ContextCompat;
 
 import com.rr.CPing.R;
 
-public class SetRankColor {
+public class SetRankColorHandler {
 
     private final Context context;
 
-    public SetRankColor(Context context) {
+    public SetRankColorHandler(Context context) {
         this.context = context;
     }
 

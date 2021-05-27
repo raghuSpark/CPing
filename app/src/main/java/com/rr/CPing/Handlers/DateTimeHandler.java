@@ -1,4 +1,4 @@
-package com.rr.CPing.model;
+package com.rr.CPing.Handlers;
 
 import android.annotation.SuppressLint;
 

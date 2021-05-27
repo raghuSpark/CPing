@@ -19,7 +19,7 @@ import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.model.AlarmIdClass;
 import com.rr.CPing.model.ContestDetails;
-import com.rr.CPing.model.DateTimeHandler;
+import com.rr.CPing.Handlers.DateTimeHandler;
 
 import java.util.ArrayList;
 import java.util.Calendar;

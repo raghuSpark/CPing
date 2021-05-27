@@ -16,7 +16,7 @@ import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
 import com.rr.CPing.database.JSONResponseDBHandler;
-import com.rr.CPing.model.BottomSheetHandler;
+import com.rr.CPing.Handlers.BottomSheetHandler;
 import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.model.LeetCodeUserDetails;
 

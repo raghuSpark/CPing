@@ -16,18 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.rr.CPing.Handlers.BottomSheetHandler;
+import com.rr.CPing.Handlers.SetRankColorHandler;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.AllParentRecyclerViewAdapter;
 import com.rr.CPing.database.JSONResponseDBHandler;
 import com.rr.CPing.model.AtCoderUserDetails;
-import com.rr.CPing.model.BottomSheetHandler;
 import com.rr.CPing.model.CodeChefUserDetails;
 import com.rr.CPing.model.CodeForcesUserDetails;
 import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.model.PlatformDetails;
 import com.rr.CPing.model.PlatformListItem;
-import com.rr.CPing.model.SetRankColor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +49,7 @@ public class AllFragment extends Fragment {
     private RecyclerView ongoingRV, todayRV, futureRV;
     private AllParentRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
 
-    private SetRankColor setRankColor;
+    private SetRankColorHandler setRankColor;
 
     public AllFragment() {
         // Required empty public constructor
@@ -70,7 +70,7 @@ public class AllFragment extends Fragment {
         JSONResponseDBHandler jsonResponseDBHandler = new JSONResponseDBHandler(getContext());
 
         platforms = new ArrayList<>();
-        setRankColor = new SetRankColor(getContext());
+        setRankColor = new SetRankColorHandler(getContext());
 
         ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(getContext());
 
@@ -244,21 +244,15 @@ public class AllFragment extends Fragment {
 
         // On Item Click Listener (Reminders, Visiting Website)
 
-        ongoingRVA.setOnItemClickListener((platFormName, position) -> {
-            new BottomSheetHandler().showBottomSheetDialog(ongoingRVA, null, getContext(),
-                    getPlatformDetails(ongoingPlatformsArrayList, platFormName), position,
-                    getLayoutInflater());
-        });
-        todayRVA.setOnItemClickListener((platFormName, position) -> {
-            new BottomSheetHandler().showBottomSheetDialog(todayRVA, null, getContext(),
-                    getPlatformDetails(todayPlatformsArrayList, platFormName), position,
-                    getLayoutInflater());
-        });
-        futureRVA.setOnItemClickListener((platFormName, position) -> {
-            new BottomSheetHandler().showBottomSheetDialog(futureRVA, null, getContext(),
-                    getPlatformDetails(futurePlatformsArrayList, platFormName), position,
-                    getLayoutInflater());
-        });
+        ongoingRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(ongoingRVA, null, getContext(),
+                getPlatformDetails(ongoingPlatformsArrayList, platFormName), position,
+                getLayoutInflater()));
+        todayRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(todayRVA, null, getContext(),
+                getPlatformDetails(todayPlatformsArrayList, platFormName), position,
+                getLayoutInflater()));
+        futureRVA.setOnItemClickListener((platFormName, position) -> new BottomSheetHandler().showBottomSheetDialog(futureRVA, null, getContext(),
+                getPlatformDetails(futurePlatformsArrayList, platFormName), position,
+                getLayoutInflater()));
 
         return groupFragmentView;
     }

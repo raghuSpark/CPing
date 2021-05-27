@@ -40,6 +40,8 @@
 
     <color name="textHintColor">#8B8686</color>
 
+    <color name="permissionButtonTextColor">#FF01579B</color>
+
     // CodeForces rating colors
 
     <color name="codeForcesNewbieColor">#808080</color>

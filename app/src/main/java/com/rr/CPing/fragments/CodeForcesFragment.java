@@ -19,10 +19,10 @@ import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
 import com.rr.CPing.database.JSONResponseDBHandler;
-import com.rr.CPing.model.BottomSheetHandler;
+import com.rr.CPing.Handlers.BottomSheetHandler;
 import com.rr.CPing.model.CodeForcesUserDetails;
 import com.rr.CPing.model.ContestDetails;
-import com.rr.CPing.model.SetRankColor;
+import com.rr.CPing.Handlers.SetRankColorHandler;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,7 @@ public class CodeForcesFragment extends Fragment {
     private RecyclerView OngoingRV, TodayRV, FutureRV;
     private ContestDetailsRecyclerViewAdapter ongoingRVA, todayRVA, futureRVA;
 
-    private SetRankColor setRankColor;
+    private SetRankColorHandler setRankColor;
 
     public CodeForcesFragment() {
         // Required empty public constructor
@@ -58,7 +58,7 @@ public class CodeForcesFragment extends Fragment {
 
         JSONResponseDBHandler jsonResponseDBHandler = new JSONResponseDBHandler(getContext());
         ArrayList<ContestDetails> contestDetailsArrayList = jsonResponseDBHandler.getPlatformDetails("CodeForces");
-        setRankColor = new SetRankColor(getContext());
+        setRankColor = new SetRankColorHandler(getContext());
 
         for (ContestDetails cd : contestDetailsArrayList) {
             if (!cd.getIsToday().equals("No")) {
