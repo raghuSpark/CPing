@@ -72,7 +72,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/noInternetBG"
-                    android:textColorHint="@color/tab_text_normal_color"
+                    android:textColorHint="@color/textHintColor"
                     android:textColorLink="@color/appBlueColor"
                     android:textSize="19sp"
                     android:theme="@style/EditTextTheme"
@@ -109,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.9"
                         android:fontFamily="@font/nunito_semi_bold"
-                        android:paddingStart="1dp"
+                        android:paddingStart="5dp"
                         android:paddingEnd="5dp"
                         android:text="@string/platforms"
                         android:textColor="@color/fontColor"
@@ -148,20 +148,50 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/theme_title_linear_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_semi_bold"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
-                    android:text="@string/theme"
-                    android:textColor="@color/fontColor"
-                    android:textSize="20sp" />
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:orientation="horizontal"
+                    android:paddingStart="0dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/theme_title_text_view"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:fontFamily="@font/nunito_semi_bold"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/theme"
+                        android:textColor="@color/fontColor"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/theme_title_drop_down_image"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:background="@color/transparent"
+                        android:contentDescription="@string/img"
+                        android:rotation="0"
+                        android:src="@drawable/ic_platforms_dropdown" />
+
+                </LinearLayout>
 
                 <RadioGroup
                     android:id="@+id/theme_radio_group"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <RadioButton
                         android:id="@+id/system_default_theme_radio_button"
@@ -234,7 +264,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:text="@string/save"
                 android:textAllCaps="false"
-                android:textColor="@color/buttonTextLightColor"
+                android:textColor="@color/bottomSheetButtonTextColor"
                 android:textSize="19sp" />
 
             <Button

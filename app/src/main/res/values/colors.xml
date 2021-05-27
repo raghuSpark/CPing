@@ -38,6 +38,8 @@
 
     <color name="radioButtonColor">#684273</color>
 
+    <color name="textHintColor">#8B8686</color>
+
     // CodeForces rating colors
 
     <color name="codeForcesNewbieColor">#808080</color>

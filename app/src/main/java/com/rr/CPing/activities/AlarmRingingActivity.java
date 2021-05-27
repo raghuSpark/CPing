@@ -74,7 +74,9 @@ public class AlarmRingingActivity extends AppCompatActivity {
         AlarmIdClass alarmIdClass = idClassArrayList.get(index);
         timeDescriptionTextView.setText("Starts in " + (System.currentTimeMillis() - idClassArrayList.get(index).getStartTime()) / 1000 + " minutes");
 
-        idClassArrayList.remove(index);
+        if (!idClassArrayList.get(index).isGoogleReminderSet()) idClassArrayList.remove(index);
+        else idClassArrayList.get(index).setInAppReminderSet(false);
+
         SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
 
         new CountDownTimer(60000, 1000) {

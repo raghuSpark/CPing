@@ -55,9 +55,9 @@ public class SettingsActivity extends AppCompatActivity {
     boolean saveButtonClicked = false;
     int stillLoadingCount = 0;
 
-    private LinearLayout platFormTitleLinearLayout;
+    private LinearLayout platFormTitleLinearLayout, themeTitleLinearLayout;
     private ListView platformsListView;
-    private ImageView platFormTitleDropDown;
+    private ImageView platFormTitleDropDown, themeTitleDropDown;
 
     private RadioGroup themeRadioGroup;
 
@@ -126,6 +126,16 @@ public class SettingsActivity extends AppCompatActivity {
             } else {
                 platFormTitleDropDown.setRotation(0);
                 platformsListView.setVisibility(View.GONE);
+            }
+        });
+
+        themeTitleLinearLayout.setOnClickListener(v -> {
+            if (themeRadioGroup.getVisibility() == View.GONE) {
+                themeTitleDropDown.setRotation(180);
+                themeRadioGroup.setVisibility(View.VISIBLE);
+            } else {
+                themeTitleDropDown.setRotation(0);
+                themeRadioGroup.setVisibility(View.GONE);
             }
         });
 
@@ -544,6 +554,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void findViewByIds() {
+        themeTitleDropDown = findViewById(R.id.theme_title_drop_down_image);
+        themeTitleLinearLayout = findViewById(R.id.theme_title_linear_layout);
         themeRadioGroup = findViewById(R.id.theme_radio_group);
         settingsSaveButton = findViewById(R.id.settings_save_button);
         platformsListView = findViewById(R.id.settings_platforms_list_view);
