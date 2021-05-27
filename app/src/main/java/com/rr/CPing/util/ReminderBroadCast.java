@@ -11,11 +11,13 @@ import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.rr.CPing.Handlers.BottomSheetHandler;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.activities.AlarmRingingActivity;
@@ -23,6 +25,7 @@ import com.rr.CPing.activities.SplashActivity;
 import com.rr.CPing.model.AlarmIdClass;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ReminderBroadCast extends BroadcastReceiver {
     @RequiresApi(api = Build.VERSION_CODES.P)
@@ -53,15 +56,14 @@ public class ReminderBroadCast extends BroadcastReceiver {
                     .setContentText("Contest is about to start")
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     .setCategory(NotificationCompat.CATEGORY_ALARM)
-                    .setFullScreenIntent(PendingIntent.getActivity(context, 0, new Intent(context, SplashActivity.class), PendingIntent.FLAG_ONE_SHOT), true)
+                    .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, SplashActivity.class), PendingIntent.FLAG_UPDATE_CURRENT))
                     .setAutoCancel(true)
                     .setOnlyAlertOnce(true);
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
             notificationManager.notify((int) System.currentTimeMillis(), builder.build());
 
-            ArrayList<AlarmIdClass> idClassArrayList =
-                    SharedPrefConfig.readInIdsOfReminderContests(context);
+            ArrayList<AlarmIdClass> idClassArrayList = SharedPrefConfig.readInIdsOfReminderContests(context);
             int index = getIndexFromList(idClassArrayList, contestName);
 
             AlarmIdClass alarmIdClass = idClassArrayList.get(index);
@@ -76,7 +78,22 @@ public class ReminderBroadCast extends BroadcastReceiver {
             ringtone.setVolume(100);
             ringtone.play();
 
-            new Handler().postDelayed(ringtone::stop, 60000);
+            new Handler().postDelayed(() -> {
+                if (Math.abs(alarmIdClass.getStartTime() - System.currentTimeMillis()) / 60000 <= 5) {
+                    Toast.makeText(context, "This contest is going to start in less than 5 minutes!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
+                    idClassArrayList.add(alarmIdClass);
+
+                    SharedPrefConfig.writeInIdsOfReminderContests(context, idClassArrayList);
+
+                    Toast.makeText(context, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
+
+                    new BottomSheetHandler().setNotification(context, 5, contestName, Calendar.getInstance(), System.currentTimeMillis() / 1000, true);
+                }
+                ringtone.stop();
+            }, 60000);
         }
     }
 

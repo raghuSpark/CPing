@@ -15,14 +15,15 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.rr.CPing.Handlers.DateTimeHandler;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.model.AlarmIdClass;
 import com.rr.CPing.model.ContestDetails;
-import com.rr.CPing.Handlers.DateTimeHandler;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
 
@@ -103,12 +104,20 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
 
     private String findDuration(int contestDuration) {
         String result = "";
-        result += contestDuration / 3600 + ":";
-        if (contestDuration % 3600 == 0) result += "00 hrs";
-        else {
-            int minutes = (int) (((contestDuration / 3600.0) - (contestDuration / 3600)) * 60);
-            result += minutes + " hrs";
-        }
+        int day = (int) TimeUnit.SECONDS.toDays(contestDuration);
+        long hours = TimeUnit.SECONDS.toHours(contestDuration) - (day * 24);
+        long minutes = TimeUnit.SECONDS.toMinutes(contestDuration) - (TimeUnit.SECONDS.toHours(contestDuration) * 60);
+//        long second = TimeUnit.MILLISECONDS.toSeconds(contestDuration) - (TimeUnit.MILLISECONDS.toMinutes(contestDuration) *60);
+        if (day != 0) {
+            result += day + " days ";
+            if (hours != 0 || minutes != 0) {
+                result += hours + " hrs ";
+                if (minutes != 0) result += minutes + " min";
+            }
+        } else if (hours != 0) {
+            result += hours + " hrs ";
+            if (minutes != 0) result += minutes + " min";
+        } else result += minutes + " min";
         return result;
     }
 

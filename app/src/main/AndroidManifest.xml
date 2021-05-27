@@ -29,7 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SettingsActivity" />
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:configChanges="uiMode" />
         <activity android:name=".activities.MainActivity" />
 
         <receiver android:name=".util.ReminderBroadCast" />

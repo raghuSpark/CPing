@@ -136,6 +136,9 @@ public class SplashActivity extends AppCompatActivity {
 
     private void getAC(String user_name) {
         String platform_name = "atcoder";
+//        https://competitive-coding-api.herokuapp.com/api/
+//        https://cping-api.herokuapp.com/api/codeforces/rishank
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
@@ -151,8 +154,8 @@ public class SplashActivity extends AppCompatActivity {
                 } else {
                     item = new AtCoderUserDetails(user_name,
                             response.getInt("rating"),
-                            -1,
-                            -1,
+                            0,
+                            0,
                             "NA");
                 }
                 count--;
