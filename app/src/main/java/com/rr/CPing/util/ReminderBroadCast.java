@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ReminderBroadCast extends BroadcastReceiver {
+    private static final String TAG = "ReminderBroadCast";
+
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -47,7 +49,7 @@ public class ReminderBroadCast extends BroadcastReceiver {
                 alarmIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 context.startActivity(alarmIntent);
             } catch (Exception e) {
-                Log.e("TAG", e.getMessage());
+                Log.e(TAG, e.getMessage());
             }
         } else {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notify_contest")
@@ -84,7 +86,10 @@ public class ReminderBroadCast extends BroadcastReceiver {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
-                    idClassArrayList.add(alarmIdClass);
+
+                    int idx = getIndexFromList(idClassArrayList, contestName);
+                    if (idx == -1) idClassArrayList.add(alarmIdClass);
+                    else idClassArrayList.get(idx).setInAppReminderSet(true);
 
                     SharedPrefConfig.writeInIdsOfReminderContests(context, idClassArrayList);
 

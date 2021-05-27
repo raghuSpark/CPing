@@ -295,7 +295,6 @@ public class BottomSheetHandler {
     }
 
     private long getTimeFromNow(Calendar startTime) {
-        Log.e("TAG", startTime.getTimeInMillis() + " ");
         return startTime.getTimeInMillis() - System.currentTimeMillis();
     }
 
@@ -331,17 +330,16 @@ public class BottomSheetHandler {
         Intent intent = new Intent(context, ReminderBroadCast.class);
         intent.putExtra("ContestName", contestName);
 
-        if (isSnooze) {
-            Toast.makeText(context, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
-        }
-
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
 
+        if (isSnooze) {
+            // SNOOZED
+        }
         long t1 = start.getTimeInMillis();
         long t2 = 60000 * time;
-        Log.e("TAG", String.valueOf(t1 - t2));
 
+        Log.e("TAG t1-t2", t1 + " , " + (t1 - t2));
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
     }
 
