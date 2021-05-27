@@ -19,6 +19,20 @@ import java.util.ArrayList;
 
 public class SharedPrefConfig {
 
+    public static void writeAppTheme(Context context, int theme) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putInt("APP_THEME", theme);
+        editor.apply();
+    }
+
+    public static int readAppTheme(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return pref.getInt("APP_THEME", -1);
+    }
+
     public static void writeAppUserName(Context context, String appUserName) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = pref.edit();

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -45,6 +46,7 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setAppTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
@@ -107,6 +109,19 @@ public class SplashActivity extends AppCompatActivity {
                 new Handler().postDelayed(this::goToMainActivity, 500);
             }
         }
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 
     private void goToSettingsActivity() {
@@ -325,16 +340,20 @@ public class SplashActivity extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-    @Override
-    protected void onStart() {
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(networkChangeListener, filter);
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        unregisterReceiver(networkChangeListener);
-        super.onStop();
+    private void setAppTheme() {
+        switch (SharedPrefConfig.readAppTheme(this)) {
+            case -1:
+                // System Default
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case 0:
+                // Light Theme
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case 1:
+                // Dark Theme
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+        }
     }
 }

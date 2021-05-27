@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
@@ -33,38 +34,13 @@ public class MainActivity extends AppCompatActivity {
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     private TabsAccessorAdapter dashBoardTabsAccessorAdapter;
 
-//    private static void autoLaunchVivo(Context context) {
-//        try {
-//            Intent intent = new Intent();
-//            intent.setComponent(new ComponentName("com.iqoo.secure",
-//                    "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity"));
-//            context.startActivity(intent);
-//        } catch (Exception e) {
-//            try {
-//                Intent intent = new Intent();
-//                intent.setComponent(new ComponentName("com.vivo.permissionmanager",
-//                        "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
-//                context.startActivity(intent);
-//            } catch (Exception ex) {
-//                try {
-//                    Intent intent = new Intent();
-//                    intent.setClassName("com.iqoo.secure",
-//                            "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager");
-//                    context.startActivity(intent);
-//                } catch (Exception exx) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        }
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setAppTheme();
         setContentView(R.layout.activity_main);
 
-//if the user already granted the permission or the API is below Android 10 no need to ask for permission
-
+//if the user already granted the permission to appear on top or the API is below Android 10 no need to ask for permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
                 !Settings.canDrawOverlays(this)) {
             RequestPermission();
@@ -100,17 +76,6 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
     }
 
-    private void RequestPermission() {
-        // Check if Android M or higher
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Show alert dialog to the user saying a separate permission is needed
-            // Launch the settings activity if the user prefers
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + this.getPackageName()));
-            startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -118,26 +83,9 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (!Settings.canDrawOverlays(this)) {
-//                    PermissionDenied();
                     Toast.makeText(this, "Give permission to appear on top, to get full screen reminders...", Toast.LENGTH_SHORT).show();
                 }
-//                else {
-//                    // Permission Granted-System will work
-//                }
-
             }
-        }
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel("notify_contest", "Contest Reminder", NotificationManager.IMPORTANCE_HIGH);
-            notificationChannel.setDescription("This notification channel is used to notify user.");
-            notificationChannel.enableVibration(true);
-            notificationChannel.enableLights(true);
-
-            NotificationManager notificationManager = Objects.requireNonNull(getSystemService(NotificationManager.class));
-            notificationManager.createNotificationChannel(notificationChannel);
         }
     }
 
@@ -185,6 +133,72 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(networkChangeListener);
         super.onStop();
     }
+
+    private void RequestPermission() {
+        // Check if Android M or higher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Show alert dialog to the user saying a separate permission is needed
+            // Launch the settings activity if the user prefers
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + this.getPackageName()));
+            startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    private void setAppTheme() {
+        switch (SharedPrefConfig.readAppTheme(this)) {
+            case -1:
+                // System Default
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case 0:
+                // Light Theme
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case 1:
+                // Dark Theme
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+        }
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel("notify_contest", "Contest Reminder", NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.setDescription("This notification channel is used to notify user.");
+            notificationChannel.enableVibration(true);
+            notificationChannel.enableLights(true);
+
+            NotificationManager notificationManager = Objects.requireNonNull(getSystemService(NotificationManager.class));
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+    }
+
+//    private static void autoLaunchVivo(Context context) {
+//        try {
+//            Intent intent = new Intent();
+//            intent.setComponent(new ComponentName("com.iqoo.secure",
+//                    "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity"));
+//            context.startActivity(intent);
+//        } catch (Exception e) {
+//            try {
+//                Intent intent = new Intent();
+//                intent.setComponent(new ComponentName("com.vivo.permissionmanager",
+//                        "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+//                context.startActivity(intent);
+//            } catch (Exception ex) {
+//                try {
+//                    Intent intent = new Intent();
+//                    intent.setClassName("com.iqoo.secure",
+//                            "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager");
+//                    context.startActivity(intent);
+//                } catch (Exception exx) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        }
+//    }
+
 
 //    private void initOPPO() {
 //        try {

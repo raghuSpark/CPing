@@ -31,7 +31,12 @@
     <color name="addReminderColor">#FEA758</color>
     <color name="reminderAddedColor">#46CA7F</color>
 
+    <color name="graphGridsColor">#000000</color>
+    <color name="greyAndWhiteFont">#8B8686</color>
+
     <color name="hackerEarthLogoColor">#2C3454</color>
+
+    <color name="radioButtonColor">#684273</color>
 
     // CodeForces rating colors
 

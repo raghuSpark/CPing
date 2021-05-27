@@ -196,7 +196,7 @@ public class BottomSheetHandler {
     public void showAlarmSelectorDialog(ContestDetails contestDetails,
                                         Calendar start, LayoutInflater layoutInflater) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        View view = layoutInflater.inflate(R.layout.alarm_selector_layout, null);
+        View view = layoutInflater.inflate(R.layout.alarm_selector_popup_dialog, null);
         builder.setView(view);
         dialog = builder.create();
         dialog.show();

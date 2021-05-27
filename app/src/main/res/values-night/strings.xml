@@ -64,5 +64,9 @@
     <string name="title_activity_alarm_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="theme">Theme</string>
+    <string name="system_default">System Default</string>
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
 
 </resources>

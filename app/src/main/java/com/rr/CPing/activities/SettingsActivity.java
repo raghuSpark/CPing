@@ -1,5 +1,6 @@
 package com.rr.CPing.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -12,12 +13,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.Request;
@@ -51,6 +55,12 @@ public class SettingsActivity extends AppCompatActivity {
     boolean saveButtonClicked = false;
     int stillLoadingCount = 0;
 
+    private LinearLayout platFormTitleLinearLayout;
+    private ListView platformsListView;
+    private ImageView platFormTitleDropDown;
+
+    private RadioGroup themeRadioGroup;
+
     private PlatformAdapter platformAdapter;
     private Button settingsSaveButton;
     private EditText appUsernameEditText;
@@ -58,9 +68,11 @@ public class SettingsActivity extends AppCompatActivity {
     private ArrayList<PlatformListItem> platformNamesList;
     private AlertDialog dialog;
 
+    @SuppressLint({"ResourceType", "NonConstantResourceId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setAppTheme();
         setContentView(R.layout.activity_settings);
 
         Toolbar dashBoardToolbar = findViewById(R.id.settings_page_toolbar);
@@ -69,13 +81,53 @@ public class SettingsActivity extends AppCompatActivity {
         dashBoardToolbar.setTitleTextColor(getResources().getColor(R.color.fontColor));
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        settingsSaveButton = findViewById(R.id.settings_save_button);
-        ListView platformsListView = findViewById(R.id.settings_platforms_list_view);
-        appUsernameEditText = findViewById(R.id.editTextUserName);
-        settingsProgressBar = findViewById(R.id.settings_page_progress_bar);
+        findViewByIds();
+
+        switch (SharedPrefConfig.readAppTheme(this)) {
+            case -1:
+                // System Default
+                themeRadioGroup.check(R.id.system_default_theme_radio_button);
+                break;
+            case 0:
+                // Light Theme
+                themeRadioGroup.check(R.id.light_theme_radio_button);
+                break;
+            case 1:
+                // Dark Theme
+                themeRadioGroup.check(R.id.dark_theme_radio_button);
+                break;
+        }
+
+        themeRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.system_default_theme_radio_button:
+                    // System Default
+                    SharedPrefConfig.writeAppTheme(SettingsActivity.this, -1);
+                    break;
+                case R.id.light_theme_radio_button:
+                    // Light Theme
+                    SharedPrefConfig.writeAppTheme(SettingsActivity.this, 0);
+                    break;
+                case R.id.dark_theme_radio_button:
+                    // Dark Theme
+                    SharedPrefConfig.writeAppTheme(SettingsActivity.this, 1);
+                    break;
+            }
+            setAppTheme();
+        });
 
         settingsProgressBar.setVisibility(View.GONE);
         settingsSaveButton.setVisibility(View.VISIBLE);
+
+        platFormTitleLinearLayout.setOnClickListener(v -> {
+            if (platformsListView.getVisibility() == View.GONE) {
+                platFormTitleDropDown.setRotation(180);
+                platformsListView.setVisibility(View.VISIBLE);
+            } else {
+                platFormTitleDropDown.setRotation(0);
+                platformsListView.setVisibility(View.GONE);
+            }
+        });
 
         settingsSaveButton.setOnClickListener(v -> {
             if (appUsernameEditText.getText().toString().isEmpty()) {
@@ -136,6 +188,57 @@ public class SettingsActivity extends AppCompatActivity {
                 platformAdapter.setSelectedIndex(position, "", false);
             }
         });
+    }
+
+    @Override
+    public void finish() {
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        super.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (appUsernameEditText.getText().toString().isEmpty()) {
+            Toast.makeText(this, "How should I call you?", Toast.LENGTH_SHORT).show();
+        } else if (SharedPrefConfig.readPlatformsCount(this) == 0) {
+            Toast.makeText(this, "No Platform is selected!", Toast.LENGTH_SHORT).show();
+        } else {
+            if (stillLoadingCount <= 0) {
+                startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                finish();
+                super.onBackPressed();
+            } else Toast.makeText(this, "Settings are not yet saved!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
+    }
+
+    private void setAppTheme() {
+        switch (SharedPrefConfig.readAppTheme(this)) {
+            case -1:
+                // System Default
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case 0:
+                // Light Theme
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case 1:
+                // Dark Theme
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+        }
     }
 
     private void createPopupDialog(int position) {
@@ -270,27 +373,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void saveData() {
         SharedPrefConfig.writePlatformsSelected(this, platformNamesList);
-    }
-
-    @Override
-    public void finish() {
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-        super.finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (appUsernameEditText.getText().toString().isEmpty()) {
-            Toast.makeText(this, "How should I call you?", Toast.LENGTH_SHORT).show();
-        } else if (SharedPrefConfig.readPlatformsCount(this) == 0) {
-            Toast.makeText(this, "No Platform is selected!", Toast.LENGTH_SHORT).show();
-        } else {
-            if (stillLoadingCount <= 0) {
-                startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-                finish();
-                super.onBackPressed();
-            } else Toast.makeText(this, "Settings are not yet saved!", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void getCC(String user_name) {
@@ -461,16 +543,13 @@ public class SettingsActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    @Override
-    protected void onStart() {
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(networkChangeListener, filter);
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        unregisterReceiver(networkChangeListener);
-        super.onStop();
+    private void findViewByIds() {
+        themeRadioGroup = findViewById(R.id.theme_radio_group);
+        settingsSaveButton = findViewById(R.id.settings_save_button);
+        platformsListView = findViewById(R.id.settings_platforms_list_view);
+        appUsernameEditText = findViewById(R.id.editTextUserName);
+        settingsProgressBar = findViewById(R.id.settings_page_progress_bar);
+        platFormTitleLinearLayout = findViewById(R.id.platform_title_linear_layout);
+        platFormTitleDropDown = findViewById(R.id.platform_title_drop_down_image);
     }
 }

@@ -225,9 +225,9 @@ public class AllFragment extends Fragment {
             codeChefRatingChanges.setVisibility(View.GONE);
         }
 
-        graphView.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.fontColor));
-        graphView.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.fontColor));
-        graphView.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(R.color.fontColor));
+        graphView.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.graphGridsColor));
+        graphView.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.graphGridsColor));
+        graphView.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(R.color.graphGridsColor));
         graphView.getViewport().setXAxisBoundsManual(true);
         graphView.getViewport().setMaxX(Math.max(codeChefRecentRatingsArrayList.size(), codeForcesRecentRatingsArrayList.size()));
         graphView.getViewport().setYAxisBoundsManual(true);

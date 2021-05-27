@@ -31,7 +31,7 @@ public class ReminderBroadCast extends BroadcastReceiver {
                 .setContentTitle(contestName)
                 .setContentText("Contest is about to start")
                 .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setCategory(NotificationCompat.CATEGORY_REMINDER)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setFullScreenIntent(PendingIntent.getActivity(context, 0, new Intent(context, SplashActivity.class), PendingIntent.FLAG_ONE_SHOT), true)
                 .setAutoCancel(true)
                 .setOnlyAlertOnce(true);

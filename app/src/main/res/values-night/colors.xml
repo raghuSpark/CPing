@@ -31,7 +31,13 @@
     <color name="addReminderColor">#FFCC9D</color>
     <color name="reminderAddedColor">#86FFBC</color>
 
+    <color name="graphGridsColor">#B6BEE6</color>
+    <color name="greyAndWhiteFont">#FFFFFF</color>
+
     <color name="hackerEarthLogoColor">#A6B8FD</color>
+
+    <color name="radioButtonColor">#CACFE7</color>
+
     // CodeForces rating colors
 
     <color name="codeForcesNewbieColor">#E8E4E4</color>
@@ -62,7 +68,7 @@
     // 800-1199
     <color name="atCoderEightDan">#00BFBF</color>
     // 1200-1599
-    <color name="atCoderNineDan">#0000FD</color>
+    <color name="atCoderNineDan">#6161F3</color>
     // 1600-1999
     <color name="atCoderTenDan">#BFBF00</color>
     // 2000-2399

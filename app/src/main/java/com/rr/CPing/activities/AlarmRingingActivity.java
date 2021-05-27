@@ -13,7 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
@@ -31,15 +33,16 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
     private String contestName;
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setAppTheme();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_alarm_ringing);
 
-        Toast.makeText(this, "ALL ASSAM!!!", Toast.LENGTH_LONG).show();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true);
             setTurnScreenOn(true);
@@ -58,6 +61,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        ringtone.setVolume(100);
         ringtone.play();
 
         contestName = getIntent().getStringExtra("ContestName");
@@ -126,6 +130,23 @@ public class AlarmRingingActivity extends AppCompatActivity {
             ringtone.stop();
             finish();
         });
+    }
+
+    private void setAppTheme() {
+        switch (SharedPrefConfig.readAppTheme(this)) {
+            case -1:
+                // System Default
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case 0:
+                // Light Theme
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case 1:
+                // Dark Theme
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+        }
     }
 
     private int getIndexFromList(ArrayList<AlarmIdClass> currentList, String contestName) {
