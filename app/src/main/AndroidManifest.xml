@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND" />
-
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -22,22 +21,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CPing">
-        <activity android:name=".Activities.SplashActivity">
+        <activity android:name=".activities.TimePassActivity"></activity>
+        <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.SettingsActivity" />
-        <activity android:name=".Activities.MainActivity" />
+        <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.MainActivity" />
 
-        <receiver android:name=".Utils.ReminderBroadCast" />
+        <receiver android:name=".util.ReminderBroadCast" />
 
         <activity
-            android:name=".Activities.AlarmRingingActivity"
+            android:name=".activities.AlarmRingingActivity"
             android:excludeFromRecents="true"
-            android:parentActivityName=".Activities.SplashActivity"
+            android:parentActivityName=".activities.SplashActivity"
             android:showForAllUsers="true"
             android:showOnLockScreen="true"
             android:showWhenLocked="true"
