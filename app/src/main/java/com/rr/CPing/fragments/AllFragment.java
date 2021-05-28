@@ -184,11 +184,16 @@ public class AllFragment extends Fragment {
                 codeForcesValues[i] = new DataPoint(i, temp);
             }
 
-            LineGraphSeries<DataPoint> codeForcesSeries = new LineGraphSeries<>(codeForcesValues);
-            codeForcesSeries.setColor(Color.rgb(72, 221, 205));
-            codeForcesSeries.setDrawDataPoints(true);
+            if (codeForcesRecentRatingsArrayList.size() == 0) {
+                codeForcesGraphBelow.setVisibility(View.GONE);
+                codeForcesRatingChanges.setVisibility(View.GONE);
+            } else {
+                LineGraphSeries<DataPoint> codeForcesSeries = new LineGraphSeries<>(codeForcesValues);
+                codeForcesSeries.setColor(Color.rgb(72, 221, 205));
+                codeForcesSeries.setDrawDataPoints(true);
 
-            graphView.addSeries(codeForcesSeries);
+                graphView.addSeries(codeForcesSeries);
+            }
         } else {
             codeForcesGraphBelow.setVisibility(View.GONE);
             codeForcesRatingChanges.setVisibility(View.GONE);
@@ -215,11 +220,16 @@ public class AllFragment extends Fragment {
                 codeChefValues[i] = new DataPoint(i, temp);
             }
 
-            LineGraphSeries<DataPoint> codeChefSeries = new LineGraphSeries<>(codeChefValues);
-            codeChefSeries.setColor(Color.rgb(255, 164, 161));
-            codeChefSeries.setDrawDataPoints(true);
+            if (codeChefRecentRatingsArrayList.size() == 0) {
+                codeChefGraphBelow.setVisibility(View.GONE);
+                codeChefRatingChanges.setVisibility(View.GONE);
+            } else {
+                LineGraphSeries<DataPoint> codeChefSeries = new LineGraphSeries<>(codeChefValues);
+                codeChefSeries.setColor(Color.rgb(255, 164, 161));
+                codeChefSeries.setDrawDataPoints(true);
 
-            graphView.addSeries(codeChefSeries);
+                graphView.addSeries(codeChefSeries);
+            }
         } else {
             codeChefGraphBelow.setVisibility(View.GONE);
             codeChefRatingChanges.setVisibility(View.GONE);

@@ -1,7 +1,9 @@
 package com.rr.CPing.activities;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.Ringtone;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,7 +31,6 @@ import com.rr.CPing.model.ContestDetails;
 import com.rr.CPing.model.LeetCodeUserDetails;
 import com.rr.CPing.model.PlatformListItem;
 import com.rr.CPing.util.NetworkChangeListener;
-import com.rr.CPing.util.ReminderBroadCast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +51,25 @@ public class SplashActivity extends AppCompatActivity {
         setAppTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+        manager.cancelAll();
+
+        if (getIntent().hasExtra("snooze")) {
+            Log.d("TAG", "onCreate: SNOOZED");
+
+            ArrayList<AlarmIdClass> idClassArrayList = SharedPrefConfig.readInIdsOfReminderContests(this);
+            int index = getIndexFromList(idClassArrayList, getIntent().getStringExtra("contestName"));
+            AlarmIdClass alarmIdClass = idClassArrayList.get(index);
+
+            if (!alarmIdClass.isGoogleReminderSet()) idClassArrayList.remove(index);
+            else alarmIdClass.setInAppReminderSet(false);
+
+            SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
+
+        } else if (getIntent().hasExtra("dismiss")) {
+            Log.d("TAG", "onCreate: DISMISSED");
+        }
 
         ImageView logoBellImage = findViewById(R.id.logo_bell);
         logoBellImage.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
@@ -133,6 +153,13 @@ public class SplashActivity extends AppCompatActivity {
     private void goToMainActivity() {
         startActivity(new Intent(SplashActivity.this, MainActivity.class));
         finish();
+    }
+
+    private int getIndexFromList(ArrayList<AlarmIdClass> currentList, String contestName) {
+        for (int i = 0; i < currentList.size(); ++i) {
+            if (currentList.get(i).getContestNameAsID().equals(contestName)) return i;
+        }
+        return -1;
     }
 
     private void getAC(String user_name) {

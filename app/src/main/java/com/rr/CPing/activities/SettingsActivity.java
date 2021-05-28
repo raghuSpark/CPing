@@ -483,8 +483,7 @@ public class SettingsActivity extends AppCompatActivity {
                 "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 LeetCodeUserDetails item = new LeetCodeUserDetails(user_name,
-                        response.getString(
-                                "ranking"),
+                        response.getString("ranking"),
                         response.getString("total_problems_solved"),
                         response.getString("acceptance_rate"),
                         response.getString("easy_questions_solved"),
