@@ -3,7 +3,6 @@ package com.rr.CPing.activities;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.Ringtone;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
