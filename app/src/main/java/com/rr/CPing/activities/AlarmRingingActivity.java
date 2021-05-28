@@ -60,8 +60,8 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
         findViewByIds();
 
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), uri);
         ringtone.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build());
         ringtone.setVolume(100);
         ringtone.play();

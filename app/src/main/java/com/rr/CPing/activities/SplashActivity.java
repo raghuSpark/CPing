@@ -54,22 +54,6 @@ public class SplashActivity extends AppCompatActivity {
         NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         manager.cancelAll();
 
-        if (getIntent().hasExtra("snooze")) {
-            Log.d("TAG", "onCreate: SNOOZED");
-
-            ArrayList<AlarmIdClass> idClassArrayList = SharedPrefConfig.readInIdsOfReminderContests(this);
-            int index = getIndexFromList(idClassArrayList, getIntent().getStringExtra("contestName"));
-            AlarmIdClass alarmIdClass = idClassArrayList.get(index);
-
-            if (!alarmIdClass.isGoogleReminderSet()) idClassArrayList.remove(index);
-            else alarmIdClass.setInAppReminderSet(false);
-
-            SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
-
-        } else if (getIntent().hasExtra("dismiss")) {
-            Log.d("TAG", "onCreate: DISMISSED");
-        }
-
         ImageView logoBellImage = findViewById(R.id.logo_bell);
         logoBellImage.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
 
