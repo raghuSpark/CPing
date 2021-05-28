@@ -2,6 +2,7 @@ package com.rr.CPing.activities;
 
 import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
+import android.media.AudioAttributes;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -40,7 +41,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setAppTheme();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                (int) WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL);
         setContentView(R.layout.activity_alarm_ringing);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
@@ -61,6 +62,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        ringtone.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build());
         ringtone.setVolume(100);
         ringtone.play();
 
@@ -104,7 +106,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
                     Toast.makeText(AlarmRingingActivity.this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
 
-                    new BottomSheetHandler().setNotification(AlarmRingingActivity.this, 5,
+                    new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5,
                             contestName, Calendar.getInstance(),
                             System.currentTimeMillis() / 1000, true);
                 }
@@ -130,8 +132,10 @@ public class AlarmRingingActivity extends AppCompatActivity {
                 else idClassArrayList.get(index[0]).setInAppReminderSet(true);
 
                 SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
+
                 Toast.makeText(this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
-                new BottomSheetHandler().setNotification(AlarmRingingActivity.this, 5, contestName,
+
+                new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5, contestName,
                         Calendar.getInstance(), System.currentTimeMillis() / 1000, true);
             }
             ringtone.stop();

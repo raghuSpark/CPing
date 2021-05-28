@@ -113,7 +113,7 @@ public class SettingsActivity extends AppCompatActivity {
                     SharedPrefConfig.writeAppTheme(SettingsActivity.this, 1);
                     break;
             }
-            setAppTheme();
+//            setAppTheme();
         });
 
         settingsProgressBar.setVisibility(View.GONE);

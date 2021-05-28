@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/TextAppearance.Compat.Notification"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/notification_contest_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_semi_bold"
+        android:padding="5dp"
+        android:text="@string/contest_name"
+        android:textColor="@color/appBlueColor" />
+
+    <TextView
+        android:id="@+id/notification_start_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_regular"
+        android:padding="5dp"
+        android:text="@string/starts_in_30_minutes"
+        android:textColor="@color/greyAndWhiteFont" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/notification_snooze_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:text="@string/snooze"
+            android:textAllCaps="false"
+            android:textColor="@color/appBlueColor" />
+
+        <Button
+            android:id="@+id/notification_dismiss_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:fontFamily="@font/nunito_semi_bold"
+            android:text="@string/dismiss"
+            android:textAllCaps="false"
+            android:textColor="@color/appBlueColor" />
+
+    </LinearLayout>
+
+</LinearLayout>

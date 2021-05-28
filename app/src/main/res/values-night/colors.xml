@@ -56,8 +56,8 @@
 
     <color name="oneStar">#666</color>
     <color name="twoStar">#1e7d22</color>
-    <color name="threeStar">#6B98F3</color>
-    <color name="fourStar">#684273</color>
+    <color name="threeStar">#92B6FF</color>
+    <color name="fourStar">#D853FF</color>
     <color name="fiveStar">#ffbf00</color>
     <color name="sixStar">#ff7f00</color>
     <color name="sevenStar">#D0011B</color>
@@ -66,7 +66,7 @@
 
     <color name="atCoderFiveDan">#808080</color>
     // 0-399
-    <color name="atCoderSixDan">#804000</color>
+    <color name="atCoderSixDan">#FF8F1F</color>
     // 400-799
     <color name="atCoderSevenDan">#008000</color>
     // 800-1199

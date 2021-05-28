@@ -333,14 +333,11 @@ public class BottomSheetHandler {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
 
-        if (isSnooze) {
-            // SNOOZED
-        }
-        long t1 = start.getTimeInMillis();
+        long t1 = isSnooze ? System.currentTimeMillis() : start.getTimeInMillis();
         long t2 = 60000 * time;
 
         Log.e("TAG t1-t2", t1 + " , " + (t1 - t2));
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+5000, pendingIntent);
     }
 
     private void deleteNotification(long id, String contestName) {
