@@ -16,7 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.rr.CPing.Activities.AlarmRingingActivity;
-import com.rr.CPing.Activities.SplashActivity;
+import com.rr.CPing.Activities.TimePassActivity;
 import com.rr.CPing.R;
 
 public class ReminderBroadCast extends BroadcastReceiver {
@@ -49,34 +49,34 @@ public class ReminderBroadCast extends BroadcastReceiver {
 
             Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
-            int id = (int) System.currentTimeMillis();
+            int notificationId = (int) System.currentTimeMillis() / 1000;
 
-            Intent snoozeIntent = new Intent(context, SplashActivity.class);
-            snoozeIntent.putExtra("snooze", true);
+            Intent snoozeIntent = new Intent(context, TimePassActivity.class);
+            snoozeIntent.putExtra("action", "snooze");
+            snoozeIntent.putExtra("id", notificationId);
             snoozeIntent.putExtra("contestName", contestName);
-            snoozeIntent.putExtra("id", id);
             snoozeIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            PendingIntent snoozePendingIntent = PendingIntent.getActivity(context, 0, snoozeIntent, PendingIntent.FLAG_IMMUTABLE);
+            PendingIntent snoozePendingIntent = PendingIntent.getActivity(context, notificationId, snoozeIntent, PendingIntent.FLAG_ONE_SHOT);
 
-            Intent dismissIntent = new Intent(context, SplashActivity.class);
-            dismissIntent.putExtra("dismiss", true);
+            Intent dismissIntent = new Intent(context, TimePassActivity.class);
+            dismissIntent.putExtra("action", "dismiss");
+            dismissIntent.putExtra("id", notificationId);
             dismissIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            PendingIntent dismissPendingIntent = PendingIntent.getActivity(context, 0, dismissIntent, PendingIntent.FLAG_IMMUTABLE);
+            PendingIntent dismissPendingIntent = PendingIntent.getActivity(context, notificationId, dismissIntent, PendingIntent.FLAG_ONE_SHOT);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notify_contest");
 
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(contestName)
                     .setContentText("Contest is going to start at: ")
-                    .setSound(uri, AudioManager.STREAM_ALARM)
-                    .setOngoing(true)
-                    .setAutoCancel(true)
-                    .setNumber(1)
+                    .setSound(uri, AudioManager.STREAM_RING)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(true)
+                    .setOngoing(true)
                     .addAction(R.drawable.ic_decrease_snooze_icon, "Snooze", snoozePendingIntent)
                     .addAction(R.drawable.ic_increase_snooze_icon, "Dismiss", dismissPendingIntent);
 
-            manager.notify(id, builder.build());
+            manager.notify(notificationId, builder.build());
         }
     }
 }

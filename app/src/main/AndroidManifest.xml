@@ -21,23 +21,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CPing">
-        <activity android:name=".activities.TimePassActivity"></activity>
-        <activity android:name=".activities.SplashActivity">
+        <activity android:name=".Activities.TimePassActivity" />
+        <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SettingsActivity" />
-        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".Activities.SettingsActivity" />
+        <activity android:name=".Activities.MainActivity" />
 
-        <receiver android:name=".util.ReminderBroadCast" />
+        <receiver android:name=".Utils.ReminderBroadCast" />
 
         <activity
-            android:name=".activities.AlarmRingingActivity"
+            android:name=".Activities.AlarmRingingActivity"
             android:excludeFromRecents="true"
-            android:parentActivityName=".activities.SplashActivity"
+            android:parentActivityName=".Activities.SplashActivity"
             android:showForAllUsers="true"
             android:showOnLockScreen="true"
             android:showWhenLocked="true"

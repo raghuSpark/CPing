@@ -1,11 +1,9 @@
-package com.rr.CPing.activities;
+package com.rr.CPing.Activities;
 
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -19,17 +17,17 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.rr.CPing.Model.AlarmIdClass;
+import com.rr.CPing.Model.AtCoderUserDetails;
+import com.rr.CPing.Model.CodeChefUserDetails;
+import com.rr.CPing.Model.CodeForcesUserDetails;
+import com.rr.CPing.Model.ContestDetails;
+import com.rr.CPing.Model.LeetCodeUserDetails;
+import com.rr.CPing.Model.PlatformListItem;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
+import com.rr.CPing.Utils.NetworkChangeListener;
 import com.rr.CPing.database.JSONResponseDBHandler;
-import com.rr.CPing.model.AlarmIdClass;
-import com.rr.CPing.model.AtCoderUserDetails;
-import com.rr.CPing.model.CodeChefUserDetails;
-import com.rr.CPing.model.CodeForcesUserDetails;
-import com.rr.CPing.model.ContestDetails;
-import com.rr.CPing.model.LeetCodeUserDetails;
-import com.rr.CPing.model.PlatformListItem;
-import com.rr.CPing.util.NetworkChangeListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,9 +48,6 @@ public class SplashActivity extends AppCompatActivity {
         setAppTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-        NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
-        manager.cancelAll();
 
         ImageView logoBellImage = findViewById(R.id.logo_bell);
         logoBellImage.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
@@ -110,7 +105,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             if (count <= 0) {
-                new Handler().postDelayed(this::goToMainActivity, 500);
+                goToMainActivity();
             }
         }
     }
@@ -138,37 +133,27 @@ public class SplashActivity extends AppCompatActivity {
         finish();
     }
 
-    private int getIndexFromList(ArrayList<AlarmIdClass> currentList, String contestName) {
-        for (int i = 0; i < currentList.size(); ++i) {
-            if (currentList.get(i).getContestNameAsID().equals(contestName)) return i;
-        }
-        return -1;
-    }
-
     private void getAC(String user_name) {
         String platform_name = "atcoder";
-//        https://competitive-coding-api.herokuapp.com/api/
-//        https://cping-api.herokuapp.com/api/codeforces/rishank
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
-                AtCoderUserDetails item;
-                if (!response.getString("level").equals("NA")) {
-                    item = new AtCoderUserDetails(
-                            user_name,
-                            response.getInt("rating"),
-                            response.getInt("highest"),
-                            response.getInt("rank"),
-                            response.getString("level"));
-                } else {
-                    item = new AtCoderUserDetails(user_name,
-                            response.getInt("rating"),
-                            0,
-                            0,
-                            "NA");
+                ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
+                JSONArray jsonArray = response.getJSONArray("contest_ratings");
+                int n = jsonArray.length();
+                for (int i = 0; i < n; ++i) {
+                    recentRatingsArrayList.add(jsonArray.getInt(i));
                 }
+                AtCoderUserDetails item;
+                item = new AtCoderUserDetails(
+                        user_name,
+                        response.getInt("rating"),
+                        response.getInt("highest"),
+                        response.getInt("rank"),
+                        response.getString("level"),
+                        recentRatingsArrayList);
                 count--;
                 if (count <= 0) {
                     goToMainActivity();
@@ -193,15 +178,16 @@ public class SplashActivity extends AppCompatActivity {
 
     private void getCC(String user_name) {
         String platform_name = "codechef";
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
                 JSONArray jsonArray = response.getJSONArray("contest_ratings");
                 int n = jsonArray.length();
                 for (int i = 0; i < n; ++i) {
-                    recentRatingsArrayList.add(jsonArray.getJSONObject(i).getInt("rating"));
+                    recentRatingsArrayList.add(jsonArray.getInt(i));
                 }
                 CodeChefUserDetails item = new CodeChefUserDetails(
                         user_name,
@@ -235,15 +221,16 @@ public class SplashActivity extends AppCompatActivity {
 
     private void getCF(String user_name) {
         String platform_name = "codeforces";
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
-                ArrayList<String> recentRatingsArrayList = new ArrayList<>();
+                ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
                 JSONArray jsonArray = response.getJSONArray("contests");
                 int n = jsonArray.length();
                 for (int i = 0; i < n; i++) {
-                    recentRatingsArrayList.add(jsonArray.getJSONObject(i).getString("New Rating"));
+                    recentRatingsArrayList.add(jsonArray.getInt(i));
                 }
                 Collections.reverse(recentRatingsArrayList);
                 CodeForcesUserDetails item = new CodeForcesUserDetails(user_name,
@@ -277,12 +264,12 @@ public class SplashActivity extends AppCompatActivity {
 
     private void getLC(String user_name) {
         String platform_name = "leetcode";
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://competitive-coding-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 LeetCodeUserDetails item = new LeetCodeUserDetails(user_name,
-                        response.getString("ranking"),
                         response.getString("total_problems_solved"),
                         response.getString("acceptance_rate"),
                         response.getString("easy_questions_solved"),
@@ -305,7 +292,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }
         }, error -> {
-            Log.d("TAG", "getLC: " + error.getMessage());
+            Log.d(TAG, "getLC: " + error.getMessage());
             count--;
             if (count <= 0) {
                 goToSettingsActivity();

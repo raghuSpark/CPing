@@ -1,16 +1,16 @@
-package com.rr.CPing.activities;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.rr.CPing.Activities;
 
 import android.app.NotificationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.rr.CPing.Handlers.BottomSheetHandler;
+import com.rr.CPing.Model.AlarmIdClass;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
-import com.rr.CPing.model.AlarmIdClass;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +26,7 @@ public class TimePassActivity extends AppCompatActivity {
         Log.e("TAG", action);
         NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(getIntent().getIntExtra("id", 0));
+
         if (action.equals("snooze")) {
             Log.d("TAG", "SNOOZED");
             String contestName = getIntent().getStringExtra("contestName");
