@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:keepScreenOn="true"
-    tools:context=".activities.AlarmRingingActivity">
+    tools:context=".Activities.AlarmRingingActivity">
 
     <TextView
         android:id="@+id/alarm_contest_name_text_View"

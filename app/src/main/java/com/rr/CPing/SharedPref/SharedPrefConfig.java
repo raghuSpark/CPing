@@ -7,12 +7,12 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.rr.CPing.model.AlarmIdClass;
-import com.rr.CPing.model.AtCoderUserDetails;
-import com.rr.CPing.model.CodeChefUserDetails;
-import com.rr.CPing.model.CodeForcesUserDetails;
-import com.rr.CPing.model.LeetCodeUserDetails;
-import com.rr.CPing.model.PlatformListItem;
+import com.rr.CPing.Model.AlarmIdClass;
+import com.rr.CPing.Model.AtCoderUserDetails;
+import com.rr.CPing.Model.CodeChefUserDetails;
+import com.rr.CPing.Model.CodeForcesUserDetails;
+import com.rr.CPing.Model.LeetCodeUserDetails;
+import com.rr.CPing.Model.PlatformListItem;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

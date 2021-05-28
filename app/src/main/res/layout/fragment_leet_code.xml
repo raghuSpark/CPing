@@ -5,7 +5,7 @@
     android:id="@+id/leet_code_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.LeetCodeFragment">
+    tools:context=".Fragments.LeetCodeFragment">
 
     <!--    <androidx.core.widget.NestedScrollView-->
     <!--        android:layout_width="match_parent"-->

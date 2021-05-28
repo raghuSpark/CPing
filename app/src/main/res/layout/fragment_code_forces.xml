@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".fragments.CodeForcesFragment">
+    tools:context=".Fragments.CodeForcesFragment">
 
     <!--    <androidx.core.widget.NestedScrollView-->
     <!--        android:layout_width="match_parent"-->
@@ -22,12 +22,36 @@
             tools:ignore="UselessParent">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/codeForces_graph_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_row="0"
                 android:layout_column="0"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:backgroundTint="@color/cardBackground"
+                app:cardCornerRadius="15dp">
+
+                <com.jjoe64.graphview.GraphView
+                    android:id="@+id/codeForces_graph_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@color/cardBackground"
+                    android:nestedScrollingEnabled="true"
+                    android:scrollbars="horizontal|vertical" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 android:backgroundTint="@color/cardBackground"
                 app:cardCornerRadius="15dp">
@@ -52,46 +76,14 @@
                         android:textColor="@color/noInternetBG"
                         android:textSize="19sp" />
 
-                    <com.jjoe64.graphview.GraphView
-                        android:id="@+id/codeForces_graph_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:layout_row="1"
-                        android:layout_column="0"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:background="@color/cardBackground"
-                        android:nestedScrollingEnabled="true"
-                        android:scrollbars="horizontal|vertical" />
-
-                </GridLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:backgroundTint="@color/cardBackground"
-                app:cardCornerRadius="15dp">
-
-                <GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_row="0"
+                        android:layout_row="1"
                         android:layout_rowWeight="1"
                         android:layout_column="0"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginEnd="10dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
@@ -134,7 +126,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_row="1"
+                        android:layout_row="2"
                         android:layout_rowWeight="1"
                         android:layout_column="0"
                         android:layout_margin="10dp"

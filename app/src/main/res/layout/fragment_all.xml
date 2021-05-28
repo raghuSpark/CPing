@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".fragments.AllFragment">
+    tools:context=".Fragments.AllFragment">
 
     <!--    <androidx.core.widget.NestedScrollView-->
     <!--        android:layout_width="match_parent"-->
@@ -97,7 +97,6 @@
                             android:fontFamily="@font/nunito_regular"
                             android:text="@string/atcoder"
                             android:textColor="@color/fontColor"
-                            android:visibility="gone"
                             app:drawableStartCompat="@drawable/ic_ac" />
 
                     </LinearLayout>

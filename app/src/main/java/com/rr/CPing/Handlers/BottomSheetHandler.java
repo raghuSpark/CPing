@@ -26,11 +26,11 @@ import android.widget.Toast;
 
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
-import com.rr.CPing.adapters.AllParentRecyclerViewAdapter;
-import com.rr.CPing.adapters.ContestDetailsRecyclerViewAdapter;
-import com.rr.CPing.model.AlarmIdClass;
-import com.rr.CPing.model.ContestDetails;
-import com.rr.CPing.util.ReminderBroadCast;
+import com.rr.CPing.Adapters.AllParentRecyclerViewAdapter;
+import com.rr.CPing.Adapters.ContestDetailsRecyclerViewAdapter;
+import com.rr.CPing.Model.AlarmIdClass;
+import com.rr.CPing.Model.ContestDetails;
+import com.rr.CPing.Utils.ReminderBroadCast;
 
 import java.util.ArrayList;
 import java.util.Calendar;

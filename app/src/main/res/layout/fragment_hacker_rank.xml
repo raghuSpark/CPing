@@ -4,7 +4,7 @@
     android:id="@+id/hackerRank_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.HackerRankFragment">
+    tools:context=".Fragments.HackerRankFragment">
 
     <!--    <androidx.core.widget.NestedScrollView-->
     <!--        android:layout_width="match_parent"-->
