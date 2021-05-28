@@ -11,6 +11,7 @@ import com.rr.CPing.Handlers.BottomSheetHandler;
 import com.rr.CPing.Model.AlarmIdClass;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
+import com.rr.CPing.Utils.MyProperties;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,8 +23,11 @@ public class TimePassActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_pass);
 
+        MyProperties.getInstance().ringtone.stop();
+
         String action = getIntent().getStringExtra("action");
         Log.e("TAG", action);
+
         NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(getIntent().getIntExtra("id", 0));
 
@@ -56,7 +60,7 @@ public class TimePassActivity extends AppCompatActivity {
                 new BottomSheetHandler().setNotification(TimePassActivity.this, -5, contestName, Calendar.getInstance(), System.currentTimeMillis() / 1000, true);
             }
 
-        } else if (action.equals("dismiss")) {
+        } else {
             Log.d("TAG", "DISMISSED");
         }
         finish();
