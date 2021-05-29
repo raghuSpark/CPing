@@ -10,9 +10,10 @@
         android:layout_row="0"
         android:layout_column="0"
         android:fontFamily="@font/nunito_semi_bold"
+        android:gravity="center"
         android:letterSpacing="0.02"
         android:padding="20dp"
-        android:text="@string/permission_is_required_to_show_full_screen_reminders"
+        android:text="@string/ask_permission"
         android:textColor="@color/fontColor"
         android:textSize="22sp" />
 

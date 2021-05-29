@@ -68,7 +68,7 @@
     <string name="system_default">System Default</string>
     <string name="dark">Dark</string>
     <string name="light">Light</string>
-    <string name="permission_is_required_to_show_full_screen_reminders">Permission is required to show full screen reminders!</string>
+    <string name="ask_permission"><b>CPing</b> would like to show you full Screen Alarms</string>
     <string name="allow">Allow</string>
 
 </resources>

@@ -34,9 +34,6 @@
         <receiver
             android:name=".Utils.ReminderBroadCast"
             android:enabled="true" />
-        <receiver
-            android:name=".Utils.BackgroundProcess"
-            android:enabled="true" />
 
         <activity
             android:name=".Activities.AlarmRingingActivity"

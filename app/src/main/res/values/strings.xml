@@ -69,7 +69,7 @@
     <string name="dark">Dark</string>
     <string name="light">Light</string>
     <string name="deny_don_t_ask_again"><![CDATA[Deny & Don\'t ask again]]></string>
-    <string name="permission_is_required_to_show_full_screen_reminders">Permission is required to show full screen reminders!</string>
+    <string name="ask_permission"><b>CPing</b> would like to show you full Screen Alarms</string>
     <string name="allow">Allow</string>
     <string name="deny">Deny</string>
 
