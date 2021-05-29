@@ -18,9 +18,11 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 public class BackgroundProcess extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+
         MyProperties.getInstance().ringtone.stop();
 
         String action = intent.getStringExtra("action");
+        if (action.equals("dismiss")) MyProperties.getInstance().isDismissed = true;
 
         NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(intent.getIntExtra("id", 0));
@@ -28,7 +30,7 @@ public class BackgroundProcess extends BroadcastReceiver {
         String contestName = intent.getStringExtra("contestName");
 
         ArrayList<AlarmIdClass> idClassArrayList = SharedPrefConfig.readInIdsOfReminderContests(context);
-        int index = getIndexFromList(idClassArrayList, intent.getStringExtra("contestName"));
+        int index = getIndexFromList(idClassArrayList, contestName);
         AlarmIdClass alarmIdClass = idClassArrayList.get(index);
 
         if (!alarmIdClass.isGoogleReminderSet()) idClassArrayList.remove(index);

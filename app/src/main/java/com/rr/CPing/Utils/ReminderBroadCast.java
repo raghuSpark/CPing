@@ -10,14 +10,24 @@ import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.rr.CPing.Activities.AlarmRingingActivity;
+import com.rr.CPing.Handlers.BottomSheetHandler;
+import com.rr.CPing.Model.AlarmIdClass;
 import com.rr.CPing.R;
+import com.rr.CPing.SharedPref.SharedPrefConfig;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class ReminderBroadCast extends BroadcastReceiver {
     private static final String TAG = "ReminderBroadCast";
@@ -27,6 +37,8 @@ public class ReminderBroadCast extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String contestName = intent.getStringExtra("ContestName");
         String properStartTime = intent.getStringExtra("ProperStartTime");
+
+        MyProperties.getInstance().isDismissed = false;
 
         boolean isAppearOnTopPermitted = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
@@ -81,9 +93,55 @@ public class ReminderBroadCast extends BroadcastReceiver {
                     .addAction(R.drawable.ic_decrease_snooze_icon, "Snooze", snoozePendingIntent)
                     .addAction(R.drawable.ic_increase_snooze_icon, "Dismiss", dismissPendingIntent)
                     .setAutoCancel(true)
+                    .setTimeoutAfter(60000)
                     .setOngoing(true);
 
             manager.notify(notificationId, builder.build());
+
+            // SNOOZING AFTER ONE MINUTE
+
+            new Handler().postDelayed(() -> {
+                if (!MyProperties.getInstance().isDismissed) {
+                    MyProperties.getInstance().ringtone.stop();
+
+                    NotificationManager manager1 = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+                    manager1.cancel(notificationId);
+
+                    ArrayList<AlarmIdClass> idClassArrayList = SharedPrefConfig.readInIdsOfReminderContests(context);
+                    int index = getIndexFromList(idClassArrayList, contestName);
+                    AlarmIdClass alarmIdClass = idClassArrayList.get(index);
+
+                    if (!alarmIdClass.isGoogleReminderSet()) idClassArrayList.remove(index);
+                    else idClassArrayList.get(index).setInAppReminderSet(false);
+
+                    SharedPrefConfig.writeInIdsOfReminderContests(context, idClassArrayList);
+
+                    if (Math.abs(alarmIdClass.getStartTime() - System.currentTimeMillis()) / 60000 <= 5) {
+                        Toast.makeText(context, "This contest is going to start in less than 5 minutes!",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
+
+                        int idx = getIndexFromList(idClassArrayList, contestName);
+                        if (idx == -1) idClassArrayList.add(alarmIdClass);
+                        else idClassArrayList.get(idx).setInAppReminderSet(true);
+
+                        SharedPrefConfig.writeInIdsOfReminderContests(context, idClassArrayList);
+
+                        Toast.makeText(context, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
+
+                        new BottomSheetHandler().setNotification(context, -5, contestName, Calendar.getInstance(), System.currentTimeMillis() / 1000, true, properStartTime);
+                    }
+                }
+                MyProperties.getInstance().isDismissed = true;
+            }, 10000);
         }
+    }
+
+    private int getIndexFromList(ArrayList<AlarmIdClass> currentList, String contestName) {
+        for (int i = 0; i < currentList.size(); ++i) {
+            if (currentList.get(i).getContestNameAsID().equals(contestName)) return i;
+        }
+        return -1;
     }
 }

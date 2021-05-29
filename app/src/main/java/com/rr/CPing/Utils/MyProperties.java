@@ -6,6 +6,7 @@ public class MyProperties {
     private static MyProperties mInstance = null;
 
     public Ringtone ringtone;
+    public Boolean isDismissed;
 
     protected MyProperties() {
     }

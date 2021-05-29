@@ -1,5 +1,6 @@
 package com.rr.CPing.Activities;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -48,6 +49,9 @@ public class SplashActivity extends AppCompatActivity {
         setAppTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        NotificationManager manager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
+        manager.cancelAll();
 
         ImageView logoBellImage = findViewById(R.id.logo_bell);
         logoBellImage.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
