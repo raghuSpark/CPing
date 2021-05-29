@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.CalendarContract;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -340,8 +339,8 @@ public class BottomSheetHandler {
         long t1 = isSnooze ? System.currentTimeMillis() : start.getTimeInMillis();
         long t2 = 60000 * time;
 
-        Log.e("TAG t1-t2", t1 + " , " + (t1 - t2));
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
+//        Log.e("TAG t1-t2", t1 + " , " + (t1 - t2));
+        alarmManager.set(AlarmManager.RTC_WAKEUP, (t1 - t2), pendingIntent);
     }
 
     private void deleteNotification(long id, String contestName) {
