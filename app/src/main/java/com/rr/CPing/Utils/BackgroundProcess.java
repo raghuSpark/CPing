@@ -22,7 +22,7 @@ public class BackgroundProcess extends BroadcastReceiver {
         MyProperties.getInstance().ringtone.stop();
 
         String action = intent.getStringExtra("action");
-        if (action.equals("dismiss")) MyProperties.getInstance().isDismissed = true;
+        MyProperties.getInstance().isDismissed = true;
 
         NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(intent.getIntExtra("id", 0));
