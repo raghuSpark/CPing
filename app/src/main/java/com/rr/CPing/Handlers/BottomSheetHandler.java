@@ -24,12 +24,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rr.CPing.R;
-import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.Adapters.AllParentRecyclerViewAdapter;
 import com.rr.CPing.Adapters.ContestDetailsRecyclerViewAdapter;
 import com.rr.CPing.Model.AlarmIdClass;
 import com.rr.CPing.Model.ContestDetails;
+import com.rr.CPing.R;
+import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.Utils.ReminderBroadCast;
 
 import java.util.ArrayList;
@@ -105,7 +105,10 @@ public class BottomSheetHandler {
         platformImage.setImageResource(getImageResource(contestsArrayList.get(position).getSite()));
         platformTitle.setText(contestsArrayList.get(position).getSite());
         contestTitle.setText(contestsArrayList.get(position).getContestName());
-        startTime.setText(properFormat(dateTimeHandler.getCompleteDetails(start)));
+
+        String properStartTime = properFormat(dateTimeHandler.getCompleteDetails(start)).toString();
+
+        startTime.setText(properStartTime);
         endTime.setText(properFormat(dateTimeHandler.getCompleteDetails(end)));
 
         visitWebsite.setOnClickListener(v -> {
@@ -118,7 +121,7 @@ public class BottomSheetHandler {
             if (getTimeFromNow(start) / 60000 <= 5) {
                 Toast.makeText(context, "This contest is going to start in less than 5 minutes!", Toast.LENGTH_SHORT).show();
             } else {
-                showAlarmSelectorDialog(contestsArrayList.get(position), start, layoutInflater);
+                showAlarmSelectorDialog(contestsArrayList.get(position), start, layoutInflater, properStartTime);
             }
             dialog.cancel();
         });
@@ -193,7 +196,7 @@ public class BottomSheetHandler {
 
     @SuppressLint("SetTextI18n")
     public void showAlarmSelectorDialog(ContestDetails contestDetails,
-                                        Calendar start, LayoutInflater layoutInflater) {
+                                        Calendar start, LayoutInflater layoutInflater, String properStartTime) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = layoutInflater.inflate(R.layout.alarm_selector_popup_dialog, null);
         builder.setView(view);
@@ -265,7 +268,7 @@ public class BottomSheetHandler {
 
             setNotification(context, getNum(spinner.getSelectedItem().toString()),
                     contestDetails.getContestName(), start,
-                    id / 1000, false);
+                    id / 1000, false, properStartTime);
         });
 
         discardButton.setOnClickListener(v -> {
@@ -326,9 +329,10 @@ public class BottomSheetHandler {
     }
 
     public void setNotification(Context context, int time, String contestName, Calendar start,
-                                long id, boolean isSnooze) {
+                                long id, boolean isSnooze, String properStartTime) {
         Intent intent = new Intent(context, ReminderBroadCast.class);
         intent.putExtra("ContestName", contestName);
+        intent.putExtra("ProperStartTime", properStartTime);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
@@ -337,7 +341,7 @@ public class BottomSheetHandler {
         long t2 = 60000 * time;
 
         Log.e("TAG t1-t2", t1 + " , " + (t1 - t2));
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+5000, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
     }
 
     private void deleteNotification(long id, String contestName) {

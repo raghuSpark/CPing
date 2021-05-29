@@ -32,7 +32,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
     private TextView contestNameTextView,
             timeDescriptionTextView;
 
-    private String contestName;
+    private String contestName, properStartTime;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @SuppressLint("SetTextI18n")
@@ -69,15 +69,16 @@ public class AlarmRingingActivity extends AppCompatActivity {
         contestName = getIntent().getStringExtra("ContestName");
         contestNameTextView.setText(contestName);
 
+        properStartTime = getIntent().getStringExtra("ProperStartTime");
+
         ArrayList<AlarmIdClass> idClassArrayList =
                 SharedPrefConfig.readInIdsOfReminderContests(this);
         final int[] index = {getIndexFromList(idClassArrayList, contestName)};
 
         AlarmIdClass alarmIdClass = idClassArrayList.get(index[0]);
-        timeDescriptionTextView.setText("Starts in " + (System.currentTimeMillis() - idClassArrayList.get(index[0]).getStartTime()) / 1000 + " minutes");
+        timeDescriptionTextView.setText("Contest start at: " + properStartTime);
 
-        if (!idClassArrayList.get(index[0]).isGoogleReminderSet())
-            idClassArrayList.remove(index[0]);
+        if (!alarmIdClass.isGoogleReminderSet()) idClassArrayList.remove(index[0]);
         else idClassArrayList.get(index[0]).setInAppReminderSet(false);
 
         SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
@@ -108,7 +109,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
                     new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5,
                             contestName, Calendar.getInstance(),
-                            System.currentTimeMillis() / 1000, true);
+                            System.currentTimeMillis() / 1000, true, properStartTime);
                 }
                 ringtone.stop();
                 finish();
@@ -136,7 +137,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
                 Toast.makeText(this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
 
                 new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5, contestName,
-                        Calendar.getInstance(), System.currentTimeMillis() / 1000, true);
+                        Calendar.getInstance(), System.currentTimeMillis() / 1000, true, properStartTime);
             }
             ringtone.stop();
             finish();

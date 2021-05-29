@@ -27,6 +27,7 @@ public class ReminderBroadCast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String contestName = intent.getStringExtra("ContestName");
+        String properStartTime = intent.getStringExtra("ProperStartTime");
 
         boolean isAppearOnTopPermitted = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
@@ -38,6 +39,7 @@ public class ReminderBroadCast extends BroadcastReceiver {
             try {
                 Intent alarmIntent = new Intent(context, AlarmRingingActivity.class);
                 alarmIntent.putExtra("ContestName", contestName);
+                alarmIntent.putExtra("ProperStartTime", properStartTime);
                 alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 alarmIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 context.startActivity(alarmIntent);
@@ -58,6 +60,7 @@ public class ReminderBroadCast extends BroadcastReceiver {
             Intent snoozeIntent = new Intent(context, TimePassActivity.class);
             snoozeIntent.putExtra("action", "snooze");
             snoozeIntent.putExtra("id", notificationId);
+            snoozeIntent.putExtra("ProperStartTime", properStartTime);
             snoozeIntent.putExtra("contestName", contestName);
             snoozeIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent snoozePendingIntent = PendingIntent.getActivity(context, notificationId, snoozeIntent, PendingIntent.FLAG_ONE_SHOT);
@@ -65,6 +68,7 @@ public class ReminderBroadCast extends BroadcastReceiver {
             Intent dismissIntent = new Intent(context, TimePassActivity.class);
             dismissIntent.putExtra("action", "dismiss");
             dismissIntent.putExtra("id", notificationId);
+            dismissIntent.putExtra("contestName", contestName);
             dismissIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent dismissPendingIntent = PendingIntent.getActivity(context, notificationId + 1, dismissIntent, PendingIntent.FLAG_ONE_SHOT);
 
@@ -72,7 +76,7 @@ public class ReminderBroadCast extends BroadcastReceiver {
 
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(contestName)
-                    .setContentText("Contest is going to start at: ")
+                    .setContentText("Contest is going to start at: " + properStartTime)
                     .setSound(uri, AudioManager.STREAM_NOTIFICATION)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .addAction(R.drawable.ic_decrease_snooze_icon, "Snooze", snoozePendingIntent)

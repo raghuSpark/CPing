@@ -2,7 +2,6 @@ package com.rr.CPing.Activities;
 
 import android.app.NotificationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,42 +25,39 @@ public class TimePassActivity extends AppCompatActivity {
         MyProperties.getInstance().ringtone.stop();
 
         String action = getIntent().getStringExtra("action");
-        Log.e("TAG", action);
 
         NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(getIntent().getIntExtra("id", 0));
 
+        String contestName = getIntent().getStringExtra("contestName");
+
+        ArrayList<AlarmIdClass> idClassArrayList = SharedPrefConfig.readInIdsOfReminderContests(this);
+        int index = getIndexFromList(idClassArrayList, getIntent().getStringExtra("contestName"));
+        AlarmIdClass alarmIdClass = idClassArrayList.get(index);
+
+        if (!alarmIdClass.isGoogleReminderSet()) idClassArrayList.remove(index);
+        else idClassArrayList.get(index).setInAppReminderSet(false);
+
+        SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
+
         if (action.equals("snooze")) {
-            Log.d("TAG", "SNOOZED");
-            String contestName = getIntent().getStringExtra("contestName");
-
-            ArrayList<AlarmIdClass> idClassArrayList = SharedPrefConfig.readInIdsOfReminderContests(this);
-            int index = getIndexFromList(idClassArrayList, getIntent().getStringExtra("contestName"));
-            AlarmIdClass alarmIdClass = idClassArrayList.get(index);
-
-            if (!alarmIdClass.isGoogleReminderSet()) idClassArrayList.remove(index);
-            else alarmIdClass.setInAppReminderSet(false);
-
-            SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
 
             if (Math.abs(alarmIdClass.getStartTime() - System.currentTimeMillis()) / 60000 <= 5) {
-                Toast.makeText(TimePassActivity.this, "This contest is going to start in less than 5 minutes!",
+                Toast.makeText(this, "This contest is going to start in less than 5 minutes!",
                         Toast.LENGTH_SHORT).show();
             } else {
                 alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
+
                 int idx = getIndexFromList(idClassArrayList, contestName);
                 if (idx == -1) idClassArrayList.add(alarmIdClass);
                 else idClassArrayList.get(idx).setInAppReminderSet(true);
 
-                SharedPrefConfig.writeInIdsOfReminderContests(TimePassActivity.this, idClassArrayList);
+                SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
 
-                Toast.makeText(TimePassActivity.this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
 
-                new BottomSheetHandler().setNotification(TimePassActivity.this, -5, contestName, Calendar.getInstance(), System.currentTimeMillis() / 1000, true);
+                new BottomSheetHandler().setNotification(this, -5, contestName, Calendar.getInstance(), System.currentTimeMillis() / 1000, true, getIntent().getStringExtra("ProperStartTime"));
             }
-
-        } else {
-            Log.d("TAG", "DISMISSED");
         }
         finish();
     }
