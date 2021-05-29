@@ -21,7 +21,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CPing">
-        <activity android:name=".Activities.TimePassActivity" />
         <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,6 +32,7 @@
         <activity android:name=".Activities.MainActivity" />
 
         <receiver android:name=".Utils.ReminderBroadCast" />
+        <receiver android:name=".Utils.BackgroundProcess" />
 
         <activity
             android:name=".Activities.AlarmRingingActivity"

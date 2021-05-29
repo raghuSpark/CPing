@@ -17,7 +17,6 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.rr.CPing.Activities.AlarmRingingActivity;
-import com.rr.CPing.Activities.TimePassActivity;
 import com.rr.CPing.R;
 
 public class ReminderBroadCast extends BroadcastReceiver {
@@ -57,20 +56,20 @@ public class ReminderBroadCast extends BroadcastReceiver {
 
             int notificationId = (int) System.currentTimeMillis() / 1000;
 
-            Intent snoozeIntent = new Intent(context, TimePassActivity.class);
+            Intent snoozeIntent = new Intent(context, BackgroundProcess.class);
             snoozeIntent.putExtra("action", "snooze");
             snoozeIntent.putExtra("id", notificationId);
             snoozeIntent.putExtra("ProperStartTime", properStartTime);
             snoozeIntent.putExtra("contestName", contestName);
             snoozeIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            PendingIntent snoozePendingIntent = PendingIntent.getActivity(context, notificationId, snoozeIntent, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(context, notificationId, snoozeIntent, PendingIntent.FLAG_ONE_SHOT);
 
-            Intent dismissIntent = new Intent(context, TimePassActivity.class);
+            Intent dismissIntent = new Intent(context, BackgroundProcess.class);
             dismissIntent.putExtra("action", "dismiss");
             dismissIntent.putExtra("id", notificationId);
             dismissIntent.putExtra("contestName", contestName);
             dismissIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            PendingIntent dismissPendingIntent = PendingIntent.getActivity(context, notificationId + 1, dismissIntent, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(context, notificationId + 1, dismissIntent, PendingIntent.FLAG_ONE_SHOT);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notify_contest");
 
