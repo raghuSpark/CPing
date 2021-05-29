@@ -70,6 +70,8 @@
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
                     android:maxLines="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
                     android:singleLine="true"
                     android:textColor="@color/noInternetBG"
                     android:textColorHint="@color/textHintColor"

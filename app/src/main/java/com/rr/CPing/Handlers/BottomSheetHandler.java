@@ -86,10 +86,8 @@ public class BottomSheetHandler {
             googleRemainder.setVisibility(View.VISIBLE);
         }
 
-        ArrayList<AlarmIdClass> currentList =
-                SharedPrefConfig.readInIdsOfReminderContests(context);
-        int idx = getIndexFromList(currentList,
-                contestsArrayList.get(position).getContestName());
+        ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(context);
+        int idx = getIndexFromList(currentList, contestsArrayList.get(position).getContestName());
         if (!currentList.isEmpty() && idx != -1) {
             if (currentList.get(idx).isGoogleReminderSet()) {
                 googleRemainder.setVisibility(View.GONE);

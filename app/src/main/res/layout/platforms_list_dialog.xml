@@ -36,6 +36,8 @@
         android:inputType="textAutoComplete"
         android:maxLines="1"
         android:minLines="1"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:saveEnabled="true"
         android:selectAllOnFocus="true"
         android:textColor="@color/fontColor"
@@ -73,7 +75,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/remove"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/whiteAndBlackFont"
             android:textSize="18sp"
             android:visibility="visible" />
 
@@ -91,7 +93,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/save"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/whiteAndBlackFont"
             android:textSize="18sp"
             android:visibility="visible" />
 

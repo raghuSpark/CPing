@@ -51,12 +51,14 @@ public class DateTimeHandler {
 
     public String getCompleteDetails(Calendar calendar) {
         String s = calendar.getTime().toString();
-        return s.substring(0, 16) + " " + s.substring(30);
+        int n = s.length();
+        return s.substring(0, 16) + " " + s.charAt(n - 4) + s.charAt(n - 3) + s.charAt(n - 2) + s.charAt(n - 1);
     }
 
     public String getDate(Calendar calendar) {
         String s = calendar.getTime().toString();
-        return s.substring(8, 10) + " " + s.substring(4, 7) + ", " + s.substring(30);
+        int n = s.length();
+        return s.substring(8, 10) + " " + s.substring(4, 7) + ", " + s.charAt(n - 4) + s.charAt(n - 3) + s.charAt(n - 2) + s.charAt(n - 1);
     }
 
     public String getTime(Calendar calendar) {
