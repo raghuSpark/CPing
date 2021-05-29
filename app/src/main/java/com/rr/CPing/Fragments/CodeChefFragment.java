@@ -140,6 +140,7 @@ public class CodeChefFragment extends Fragment {
             LineGraphSeries<DataPoint> codeChefSeries = new LineGraphSeries<>(values);
             codeChefSeries.setColor(Color.rgb(255, 164, 161));
             codeChefSeries.setDrawDataPoints(true);
+            codeChefSeries.setDataPointsRadius(7);
 
             graphView.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.graphGridsColor));
             graphView.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.graphGridsColor));

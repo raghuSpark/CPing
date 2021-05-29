@@ -180,6 +180,7 @@ public class AllFragment extends Fragment {
                 LineGraphSeries<DataPoint> atCoderSeries = new LineGraphSeries<>(atCoderValues);
                 atCoderSeries.setColor(Color.rgb(179, 145, 255));
                 atCoderSeries.setDrawDataPoints(true);
+                atCoderSeries.setDataPointsRadius(7);
 
                 graphView.addSeries(atCoderSeries);
             }
@@ -217,6 +218,7 @@ public class AllFragment extends Fragment {
                 LineGraphSeries<DataPoint> codeForcesSeries = new LineGraphSeries<>(codeForcesValues);
                 codeForcesSeries.setColor(Color.rgb(72, 221, 205));
                 codeForcesSeries.setDrawDataPoints(true);
+                codeForcesSeries.setDataPointsRadius(7);
 
                 graphView.addSeries(codeForcesSeries);
             }
@@ -253,6 +255,7 @@ public class AllFragment extends Fragment {
                 LineGraphSeries<DataPoint> codeChefSeries = new LineGraphSeries<>(codeChefValues);
                 codeChefSeries.setColor(Color.rgb(255, 164, 161));
                 codeChefSeries.setDrawDataPoints(true);
+                codeChefSeries.setDataPointsRadius(7);
 
                 graphView.addSeries(codeChefSeries);
             }

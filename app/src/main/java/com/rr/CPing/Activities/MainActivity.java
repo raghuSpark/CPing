@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             view.findViewById(R.id.deny_permission).setOnClickListener(v -> {
                 Toast.makeText(MainActivity.this, "Permission is required to show full screen reminders.", Toast.LENGTH_SHORT).show();
                 dialog.cancel();
+//                throw new RuntimeException("Test Crash");
             });
 
             view.findViewById(R.id.deny_and_do_not_ask_permission).setOnClickListener(v -> {

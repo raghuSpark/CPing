@@ -145,6 +145,7 @@ public class CodeForcesFragment extends Fragment {
             LineGraphSeries<DataPoint> codeForcesSeries = new LineGraphSeries<>(values);
             codeForcesSeries.setColor(Color.rgb(72, 221, 205));
             codeForcesSeries.setDrawDataPoints(true);
+            codeForcesSeries.setDataPointsRadius(7);
 
             graphView.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.graphGridsColor));
             graphView.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.graphGridsColor));

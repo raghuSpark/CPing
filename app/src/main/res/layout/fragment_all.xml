@@ -27,9 +27,9 @@
                 android:layout_height="wrap_content"
                 android:layout_row="0"
                 android:layout_column="0"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/cardBackground"
                 app:cardCornerRadius="15dp">
 
@@ -41,8 +41,8 @@
                     <com.jjoe64.graphview.GraphView
                         android:id="@+id/all_graph_view"
                         android:layout_width="match_parent"
-                        android:layout_height="260dp"
-                        android:layout_margin="5dp"
+                        android:layout_height="250dp"
+                        android:layout_margin="8dp"
                         android:background="@color/cardBackground"
                         android:nestedScrollingEnabled="true"
                         android:scrollbars="horizontal|vertical" />
@@ -126,15 +126,15 @@
                 android:layout_height="wrap_content"
                 android:layout_row="2"
                 android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/cardBackground"
                 app:cardCornerRadius="15dp">
 
                 <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
+                    android:padding="10dp"
                     android:rowCount="3"
                     android:useDefaultMargins="true">
 
@@ -342,8 +342,9 @@
                 android:layout_height="wrap_content"
                 android:layout_row="5"
                 android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
                 android:isScrollContainer="false"
                 android:nestedScrollingEnabled="false" />
 
@@ -380,8 +381,9 @@
                 android:layout_height="wrap_content"
                 android:layout_row="8"
                 android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
                 android:isScrollContainer="false"
                 android:nestedScrollingEnabled="false" />
 
@@ -418,8 +420,9 @@
                 android:layout_height="wrap_content"
                 android:layout_row="11"
                 android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="15dp"
                 android:isScrollContainer="false"
                 android:nestedScrollingEnabled="false" />

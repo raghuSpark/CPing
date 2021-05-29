@@ -139,6 +139,7 @@ public class AtCoderFragment extends Fragment {
             LineGraphSeries<DataPoint> atCoderSeries = new LineGraphSeries<>(values);
             atCoderSeries.setColor(Color.rgb(179, 145, 255));
             atCoderSeries.setDrawDataPoints(true);
+            atCoderSeries.setDataPointsRadius(7);
 
             graphView.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.graphGridsColor));
             graphView.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.graphGridsColor));

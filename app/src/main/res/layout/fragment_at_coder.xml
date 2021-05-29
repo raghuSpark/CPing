@@ -24,20 +24,20 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/atCoder_graph_card_view"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:layout_row="0"
                 android:layout_column="0"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/cardBackground"
                 app:cardCornerRadius="15dp">
 
                 <com.jjoe64.graphview.GraphView
                     android:id="@+id/at_coder_graph_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_height="250dp"
+                    android:layout_margin="8dp"
                     android:background="@color/cardBackground"
                     android:nestedScrollingEnabled="true"
                     android:scrollbars="horizontal|vertical" />
@@ -49,9 +49,9 @@
                 android:layout_height="wrap_content"
                 android:layout_row="1"
                 android:layout_column="0"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/cardBackground"
                 app:cardCornerRadius="15dp">
 
@@ -99,6 +99,17 @@
                             android:textSize="20sp" />
 
                         <TextView
+                            android:id="@+id/atCoder_current_level"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:fontFamily="@font/nunito_bold"
+                            android:gravity="end"
+                            android:text="@string/level"
+                            android:textColor="@color/atCoderKing"
+                            android:textSize="18sp" />
+
+                        <TextView
                             android:id="@+id/atCoder_current_rating"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -143,42 +154,6 @@
                             android:gravity="end"
                             android:text="@string/_1111"
                             android:textColor="@color/codeForcesNewbieColor"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_row="3"
-                        android:layout_rowWeight="1"
-                        android:layout_column="0"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/nunito_semi_bold"
-                            android:text="@string/level"
-                            android:textColor="@color/fontColor"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/atCoder_current_level"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:fontFamily="@font/nunito_bold"
-                            android:gravity="end"
-                            android:text="@string/level"
-                            android:textColor="@color/atCoderKing"
                             android:textSize="18sp" />
 
                     </LinearLayout>
@@ -254,9 +229,9 @@
                 android:layout_height="wrap_content"
                 android:layout_row="4"
                 android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
                 android:isScrollContainer="false"
                 android:nestedScrollingEnabled="false" />
 
@@ -293,9 +268,9 @@
                 android:layout_height="wrap_content"
                 android:layout_row="7"
                 android:layout_column="0"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
                 android:isScrollContainer="false"
                 android:nestedScrollingEnabled="false" />
 
@@ -332,7 +307,10 @@
                 android:layout_height="wrap_content"
                 android:layout_row="10"
                 android:layout_column="0"
-                android:layout_margin="15dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="15dp"
                 android:isScrollContainer="false"
                 android:nestedScrollingEnabled="false" />
 
