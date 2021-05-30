@@ -55,7 +55,7 @@ public class ReminderBroadCast extends BroadcastReceiver {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notify_contest");
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(contestName)
-                    .setContentText("Contest is going to start at: " + properStartTime)
+                    .setContentText("Starts at: " + properStartTime)
                     .setSound(uri, AudioManager.STREAM_NOTIFICATION)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setContentIntent(PendingIntent.getActivity(context, notificationId, new Intent(context, SplashActivity.class), PendingIntent.FLAG_UPDATE_CURRENT))

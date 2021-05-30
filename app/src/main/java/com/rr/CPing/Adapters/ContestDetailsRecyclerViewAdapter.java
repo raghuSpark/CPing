@@ -6,7 +6,6 @@ import android.os.CountDownTimer;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +17,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rr.CPing.Handlers.DateTimeHandler;
-import com.rr.CPing.R;
-import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.Model.AlarmIdClass;
 import com.rr.CPing.Model.ContestDetails;
+import com.rr.CPing.R;
+import com.rr.CPing.SharedPref.SharedPrefConfig;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -132,10 +131,6 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
         void onItemClick(String platFormName, int position);
     }
 
-    public void disableButton(int position){
-
-    }
-
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, startDate, startTime, duration;
@@ -148,15 +143,22 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
                 int pos = getAdapterPosition();
                 if (listener != null) {
                     if (pos != RecyclerView.NO_POSITION) {
-                        listener.onItemClick("null", pos);
-                        Log.e("TAG", "ContestDetails");
-                        itemView.setEnabled(false);
-                        new CountDownTimer(1000, 500){
-                            @Override
-                            public void onTick(long l) { }
-                            @Override
-                            public void onFinish() { itemView.setEnabled(true); }
-                        }.start();
+                        if (!SharedPrefConfig.readBottomSheetOpen(itemView.getContext())) {
+                            SharedPrefConfig.writeBottomSheetOpen(itemView.getContext(), true);
+                            listener.onItemClick("null", pos);
+                            itemView.setEnabled(false);
+                            new CountDownTimer(1000, 500) {
+                                @Override
+                                public void onTick(long l) {
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    itemView.setEnabled(true);
+                                    SharedPrefConfig.writeBottomSheetOpen(itemView.getContext(), false);
+                                }
+                            }.start();
+                        }
                     }
                 }
             });

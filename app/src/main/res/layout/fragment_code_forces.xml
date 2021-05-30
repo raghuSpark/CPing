@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:descendantFocusability="blocksDescendants"
     tools:context=".Fragments.CodeForcesFragment">
 
     <!--    <androidx.core.widget.NestedScrollView-->
@@ -14,7 +15,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants">
 
         <GridLayout
             android:layout_width="match_parent"

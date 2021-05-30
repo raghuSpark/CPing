@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -66,10 +65,11 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
         findViewByIds();
 
-        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), uri);
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
         ringtone.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build());
         ringtone.setVolume(100);
+        ringtone.setLooping(true);
         ringtone.play();
 
         contestName = getIntent().getStringExtra("ContestName");
@@ -82,18 +82,19 @@ public class AlarmRingingActivity extends AppCompatActivity {
         final int[] index = {getIndexFromList(idClassArrayList, contestName)};
 
         AlarmIdClass alarmIdClass = idClassArrayList.get(index[0]);
-        timeDescriptionTextView.setText("Contest start at: " + properStartTime);
+        timeDescriptionTextView.setText("Starts at: " + properStartTime);
 
         if (!alarmIdClass.isGoogleReminderSet()) idClassArrayList.remove(index[0]);
         else idClassArrayList.get(index[0]).setInAppReminderSet(false);
 
         SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
 
-        CountDownTimer countDownTimer = new CountDownTimer(10000, 1000) {
+        CountDownTimer countDownTimer = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                Log.d("TAG", "onTick: "+millisUntilFinished);
+
             }
+
             @Override
             public void onFinish() {
                 if (Math.abs(alarmIdClass.getStartTime() - System.currentTimeMillis()) / 60000 <= 5) {

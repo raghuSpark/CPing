@@ -5,6 +5,7 @@
     android:id="@+id/leet_code_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
     tools:context=".Fragments.LeetCodeFragment">
 
     <!--    <androidx.core.widget.NestedScrollView-->
@@ -13,7 +14,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants">
 
         <GridLayout
             android:layout_width="match_parent"

@@ -37,6 +37,7 @@
 
         <activity
             android:name=".Activities.AlarmRingingActivity"
+            android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:parentActivityName=".Activities.SplashActivity"
             android:showForAllUsers="true"

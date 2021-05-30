@@ -19,6 +19,20 @@ import java.util.ArrayList;
 
 public class SharedPrefConfig {
 
+    public static void writeBottomSheetOpen(Context context, boolean isOpen) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putBoolean("IS_OPEN", isOpen);
+        editor.apply();
+    }
+
+    public static boolean readBottomSheetOpen(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return pref.getBoolean("IS_OPEN", false);
+    }
+
     public static void writeDoNotAskAgain(Context context, boolean canAsk) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = pref.edit();
