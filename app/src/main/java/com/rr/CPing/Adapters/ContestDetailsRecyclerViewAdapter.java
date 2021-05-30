@@ -2,9 +2,11 @@ package com.rr.CPing.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,6 +132,10 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
         void onItemClick(String platFormName, int position);
     }
 
+    public void disableButton(int position){
+
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, startDate, startTime, duration;
@@ -143,6 +149,14 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
                 if (listener != null) {
                     if (pos != RecyclerView.NO_POSITION) {
                         listener.onItemClick("null", pos);
+                        Log.e("TAG", "ContestDetails");
+                        itemView.setEnabled(false);
+                        new CountDownTimer(1000, 500){
+                            @Override
+                            public void onTick(long l) { }
+                            @Override
+                            public void onFinish() { itemView.setEnabled(true); }
+                        }.start();
                     }
                 }
             });
