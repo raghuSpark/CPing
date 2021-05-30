@@ -77,6 +77,13 @@ public class SettingsActivity extends AppCompatActivity {
         setAppTheme();
         setContentView(R.layout.activity_settings);
 
+        if (SharedPrefConfig.readIsFirstTime(this)) {
+            loadFirstTimeData();
+            SharedPrefConfig.writePlatformsCount(this, 0);
+        } else {
+            loadData();
+        }
+
         requestQueue = Volley.newRequestQueue(this);
 
         Toolbar dashBoardToolbar = findViewById(R.id.settings_page_toolbar);
@@ -185,12 +192,6 @@ public class SettingsActivity extends AppCompatActivity {
                 SharedPrefConfig.writeAppUserName(SettingsActivity.this, s.toString());
             }
         });
-
-        if (SharedPrefConfig.readIsFirstTime(this)) {
-            loadFirstTimeData();
-        } else {
-            loadData();
-        }
 
         platformAdapter = new PlatformAdapter(this, platformNamesList);
         platformsListView.setAdapter(platformAdapter);

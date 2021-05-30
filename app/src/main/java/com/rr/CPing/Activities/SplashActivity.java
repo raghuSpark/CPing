@@ -75,7 +75,7 @@ public class SplashActivity extends AppCompatActivity {
         count = 1;
         if (SharedPrefConfig.readIsFirstTime(this) || SharedPrefConfig.readPlatformsCount(this) < 1) {
             getContestDetailsFromAPI(true);
-            if (count <= 0) goToSettingsActivity();
+            if (count<=0) goToSettingsActivity();
         } else {
             jsonResponseDBHandler.deleteAll();
 

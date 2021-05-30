@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/nunito_semi_bold"
@@ -21,9 +20,10 @@
         android:text="@string/contest_name"
         android:textColor="@color/fontColor"
         android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/alarm_time_description_text_View"
+        app:layout_constraintBottom_toTopOf="@+id/alarmBell"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/alarm_time_description_text_View"
@@ -39,7 +39,8 @@
         android:textSize="19sp"
         app:layout_constraintBottom_toTopOf="@+id/alarmBell"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alarm_contest_name_text_View" />
 
     <ImageView
         android:id="@+id/alarmBell"
