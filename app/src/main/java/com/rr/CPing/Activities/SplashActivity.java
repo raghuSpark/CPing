@@ -57,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
         manager.cancelAll();
 
         ImageView logoBellImage = findViewById(R.id.logo_bell);
-        logoBellImage.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
+        logoBellImage.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_logo));
 
         ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(this);
         int i;

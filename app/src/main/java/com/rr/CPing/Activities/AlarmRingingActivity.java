@@ -9,8 +9,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +46,9 @@ public class AlarmRingingActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 (int) WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL);
         setContentView(R.layout.activity_alarm_ringing);
+
+        ImageView alarmBell = findViewById(R.id.alarmBell);
+        alarmBell.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_alarm));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true);
@@ -83,13 +89,11 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
         SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
 
-        new CountDownTimer(60000, 1000) {
-
+        CountDownTimer countDownTimer = new CountDownTimer(10000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-
+                Log.d("TAG", "onTick: "+millisUntilFinished);
             }
-
             @Override
             public void onFinish() {
                 if (Math.abs(alarmIdClass.getStartTime() - System.currentTimeMillis()) / 60000 <= 5) {
@@ -114,9 +118,10 @@ public class AlarmRingingActivity extends AppCompatActivity {
                 ringtone.stop();
                 finish();
             }
-        };
+        }.start();
 
         dismissButton.setOnClickListener(v -> {
+            countDownTimer.cancel();
             ringtone.stop();
             finish();
         });
@@ -139,6 +144,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
                 new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5, contestName,
                         Calendar.getInstance(), System.currentTimeMillis() / 1000, true, properStartTime);
             }
+            countDownTimer.cancel();
             ringtone.stop();
             finish();
         });
