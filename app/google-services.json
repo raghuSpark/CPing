@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "179070211911",
-    "project_id": "cping-a717f",
-    "storage_bucket": "cping-a717f.appspot.com"
+    "project_number": "608794999804",
+    "project_id": "cping-375",
+    "storage_bucket": "cping-375.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:179070211911:android:a1dc504a02e9e410149e62",
+        "mobilesdk_app_id": "1:608794999804:android:2f681b4bb3f5309757d079",
         "android_client_info": {
           "package_name": "com.rr.CPing"
         }
       },
       "oauth_client": [
         {
-          "client_id": "179070211911-7qe700cdo00slbj1865e12grsij4h3ke.apps.googleusercontent.com",
+          "client_id": "608794999804-jtrrufqudqojnr7bml18c7d5gov3ne7q.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBuCvWJNZAgjx0A-02Zqa_sOh4WuLDb-1A"
+          "current_key": "AIzaSyDdDBGxjmPRMGQQILW3PyTKjJYpfzIMg5c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "179070211911-7qe700cdo00slbj1865e12grsij4h3ke.apps.googleusercontent.com",
+              "client_id": "608794999804-jtrrufqudqojnr7bml18c7d5gov3ne7q.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

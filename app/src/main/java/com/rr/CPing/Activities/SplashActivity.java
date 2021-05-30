@@ -43,12 +43,15 @@ public class SplashActivity extends AppCompatActivity {
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     int count = 0;
     private JSONResponseDBHandler jsonResponseDBHandler;
+    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setAppTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        requestQueue = Volley.newRequestQueue(this);
 
         NotificationManager manager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
         manager.cancelAll();
@@ -140,7 +143,6 @@ public class SplashActivity extends AppCompatActivity {
     private void getAC(String user_name) {
         String platform_name = "atcoder";
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
@@ -183,7 +185,6 @@ public class SplashActivity extends AppCompatActivity {
     private void getCC(String user_name) {
         String platform_name = "codechef";
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
@@ -226,7 +227,6 @@ public class SplashActivity extends AppCompatActivity {
     private void getCF(String user_name) {
         String platform_name = "codeforces";
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
@@ -269,7 +269,6 @@ public class SplashActivity extends AppCompatActivity {
     private void getLC(String user_name) {
         String platform_name = "leetcode";
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
@@ -306,7 +305,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void getContestDetailsFromAPI(boolean isFirstTime) {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
                 "https://kontests.net/api/v1/all", null, response -> {
             try {

@@ -68,12 +68,16 @@ public class SettingsActivity extends AppCompatActivity {
     private ArrayList<PlatformListItem> platformNamesList;
     private AlertDialog dialog;
 
+    private RequestQueue requestQueue;
+
     @SuppressLint({"ResourceType", "NonConstantResourceId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setAppTheme();
         setContentView(R.layout.activity_settings);
+
+        requestQueue = Volley.newRequestQueue(this);
 
         Toolbar dashBoardToolbar = findViewById(R.id.settings_page_toolbar);
         setSupportActionBar(dashBoardToolbar);
@@ -324,7 +328,7 @@ public class SettingsActivity extends AppCompatActivity {
                                     Button platformDialogSaveButton, View v, String platform,
                                     String username, int position, boolean update) {
         String url = "https://cping-api.herokuapp.com/api/" + platform + "/" + username;
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {
                 if (response.getString("status").equals("Success")) {
@@ -389,7 +393,7 @@ public class SettingsActivity extends AppCompatActivity {
         stillLoadingCount++;
 
         String platform_name = "codechef";
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
@@ -408,7 +412,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 SharedPrefConfig.writeInCodeChefPref(getApplicationContext(), item);
                 stillLoadingCount--;
-
+                Log.d(TAG, "getCC: ");
                 if (stillLoadingCount <= 0 && saveButtonClicked) {
                     startActivity(new Intent(SettingsActivity.this, MainActivity.class));
                     finish();
@@ -417,10 +421,12 @@ public class SettingsActivity extends AppCompatActivity {
                 Log.d(TAG, "onResponse: " + e.getMessage());
                 e.printStackTrace();
                 stillLoadingCount--;
+                getCC(user_name);
             }
         }, error -> {
             Log.d(TAG, "onErrorResponse: " + error.getMessage());
             stillLoadingCount--;
+            getCC(user_name);
         });
         if (stillLoadingCount <= 0 && saveButtonClicked) {
             startActivity(new Intent(SettingsActivity.this, MainActivity.class));
@@ -433,7 +439,7 @@ public class SettingsActivity extends AppCompatActivity {
         stillLoadingCount++;
 //        https://competitive-coding-api.herokuapp.com/api/
         String platform_name = "codeforces";
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
@@ -454,18 +460,21 @@ public class SettingsActivity extends AppCompatActivity {
 
                 SharedPrefConfig.writeInCodeForcesPref(getApplicationContext(), item);
                 stillLoadingCount--;
-
+                Log.d(TAG, "getCF: ");
                 if (stillLoadingCount <= 0 && saveButtonClicked) {
                     startActivity(new Intent(SettingsActivity.this, MainActivity.class));
                     finish();
                 }
             } catch (JSONException e) {
+                Log.d(TAG, "getCF: " + e.getMessage());
                 e.printStackTrace();
                 stillLoadingCount--;
+                getCF(user_name);
             }
         }, error -> {
             stillLoadingCount--;
             Log.d(TAG, "onErrorResponse: " + error.getMessage());
+            getCF(user_name);
         });
         if (stillLoadingCount <= 0 && saveButtonClicked) {
             startActivity(new Intent(SettingsActivity.this, MainActivity.class));
@@ -478,7 +487,7 @@ public class SettingsActivity extends AppCompatActivity {
         stillLoadingCount++;
 
         String platform_name = "leetcode";
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
@@ -494,18 +503,21 @@ public class SettingsActivity extends AppCompatActivity {
 
                 SharedPrefConfig.writeInLeetCodePref(getApplicationContext(), item);
                 stillLoadingCount--;
-
+                Log.d(TAG, "getLC: ");
                 if (stillLoadingCount <= 0 && saveButtonClicked) {
                     startActivity(new Intent(SettingsActivity.this, MainActivity.class));
                     finish();
                 }
             } catch (JSONException e) {
+                Log.d(TAG, "getLC: " + e.getMessage());
                 e.printStackTrace();
                 stillLoadingCount--;
+                getLC(user_name);
             }
         }, error -> {
             stillLoadingCount--;
             Log.d(TAG, "onErrorResponse: " + error.getMessage());
+            getLC(user_name);
         });
         if (stillLoadingCount <= 0 && saveButtonClicked) {
             startActivity(new Intent(SettingsActivity.this, MainActivity.class));
@@ -518,7 +530,7 @@ public class SettingsActivity extends AppCompatActivity {
         stillLoadingCount++;
 
         String platform_name = "atcoder";
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
@@ -538,18 +550,21 @@ public class SettingsActivity extends AppCompatActivity {
 
                 SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
                 stillLoadingCount--;
-
+                Log.d(TAG, "getAC: ");
                 if (stillLoadingCount <= 0 && saveButtonClicked) {
                     startActivity(new Intent(SettingsActivity.this, MainActivity.class));
                     finish();
                 }
             } catch (JSONException e) {
+                Log.d(TAG, "getAC: " + e.getMessage());
                 e.printStackTrace();
                 stillLoadingCount--;
+                getAC(user_name);
             }
         }, error -> {
             Log.d(TAG, "onErrorResponse: " + error.getMessage());
             stillLoadingCount--;
+            getAC(user_name);
         });
         if (stillLoadingCount <= 0 && saveButtonClicked) {
             startActivity(new Intent(SettingsActivity.this, MainActivity.class));
