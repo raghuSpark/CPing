@@ -151,6 +151,7 @@ public class AllFragment extends Fragment {
         initialize(2);
 
         int maxY = 0, minY = Integer.MAX_VALUE;
+        boolean noGraph = true;
 
         // AtCoder Rating Cards and Graph
         ArrayList<Integer> atCoderRecentRatingsArrayList;
@@ -164,19 +165,20 @@ public class AllFragment extends Fragment {
 
             atCoderRecentRatingsArrayList = atCoderUserDetails.getRecentContestRatings();
 
-            DataPoint[] atCoderValues = new DataPoint[atCoderRecentRatingsArrayList.size()];
-
-            for (int i = 0; i < atCoderRecentRatingsArrayList.size(); i++) {
-                int temp = atCoderRecentRatingsArrayList.get(i);
-                maxY = Math.max(maxY, temp);
-                minY = Math.min(minY, temp);
-                atCoderValues[i] = new DataPoint(i, temp);
-            }
-
-            if (atCoderRecentRatingsArrayList.size() == 0) {
+            if (atCoderRecentRatingsArrayList.isEmpty()) {
                 atCoderGraphBelow.setVisibility(View.GONE);
                 atCoderRatingChanges.setVisibility(View.GONE);
             } else {
+                noGraph = false;
+                DataPoint[] atCoderValues = new DataPoint[atCoderRecentRatingsArrayList.size()];
+
+                for (int i = 0; i < atCoderRecentRatingsArrayList.size(); i++) {
+                    int temp = atCoderRecentRatingsArrayList.get(i);
+                    maxY = Math.max(maxY, temp);
+                    minY = Math.min(minY, temp);
+                    atCoderValues[i] = new DataPoint(i, temp);
+                }
+
                 LineGraphSeries<DataPoint> atCoderSeries = new LineGraphSeries<>(atCoderValues);
                 atCoderSeries.setColor(Color.rgb(179, 145, 255));
                 atCoderSeries.setDrawDataPoints(true);
@@ -202,19 +204,20 @@ public class AllFragment extends Fragment {
 
             codeForcesRecentRatingsArrayList = codeForcesUserDetails.getRecentContestRatings();
 
-            DataPoint[] codeForcesValues = new DataPoint[codeForcesRecentRatingsArrayList.size()];
-
-            for (int i = 0; i < codeForcesRecentRatingsArrayList.size(); i++) {
-                int temp = codeForcesRecentRatingsArrayList.get(i);
-                maxY = Math.max(maxY, temp);
-                minY = Math.min(minY, temp);
-                codeForcesValues[i] = new DataPoint(i, temp);
-            }
-
-            if (codeForcesRecentRatingsArrayList.size() == 0) {
+            if (codeForcesRecentRatingsArrayList.isEmpty()) {
                 codeForcesGraphBelow.setVisibility(View.GONE);
                 codeForcesRatingChanges.setVisibility(View.GONE);
             } else {
+                noGraph = false;
+                DataPoint[] codeForcesValues = new DataPoint[codeForcesRecentRatingsArrayList.size()];
+
+                for (int i = 0; i < codeForcesRecentRatingsArrayList.size(); i++) {
+                    int temp = codeForcesRecentRatingsArrayList.get(i);
+                    maxY = Math.max(maxY, temp);
+                    minY = Math.min(minY, temp);
+                    codeForcesValues[i] = new DataPoint(i, temp);
+                }
+
                 LineGraphSeries<DataPoint> codeForcesSeries = new LineGraphSeries<>(codeForcesValues);
                 codeForcesSeries.setColor(Color.rgb(72, 221, 205));
                 codeForcesSeries.setDrawDataPoints(true);
@@ -239,19 +242,21 @@ public class AllFragment extends Fragment {
             codeChefStars.setTextColor(setRankColor.getCodeChefColor(codeChefUserDetails.getCurrentStars()));
 
             codeChefRecentRatingsArrayList = codeChefUserDetails.getRecentContestRatings();
-            DataPoint[] codeChefValues = new DataPoint[codeChefRecentRatingsArrayList.size()];
 
-            for (int i = 0; i < codeChefRecentRatingsArrayList.size(); ++i) {
-                int temp = codeChefRecentRatingsArrayList.get(i);
-                maxY = Math.max(maxY, temp);
-                minY = Math.min(minY, temp);
-                codeChefValues[i] = new DataPoint(i, temp);
-            }
-
-            if (codeChefRecentRatingsArrayList.size() == 0) {
+            if (codeChefRecentRatingsArrayList.isEmpty()) {
                 codeChefGraphBelow.setVisibility(View.GONE);
                 codeChefRatingChanges.setVisibility(View.GONE);
             } else {
+                noGraph = false;
+                DataPoint[] codeChefValues = new DataPoint[codeChefRecentRatingsArrayList.size()];
+
+                for (int i = 0; i < codeChefRecentRatingsArrayList.size(); ++i) {
+                    int temp = codeChefRecentRatingsArrayList.get(i);
+                    maxY = Math.max(maxY, temp);
+                    minY = Math.min(minY, temp);
+                    codeChefValues[i] = new DataPoint(i, temp);
+                }
+
                 LineGraphSeries<DataPoint> codeChefSeries = new LineGraphSeries<>(codeChefValues);
                 codeChefSeries.setColor(Color.rgb(255, 164, 161));
                 codeChefSeries.setDrawDataPoints(true);
@@ -264,19 +269,19 @@ public class AllFragment extends Fragment {
             codeChefRatingChanges.setVisibility(View.GONE);
         }
 
-        graphView.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.graphGridsColor));
-        graphView.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.graphGridsColor));
-        graphView.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(R.color.graphGridsColor));
-        graphView.getViewport().setXAxisBoundsManual(true);
-        graphView.getViewport().setMaxX(Math.max(codeChefRecentRatingsArrayList.size(), codeForcesRecentRatingsArrayList.size()));
-        graphView.getViewport().setYAxisBoundsManual(true);
-        graphView.getViewport().setMaxY(maxY);
-        graphView.getViewport().setMinY(minY);
-
-        if (!platforms.contains("CodeForces") && !platforms.contains("CodeChef") && !platforms.contains("AtCoder")) {
+        if (noGraph || (!platforms.contains("CodeForces") && !platforms.contains("CodeChef") && !platforms.contains("AtCoder"))) {
             allGraphsCardView.setVisibility(View.GONE);
             allRatingsCardView.setVisibility(View.GONE);
             allRatingsChangeTextView.setVisibility(View.GONE);
+        } else {
+            graphView.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.graphGridsColor));
+            graphView.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.graphGridsColor));
+            graphView.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(R.color.graphGridsColor));
+            graphView.getViewport().setXAxisBoundsManual(true);
+            graphView.getViewport().setMaxX(Math.max(codeChefRecentRatingsArrayList.size(), codeForcesRecentRatingsArrayList.size()));
+            graphView.getViewport().setYAxisBoundsManual(true);
+            graphView.getViewport().setMaxY(maxY);
+            graphView.getViewport().setMinY(minY);
         }
 
         // On Item Click Listener (Reminders, Visiting Website)
