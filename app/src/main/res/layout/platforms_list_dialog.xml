@@ -75,7 +75,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/remove"
             android:textAllCaps="false"
-            android:textColor="@color/whiteAndBlackFont"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:visibility="visible" />
 
@@ -93,7 +93,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/save"
             android:textAllCaps="false"
-            android:textColor="@color/whiteAndBlackFont"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:visibility="visible" />
 

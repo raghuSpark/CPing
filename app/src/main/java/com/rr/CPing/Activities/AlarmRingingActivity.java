@@ -26,7 +26,6 @@ import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class AlarmRingingActivity extends AppCompatActivity {
 
@@ -35,6 +34,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
             timeDescriptionTextView;
 
     private String contestName, properStartTime;
+    private long alarmSetTime;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @SuppressLint("SetTextI18n")
@@ -67,6 +67,10 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+        if (ringtone == null || uri == null) {
+            uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            ringtone = RingtoneManager.getRingtone(this, uri);
+        }
         ringtone.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build());
         ringtone.setVolume(100);
         ringtone.setLooping(true);
@@ -77,8 +81,9 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
         properStartTime = getIntent().getStringExtra("ProperStartTime");
 
-        ArrayList<AlarmIdClass> idClassArrayList =
-                SharedPrefConfig.readInIdsOfReminderContests(this);
+        alarmSetTime = getIntent().getLongExtra("alarmSetTime", 0);
+
+        ArrayList<AlarmIdClass> idClassArrayList = SharedPrefConfig.readInIdsOfReminderContests(this);
         final int[] index = {getIndexFromList(idClassArrayList, contestName)};
 
         AlarmIdClass alarmIdClass = idClassArrayList.get(index[0]);
@@ -89,6 +94,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
         SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
 
+        Ringtone finalRingtone1 = ringtone;
         CountDownTimer countDownTimer = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -113,24 +119,25 @@ public class AlarmRingingActivity extends AppCompatActivity {
                     Toast.makeText(AlarmRingingActivity.this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
 
                     new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5,
-                            contestName, Calendar.getInstance(),
-                            System.currentTimeMillis() / 1000, true, properStartTime);
+                            contestName, alarmSetTime,
+                            System.currentTimeMillis() / 1000, properStartTime);
                 }
-                ringtone.stop();
+                finalRingtone1.stop();
                 finish();
             }
         }.start();
 
+        Ringtone finalRingtone = ringtone;
         dismissButton.setOnClickListener(v -> {
             countDownTimer.cancel();
-            ringtone.stop();
+            finalRingtone.stop();
             finish();
         });
 
+        Ringtone finalRingtone2 = ringtone;
         snoozeButton.setOnClickListener(v -> {
             if (Math.abs(alarmIdClass.getStartTime() - System.currentTimeMillis()) / 60000 <= 5) {
-                Toast.makeText(this, "This contest is going to start in less than 5 minutes!",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "This contest is going to start in less than 5 minutes!", Toast.LENGTH_SHORT).show();
             } else {
                 alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
 
@@ -143,10 +150,10 @@ public class AlarmRingingActivity extends AppCompatActivity {
                 Toast.makeText(this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
 
                 new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5, contestName,
-                        Calendar.getInstance(), System.currentTimeMillis() / 1000, true, properStartTime);
+                        alarmSetTime, System.currentTimeMillis() / 1000, properStartTime);
             }
             countDownTimer.cancel();
-            ringtone.stop();
+            finalRingtone2.stop();
             finish();
         });
     }

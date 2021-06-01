@@ -59,23 +59,20 @@ public class SplashActivity extends AppCompatActivity {
         ImageView logoBellImage = findViewById(R.id.logo_bell);
         logoBellImage.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_logo));
 
-        ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(this);
-        int i;
-        boolean isPresent = false;
-        for (i = 0; i < currentList.size(); i++) {
-            if (currentList.get(i).getStartTime() >= System.currentTimeMillis() + 300000) {
-                isPresent = true;
-                break;
+        ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(this),
+                newList = new ArrayList<>();
+        for (int i = 0; i < currentList.size(); i++) {
+            if (currentList.get(i).getStartTime() < System.currentTimeMillis() + 300000) {
+                newList.add(currentList.get(i));
             }
         }
-        if (isPresent && !currentList.isEmpty()) currentList.remove(i);
-        SharedPrefConfig.writeInIdsOfReminderContests(this, currentList);
+        SharedPrefConfig.writeInIdsOfReminderContests(this, newList);
 
         jsonResponseDBHandler = new JSONResponseDBHandler(this);
         count = 1;
         if (SharedPrefConfig.readIsFirstTime(this) || SharedPrefConfig.readPlatformsCount(this) < 1) {
             getContestDetailsFromAPI(true);
-            if (count<=0) goToSettingsActivity();
+            if (count <= 0) goToSettingsActivity();
         } else {
             jsonResponseDBHandler.deleteAll();
 

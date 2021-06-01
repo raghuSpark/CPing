@@ -210,8 +210,10 @@ public class BottomSheetHandler {
         //Gives Time in minutes
         timeFromNow /= 60000;
 
-        for (long i = 5; i < Math.min(timeFromNow, 35); i += 5) {
-            beforeTimesArray.add(i + " minutes");
+        for (long i = 5; i < Math.min(timeFromNow, 65); i += 5) {
+            if (i == 30) beforeTimesArray.add("½ hr");
+            else if (i == 60) beforeTimesArray.add("1 hr");
+            else beforeTimesArray.add(i + " minutes");
         }
 
         Spinner spinner = view.findViewById(R.id.spinner);
@@ -264,8 +266,8 @@ public class BottomSheetHandler {
             else allParentRecyclerViewAdapter.notifyDataSetChanged();
 
             setNotification(context, getNum(spinner.getSelectedItem().toString()),
-                    contestDetails.getContestName(), start,
-                    id / 1000, false, properStartTime);
+                    contestDetails.getContestName(), start.getTimeInMillis(),
+                    id / 1000, properStartTime);
         });
 
         discardButton.setOnClickListener(v -> {
@@ -321,24 +323,26 @@ public class BottomSheetHandler {
     }
 
     private int getNum(String s) {
-        if (s.charAt(1) == ' ') return Integer.parseInt(s.substring(0, 1));
-        return Integer.parseInt(s.substring(0, 2));
+        String[] arrayList = s.split(" ");
+        if (arrayList[0].equals("½")) return 30;
+        if (arrayList[0].equals("1")) return 60;
+        return Integer.parseInt(arrayList[0]);
     }
 
-    public void setNotification(Context context, int time, String contestName, Calendar start,
-                                long id, boolean isSnooze, String properStartTime) {
+    public void setNotification(Context context, int time, String contestName, long startTimeInMillis,
+                                long id, String properStartTime) {
         Intent intent = new Intent(context, ReminderBroadCast.class);
         intent.putExtra("ContestName", contestName);
         intent.putExtra("ProperStartTime", properStartTime);
+        intent.putExtra("alarmSetTime", startTimeInMillis - 60000 * time);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
 
-        long t1 = isSnooze ? System.currentTimeMillis() : start.getTimeInMillis();
         long t2 = 60000 * time;
 
-//        Log.e("TAG t1-t2", t1 + " , " + (t1 - t2));
-        alarmManager.set(AlarmManager.RTC_WAKEUP, (t1 - t2), pendingIntent);
+//        Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
+        alarmManager.set(AlarmManager.RTC_WAKEUP, (startTimeInMillis - t2), pendingIntent);
     }
 
     private void deleteNotification(long id, String contestName) {
