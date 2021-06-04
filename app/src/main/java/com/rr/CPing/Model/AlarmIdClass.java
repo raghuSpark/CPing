@@ -4,13 +4,23 @@ public class AlarmIdClass {
     private String contestNameAsID;
     private long startTime, alarmSetTime;
     private boolean isInAppReminderSet, isGoogleReminderSet;
+    private int spinnerPosition;
 
-    public AlarmIdClass(String contestNameAsID, long startTime, long alarmSetTime, boolean isInAppReminderSet, boolean isGoogleReminderSet) {
+    public AlarmIdClass(String contestNameAsID, long startTime, long alarmSetTime, boolean isInAppReminderSet, boolean isGoogleReminderSet, int spinnerPosition) {
         this.contestNameAsID = contestNameAsID;
         this.startTime = startTime;
         this.alarmSetTime = alarmSetTime;
         this.isInAppReminderSet = isInAppReminderSet;
         this.isGoogleReminderSet = isGoogleReminderSet;
+        this.spinnerPosition = spinnerPosition;
+    }
+
+    public int getSpinnerPosition() {
+        return spinnerPosition;
+    }
+
+    public void setSpinnerPosition(int spinnerPosition) {
+        this.spinnerPosition = spinnerPosition;
     }
 
     public String getContestNameAsID() {

@@ -141,7 +141,7 @@ public class BottomSheetHandler {
                     if (idClassArrayList.isEmpty() || index == -1) {
                         idClassArrayList.add(new AlarmIdClass(contestsArrayList.get(position).getContestName(),
                                 getTimeFromNow(start),
-                                System.currentTimeMillis(), false, true));
+                                System.currentTimeMillis(), false, true, 0));
                     } else {
                         idClassArrayList.get(index).setGoogleReminderSet(true);
                     }
@@ -227,7 +227,7 @@ public class BottomSheetHandler {
             if (currentList.get(index).isInAppReminderSet()) {
                 discardButton.setText("Delete");
 //                deleteNotificationTime = (int) ((currentList.get(index).getStartTime() - currentList.get(index).getAlarmSetTime()) / 1000);
-                spinner.setSelection(0);
+                spinner.setSelection(currentList.get(index).getSpinnerPosition());
             } else {
                 discardButton.setText("Cancel");
                 currentList.get(index).setInAppReminderSet(true);
@@ -253,7 +253,7 @@ public class BottomSheetHandler {
                 currentList.get(index).setInAppReminderSet(true);
             } else currentList.add(new AlarmIdClass(contestDetails.getContestName(),
                     getTimeFromNow(start),
-                    id, true, false));
+                    id, true, false, getPosition(spinner.getSelectedItem().toString())));
 
             SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
 
@@ -321,6 +321,13 @@ public class BottomSheetHandler {
         if (arrayList[0].equals("½")) return 30;
         if (arrayList[0].equals("1")) return 60;
         return Integer.parseInt(arrayList[0]);
+    }
+
+    private int getPosition(String s){
+        String[] arrayList = s.split(" ");
+        if (arrayList[0].equals("½")) return 5;
+        if (arrayList[0].equals("1")) return 11;
+        return Integer.parseInt(arrayList[0])/5-1;
     }
 
     public void setNotification(Context context, int time, String contestName, long startTimeInMillis, long id, String properStartTime) {
