@@ -164,13 +164,15 @@ public class SplashActivity extends AppCompatActivity {
                 SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
             } catch (JSONException e) {
                 e.printStackTrace();
+                Log.e(TAG, "getAC: " + e.getMessage());
                 count--;
                 if (count <= 0) {
                     goToSettingsActivity();
                 }
             }
         }, error -> {
-            Log.d(TAG, "onErrorResponse: " + error.getMessage());
+            Log.e(TAG, "onErrorResponse: " + error.getMessage());
+//            getAC(user_name);
             count--;
             if (count <= 0) {
                 goToSettingsActivity();
@@ -204,7 +206,6 @@ public class SplashActivity extends AppCompatActivity {
                     goToMainActivity();
                 }
             } catch (JSONException e) {
-                Log.d(TAG, "onResponse: " + e.getMessage());
                 e.printStackTrace();
                 count--;
                 if (count <= 0) {
@@ -212,7 +213,8 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }
         }, error -> {
-            Log.d(TAG, "onErrorResponse: " + error.getMessage());
+            Log.e(TAG, "getCC: " + error.getMessage());
+//            getCC(user_name);
             count--;
             if (count <= 0) {
                 goToSettingsActivity();
@@ -255,6 +257,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, error -> {
             Log.d(TAG, "getCF: " + error.getMessage());
+//            getCF(user_name);
             count--;
             if (count <= 0) {
                 goToSettingsActivity();
@@ -293,6 +296,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, error -> {
             Log.d(TAG, "getLC: " + error.getMessage());
+//            getLC(user_name);
             count--;
             if (count <= 0) {
                 goToSettingsActivity();
@@ -334,9 +338,11 @@ public class SplashActivity extends AppCompatActivity {
         }, error -> {
             Toast.makeText(SplashActivity.this, "Something went wrong!",
                     Toast.LENGTH_SHORT).show();
-            if (count <= 0) {
-                goToSettingsActivity();
-            }
+            getContestDetailsFromAPI(isFirstTime);
+//            count--;
+//            if (count <= 0) {
+//                goToSettingsActivity();
+//            }
         });
         requestQueue.add(jsonArrayRequest);
     }

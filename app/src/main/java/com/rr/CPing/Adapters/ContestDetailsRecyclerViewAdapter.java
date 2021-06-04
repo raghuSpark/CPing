@@ -88,11 +88,7 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
                     contestDetailsArrayList.get(position).getContestName());
             if (currentList.isEmpty() || index == -1)
                 myViewHolder.remainderIcon.setImageResource(R.drawable.ic_add_reminder);
-            else if (currentList.get(index).isInAppReminderSet()) {
-                if (!currentList.get(index).isGoogleReminderSet())
-                    myViewHolder.remainderIcon.setImageResource(R.drawable.ic_in_app_reminder_added);
-                else myViewHolder.remainderIcon.setImageResource(R.drawable.ic_reminder_added);
-            } else myViewHolder.remainderIcon.setImageResource(R.drawable.ic_google_reminder_added);
+            else myViewHolder.remainderIcon.setImageResource(R.drawable.ic_reminder_added);
         }
     }
 

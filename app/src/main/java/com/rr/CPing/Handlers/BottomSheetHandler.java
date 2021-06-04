@@ -141,9 +141,7 @@ public class BottomSheetHandler {
                     if (idClassArrayList.isEmpty() || index == -1) {
                         idClassArrayList.add(new AlarmIdClass(contestsArrayList.get(position).getContestName(),
                                 getTimeFromNow(start),
-                                System.currentTimeMillis(), false, true, 0));
-                    } else {
-                        idClassArrayList.get(index).setGoogleReminderSet(true);
+                                System.currentTimeMillis(), true, 0));
                     }
                     SharedPrefConfig.writeInIdsOfReminderContests(context, idClassArrayList);
 
@@ -239,21 +237,14 @@ public class BottomSheetHandler {
             dialog.cancel();
 
             long id = System.currentTimeMillis();
-            boolean temp = false;
             if (discardButton.getText().equals("Delete")) {
                 deleteNotification(currentList.get(index).getAlarmSetTime(), contestDetails.getContestName(), properStartTime);
-                if (currentList.get(index).isGoogleReminderSet()) {
-                    currentList.get(index).setInAppReminderSet(false);
-                    temp = true;
-                } else currentList.remove(index);
+                currentList.remove(index);
             }
 
-            if (temp) {
-                currentList.get(index).setAlarmSetTime(id);
-                currentList.get(index).setInAppReminderSet(true);
-            } else currentList.add(new AlarmIdClass(contestDetails.getContestName(),
+            currentList.add(new AlarmIdClass(contestDetails.getContestName(),
                     getTimeFromNow(start),
-                    id, true, false, getPosition(spinner.getSelectedItem().toString())));
+                    id, true, getPosition(spinner.getSelectedItem().toString())));
 
             SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
 
@@ -270,9 +261,7 @@ public class BottomSheetHandler {
             dialog.cancel();
             if (discardButton.getText().equals("Delete")) {
                 deleteNotification(currentList.get(index).getAlarmSetTime(), contestDetails.getContestName(), properStartTime);
-                if (currentList.get(index).isGoogleReminderSet()) {
-                    currentList.get(index).setInAppReminderSet(false);
-                } else currentList.remove(index);
+                currentList.remove(index);
 
                 SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
 
@@ -323,11 +312,11 @@ public class BottomSheetHandler {
         return Integer.parseInt(arrayList[0]);
     }
 
-    private int getPosition(String s){
+    private int getPosition(String s) {
         String[] arrayList = s.split(" ");
         if (arrayList[0].equals("½")) return 5;
         if (arrayList[0].equals("1")) return 11;
-        return Integer.parseInt(arrayList[0])/5-1;
+        return Integer.parseInt(arrayList[0]) / 5 - 1;
     }
 
     public void setNotification(Context context, int time, String contestName, long startTimeInMillis, long id, String properStartTime) {
