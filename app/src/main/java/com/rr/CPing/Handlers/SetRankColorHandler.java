@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.core.content.ContextCompat;
 
+import com.rr.CPing.Model.ContestDetails;
 import com.rr.CPing.R;
 
 public class SetRankColorHandler {

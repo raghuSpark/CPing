@@ -29,6 +29,7 @@ import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -236,12 +237,15 @@ public class AllFragment extends Fragment {
         if (platforms.contains("CodeChef")) {
             CodeChefUserDetails codeChefUserDetails = SharedPrefConfig.readInCodeChefPref(getContext());
 
-            codeChefRating.setText(String.valueOf(codeChefUserDetails.getCurrentRating()));
-            codeChefStars.setText(codeChefUserDetails.getCurrentStars());
-
-            codeChefStars.setTextColor(setRankColor.getCodeChefColor(codeChefUserDetails.getCurrentStars()));
-
-            codeChefRecentRatingsArrayList = codeChefUserDetails.getRecentContestRatings();
+            if(codeChefUserDetails==null){
+                codeChefRating.setText("-");
+                codeChefStars.setText("0★");
+            }else{
+                codeChefRating.setText(String.valueOf(codeChefUserDetails.getCurrentRating()));
+                codeChefStars.setText(codeChefUserDetails.getCurrentStars());
+                codeChefStars.setTextColor(setRankColor.getCodeChefColor(codeChefUserDetails.getCurrentStars()));
+                codeChefRecentRatingsArrayList = codeChefUserDetails.getRecentContestRatings();
+            }
 
             if (codeChefRecentRatingsArrayList.isEmpty()) {
                 codeChefGraphBelow.setVisibility(View.GONE);

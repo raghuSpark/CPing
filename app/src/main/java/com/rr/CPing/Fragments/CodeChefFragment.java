@@ -113,17 +113,23 @@ public class CodeChefFragment extends Fragment {
         // Ratings and graph
 
         CodeChefUserDetails codeChefUserDetails = SharedPrefConfig.readInCodeChefPref(getContext());
+        ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
 
-        codeChefUserName.setText(MessageFormat.format("@{0}", codeChefUserDetails.getUserName()));
-        currentRating.setText(String.valueOf(codeChefUserDetails.getCurrentRating()));
-        currentStars.setText(codeChefUserDetails.getCurrentStars());
-        maxRating.setText(String.valueOf(codeChefUserDetails.getHighestRating()));
-
-        currentStars.setTextColor(setRankColor.getCodeChefColor(codeChefUserDetails.getCurrentStars()));
+        if(codeChefUserDetails==null){
+            codeChefUserName.setText("Error Loading Data");
+            currentRating.setText("-");
+            maxRating.setText("-");
+            currentStars.setTextColor(setRankColor.getCodeChefColor("0★"));
+        }else{
+            codeChefUserName.setText(MessageFormat.format("@{0}", codeChefUserDetails.getUserName()));
+            currentRating.setText(String.valueOf(codeChefUserDetails.getCurrentRating()));
+            currentStars.setText(codeChefUserDetails.getCurrentStars());
+            maxRating.setText(String.valueOf(codeChefUserDetails.getHighestRating()));
+            currentStars.setTextColor(setRankColor.getCodeChefColor(codeChefUserDetails.getCurrentStars()));
+            recentRatingsArrayList = codeChefUserDetails.getRecentContestRatings();
+        }
 
         GraphView graphView = groupFragmentView.findViewById(R.id.codeChef_graph_view);
-
-        ArrayList<Integer> recentRatingsArrayList = codeChefUserDetails.getRecentContestRatings();
 
         if (recentRatingsArrayList.isEmpty()) codeChefGraphCard.setVisibility(View.GONE);
         else {
