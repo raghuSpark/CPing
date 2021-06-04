@@ -34,7 +34,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
             timeDescriptionTextView;
 
     private String contestName, properStartTime;
-    private long alarmSetTime;
+//    private long alarmSetTime;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @SuppressLint("SetTextI18n")
@@ -81,7 +81,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
         properStartTime = getIntent().getStringExtra("ProperStartTime");
 
-        alarmSetTime = getIntent().getLongExtra("alarmSetTime", 0);
+//        alarmSetTime = getIntent().getLongExtra("alarmSetTime", 0);
 
         ArrayList<AlarmIdClass> idClassArrayList = SharedPrefConfig.readInIdsOfReminderContests(this);
         final int[] index = {getIndexFromList(idClassArrayList, contestName)};
@@ -119,7 +119,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
                     Toast.makeText(AlarmRingingActivity.this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
 
                     new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5,
-                            contestName, alarmSetTime,
+                            contestName, (System.currentTimeMillis() / 1000) * 1000,
                             System.currentTimeMillis() / 1000, properStartTime);
                 }
                 finalRingtone1.stop();
@@ -150,7 +150,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
                 Toast.makeText(this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
 
                 new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5, contestName,
-                        alarmSetTime, System.currentTimeMillis() / 1000, properStartTime);
+                        (System.currentTimeMillis() / 1000) * 1000, System.currentTimeMillis() / 1000, properStartTime);
             }
             countDownTimer.cancel();
             finalRingtone2.stop();

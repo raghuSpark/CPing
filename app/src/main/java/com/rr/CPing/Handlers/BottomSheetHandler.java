@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -240,9 +241,7 @@ public class BottomSheetHandler {
             long id = System.currentTimeMillis();
             boolean temp = false;
             if (discardButton.getText().equals("Delete")) {
-                deleteNotification(
-                        currentList.get(index).getAlarmSetTime(), contestDetails.getContestName());
-
+                deleteNotification(currentList.get(index).getAlarmSetTime(), contestDetails.getContestName(), properStartTime);
                 if (currentList.get(index).isGoogleReminderSet()) {
                     currentList.get(index).setInAppReminderSet(false);
                     temp = true;
@@ -264,15 +263,13 @@ public class BottomSheetHandler {
 
             setNotification(context, getNum(spinner.getSelectedItem().toString()),
                     contestDetails.getContestName(), start.getTimeInMillis(),
-                    id / 1000, properStartTime);
+                    id, properStartTime);
         });
 
         discardButton.setOnClickListener(v -> {
             dialog.cancel();
             if (discardButton.getText().equals("Delete")) {
-                deleteNotification(currentList.get(index).getAlarmSetTime(),
-                        contestDetails.getContestName());
-
+                deleteNotification(currentList.get(index).getAlarmSetTime(), contestDetails.getContestName(), properStartTime);
                 if (currentList.get(index).isGoogleReminderSet()) {
                     currentList.get(index).setInAppReminderSet(false);
                 } else currentList.remove(index);
@@ -326,29 +323,34 @@ public class BottomSheetHandler {
         return Integer.parseInt(arrayList[0]);
     }
 
-    public void setNotification(Context context, int time, String contestName, long startTimeInMillis,
-                                long id, String properStartTime) {
+    public void setNotification(Context context, int time, String contestName, long startTimeInMillis, long id, String properStartTime) {
         Intent intent = new Intent(context, ReminderBroadCast.class);
         intent.putExtra("ContestName", contestName);
         intent.putExtra("ProperStartTime", properStartTime);
-        intent.putExtra("alarmSetTime", startTimeInMillis - 60000 * time);
+
+//        intent.putExtra("alarmSetTime", startTimeInMillis - 60000 * time);
+
+//        Log.d("TAG", "setNotification: "+contestName+" "+properStartTime+" "+id);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
 
         long t2 = 60000 * time;
 
-//        Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
-        alarmManager.set(AlarmManager.RTC_WAKEUP, (startTimeInMillis - t2), pendingIntent);
+        Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
     }
 
-    private void deleteNotification(long id, String contestName) {
+    private void deleteNotification(long id, String contestName, String properStartTime) {
         Intent intent = new Intent(context, ReminderBroadCast.class);
         intent.putExtra("ContestName", contestName);
+        intent.putExtra("ProperStartTime", properStartTime);
+
+//        Log.d("TAG", "deleteNotification: "+contestName+" "+properStartTime+" "+id);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
-        pendingIntent.cancel();
         alarmManager.cancel(pendingIntent);
+        pendingIntent.cancel();
     }
 }
