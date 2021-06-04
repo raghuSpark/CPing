@@ -58,6 +58,7 @@
         android:paddingEnd="20dp"
         android:text="@string/retry"
         android:textAllCaps="false"
+        android:textColor="#2F2E41"
         android:textSize="18sp" />
 
 </GridLayout>
