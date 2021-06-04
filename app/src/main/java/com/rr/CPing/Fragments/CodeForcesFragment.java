@@ -115,19 +115,27 @@ public class CodeForcesFragment extends Fragment {
         // Ratings and graph
 
         CodeForcesUserDetails codeForcesUserDetails = SharedPrefConfig.readInCodeForcesPref(getContext());
+        ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
 
-        codeForcesUserName.setText(String.format("@%s", codeForcesUserDetails.getUserName()));
-        currentRating.setText(String.valueOf(codeForcesUserDetails.getCurrentRating()));
-        currentRank.setText(codeForcesUserDetails.getCurrentRank());
-        maxRating.setText(String.valueOf(codeForcesUserDetails.getMaxRating()));
-        maxRank.setText(codeForcesUserDetails.getMaxRank());
+        if (codeForcesUserDetails == null) {
+            codeForcesUserName.setText("-");
+            currentRating.setText("-");
+            currentRank.setText("-");
+            maxRating.setText("-");
+            maxRank.setText("-");
+        } else {
+            codeForcesUserName.setText(String.format("@%s", codeForcesUserDetails.getUserName()));
+            currentRating.setText(String.valueOf(codeForcesUserDetails.getCurrentRating()));
+            currentRank.setText(codeForcesUserDetails.getCurrentRank());
+            maxRating.setText(String.valueOf(codeForcesUserDetails.getMaxRating()));
+            maxRank.setText(codeForcesUserDetails.getMaxRank());
 
-        currentRank.setTextColor(setRankColor.getCodeforcesColor(codeForcesUserDetails.getCurrentRank()));
-        maxRank.setTextColor(setRankColor.getCodeforcesColor(codeForcesUserDetails.getMaxRank()));
+            currentRank.setTextColor(setRankColor.getCodeforcesColor(codeForcesUserDetails.getCurrentRank()));
+            maxRank.setTextColor(setRankColor.getCodeforcesColor(codeForcesUserDetails.getMaxRank()));
+            recentRatingsArrayList = codeForcesUserDetails.getRecentContestRatings();
+        }
 
         GraphView graphView = groupFragmentView.findViewById(R.id.codeForces_graph_view);
-
-        ArrayList<Integer> recentRatingsArrayList = codeForcesUserDetails.getRecentContestRatings();
 
         if (recentRatingsArrayList.size() == 0)
             codeForcesGraphCard.setVisibility(View.GONE);

@@ -111,18 +111,25 @@ public class AtCoderFragment extends Fragment {
 //         Ratings and graphs
 
         AtCoderUserDetails atCoderUserDetails = SharedPrefConfig.readInAtCoderPref(getContext());
+        ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
 
-        atCoderUserName.setText(String.format("@%s", atCoderUserDetails.getUserName()));
-        currentRating.setText(String.valueOf(atCoderUserDetails.getCurrentRating()));
-        highestRating.setText(String.valueOf(atCoderUserDetails.getHighestRating()));
-        currentRank.setText(String.valueOf(atCoderUserDetails.getCurrentRank()));
-        currentLevel.setText(atCoderUserDetails.getCurrentLevel());
-
-        currentLevel.setTextColor(setRankColor.getAtCoderColor(atCoderUserDetails.getCurrentLevel()));
+        if (atCoderUserDetails == null) {
+            atCoderUserName.setText("-");
+            currentRating.setText("-");
+            highestRating.setText("-");
+            currentRank.setText("-");
+            currentLevel.setText("-");
+        } else {
+            atCoderUserName.setText(String.format("@%s", atCoderUserDetails.getUserName()));
+            currentRating.setText(String.valueOf(atCoderUserDetails.getCurrentRating()));
+            highestRating.setText(String.valueOf(atCoderUserDetails.getHighestRating()));
+            currentRank.setText(String.valueOf(atCoderUserDetails.getCurrentRank()));
+            currentLevel.setText(atCoderUserDetails.getCurrentLevel());
+            currentLevel.setTextColor(setRankColor.getAtCoderColor(atCoderUserDetails.getCurrentLevel()));
+            recentRatingsArrayList = atCoderUserDetails.getRecentContestRatings();
+        }
 
         GraphView graphView = groupFragmentView.findViewById(R.id.at_coder_graph_view);
-
-        ArrayList<Integer> recentRatingsArrayList = atCoderUserDetails.getRecentContestRatings();
 
         if (recentRatingsArrayList.isEmpty()) atCoderGraphCard.setVisibility(View.GONE);
         else {

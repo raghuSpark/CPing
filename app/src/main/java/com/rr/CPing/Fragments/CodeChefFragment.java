@@ -1,5 +1,6 @@
 package com.rr.CPing.Fragments;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -73,6 +74,7 @@ public class CodeChefFragment extends Fragment {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -115,12 +117,13 @@ public class CodeChefFragment extends Fragment {
         CodeChefUserDetails codeChefUserDetails = SharedPrefConfig.readInCodeChefPref(getContext());
         ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
 
-        if(codeChefUserDetails==null){
-            codeChefUserName.setText("Error Loading Data");
+        if (codeChefUserDetails == null) {
+            codeChefUserName.setText("Error in loading data");
             currentRating.setText("-");
             maxRating.setText("-");
-            currentStars.setTextColor(setRankColor.getCodeChefColor("0★"));
-        }else{
+            currentStars.setTextColor(setRankColor.getCodeChefColor("-"));
+            recentRatingsArrayList = new ArrayList<>();
+        } else {
             codeChefUserName.setText(MessageFormat.format("@{0}", codeChefUserDetails.getUserName()));
             currentRating.setText(String.valueOf(codeChefUserDetails.getCurrentRating()));
             currentStars.setText(codeChefUserDetails.getCurrentStars());

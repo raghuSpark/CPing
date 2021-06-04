@@ -29,7 +29,6 @@ import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -159,12 +158,16 @@ public class AllFragment extends Fragment {
 
         if (platforms.contains("AtCoder")) {
             AtCoderUserDetails atCoderUserDetails = SharedPrefConfig.readInAtCoderPref(getContext());
-            atCoderRating.setText(String.valueOf(atCoderUserDetails.getCurrentRating()));
-            atCoderLevel.setText(atCoderUserDetails.getCurrentLevel());
-
-            atCoderLevel.setTextColor(setRankColor.getAtCoderColor(atCoderUserDetails.getCurrentLevel()));
-
-            atCoderRecentRatingsArrayList = atCoderUserDetails.getRecentContestRatings();
+            if (atCoderUserDetails == null) {
+                atCoderRating.setText("-");
+                atCoderLevel.setText("-");
+                atCoderRecentRatingsArrayList = new ArrayList<>();
+            } else {
+                atCoderRating.setText(String.valueOf(atCoderUserDetails.getCurrentRating()));
+                atCoderLevel.setText(atCoderUserDetails.getCurrentLevel());
+                atCoderLevel.setTextColor(setRankColor.getAtCoderColor(atCoderUserDetails.getCurrentLevel()));
+                atCoderRecentRatingsArrayList = atCoderUserDetails.getRecentContestRatings();
+            }
 
             if (atCoderRecentRatingsArrayList.isEmpty()) {
                 atCoderGraphBelow.setVisibility(View.GONE);
@@ -198,12 +201,16 @@ public class AllFragment extends Fragment {
 
         if (platforms.contains("CodeForces")) {
             CodeForcesUserDetails codeForcesUserDetails = SharedPrefConfig.readInCodeForcesPref(getContext());
-            codeForcesRating.setText(String.valueOf(codeForcesUserDetails.getCurrentRating()));
-            codeForcesRank.setText(codeForcesUserDetails.getCurrentRank());
-
-            codeForcesRank.setTextColor(setRankColor.getCodeforcesColor(codeForcesUserDetails.getCurrentRank()));
-
-            codeForcesRecentRatingsArrayList = codeForcesUserDetails.getRecentContestRatings();
+            if (codeForcesUserDetails == null) {
+                codeForcesRating.setText("-");
+                codeForcesRank.setText("-");
+                codeForcesRecentRatingsArrayList = new ArrayList<>();
+            } else {
+                codeForcesRating.setText(String.valueOf(codeForcesUserDetails.getCurrentRating()));
+                codeForcesRank.setText(codeForcesUserDetails.getCurrentRank());
+                codeForcesRank.setTextColor(setRankColor.getCodeforcesColor(codeForcesUserDetails.getCurrentRank()));
+                codeForcesRecentRatingsArrayList = codeForcesUserDetails.getRecentContestRatings();
+            }
 
             if (codeForcesRecentRatingsArrayList.isEmpty()) {
                 codeForcesGraphBelow.setVisibility(View.GONE);
@@ -237,10 +244,11 @@ public class AllFragment extends Fragment {
         if (platforms.contains("CodeChef")) {
             CodeChefUserDetails codeChefUserDetails = SharedPrefConfig.readInCodeChefPref(getContext());
 
-            if(codeChefUserDetails==null){
+            if (codeChefUserDetails == null) {
                 codeChefRating.setText("-");
-                codeChefStars.setText("0★");
-            }else{
+                codeChefStars.setText("-");
+                codeChefRecentRatingsArrayList = new ArrayList<>();
+            } else {
                 codeChefRating.setText(String.valueOf(codeChefUserDetails.getCurrentRating()));
                 codeChefStars.setText(codeChefUserDetails.getCurrentStars());
                 codeChefStars.setTextColor(setRankColor.getCodeChefColor(codeChefUserDetails.getCurrentStars()));
