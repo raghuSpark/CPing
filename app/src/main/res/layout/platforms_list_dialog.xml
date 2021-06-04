@@ -29,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints="true"
+        android:backgroundTint="@color/blackAndGrey"
         android:defaultFocusHighlightEnabled="true"
         android:focusedByDefault="true"
         android:hint="@string/enter_a_valid_user_name"
@@ -75,7 +76,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/remove"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/whiteAndBlueFont"
             android:textSize="18sp"
             android:visibility="visible" />
 
@@ -93,7 +94,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/save"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/whiteAndBlueFont"
             android:textSize="18sp"
             android:visibility="visible" />
 

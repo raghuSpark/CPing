@@ -16,12 +16,14 @@
     <color name="greyAndBlackFont">#8B8686</color>
     <color name="blackAndWhiteFont">#000000</color>
     <color name="whiteAndBlackFont">#FFFFFF</color>
+    <color name="whiteAndBlueFont">#FFFFFF</color>
 
     <color name="settingsBackground">#FFFFFF</color>
     <color name="tab_indicator_color">#000000</color>
     <color name="SplashBackground">#FFFFFF</color>
     <color name="cardBackground">#FFFFFF</color>
     <color name="ratingsChangesBackground">#EDF5FA</color>
+    <color name="blackAndGrey">#474747</color>
 
     <color name="buttonTextLightColor">#FFFFFF</color>
 

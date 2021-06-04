@@ -62,6 +62,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
                     android:autofillHints="true"
+                    android:backgroundTint="@color/blackAndGrey"
                     android:defaultFocusHighlightEnabled="false"
                     android:focusableInTouchMode="true"
                     android:focusedByDefault="false"

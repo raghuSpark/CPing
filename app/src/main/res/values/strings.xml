@@ -12,7 +12,7 @@
     <string name="acceptance_rate">Acceptance Rate</string>
     <string name="current_rating">Current Rating</string>
     <string name="ongoing_contests">Ongoing Contests</string>
-    <string name="today">Today\'s Contests</string>
+    <string name="today">In next 24 hours</string>
     <string name="max_rating">Max. Rating</string>
     <string name="level">Level</string>
     <string name="future_contests">Future Contests</string>
