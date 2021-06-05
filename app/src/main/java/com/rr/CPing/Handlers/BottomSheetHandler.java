@@ -294,7 +294,6 @@ public class BottomSheetHandler {
         Intent intent = new Intent(context, ReminderBroadCast.class);
         intent.putExtra("ContestName", contestName);
         intent.putExtra("ProperStartTime", properStartTime);
-//        intent.setAction("NOTIFICATION");
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
@@ -302,14 +301,13 @@ public class BottomSheetHandler {
         long t2 = 60000 * time;
 
         Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (60000 * 5), pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5000), pendingIntent);
     }
 
     private void deleteNotification(long id, String contestName, String properStartTime) {
         Intent intent = new Intent(context, ReminderBroadCast.class);
         intent.putExtra("ContestName", contestName);
         intent.putExtra("ProperStartTime", properStartTime);
-//        intent.setAction("NOTIFICATION");
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);

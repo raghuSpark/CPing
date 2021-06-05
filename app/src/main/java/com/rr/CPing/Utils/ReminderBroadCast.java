@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -29,8 +30,7 @@ public class ReminderBroadCast extends BroadcastReceiver {
         String properStartTime = intent.getStringExtra("ProperStartTime");
 
         boolean isAppearOnTopPermitted = true;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-                !Settings.canDrawOverlays(context)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !Settings.canDrawOverlays(context)) {
             isAppearOnTopPermitted = false;
         }
 
@@ -44,6 +44,7 @@ public class ReminderBroadCast extends BroadcastReceiver {
                 context.startActivity(alarmIntent);
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
+                Toast.makeText(context, "GONE", Toast.LENGTH_LONG).show();
             }
         } else {
             NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -63,6 +64,5 @@ public class ReminderBroadCast extends BroadcastReceiver {
 
             manager.notify(notificationId, builder.build());
         }
-//        }
     }
 }
