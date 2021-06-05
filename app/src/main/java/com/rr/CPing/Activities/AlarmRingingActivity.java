@@ -81,8 +81,6 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
         properStartTime = getIntent().getStringExtra("ProperStartTime");
 
-//        alarmSetTime = getIntent().getLongExtra("alarmSetTime", 0);
-
         ArrayList<AlarmIdClass> idClassArrayList = SharedPrefConfig.readInIdsOfReminderContests(this);
         final int[] index = {getIndexFromList(idClassArrayList, contestName)};
 
@@ -109,9 +107,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
                     alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
                     alarmIdClass.setSpinnerPosition(alarmIdClass.getSpinnerPosition() - 1);
 
-                    index[0] = getIndexFromList(idClassArrayList, contestName);
-                    if (index[0] == -1) idClassArrayList.add(alarmIdClass);
-                    else idClassArrayList.get(index[0]).setInAppReminderSet(true);
+                    idClassArrayList.add(alarmIdClass);
 
                     SharedPrefConfig.writeInIdsOfReminderContests(AlarmRingingActivity.this,
                             idClassArrayList);
@@ -142,9 +138,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
                 alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
                 alarmIdClass.setSpinnerPosition(alarmIdClass.getSpinnerPosition() - 1);
 
-                index[0] = getIndexFromList(idClassArrayList, contestName);
-                if (index[0] == -1) idClassArrayList.add(alarmIdClass);
-                else idClassArrayList.get(index[0]).setInAppReminderSet(true);
+                idClassArrayList.add(alarmIdClass);
 
                 SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
 

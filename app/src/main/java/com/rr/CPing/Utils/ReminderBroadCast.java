@@ -28,8 +28,6 @@ public class ReminderBroadCast extends BroadcastReceiver {
         String contestName = intent.getStringExtra("ContestName");
         String properStartTime = intent.getStringExtra("ProperStartTime");
 
-//        long alarmSetTime = intent.getLongExtra("alarmSetTime", 0);
-
         boolean isAppearOnTopPermitted = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
                 !Settings.canDrawOverlays(context)) {
@@ -41,7 +39,6 @@ public class ReminderBroadCast extends BroadcastReceiver {
                 Intent alarmIntent = new Intent(context, AlarmRingingActivity.class);
                 alarmIntent.putExtra("ContestName", contestName);
                 alarmIntent.putExtra("ProperStartTime", properStartTime);
-//                alarmIntent.putExtra("alarmSetTime", alarmSetTime);
                 alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 alarmIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 context.startActivity(alarmIntent);

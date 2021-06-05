@@ -33,7 +33,8 @@
 
         <receiver
             android:name=".Utils.ReminderBroadCast"
-            android:enabled="true" />
+            android:enabled="true"
+            android:roundIcon="@mipmap/ic_launcher_round" />
 
         <activity
             android:name=".Activities.AlarmRingingActivity"
