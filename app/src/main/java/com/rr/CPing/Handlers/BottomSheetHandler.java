@@ -334,7 +334,7 @@ public class BottomSheetHandler {
         long t2 = 60000 * time;
 
         Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, (startTimeInMillis - t2), pendingIntent);
     }
 
     private void deleteNotification(long id, String contestName, String properStartTime) {

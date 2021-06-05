@@ -81,31 +81,27 @@ public class SplashActivity extends AppCompatActivity {
             ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(this);
 
             for (PlatformListItem platformListItem : platformListItemArrayList) {
-                switch (platformListItem.getPlatformName()) {
-                    case "AtCoder":
-                    case "LeetCode":
-                    case "CodeChef":
-                    case "CodeForces":
+                if (platformListItem.isEnabled())
+                    if (platformListItem.getPlatformName().equals("AtCoder") || platformListItem.getPlatformName().equals("LeetCode") || platformListItem.getPlatformName().equals("CodeChef") || platformListItem.getPlatformName().equals("CodeForces"))
                         count++;
-                        break;
-                }
             }
 
             for (PlatformListItem platformListItem : platformListItemArrayList) {
-                switch (platformListItem.getPlatformName()) {
-                    case "AtCoder":
-                        getAC(platformListItem.getUserName());
-                        break;
-                    case "CodeChef":
-                        getCC(platformListItem.getUserName());
-                        break;
-                    case "CodeForces":
-                        getCF(platformListItem.getUserName());
-                        break;
-                    case "LeetCode":
-                        getLC(platformListItem.getUserName());
-                        break;
-                }
+                if (platformListItem.isEnabled())
+                    switch (platformListItem.getPlatformName()) {
+                        case "AtCoder":
+                            getAC(platformListItem.getUserName());
+                            break;
+                        case "CodeChef":
+                            getCC(platformListItem.getUserName());
+                            break;
+                        case "CodeForces":
+                            getCF(platformListItem.getUserName());
+                            break;
+                        case "LeetCode":
+                            getLC(platformListItem.getUserName());
+                            break;
+                    }
             }
 
             if (count <= 0) {
@@ -164,19 +160,18 @@ public class SplashActivity extends AppCompatActivity {
                 SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.e(TAG, "getAC: " + e.getMessage());
                 count--;
                 if (count <= 0) {
-                    goToSettingsActivity();
+                    goToMainActivity();
                 }
             }
         }, error -> {
             Log.e(TAG, "onErrorResponse: " + error.getMessage());
-//            getAC(user_name);
-            count--;
-            if (count <= 0) {
-                goToSettingsActivity();
-            }
+            getAC(user_name);
+//            count--;
+//            if (count <= 0) {
+//                goToMainActivity();
+//            }
         });
         requestQueue.add(jsonObjectRequest);
     }
@@ -209,16 +204,16 @@ public class SplashActivity extends AppCompatActivity {
                 e.printStackTrace();
                 count--;
                 if (count <= 0) {
-                    goToSettingsActivity();
+                    goToMainActivity();
                 }
             }
         }, error -> {
             Log.e(TAG, "getCC: " + error.getMessage());
-//            getCC(user_name);
-            count--;
-            if (count <= 0) {
-                goToSettingsActivity();
-            }
+            getCC(user_name);
+//            count--;
+//            if (count <= 0) {
+//                goToSettingsActivity();
+//            }
         });
         requestQueue.add(jsonObjectRequest);
     }
@@ -252,16 +247,16 @@ public class SplashActivity extends AppCompatActivity {
                 e.printStackTrace();
                 count--;
                 if (count <= 0) {
-                    goToSettingsActivity();
+                    goToMainActivity();
                 }
             }
         }, error -> {
             Log.d(TAG, "getCF: " + error.getMessage());
-//            getCF(user_name);
-            count--;
-            if (count <= 0) {
-                goToSettingsActivity();
-            }
+            getCF(user_name);
+//            count--;
+//            if (count <= 0) {
+//                goToSettingsActivity();
+//            }
         });
         requestQueue.add(jsonObjectRequest);
     }
@@ -291,16 +286,16 @@ public class SplashActivity extends AppCompatActivity {
                 e.printStackTrace();
                 count--;
                 if (count <= 0) {
-                    goToSettingsActivity();
+                    goToMainActivity();
                 }
             }
         }, error -> {
             Log.d(TAG, "getLC: " + error.getMessage());
-//            getLC(user_name);
-            count--;
-            if (count <= 0) {
-                goToSettingsActivity();
-            }
+            getLC(user_name);
+//            count--;
+//            if (count <= 0) {
+//                goToSettingsActivity();
+//            }
         });
         requestQueue.add(jsonObjectRequest);
     }

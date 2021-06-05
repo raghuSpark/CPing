@@ -87,9 +87,9 @@ public class AlarmRingingActivity extends AppCompatActivity {
         final int[] index = {getIndexFromList(idClassArrayList, contestName)};
 
         AlarmIdClass alarmIdClass = idClassArrayList.get(index[0]);
-        timeDescriptionTextView.setText("Starts at: " + properStartTime);
-
         idClassArrayList.remove(index[0]);
+
+        timeDescriptionTextView.setText("Starts at: " + properStartTime);
 
         SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
 
@@ -119,7 +119,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
                     Toast.makeText(AlarmRingingActivity.this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
 
                     new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5,
-                            contestName, 1000 * ((System.currentTimeMillis() + 500) / 1000),
+                            contestName, roundTheValue(System.currentTimeMillis()),
                             System.currentTimeMillis() / 1000, properStartTime);
                 }
                 finalRingtone1.stop();
@@ -151,12 +151,16 @@ public class AlarmRingingActivity extends AppCompatActivity {
                 Toast.makeText(this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
 
                 new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5, contestName,
-                        1000 * ((System.currentTimeMillis() + 500) / 1000), System.currentTimeMillis() / 1000, properStartTime);
+                        roundTheValue(System.currentTimeMillis()), System.currentTimeMillis() / 1000, properStartTime);
             }
             countDownTimer.cancel();
             finalRingtone2.stop();
             finish();
         });
+    }
+
+    private long roundTheValue(long currentTimeMillis) {
+        return (currentTimeMillis / 60000) * 60000;
     }
 
     private void setAppTheme() {

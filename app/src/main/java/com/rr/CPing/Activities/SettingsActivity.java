@@ -390,6 +390,53 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPrefConfig.writePlatformsSelected(this, platformNamesList);
     }
 
+    private void getAC(String user_name) {
+        stillLoadingCount++;
+
+        String platform_name = "atcoder";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+            try {
+                ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
+                JSONArray jsonArray = response.getJSONArray("contest_ratings");
+                int n = jsonArray.length();
+                for (int i = 0; i < n; ++i) {
+                    recentRatingsArrayList.add(jsonArray.getInt(i));
+                }
+                AtCoderUserDetails item = new AtCoderUserDetails(
+                        user_name,
+                        response.getInt("rating"),
+                        response.getInt("highest"),
+                        response.getInt("rank"),
+                        response.getString("level"),
+                        recentRatingsArrayList);
+
+                SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
+
+                stillLoadingCount--;
+                if (stillLoadingCount <= 0 && saveButtonClicked) {
+                    startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                    finish();
+                }
+            } catch (JSONException e) {
+                Log.d(TAG, "getAC: " + e.getMessage());
+                e.printStackTrace();
+                stillLoadingCount--;
+                getAC(user_name);
+            }
+        }, error -> {
+            Log.d(TAG, "onErrorResponse: " + error.getMessage());
+            stillLoadingCount--;
+            getAC(user_name);
+        });
+        if (stillLoadingCount <= 0 && saveButtonClicked) {
+            startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+            finish();
+        }
+        requestQueue.add(jsonObjectRequest);
+    }
+
     private void getCC(String user_name) {
         stillLoadingCount++;
 
@@ -412,8 +459,8 @@ public class SettingsActivity extends AppCompatActivity {
                         recentRatingsArrayList);
 
                 SharedPrefConfig.writeInCodeChefPref(getApplicationContext(), item);
+
                 stillLoadingCount--;
-                Log.d(TAG, "getCC: ");
                 if (stillLoadingCount <= 0 && saveButtonClicked) {
                     startActivity(new Intent(SettingsActivity.this, MainActivity.class));
                     finish();
@@ -461,7 +508,6 @@ public class SettingsActivity extends AppCompatActivity {
 
                 SharedPrefConfig.writeInCodeForcesPref(getApplicationContext(), item);
                 stillLoadingCount--;
-                Log.d(TAG, "getCF: ");
                 if (stillLoadingCount <= 0 && saveButtonClicked) {
                     startActivity(new Intent(SettingsActivity.this, MainActivity.class));
                     finish();
@@ -503,8 +549,8 @@ public class SettingsActivity extends AppCompatActivity {
                         response.getString("total_hard_questions"));
 
                 SharedPrefConfig.writeInLeetCodePref(getApplicationContext(), item);
+
                 stillLoadingCount--;
-                Log.d(TAG, "getLC: ");
                 if (stillLoadingCount <= 0 && saveButtonClicked) {
                     startActivity(new Intent(SettingsActivity.this, MainActivity.class));
                     finish();
@@ -519,53 +565,6 @@ public class SettingsActivity extends AppCompatActivity {
             stillLoadingCount--;
             Log.d(TAG, "onErrorResponse: " + error.getMessage());
             getLC(user_name);
-        });
-        if (stillLoadingCount <= 0 && saveButtonClicked) {
-            startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-            finish();
-        }
-        requestQueue.add(jsonObjectRequest);
-    }
-
-    private void getAC(String user_name) {
-        stillLoadingCount++;
-
-        String platform_name = "atcoder";
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
-            try {
-                ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
-                JSONArray jsonArray = response.getJSONArray("contest_ratings");
-                int n = jsonArray.length();
-                for (int i = 0; i < n; ++i) {
-                    recentRatingsArrayList.add(jsonArray.getInt(i));
-                }
-                AtCoderUserDetails item = new AtCoderUserDetails(
-                        user_name,
-                        response.getInt("rating"),
-                        response.getInt("highest"),
-                        response.getInt("rank"),
-                        response.getString("level"),
-                        recentRatingsArrayList);
-
-                SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
-                stillLoadingCount--;
-                Log.d(TAG, "getAC: ");
-                if (stillLoadingCount <= 0 && saveButtonClicked) {
-                    startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-                    finish();
-                }
-            } catch (JSONException e) {
-                Log.d(TAG, "getAC: " + e.getMessage());
-                e.printStackTrace();
-                stillLoadingCount--;
-                getAC(user_name);
-            }
-        }, error -> {
-            Log.d(TAG, "onErrorResponse: " + error.getMessage());
-            stillLoadingCount--;
-            getAC(user_name);
         });
         if (stillLoadingCount <= 0 && saveButtonClicked) {
             startActivity(new Intent(SettingsActivity.this, MainActivity.class));
