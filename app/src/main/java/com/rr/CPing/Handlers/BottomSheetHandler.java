@@ -128,23 +128,6 @@ public class BottomSheetHandler {
                 intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end.getTimeInMillis());
 
                 if (intent.resolveActivity(Objects.requireNonNull(context).getPackageManager()) != null) {
-
-                    ArrayList<AlarmIdClass> idClassArrayList =
-                            SharedPrefConfig.readInIdsOfReminderContests(context);
-
-                    int index = getIndexFromList(idClassArrayList, contestsArrayList.get(position).getContestName());
-
-                    if (idClassArrayList.isEmpty() || index == -1) {
-                        idClassArrayList.add(new AlarmIdClass(contestsArrayList.get(position).getContestName(),
-                                getTimeFromNow(start),
-                                System.currentTimeMillis(), 0));
-                    }
-                    SharedPrefConfig.writeInIdsOfReminderContests(context, idClassArrayList);
-
-                    if (allParentRecyclerViewAdapter == null)
-                        contestDetailsRecyclerViewAdapter.notifyDataSetChanged();
-                    else allParentRecyclerViewAdapter.notifyDataSetChanged();
-
                     context.startActivity(intent);
                 } else {
                     Toast.makeText(context, "No application found supporting this feature!",
@@ -225,14 +208,14 @@ public class BottomSheetHandler {
             Toast.makeText(context, "Reminder set!", Toast.LENGTH_SHORT).show();
             dialog.cancel();
 
-            long id = System.currentTimeMillis();
+            long id = start.getTimeInMillis() - getNum(spinner.getSelectedItem().toString()) * 60000;
             if (discardButton.getText().equals("Delete")) {
                 deleteNotification(currentList.get(index).getAlarmSetTime(), contestDetails.getContestName(), properStartTime);
                 currentList.remove(index);
             }
 
             currentList.add(new AlarmIdClass(contestDetails.getContestName(),
-                    getTimeFromNow(start), id, getPosition(spinner.getSelectedItem().toString())));
+                    start.getTimeInMillis(), id, getPosition(spinner.getSelectedItem().toString())));
 
             SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
 
@@ -311,6 +294,7 @@ public class BottomSheetHandler {
         Intent intent = new Intent(context, ReminderBroadCast.class);
         intent.putExtra("ContestName", contestName);
         intent.putExtra("ProperStartTime", properStartTime);
+//        intent.setAction("NOTIFICATION");
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
@@ -318,13 +302,14 @@ public class BottomSheetHandler {
         long t2 = 60000 * time;
 
         Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (60000 * 5), pendingIntent);
     }
 
     private void deleteNotification(long id, String contestName, String properStartTime) {
         Intent intent = new Intent(context, ReminderBroadCast.class);
         intent.putExtra("ContestName", contestName);
         intent.putExtra("ProperStartTime", properStartTime);
+//        intent.setAction("NOTIFICATION");
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);

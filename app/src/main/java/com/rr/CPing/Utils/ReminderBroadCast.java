@@ -63,5 +63,6 @@ public class ReminderBroadCast extends BroadcastReceiver {
 
             manager.notify(notificationId, builder.build());
         }
+//        }
     }
 }

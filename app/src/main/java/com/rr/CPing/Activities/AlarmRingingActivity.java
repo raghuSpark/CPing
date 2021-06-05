@@ -34,7 +34,6 @@ public class AlarmRingingActivity extends AppCompatActivity {
             timeDescriptionTextView;
 
     private String contestName, properStartTime;
-//    private long alarmSetTime;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @SuppressLint("SetTextI18n")
@@ -104,7 +103,8 @@ public class AlarmRingingActivity extends AppCompatActivity {
                     Toast.makeText(AlarmRingingActivity.this, "This contest is going to start in " +
                             "less than 5 minutes!", Toast.LENGTH_SHORT).show();
                 } else {
-                    alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
+                    long alarmSetTime = roundTheValue(System.currentTimeMillis()) - 60000;
+                    alarmIdClass.setAlarmSetTime(alarmSetTime);
                     alarmIdClass.setSpinnerPosition(alarmIdClass.getSpinnerPosition() - 1);
 
                     idClassArrayList.add(alarmIdClass);
@@ -115,7 +115,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
                     Toast.makeText(AlarmRingingActivity.this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
 
                     new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5,
-                            contestName, roundTheValue(System.currentTimeMillis()),
+                            contestName, alarmSetTime,
                             System.currentTimeMillis() / 1000, properStartTime);
                 }
                 finalRingtone1.stop();
@@ -135,7 +135,8 @@ public class AlarmRingingActivity extends AppCompatActivity {
             if (Math.abs(alarmIdClass.getStartTime() - System.currentTimeMillis()) / 60000 <= 5) {
                 Toast.makeText(this, "This contest is going to start in less than 5 minutes!", Toast.LENGTH_SHORT).show();
             } else {
-                alarmIdClass.setAlarmSetTime(System.currentTimeMillis() / 1000);
+                long alarmSetTime = roundTheValue(System.currentTimeMillis());
+                alarmIdClass.setAlarmSetTime(alarmSetTime);
                 alarmIdClass.setSpinnerPosition(alarmIdClass.getSpinnerPosition() - 1);
 
                 idClassArrayList.add(alarmIdClass);
@@ -145,7 +146,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
                 Toast.makeText(this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
 
                 new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5, contestName,
-                        roundTheValue(System.currentTimeMillis()), System.currentTimeMillis() / 1000, properStartTime);
+                        alarmSetTime, System.currentTimeMillis() / 1000, properStartTime);
             }
             countDownTimer.cancel();
             finalRingtone2.stop();

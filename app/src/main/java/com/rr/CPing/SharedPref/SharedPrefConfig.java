@@ -204,8 +204,7 @@ public class SharedPrefConfig {
     }
 
     @SuppressLint("MutatingSharedPrefs")
-    public static void writeInIdsOfReminderContests(Context context,
-                                                    ArrayList<AlarmIdClass> contestsWithReminderAdded) {
+    public static void writeInIdsOfReminderContests(Context context, ArrayList<AlarmIdClass> contestsWithReminderAdded) {
         Gson gson = new Gson();
         String jsonString = gson.toJson(contestsWithReminderAdded);
 
