@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.rr.CPing.Activities.SplashActivity;
 import com.rr.CPing.Model.AlarmIdClass;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public class DeviceBootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction()) || Intent.ACTION_REBOOT.equals(intent.getAction()) || Intent.ACTION_LOCKED_BOOT_COMPLETED.equals(intent.getAction())) {
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             ArrayList<AlarmIdClass> alarmIdClassArrayList = new ArrayList<>();
             alarmIdClassArrayList.add(new AlarmIdClass("kdfnglslsk", System.currentTimeMillis(), 638461463, 1));
             Toast.makeText(context, "kdfnglslsk", Toast.LENGTH_LONG).show();
@@ -30,11 +31,12 @@ public class DeviceBootReceiver extends BroadcastReceiver {
 //                newList.add(new AlarmIdClass("aksdbfaj", i, i * i * i, 1));
 //            }
 //            SharedPrefConfig.writeInIdsOfReminderContests(context, newList);
-        } else {
-            ArrayList<AlarmIdClass> alarmIdClassArrayList = new ArrayList<>();
-            alarmIdClassArrayList.add(new AlarmIdClass("a;lsdkfm", System.currentTimeMillis(), 638461463, 1));
-            Toast.makeText(context, "a;lsdkfm", Toast.LENGTH_LONG).show();
-            SharedPrefConfig.writeInIdsOfReminderContests(context, alarmIdClassArrayList);
         }
+//        else {
+//            ArrayList<AlarmIdClass> alarmIdClassArrayList = new ArrayList<>();
+//            alarmIdClassArrayList.add(new AlarmIdClass("a;lsdkfm", System.currentTimeMillis(), 638461463, 1));
+//            Toast.makeText(context, "a;lsdkfm", Toast.LENGTH_LONG).show();
+//            SharedPrefConfig.writeInIdsOfReminderContests(context, alarmIdClassArrayList);
+//        }
     }
 }

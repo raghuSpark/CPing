@@ -10,10 +10,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.rr.CPing.Activities.AlarmRingingActivity;
@@ -21,38 +19,17 @@ import com.rr.CPing.Activities.SplashActivity;
 import com.rr.CPing.R;
 
 public class ReminderBroadCast extends BroadcastReceiver {
-    private static final String TAG = "ReminderBroadCast";
 
-    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onReceive(Context context, Intent intent) {
+        Toast.makeText(context, "ALARM ACTIVITY", Toast.LENGTH_LONG).show();
         String contestName = intent.getStringExtra("ContestName");
         String properStartTime = intent.getStringExtra("ProperStartTime");
 
-        boolean isAppearOnTopPermitted = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !Settings.canDrawOverlays(context)) {
-            isAppearOnTopPermitted = false;
-        }
-
-        if (isAppearOnTopPermitted) {
-            try {
-                Intent alarmIntent = new Intent(context, AlarmRingingActivity.class);
-                alarmIntent.putExtra("ContestName", contestName);
-                alarmIntent.putExtra("ProperStartTime", properStartTime);
-                alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                alarmIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                context.startActivity(alarmIntent);
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-                Toast.makeText(context, "GONE", Toast.LENGTH_LONG).show();
-            }
-        } else {
             NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
             Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-
             int notificationId = (int) System.currentTimeMillis();
-
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notify_contest");
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(contestName)
@@ -63,6 +40,13 @@ public class ReminderBroadCast extends BroadcastReceiver {
                     .setAutoCancel(true);
 
             manager.notify(notificationId, builder.build());
+        } else {
+            Intent alarmIntent = new Intent(context, AlarmRingingActivity.class);
+            alarmIntent.putExtra("ContestName", contestName);
+            alarmIntent.putExtra("ProperStartTime", properStartTime);
+            alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            alarmIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            context.startActivity(alarmIntent);
         }
     }
 }

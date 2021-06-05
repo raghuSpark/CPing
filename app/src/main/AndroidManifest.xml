@@ -35,15 +35,13 @@
 
         <receiver
             android:name=".Utils.ReminderBroadCast"
-            android:enabled="true"
-            android:roundIcon="@mipmap/ic_launcher_round" />
+            android:enabled="true" />
 
-        <receiver android:name=".Utils.DeviceBootReceiver">
+        <receiver
+            android:name=".Utils.DeviceBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <action android:name="android.intent.action.REBOOT" />
-                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
