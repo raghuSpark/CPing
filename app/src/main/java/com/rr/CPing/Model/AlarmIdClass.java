@@ -4,12 +4,14 @@ public class AlarmIdClass {
     private String contestNameAsID;
     private long startTime, alarmSetTime;
     private int spinnerPosition;
+    private String properStartTime;
 
-    public AlarmIdClass(String contestNameAsID, long startTime, long alarmSetTime, int spinnerPosition) {
+    public AlarmIdClass(String contestNameAsID, long startTime, long alarmSetTime, int spinnerPosition, String properStartTime) {
         this.contestNameAsID = contestNameAsID;
         this.startTime = startTime;
         this.alarmSetTime = alarmSetTime;
         this.spinnerPosition = spinnerPosition;
+        this.properStartTime = properStartTime;
     }
 
     public String getContestNameAsID() {
@@ -42,5 +44,13 @@ public class AlarmIdClass {
 
     public void setSpinnerPosition(int spinnerPosition) {
         this.spinnerPosition = spinnerPosition;
+    }
+
+    public String getProperStartTime() {
+        return properStartTime;
+    }
+
+    public void setProperStartTime(String properStartTime) {
+        this.properStartTime = properStartTime;
     }
 }

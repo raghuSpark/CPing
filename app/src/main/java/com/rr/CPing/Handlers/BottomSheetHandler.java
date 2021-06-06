@@ -215,7 +215,7 @@ public class BottomSheetHandler {
             }
 
             currentList.add(new AlarmIdClass(contestDetails.getContestName(),
-                    start.getTimeInMillis(), id, getPosition(spinner.getSelectedItem().toString())));
+                    start.getTimeInMillis(), id, getPosition(spinner.getSelectedItem().toString()), properStartTime));
 
             SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
 
@@ -301,7 +301,7 @@ public class BottomSheetHandler {
         long t2 = 60000 * time;
 
         Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
-        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5000), pendingIntent);
+        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (10000), pendingIntent);
     }
 
     private void deleteNotification(long id, String contestName, String properStartTime) {
