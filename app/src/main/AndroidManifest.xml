@@ -15,8 +15,6 @@
     <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -36,14 +34,6 @@
         <receiver
             android:name=".Utils.ReminderBroadCast"
             android:enabled="true" />
-
-        <receiver
-            android:name=".Utils.DeviceBootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-            </intent-filter>
-        </receiver>
 
         <activity
             android:name=".Activities.AlarmRingingActivity"

@@ -10,7 +10,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
@@ -22,7 +21,6 @@ public class ReminderBroadCast extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "ALARM ACTIVITY", Toast.LENGTH_LONG).show();
         String contestName = intent.getStringExtra("ContestName");
         String properStartTime = intent.getStringExtra("ProperStartTime");
 
