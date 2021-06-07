@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -71,6 +72,7 @@ public class BottomSheetHandler {
                 appRemainder = dialog.findViewById(R.id.bottom_sheet_in_app_remainder),
                 googleRemainder = dialog.findViewById(R.id.bottom_sheet_google_remainder);
         ImageView platformImage = dialog.findViewById(R.id.bottom_sheet_platform_title_image);
+        ImageButton contestShareButton = dialog.findViewById(R.id.bottom_sheet_share_contest);
 
         Calendar start = Calendar.getInstance();
         Calendar end = Calendar.getInstance();
@@ -98,6 +100,7 @@ public class BottomSheetHandler {
         contestTitle.setText(contestsArrayList.get(position).getContestName());
 
         String properStartTime = properFormat(dateTimeHandler.getCompleteDetails(start)).toString();
+        String properEndTime = properFormat(dateTimeHandler.getCompleteDetails(end)).toString();
 
         startTime.setText(properStartTime);
         endTime.setText(properFormat(dateTimeHandler.getCompleteDetails(end)));
@@ -135,6 +138,16 @@ public class BottomSheetHandler {
                 }
             }
             dialog.cancel();
+        });
+
+        contestShareButton.setOnClickListener(v -> {
+            String message = contestsArrayList.get(position).getContestName() + "\n\nStart : " + properStartTime + "\nEnd  : " + properEndTime + "\n\n" + contestsArrayList.get(position).getContestUrl();
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+
+            shareIntent.setType("text/*");
+            context.startActivity(Intent.createChooser(shareIntent, contestsArrayList.get(position).getContestName()));
         });
 
         dialog.show();
@@ -301,7 +314,7 @@ public class BottomSheetHandler {
         long t2 = 60000 * time;
 
         Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
-        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3 * 60 * 1000, pendingIntent);
+        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, (startTimeInMillis - t2), pendingIntent);
     }
 
     private void deleteNotification(long id, String contestName, String properStartTime) {

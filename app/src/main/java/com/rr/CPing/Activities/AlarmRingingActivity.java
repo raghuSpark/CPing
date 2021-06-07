@@ -92,17 +92,17 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
         dismissButton.setOnClickListener(v -> {
             idClassArrayList.remove(index);
+            SharedPrefConfig.writeInIdsOfReminderContests(this, idClassArrayList);
             countDownTimer.cancel();
             ringtone.stop();
             finish();
         });
 
         snoozeButton.setOnClickListener(v -> {
+            idClassArrayList.remove(index);
             if (Math.abs(alarmIdClass.getStartTime() - System.currentTimeMillis()) / 60000 <= 5) {
                 Toast.makeText(this, "This contest is going to start in less than 5 minutes!", Toast.LENGTH_SHORT).show();
             } else {
-                idClassArrayList.remove(index);
-
                 long alarmSetTime = roundTheValue(System.currentTimeMillis());
                 alarmIdClass.setAlarmSetTime(alarmSetTime);
                 alarmIdClass.setSpinnerPosition(alarmIdClass.getSpinnerPosition() - 1);
@@ -130,12 +130,11 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                idClassArrayList.remove(index);
                 if (Math.abs(alarmIdClass.getStartTime() - System.currentTimeMillis()) / 60000 <= 5) {
                     Toast.makeText(AlarmRingingActivity.this, "This contest is going to start in " +
                             "less than 5 minutes!", Toast.LENGTH_SHORT).show();
                 } else {
-                    idClassArrayList.remove(index);
-
                     long alarmSetTime = roundTheValue(System.currentTimeMillis()) - 60000;
                     alarmIdClass.setAlarmSetTime(alarmSetTime);
                     alarmIdClass.setSpinnerPosition(alarmIdClass.getSpinnerPosition() - 1);

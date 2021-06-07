@@ -22,7 +22,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(context),
                     newList = new ArrayList<>();
             for (AlarmIdClass alarmIdClass : currentList) {
-                if (alarmIdClass.getStartTime() > System.currentTimeMillis() && alarmIdClass.getAlarmSetTime() > System.currentTimeMillis()) {
+                if (alarmIdClass.getAlarmSetTime() > System.currentTimeMillis()) {
                     newList.add(alarmIdClass);
                     setNotification(context, (alarmIdClass.getSpinnerPosition() + 1) * 5, alarmIdClass.getContestNameAsID(), alarmIdClass.getStartTime(), alarmIdClass.getAlarmSetTime(), alarmIdClass.getProperStartTime());
                 }
@@ -42,6 +42,6 @@ public class DeviceBootReceiver extends BroadcastReceiver {
         long t2 = 60000 * time;
 
         Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
-        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (20000), pendingIntent);
+        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, (startTimeInMillis - t2), pendingIntent);
     }
 }

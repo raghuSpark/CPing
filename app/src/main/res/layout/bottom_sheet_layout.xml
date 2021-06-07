@@ -37,14 +37,29 @@
 
         <TextView
             android:id="@+id/bottom_sheet_platform_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="5dp"
+            android:layout_weight="1"
             android:fontFamily="@font/nunito_bold"
             android:text="@string/codeforces"
             android:textColor="@color/fontColor"
             android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/bottom_sheet_share_contest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/transparent"
+            android:clickable="true"
+            android:contentDescription="@string/img"
+            android:focusable="true"
+            android:fontFamily="@font/nunito_semi_bold"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="10dp"
+            android:src="@drawable/ic_share_icon" />
 
     </LinearLayout>
 
