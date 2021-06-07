@@ -210,10 +210,6 @@ public class SplashActivity extends AppCompatActivity {
         }, error -> {
             Log.e(TAG, "getCC: " + error.getMessage());
             getCC(user_name);
-//            count--;
-//            if (count <= 0) {
-//                goToSettingsActivity();
-//            }
         });
         requestQueue.add(jsonObjectRequest);
     }
@@ -253,10 +249,6 @@ public class SplashActivity extends AppCompatActivity {
         }, error -> {
             Log.d(TAG, "getCF: " + error.getMessage());
             getCF(user_name);
-//            count--;
-//            if (count <= 0) {
-//                goToSettingsActivity();
-//            }
         });
         requestQueue.add(jsonObjectRequest);
     }
@@ -292,10 +284,6 @@ public class SplashActivity extends AppCompatActivity {
         }, error -> {
             Log.d(TAG, "getLC: " + error.getMessage());
             getLC(user_name);
-//            count--;
-//            if (count <= 0) {
-//                goToSettingsActivity();
-//            }
         });
         requestQueue.add(jsonObjectRequest);
     }
@@ -325,19 +313,12 @@ public class SplashActivity extends AppCompatActivity {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                count--;
-                if (count <= 0) {
-                    goToSettingsActivity();
-                }
+                getContestDetailsFromAPI(isFirstTime);
             }
         }, error -> {
             Toast.makeText(SplashActivity.this, "Something went wrong! Check your network...",
                     Toast.LENGTH_SHORT).show();
             getContestDetailsFromAPI(isFirstTime);
-//            count--;
-//            if (count <= 0) {
-//                goToSettingsActivity();
-//            }
         });
         requestQueue.add(jsonArrayRequest);
     }
