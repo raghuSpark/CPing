@@ -142,7 +142,7 @@ public class BottomSheetHandler {
         contestShareButton.setOnClickListener(v -> {
             ContestDetails contestDetails = contestsArrayList.get(position);
 
-            String message = "Hey! Coder, Get ready for: \n\n" + contestDetails.getContestName().toUpperCase() + "\n\nStart : " + properStartTime + "\nEnd  : " + properEndTime + "\n\n" + contestDetails.getContestUrl();
+            String message = "Hey Coder! Get ready for: \n\n" + contestDetails.getContestName().toUpperCase() + "\n\nStart : " + properStartTime + "\nEnd  : " + properEndTime + "\n\n" + contestDetails.getContestUrl();
 
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
