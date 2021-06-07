@@ -37,8 +37,8 @@
         android:inputType="textAutoComplete"
         android:maxLines="1"
         android:minLines="1"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:saveEnabled="true"
         android:selectAllOnFocus="true"
         android:textColor="@color/fontColor"
@@ -49,7 +49,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="3dp"
         android:orientation="horizontal">
 
         <ProgressBar
