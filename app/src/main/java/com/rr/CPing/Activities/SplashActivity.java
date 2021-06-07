@@ -331,7 +331,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }
         }, error -> {
-            Toast.makeText(SplashActivity.this, "Something went wrong!",
+            Toast.makeText(SplashActivity.this, "Something went wrong! Check your network...",
                     Toast.LENGTH_SHORT).show();
             getContestDetailsFromAPI(isFirstTime);
 //            count--;

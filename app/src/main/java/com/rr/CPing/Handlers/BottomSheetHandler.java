@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.CalendarContract;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -141,13 +140,17 @@ public class BottomSheetHandler {
         });
 
         contestShareButton.setOnClickListener(v -> {
-            String message = contestsArrayList.get(position).getContestName() + "\n\nStart : " + properStartTime + "\nEnd  : " + properEndTime + "\n\n" + contestsArrayList.get(position).getContestUrl();
+            ContestDetails contestDetails = contestsArrayList.get(position);
+
+            String message = "Hey! Coder,\n" + contestDetails.getContestName() + "\n\nStart : " + properStartTime + "\nEnd  : " + properEndTime + "\n\n" + contestDetails.getContestUrl();
+
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_TEXT, message);
 
             shareIntent.setType("text/*");
-            context.startActivity(Intent.createChooser(shareIntent, contestsArrayList.get(position).getContestName()));
+
+            context.startActivity(Intent.createChooser(shareIntent, contestDetails.getContestName()));
         });
 
         dialog.show();
@@ -313,7 +316,7 @@ public class BottomSheetHandler {
 
         long t2 = 60000 * time;
 
-        Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
+//        Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
         alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, (startTimeInMillis - t2), pendingIntent);
     }
 
