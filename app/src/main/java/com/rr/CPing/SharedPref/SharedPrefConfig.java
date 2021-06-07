@@ -33,7 +33,7 @@ public class SharedPrefConfig {
         return pref.getBoolean("IS_OPEN", false);
     }
 
-    public static void writeDoNotAskAgain(Context context, boolean canAsk) {
+    public static void writeOverlayDoNotAskAgain(Context context, boolean canAsk) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = pref.edit();
 
@@ -41,10 +41,24 @@ public class SharedPrefConfig {
         editor.apply();
     }
 
-    public static boolean readDoNotAskAgain(Context context) {
+    public static boolean readOverlayDoNotAskAgain(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
         return pref.getBoolean("DO_NOT_ASK_AGAIN", false);
+    }
+
+    public static void writeAutoStartDoNotAskAgain(Context context, boolean canAsk) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putBoolean("DO_NOT_ASK_AGAIN_AUTO_START", canAsk);
+        editor.apply();
+    }
+
+    public static boolean readAutoStartDoNotAskAgain(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return pref.getBoolean("DO_NOT_ASK_AGAIN_AUTO_START", false);
     }
 
     public static void writeAppTheme(Context context, int theme) {

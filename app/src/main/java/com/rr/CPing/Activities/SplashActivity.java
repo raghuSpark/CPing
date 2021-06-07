@@ -62,10 +62,8 @@ public class SplashActivity extends AppCompatActivity {
         ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(this),
                 newList = new ArrayList<>();
         for (AlarmIdClass alarmIdClass : currentList) {
-            Log.d(TAG, "onCreate: --->> " + alarmIdClass.getContestNameAsID() + " " + alarmIdClass.getAlarmSetTime() + " " + alarmIdClass.getStartTime() + " " + System.currentTimeMillis());
             if (alarmIdClass.getStartTime() > System.currentTimeMillis() && alarmIdClass.getAlarmSetTime() > System.currentTimeMillis()) {
                 newList.add(alarmIdClass);
-                Log.d(TAG, "onCreate: |__|==> " + "ACTIVE");
             }
         }
         SharedPrefConfig.writeInIdsOfReminderContests(this, newList);

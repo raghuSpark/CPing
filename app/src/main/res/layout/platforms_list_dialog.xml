@@ -76,7 +76,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/remove"
             android:textAllCaps="false"
-            android:textColor="@color/whiteAndBlueFont"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:visibility="visible" />
 

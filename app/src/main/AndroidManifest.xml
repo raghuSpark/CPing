@@ -21,21 +21,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CPing">
-        <activity android:name=".Activities.SplashActivity">
+        <activity
+            android:name=".Activities.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.SettingsActivity" />
-        <activity android:name=".Activities.MainActivity" />
+        <activity
+            android:name=".Activities.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.MainActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name=".Utils.ReminderBroadCast"
             android:enabled="true" />
 
-        <receiver android:name=".Utils.DeviceBootReceiver">
+        <receiver
+            android:name=".Utils.DeviceBootReceiver"
+            android:directBootAware="true"
+            android:enabled="true"
+            android:exported="true"
+            tools:targetApi="n">
             <intent-filter android:priority="2147483647">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -45,13 +56,18 @@
         <activity
             android:name=".Activities.AlarmRingingActivity"
             android:autoRemoveFromRecents="true"
+            android:enabled="true"
             android:excludeFromRecents="true"
+            android:inheritShowWhenLocked="true"
+            android:lockTaskMode="always"
             android:parentActivityName=".Activities.SplashActivity"
+            android:persistableMode="persistAcrossReboots"
+            android:screenOrientation="portrait"
             android:showForAllUsers="true"
             android:showOnLockScreen="true"
             android:showWhenLocked="true"
             android:turnScreenOn="true"
-            tools:targetApi="o_mr1" />
+            tools:targetApi="q" />
     </application>
 
 </manifest>

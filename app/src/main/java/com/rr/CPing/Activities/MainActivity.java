@@ -1,15 +1,20 @@
 package com.rr.CPing.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +33,7 @@ import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.Utils.NetworkChangeListener;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,34 +50,7 @@ public class MainActivity extends AppCompatActivity {
         setAppTheme();
         setContentView(R.layout.activity_main);
 
-//if the user already granted the permission to appear on top or the API is below Android 10 no need to ask for permission
-
-        if (!SharedPrefConfig.readDoNotAskAgain(this) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !Settings.canDrawOverlays(this)) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            View view = getLayoutInflater().inflate(R.layout.appear_on_top_permission_dialog, null);
-            builder.setView(view);
-
-            view.findViewById(R.id.allow_permission).setOnClickListener(v -> {
-                RequestPermission();
-                dialog.cancel();
-            });
-
-            view.findViewById(R.id.deny_permission).setOnClickListener(v -> {
-                Toast.makeText(MainActivity.this, "Permission is required to show full screen reminders.", Toast.LENGTH_SHORT).show();
-                dialog.cancel();
-//                throw new RuntimeException("Test Crash");
-            });
-
-            view.findViewById(R.id.deny_and_do_not_ask_permission).setOnClickListener(v -> {
-                Toast.makeText(MainActivity.this, "Permission is required to show full screen reminders.", Toast.LENGTH_SHORT).show();
-                SharedPrefConfig.writeDoNotAskAgain(MainActivity.this, true);
-                dialog.cancel();
-            });
-
-            dialog = builder.create();
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
-        }
+        AppearOnTopPermission();
 
 //        if (Build.MANUFACTURER.equalsIgnoreCase("oppo")) {
 //            initOPPO();
@@ -161,7 +140,98 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    private void RequestPermission() {
+    private void AppearOnTopPermission() {
+        // If the user already granted the permission to appear on top or the API is below Android 10 no need to ask for permission
+
+        if (!SharedPrefConfig.readOverlayDoNotAskAgain(this) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !Settings.canDrawOverlays(this)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            View view = getLayoutInflater().inflate(R.layout.appear_on_top_permission_dialog, null);
+            builder.setView(view);
+
+            view.findViewById(R.id.overlay_allow_permission).setOnClickListener(v -> {
+                RequestAppearOnTopPermission();
+                dialog.cancel();
+                AutoStartPermission();
+            });
+
+            view.findViewById(R.id.overlay_deny_permission).setOnClickListener(v -> {
+                Toast.makeText(MainActivity.this, "Permission is required to show full screen reminders.", Toast.LENGTH_SHORT).show();
+                dialog.cancel();
+                AutoStartPermission();
+            });
+
+            view.findViewById(R.id.overlay_deny_and_do_not_ask_permission).setOnClickListener(v -> {
+                Toast.makeText(MainActivity.this, "Permission is required to show full screen reminders.", Toast.LENGTH_SHORT).show();
+                SharedPrefConfig.writeOverlayDoNotAskAgain(MainActivity.this, true);
+                dialog.cancel();
+                AutoStartPermission();
+            });
+
+            dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        } else AutoStartPermission();
+    }
+
+    private void AutoStartPermission() {
+        if (!SharedPrefConfig.readAutoStartDoNotAskAgain(this)) {
+            String manufacturer = android.os.Build.MANUFACTURER;
+            if ("xiaomi".equalsIgnoreCase(manufacturer) || "oppo".equalsIgnoreCase(manufacturer) || "vivo".equalsIgnoreCase(manufacturer) || "Letv".equalsIgnoreCase(manufacturer) || "Honor".equalsIgnoreCase(manufacturer)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                View view = getLayoutInflater().inflate(R.layout.auto_start_permission_popup_dialog, null);
+                builder.setView(view);
+
+                view.findViewById(R.id.allow_auto_start_permission).setOnClickListener(v -> {
+                    SharedPrefConfig.writeAutoStartDoNotAskAgain(MainActivity.this, true);
+                    RequestAutoStartPermission();
+                    dialog.cancel();
+                });
+
+                view.findViewById(R.id.deny_auto_start_permission).setOnClickListener(v -> {
+                    Toast.makeText(MainActivity.this, "Permission is required to keep your alarms alive after device restart!", Toast.LENGTH_SHORT).show();
+                    dialog.cancel();
+                });
+
+                view.findViewById(R.id.auto_start_deny_and_do_not_ask_permission).setOnClickListener(v -> {
+                    Toast.makeText(MainActivity.this, "Permission is required to keep your alarms alive after device restart!", Toast.LENGTH_SHORT).show();
+                    SharedPrefConfig.writeAutoStartDoNotAskAgain(MainActivity.this, true);
+                    dialog.cancel();
+                });
+
+                dialog = builder.create();
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+            }
+        }
+    }
+
+    private void RequestAutoStartPermission() {
+        try {
+            Intent intent = new Intent();
+            String manufacturer = android.os.Build.MANUFACTURER;
+            if ("xiaomi".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
+            } else if ("oppo".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity"));
+            } else if ("vivo".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+            } else if ("Letv".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity"));
+            } else if ("Honor".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
+            }
+
+            @SuppressLint("QueryPermissionsNeeded")
+            List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            if (list.size() > 0) {
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            Log.e("exc", e.getMessage());
+        }
+    }
+
+    private void RequestAppearOnTopPermission() {
         // Check if Android M or higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Show alert dialog to the user saying a separate permission is needed

@@ -72,5 +72,7 @@
     <string name="ask_permission"><b>CPing</b> would like to show you full Screen Alarms</string>
     <string name="allow">Allow</string>
     <string name="deny">Deny</string>
+    <string name="you_can_enable_it_later_in_settings">*You can enable it later in settings</string>
+    <string name="auto_launch_permission_is_required_to_keep_alarms_active_after_device_restart">Auto-Launch permission is required to keep alarms active after device restart!</string>
 
 </resources>

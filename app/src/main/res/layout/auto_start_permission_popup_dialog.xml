@@ -16,7 +16,7 @@
         android:paddingTop="15dp"
         android:paddingEnd="15dp"
         android:paddingBottom="5dp"
-        android:text="@string/ask_permission"
+        android:text="@string/auto_launch_permission_is_required_to_keep_alarms_active_after_device_restart"
         android:textColor="@color/fontColor"
         android:textSize="21sp" />
 
@@ -32,7 +32,7 @@
         android:textSize="15sp" />
 
     <Button
-        android:id="@+id/overlay_allow_permission"
+        android:id="@+id/allow_auto_start_permission"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_row="2"
@@ -48,7 +48,7 @@
         android:textSize="19sp" />
 
     <Button
-        android:id="@+id/overlay_deny_permission"
+        android:id="@+id/deny_auto_start_permission"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_row="3"
@@ -64,7 +64,7 @@
         android:textSize="19sp" />
 
     <Button
-        android:id="@+id/overlay_deny_and_do_not_ask_permission"
+        android:id="@+id/auto_start_deny_and_do_not_ask_permission"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_row="4"
