@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     android:background="@color/settingsBackground"
     android:descendantFocusability="beforeDescendants"
+    android:focusable="false"
+    android:focusableInTouchMode="true"
     android:theme="@style/Widget.AppCompat.Light.ActionBar"
     tools:context=".Activities.SettingsActivity">
 
@@ -64,20 +66,19 @@
                     android:autofillHints="true"
                     android:backgroundTint="@color/blackAndGrey"
                     android:defaultFocusHighlightEnabled="false"
-                    android:focusableInTouchMode="true"
                     android:focusedByDefault="false"
                     android:fontFamily="@font/nunito_regular"
                     android:hint="@string/how_should_i_call_you"
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
                     android:maxLines="1"
-                    android:paddingTop="8dp"
+                    android:paddingTop="10dp"
                     android:paddingBottom="8dp"
                     android:singleLine="true"
                     android:textColor="@color/noInternetBG"
                     android:textColorHint="@color/textHintColor"
                     android:textColorLink="@color/appBlueColor"
-                    android:textSize="19sp"
+                    android:textSize="20sp"
                     android:theme="@style/EditTextTheme"
                     tools:targetApi="o" />
 
@@ -90,8 +91,10 @@
                 android:layout_column="0"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginBottom="2dp"
                 android:orientation="vertical"
-                android:padding="4dp">
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp">
 
                 <LinearLayout
                     android:id="@+id/platform_title_linear_layout"
@@ -101,9 +104,7 @@
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:orientation="horizontal"
-                    android:paddingStart="0dp"
                     android:paddingTop="10dp"
-                    android:paddingEnd="10dp"
                     android:paddingBottom="10dp">
 
                     <TextView
@@ -134,7 +135,6 @@
                     android:id="@+id/settings_platforms_list_view"
                     android:layout_width="match_parent"
                     android:layout_height="450dp"
-                    android:animateLayoutChanges="true"
                     android:visibility="gone"
                     tools:ignore="NestedScrolling" />
 
@@ -159,9 +159,7 @@
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:orientation="horizontal"
-                    android:paddingStart="0dp"
                     android:paddingTop="10dp"
-                    android:paddingEnd="10dp"
                     android:paddingBottom="10dp">
 
                     <TextView

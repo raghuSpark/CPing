@@ -69,13 +69,12 @@ public class SplashActivity extends AppCompatActivity {
         SharedPrefConfig.writeInIdsOfReminderContests(this, newList);
 
         jsonResponseDBHandler = new JSONResponseDBHandler(this);
+        jsonResponseDBHandler.deleteAll();
         count = 1;
         if (SharedPrefConfig.readIsFirstTime(this) || SharedPrefConfig.readPlatformsCount(this) < 1) {
             getContestDetailsFromAPI(true);
             if (count <= 0) goToSettingsActivity();
         } else {
-            jsonResponseDBHandler.deleteAll();
-
             getContestDetailsFromAPI(false);
 
             ArrayList<PlatformListItem> platformListItemArrayList = SharedPrefConfig.readPlatformsSelected(this);

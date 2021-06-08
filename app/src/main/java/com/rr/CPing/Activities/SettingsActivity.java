@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -112,6 +113,8 @@ public class SettingsActivity extends AppCompatActivity {
                 } else
                     Toast.makeText(this, "Settings are not yet saved!", Toast.LENGTH_SHORT).show();
             }
+            settingsSaveButton.setVisibility(View.VISIBLE);
+            settingsProgressBar.setVisibility(View.GONE);
         });
 
         findViewByIds();
@@ -292,6 +295,8 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
             } else Toast.makeText(this, "Settings are not yet saved!", Toast.LENGTH_SHORT).show();
         }
+        settingsSaveButton.setVisibility(View.VISIBLE);
+        settingsProgressBar.setVisibility(View.GONE);
         super.onBackPressed();
     }
 
@@ -332,7 +337,7 @@ public class SettingsActivity extends AppCompatActivity {
         View view = getLayoutInflater().inflate(R.layout.platforms_list_dialog, null);
 
         ImageView platformDialogImage = view.findViewById(R.id.platform_list_dialog_image);
-        EditText platformDialogUserName = view.findViewById(R.id.platform_list_dialog_user_name);
+        AutoCompleteTextView platformDialogUserName = view.findViewById(R.id.platform_list_dialog_user_name);
         Button platformDialogSaveButton = view.findViewById(R.id.platform_list_dialog_save_button);
         Button platformDialogRemoveButton = view.findViewById(R.id.platform_list_dialog_remove_button);
         ProgressBar platformDialogProgressBar = view.findViewById(R.id.platform_list_dialog_progress_bar);

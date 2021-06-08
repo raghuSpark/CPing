@@ -24,7 +24,7 @@
         android:textColor="@color/blackAndWhiteFont"
         android:textSize="20sp" />
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
         android:id="@+id/platform_list_dialog_user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
