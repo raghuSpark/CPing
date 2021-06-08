@@ -1,5 +1,7 @@
 package com.rr.CPing.Activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -151,23 +153,49 @@ public class SettingsActivity extends AppCompatActivity {
         settingsSaveButton.setVisibility(View.VISIBLE);
 
         platFormTitleLinearLayout.setOnClickListener(v -> {
+            platFormTitleLinearLayout.setClickable(false);
+            int angle;
             if (platformsListView.getVisibility() == View.GONE) {
-                platFormTitleDropDown.animate().rotationBy(180);
+                angle = 180;
                 platformsListView.setVisibility(View.VISIBLE);
+                if (themeRadioGroup.getVisibility() == View.VISIBLE) {
+                    themeRadioGroup.setVisibility(View.GONE);
+                    themeTitleDropDown.animate().setDuration(100).rotationBy(-180);
+                }
             } else {
-                platFormTitleDropDown.animate().rotationBy(-180);
+                angle = -180;
                 platformsListView.setVisibility(View.GONE);
             }
+            platFormTitleDropDown.animate().setDuration(100).rotationBy(angle).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    platFormTitleLinearLayout.setClickable(true);
+                }
+            });
         });
 
         themeTitleLinearLayout.setOnClickListener(v -> {
+            themeTitleLinearLayout.setClickable(false);
+            int angle;
             if (themeRadioGroup.getVisibility() == View.GONE) {
-                themeTitleDropDown.animate().rotationBy(180);
+                angle = 180;
                 themeRadioGroup.setVisibility(View.VISIBLE);
+                if (platformsListView.getVisibility() == View.VISIBLE) {
+                    platformsListView.setVisibility(View.GONE);
+                    platFormTitleDropDown.animate().setDuration(100).rotationBy(-180);
+                }
             } else {
-                themeTitleDropDown.animate().rotationBy(-180);
+                angle = -180;
                 themeRadioGroup.setVisibility(View.GONE);
             }
+            themeTitleDropDown.animate().setDuration(100).rotationBy(angle).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    themeTitleLinearLayout.setClickable(true);
+                }
+            });
         });
 
         settingsSaveButton.setOnClickListener(v -> {
