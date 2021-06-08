@@ -134,7 +134,6 @@
                     android:id="@+id/settings_platforms_list_view"
                     android:layout_width="match_parent"
                     android:layout_height="450dp"
-                    android:layout_marginTop="10dp"
                     android:animateLayoutChanges="true"
                     android:visibility="gone"
                     tools:ignore="NestedScrolling" />

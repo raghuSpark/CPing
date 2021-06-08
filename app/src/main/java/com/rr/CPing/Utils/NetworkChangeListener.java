@@ -27,6 +27,7 @@ public class NetworkChangeListener extends BroadcastReceiver {
             dialog.setCancelable(false);
 
             dialog.getWindow().setGravity(Gravity.CENTER);
+            dialog.getWindow().setWindowAnimations(R.style.PopupDialogAnimation);
 
             retryButton.setOnClickListener(v -> {
                 dialog.dismiss();

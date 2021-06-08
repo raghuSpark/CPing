@@ -169,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
             dialog = builder.create();
+            dialog.getWindow().setWindowAnimations(R.style.PopupDialogAnimation);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         } else AutoStartPermission();
@@ -200,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 dialog = builder.create();
+                dialog.getWindow().setWindowAnimations(R.style.PopupDialogAnimation);
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
             }
