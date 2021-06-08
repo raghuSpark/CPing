@@ -113,7 +113,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
                 Toast.makeText(this, "Snoozed for 5 minutes!", Toast.LENGTH_SHORT).show();
 
-                new BottomSheetHandler().setNotification(AlarmRingingActivity.this, -5, contestName,
+                new BottomSheetHandler().setNotification(this, -5, contestName,
                         alarmIdClass.getStartTime(),
                         alarmSetTime, properStartTime);
             }

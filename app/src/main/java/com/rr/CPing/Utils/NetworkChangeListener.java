@@ -23,11 +23,10 @@ public class NetworkChangeListener extends BroadcastReceiver {
             Button retryButton = layoutView.findViewById(R.id.no_internet_retry_button);
 
             AlertDialog dialog = builder.create();
-            dialog.show();
-            dialog.setCancelable(false);
-
             dialog.getWindow().setGravity(Gravity.CENTER);
             dialog.getWindow().setWindowAnimations(R.style.PopupDialogAnimation);
+            dialog.setCancelable(false);
+            dialog.show();
 
             retryButton.setOnClickListener(v -> {
                 dialog.dismiss();
