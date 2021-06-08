@@ -135,6 +135,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="450dp"
                     android:layout_marginTop="10dp"
+                    android:animateLayoutChanges="true"
                     android:visibility="gone"
                     tools:ignore="NestedScrolling" />
 
@@ -192,6 +193,7 @@
                     android:id="@+id/theme_radio_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
                     android:visibility="gone">
 
                     <RadioButton

@@ -125,11 +125,13 @@ public class SplashActivity extends AppCompatActivity {
 
     private void goToSettingsActivity() {
         startActivity(new Intent(SplashActivity.this, SettingsActivity.class));
+        overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         finish();
     }
 
     private void goToMainActivity() {
         startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         finish();
     }
 

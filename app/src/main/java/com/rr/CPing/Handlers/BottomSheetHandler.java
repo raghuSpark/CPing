@@ -189,6 +189,7 @@ public class BottomSheetHandler {
         View view = layoutInflater.inflate(R.layout.alarm_selector_popup_dialog, null);
         builder.setView(view);
         dialog = builder.create();
+        dialog.getWindow().setWindowAnimations(R.style.PopupDialogAnimation);
         dialog.show();
 
         Button saveButton = view.findViewById(R.id.saveReminder),

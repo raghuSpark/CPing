@@ -152,20 +152,20 @@ public class SettingsActivity extends AppCompatActivity {
 
         platFormTitleLinearLayout.setOnClickListener(v -> {
             if (platformsListView.getVisibility() == View.GONE) {
-                platFormTitleDropDown.setRotation(180);
+                platFormTitleDropDown.animate().rotationBy(180);
                 platformsListView.setVisibility(View.VISIBLE);
             } else {
-                platFormTitleDropDown.setRotation(0);
+                platFormTitleDropDown.animate().rotationBy(-180);
                 platformsListView.setVisibility(View.GONE);
             }
         });
 
         themeTitleLinearLayout.setOnClickListener(v -> {
             if (themeRadioGroup.getVisibility() == View.GONE) {
-                themeTitleDropDown.setRotation(180);
+                themeTitleDropDown.animate().rotationBy(180);
                 themeRadioGroup.setVisibility(View.VISIBLE);
             } else {
-                themeTitleDropDown.setRotation(0);
+                themeTitleDropDown.animate().rotationBy(-180);
                 themeRadioGroup.setVisibility(View.GONE);
             }
         });
@@ -349,6 +349,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
         builder.setView(view);
         dialog = builder.create();
+        dialog.getWindow().setWindowAnimations(R.style.PopupDialogAnimation);
         dialog.show();
     }
 
@@ -526,7 +527,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void getCF(String user_name) {
         stillLoadingCount++;
-//        https://competitive-coding-api.herokuapp.com/api/
+
         String platform_name = "codeforces";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
