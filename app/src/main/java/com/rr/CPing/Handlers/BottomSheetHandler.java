@@ -218,7 +218,8 @@ public class BottomSheetHandler {
 
         if (!currentList.isEmpty() && index != -1) {
             discardButton.setText("Delete");
-            spinner.setSelection(currentList.get(index).getSpinnerPosition());
+            if (currentList.get(index).getSpinnerPosition() >= adapter.getCount())
+                spinner.setSelection(adapter.getCount() - 1);
         } else discardButton.setText("Cancel");
 
         saveButton.setOnClickListener(v -> {

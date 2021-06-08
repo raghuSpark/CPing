@@ -143,7 +143,7 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
                             SharedPrefConfig.writeBottomSheetOpen(itemView.getContext(), true);
                             listener.onItemClick("null", pos);
                             itemView.setEnabled(false);
-                            new CountDownTimer(1000, 500) {
+                            new CountDownTimer(700, 100) {
                                 @Override
                                 public void onTick(long l) {
                                 }

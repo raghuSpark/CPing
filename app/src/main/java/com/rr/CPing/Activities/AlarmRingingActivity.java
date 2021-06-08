@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -159,6 +160,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d("TAG", "onDestroy: ");
         countDownTimer.cancel();
         ringtone.stop();
     }
