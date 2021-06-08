@@ -136,7 +136,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
                     Toast.makeText(AlarmRingingActivity.this, "This contest is going to start in " +
                             "less than 5 minutes!", Toast.LENGTH_SHORT).show();
                 } else {
-                    long alarmSetTime = roundTheValue(System.currentTimeMillis()) - 60000;
+                    long alarmSetTime = roundTheValue(System.currentTimeMillis());
                     alarmIdClass.setAlarmSetTime(alarmSetTime);
                     alarmIdClass.setSpinnerPosition(alarmIdClass.getSpinnerPosition() - 1);
 
