@@ -20,6 +20,7 @@
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:fontFamily">@font/nunito_semi_bold</item>
+        <item name="android:textColorSecondary">@color/fontColor</item>
     </style>
 
     <style name="tab_text" parent="@style/TextAppearance.AppCompat.Medium">

@@ -40,7 +40,6 @@
         <receiver
             android:name=".Utils.ReminderBroadCast"
             android:enabled="true" />
-
         <receiver
             android:name=".Utils.DeviceBootReceiver"
             android:directBootAware="true"
@@ -49,6 +48,7 @@
             tools:targetApi="n">
             <intent-filter android:priority="2147483647">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>

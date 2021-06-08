@@ -1,15 +1,19 @@
 package com.rr.CPing.Activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -90,7 +94,23 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(dashBoardToolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
         dashBoardToolbar.setTitleTextColor(getResources().getColor(R.color.fontColor));
-        getSupportActionBar().setHomeButtonEnabled(true);
+
+        dashBoardToolbar.setNavigationIcon(R.drawable.ic_back_button);
+        dashBoardToolbar.setNavigationOnClickListener(v -> {
+            settingsSaveButton.setVisibility(View.GONE);
+            settingsProgressBar.setVisibility(View.VISIBLE);
+            if (appUsernameEditText.getText().toString().isEmpty()) {
+                Toast.makeText(this, "How should I call you?", Toast.LENGTH_SHORT).show();
+            } else if (SharedPrefConfig.readPlatformsCount(this) == 0) {
+                Toast.makeText(this, "No Platform is selected!", Toast.LENGTH_SHORT).show();
+            } else {
+                if (stillLoadingCount <= 0) {
+                    startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                    finish();
+                } else
+                    Toast.makeText(this, "Settings are not yet saved!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         findViewByIds();
 
@@ -203,6 +223,25 @@ public class SettingsActivity extends AppCompatActivity {
                 platformAdapter.setSelectedIndex(position, "", false);
             }
         });
+
+
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View view = getCurrentFocus();
+            if (view instanceof EditText) {
+                Rect outRect = new Rect();
+                view.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) ev.getRawX(), (int) ev.getRawY())) {
+                    view.clearFocus();
+                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
@@ -213,6 +252,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        settingsSaveButton.setVisibility(View.GONE);
+        settingsProgressBar.setVisibility(View.VISIBLE);
         if (appUsernameEditText.getText().toString().isEmpty()) {
             Toast.makeText(this, "How should I call you?", Toast.LENGTH_SHORT).show();
         } else if (SharedPrefConfig.readPlatformsCount(this) == 0) {
@@ -221,9 +262,9 @@ public class SettingsActivity extends AppCompatActivity {
             if (stillLoadingCount <= 0) {
                 startActivity(new Intent(SettingsActivity.this, MainActivity.class));
                 finish();
-                super.onBackPressed();
             } else Toast.makeText(this, "Settings are not yet saved!", Toast.LENGTH_SHORT).show();
         }
+        super.onBackPressed();
     }
 
     @Override
