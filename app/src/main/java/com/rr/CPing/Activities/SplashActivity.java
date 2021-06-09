@@ -62,7 +62,7 @@ public class SplashActivity extends AppCompatActivity {
         ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(this),
                 newList = new ArrayList<>();
         for (AlarmIdClass alarmIdClass : currentList) {
-            if (alarmIdClass.getAlarmSetTime() + 2 * 60 * 1000 > System.currentTimeMillis()) {
+            if (alarmIdClass.getAlarmSetTime() > System.currentTimeMillis()) {
                 newList.add(alarmIdClass);
             }
         }

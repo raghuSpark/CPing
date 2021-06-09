@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.rr.CPing.Model.AlarmIdClass;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
