@@ -62,7 +62,7 @@ public class SplashActivity extends AppCompatActivity {
         ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(this),
                 newList = new ArrayList<>();
         for (AlarmIdClass alarmIdClass : currentList) {
-            if (alarmIdClass.getAlarmSetTime() > System.currentTimeMillis()) {
+            if (alarmIdClass.getAlarmSetTime() + 2 * 60 * 1000 > System.currentTimeMillis()) {
                 newList.add(alarmIdClass);
             }
         }
@@ -102,7 +102,6 @@ public class SplashActivity extends AppCompatActivity {
                             break;
                     }
             }
-
             if (count <= 0) {
                 goToMainActivity();
             }
@@ -169,10 +168,6 @@ public class SplashActivity extends AppCompatActivity {
         }, error -> {
             Log.e(TAG, "onErrorResponse: " + error.getMessage());
             getAC(user_name);
-//            count--;
-//            if (count <= 0) {
-//                goToMainActivity();
-//            }
         });
         requestQueue.add(jsonObjectRequest);
     }

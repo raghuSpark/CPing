@@ -42,6 +42,6 @@ public class DeviceBootReceiver extends BroadcastReceiver {
         long t2 = 60000 * time;
 
 //        Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, (startTimeInMillis - t2), pendingIntent);
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, (startTimeInMillis - t2), pendingIntent);
     }
 }
