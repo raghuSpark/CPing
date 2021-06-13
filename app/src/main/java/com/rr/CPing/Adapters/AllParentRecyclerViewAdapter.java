@@ -11,9 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.rr.CPing.R;
+import com.rr.CPing.Handlers.SetRankColorHandler;
 import com.rr.CPing.Model.ContestDetails;
 import com.rr.CPing.Model.PlatformDetails;
+import com.rr.CPing.R;
 
 import java.util.ArrayList;
 
@@ -56,32 +57,7 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
 
             myViewHolder.platformName.setText(platformDetails.getPlatformName());
 
-            switch (platformDetails.getPlatformName()) {
-                case "AtCoder":
-                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.atCoderColor));
-                    break;
-                case "CodeChef":
-                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.codeChefColor));
-                    break;
-                case "CodeForces":
-                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.codeForcesColor));
-                    break;
-                case "HackerEarth":
-                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.hackerEarthColor));
-                    break;
-                case "HackerRank":
-                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.hackerRankColor));
-                    break;
-                case "Kick Start":
-                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.kickStartColor));
-                    break;
-                case "LeetCode":
-                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.leetCodeColor));
-                    break;
-                case "TopCoder":
-                    myViewHolder.platformName.setTextColor(context.getResources().getColor(R.color.codeForcesCandidateMasterColor));
-                    break;
-            }
+            myViewHolder.platformName.setTextColor(new SetRankColorHandler(context).getPlatformColor(platformDetails.getPlatformName()));
 
             ArrayList<ContestDetails> requiredDetailsArrayList = platformDetails.getPlatformContests();
 

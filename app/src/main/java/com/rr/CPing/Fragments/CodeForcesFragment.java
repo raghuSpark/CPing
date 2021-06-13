@@ -18,14 +18,17 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.rr.CPing.Adapters.ContestDetailsRecyclerViewAdapter;
 import com.rr.CPing.Handlers.BottomSheetHandler;
+import com.rr.CPing.Handlers.DateTimeHandler;
 import com.rr.CPing.Handlers.SetRankColorHandler;
 import com.rr.CPing.Model.CodeForcesUserDetails;
 import com.rr.CPing.Model.ContestDetails;
+import com.rr.CPing.Model.HiddenContestsClass;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CodeForcesFragment extends Fragment {
 
@@ -47,13 +50,13 @@ public class CodeForcesFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onResume() {
-        ongoingRVA.notifyDataSetChanged();
-        todayRVA.notifyDataSetChanged();
-        futureRVA.notifyDataSetChanged();
-        super.onResume();
-    }
+//    @Override
+//    public void onResume() {
+//        ongoingRVA.notifyDataSetChanged();
+//        todayRVA.notifyDataSetChanged();
+//        futureRVA.notifyDataSetChanged();
+//        super.onResume();
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,10 @@ public class CodeForcesFragment extends Fragment {
         setRankColor = new SetRankColorHandler(getContext());
 
         for (ContestDetails cd : contestDetailsArrayList) {
+            Calendar calendar = Calendar.getInstance();
+            new DateTimeHandler().setCalender(calendar, cd.getContestEndTime());
+            if (chekInDeleteContests(cd.getContestName(), calendar.getTimeInMillis()))
+                continue;
             if (!cd.getIsToday().equals("No")) {
                 todayContestsArrayList.add(cd);
             } else if (cd.getContestStatus().equals("CODING")) {
@@ -72,6 +79,15 @@ public class CodeForcesFragment extends Fragment {
                 futureContestsArrayList.add(cd);
             }
         }
+    }
+
+    private boolean chekInDeleteContests(String contestName, long endTime) {
+        ArrayList<HiddenContestsClass> hiddenContestsArrayList = SharedPrefConfig.readInHiddenContests(getContext());
+        for (HiddenContestsClass hcc : hiddenContestsArrayList) {
+            if (hcc.getContestName().equals(contestName) && hcc.getContestEndTime() == endTime)
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -155,9 +171,9 @@ public class CodeForcesFragment extends Fragment {
             codeForcesSeries.setDrawDataPoints(true);
             codeForcesSeries.setDataPointsRadius(7);
 
-            graphView.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.graphGridsColor));
-            graphView.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.graphGridsColor));
-            graphView.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(R.color.graphGridsColor));
+            graphView.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.graphGridsColor, null));
+            graphView.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.graphGridsColor, null));
+            graphView.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(R.color.graphGridsColor, null));
             graphView.getViewport().setXAxisBoundsManual(true);
             graphView.getViewport().setMaxX(recentRatingsArrayList.size());
             graphView.getViewport().setYAxisBoundsManual(true);

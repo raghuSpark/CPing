@@ -10,13 +10,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.rr.CPing.R;
 import com.rr.CPing.Adapters.ContestDetailsRecyclerViewAdapter;
-import com.rr.CPing.database.JSONResponseDBHandler;
 import com.rr.CPing.Handlers.BottomSheetHandler;
+import com.rr.CPing.Handlers.DateTimeHandler;
 import com.rr.CPing.Model.ContestDetails;
+import com.rr.CPing.Model.HiddenContestsClass;
+import com.rr.CPing.R;
+import com.rr.CPing.SharedPref.SharedPrefConfig;
+import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class KickStartFragment extends Fragment {
 
@@ -33,13 +37,13 @@ public class KickStartFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onResume() {
-        ongoingRVA.notifyDataSetChanged();
-        todayRVA.notifyDataSetChanged();
-        futureRVA.notifyDataSetChanged();
-        super.onResume();
-    }
+//    @Override
+//    public void onResume() {
+//        ongoingRVA.notifyDataSetChanged();
+//        todayRVA.notifyDataSetChanged();
+//        futureRVA.notifyDataSetChanged();
+//        super.onResume();
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,10 @@ public class KickStartFragment extends Fragment {
         ArrayList<ContestDetails> contestDetailsArrayList = jsonResponseDBHandler.getPlatformDetails("Kick Start");
 
         for (ContestDetails cd : contestDetailsArrayList) {
+            Calendar calendar = Calendar.getInstance();
+            new DateTimeHandler().setCalender(calendar, cd.getContestEndTime());
+            if (chekInDeleteContests(cd.getContestName(), calendar.getTimeInMillis()))
+                continue;
             if (!cd.getIsToday().equals("No")) {
                 todayContestsArrayList.add(cd);
             } else if (cd.getContestStatus().equals("CODING")) {
@@ -57,6 +65,15 @@ public class KickStartFragment extends Fragment {
                 futureContestsArrayList.add(cd);
             }
         }
+    }
+
+    private boolean chekInDeleteContests(String contestName, long endTime) {
+        ArrayList<HiddenContestsClass> hiddenContestsArrayList = SharedPrefConfig.readInHiddenContests(getContext());
+        for (HiddenContestsClass hcc : hiddenContestsArrayList) {
+            if (hcc.getContestName().equals(contestName) && hcc.getContestEndTime() == endTime)
+                return true;
+        }
+        return false;
     }
 
     @Override

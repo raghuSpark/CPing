@@ -22,6 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CPing">
         <activity
+            android:name=".Activities.SettingsNextActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Activities.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>

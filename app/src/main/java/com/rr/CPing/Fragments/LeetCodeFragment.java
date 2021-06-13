@@ -14,13 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rr.CPing.Adapters.ContestDetailsRecyclerViewAdapter;
 import com.rr.CPing.Handlers.BottomSheetHandler;
+import com.rr.CPing.Handlers.DateTimeHandler;
 import com.rr.CPing.Model.ContestDetails;
+import com.rr.CPing.Model.HiddenContestsClass;
 import com.rr.CPing.Model.LeetCodeUserDetails;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class LeetCodeFragment extends Fragment {
 
@@ -39,13 +42,13 @@ public class LeetCodeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onResume() {
-        ongoingRVA.notifyDataSetChanged();
-        todayRVA.notifyDataSetChanged();
-        futureRVA.notifyDataSetChanged();
-        super.onResume();
-    }
+//    @Override
+//    public void onResume() {
+//        ongoingRVA.notifyDataSetChanged();
+//        todayRVA.notifyDataSetChanged();
+//        futureRVA.notifyDataSetChanged();
+//        super.onResume();
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,10 @@ public class LeetCodeFragment extends Fragment {
         ArrayList<ContestDetails> contestDetailsArrayList = jsonResponseDBHandler.getPlatformDetails("LeetCode");
 
         for (ContestDetails cd : contestDetailsArrayList) {
+            Calendar calendar = Calendar.getInstance();
+            new DateTimeHandler().setCalender(calendar, cd.getContestEndTime());
+            if (chekInDeleteContests(cd.getContestName(), calendar.getTimeInMillis()))
+                continue;
             if (!cd.getIsToday().equals("No")) {
                 todayContestsArrayList.add(cd);
             } else if (cd.getContestStatus().equals("CODING")) {
@@ -65,12 +72,19 @@ public class LeetCodeFragment extends Fragment {
         }
     }
 
+    private boolean chekInDeleteContests(String contestName, long endTime) {
+        ArrayList<HiddenContestsClass> hiddenContestsArrayList = SharedPrefConfig.readInHiddenContests(getContext());
+        for (HiddenContestsClass hcc : hiddenContestsArrayList) {
+            if (hcc.getContestName().equals(contestName) && hcc.getContestEndTime() == endTime)
+                return true;
+        }
+        return false;
+    }
+
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         groupFragmentView = inflater.inflate(R.layout.fragment_leet_code, container, false);
 
         findViewsByIds();

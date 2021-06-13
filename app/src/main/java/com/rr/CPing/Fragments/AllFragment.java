@@ -18,11 +18,13 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.rr.CPing.Adapters.AllParentRecyclerViewAdapter;
 import com.rr.CPing.Handlers.BottomSheetHandler;
+import com.rr.CPing.Handlers.DateTimeHandler;
 import com.rr.CPing.Handlers.SetRankColorHandler;
 import com.rr.CPing.Model.AtCoderUserDetails;
 import com.rr.CPing.Model.CodeChefUserDetails;
 import com.rr.CPing.Model.CodeForcesUserDetails;
 import com.rr.CPing.Model.ContestDetails;
+import com.rr.CPing.Model.HiddenContestsClass;
 import com.rr.CPing.Model.PlatformDetails;
 import com.rr.CPing.Model.PlatformListItem;
 import com.rr.CPing.R;
@@ -30,6 +32,7 @@ import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 
 public class AllFragment extends Fragment {
@@ -55,13 +58,13 @@ public class AllFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onResume() {
-        ongoingRVA.notifyDataSetChanged();
-        todayRVA.notifyDataSetChanged();
-        futureRVA.notifyDataSetChanged();
-        super.onResume();
-    }
+//    @Override
+//    public void onResume() {
+//        ongoingRVA.notifyDataSetChanged();
+//        todayRVA.notifyDataSetChanged();
+//        futureRVA.notifyDataSetChanged();
+//        super.onResume();
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,10 @@ public class AllFragment extends Fragment {
                     futureContestsArrayList = new ArrayList<>();
 
             for (ContestDetails cd : contestDetailsArrayList) {
+                Calendar calendar = Calendar.getInstance();
+                new DateTimeHandler().setCalender(calendar, cd.getContestEndTime());
+                if (chekInDeleteContests(cd.getContestName(), calendar.getTimeInMillis()))
+                    continue;
                 if (isGreaterThan10days(cd.getContestDuration()))
                     continue;
                 if (!cd.getIsToday().equals("No")) {
@@ -108,6 +115,15 @@ public class AllFragment extends Fragment {
             if (!futureContestsArrayList.isEmpty())
                 futurePlatformsArrayList.add(new PlatformDetails(platform, futureContestsArrayList));
         }
+    }
+
+    private boolean chekInDeleteContests(String contestName, long endTime) {
+        ArrayList<HiddenContestsClass> hiddenContestsArrayList = SharedPrefConfig.readInHiddenContests(getContext());
+        for (HiddenContestsClass hcc : hiddenContestsArrayList) {
+            if (hcc.getContestName().equals(contestName) && hcc.getContestEndTime() == endTime)
+                return true;
+        }
+        return false;
     }
 
     private boolean isGreaterThan10days(int contestDuration) {

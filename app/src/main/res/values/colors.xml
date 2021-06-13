@@ -32,6 +32,7 @@
 
     <color name="addReminderColor">#FEA758</color>
     <color name="reminderAddedColor">#46CA7F</color>
+    <color name="nothingSVGBackgroundColor">#edf5fa</color>
 
     <color name="graphGridsColor">#000000</color>
     <color name="greyAndWhiteFont">#7E7A7A</color>

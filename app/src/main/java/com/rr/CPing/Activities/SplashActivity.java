@@ -23,6 +23,7 @@ import com.rr.CPing.Model.AtCoderUserDetails;
 import com.rr.CPing.Model.CodeChefUserDetails;
 import com.rr.CPing.Model.CodeForcesUserDetails;
 import com.rr.CPing.Model.ContestDetails;
+import com.rr.CPing.Model.HiddenContestsClass;
 import com.rr.CPing.Model.LeetCodeUserDetails;
 import com.rr.CPing.Model.PlatformListItem;
 import com.rr.CPing.R;
@@ -59,21 +60,32 @@ public class SplashActivity extends AppCompatActivity {
         ImageView logoBellImage = findViewById(R.id.logo_bell);
         logoBellImage.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_logo));
 
-        ArrayList<AlarmIdClass> currentList = SharedPrefConfig.readInIdsOfReminderContests(this),
-                newList = new ArrayList<>();
-        for (AlarmIdClass alarmIdClass : currentList) {
+        // Removing finished contests from stored id's
+        ArrayList<AlarmIdClass> currentAlarmIdsList = SharedPrefConfig.readInIdsOfReminderContests(this),
+                newAlarmIdsList = new ArrayList<>();
+        for (AlarmIdClass alarmIdClass : currentAlarmIdsList) {
             if (alarmIdClass.getAlarmSetTime() > System.currentTimeMillis()) {
-                newList.add(alarmIdClass);
+                newAlarmIdsList.add(alarmIdClass);
             }
         }
-        SharedPrefConfig.writeInIdsOfReminderContests(this, newList);
+        SharedPrefConfig.writeInIdsOfReminderContests(this, newAlarmIdsList);
+
+        // Removing finished contests from the list of deleted contests
+        ArrayList<HiddenContestsClass> hiddenContestsArrayList = SharedPrefConfig.readInHiddenContests(this),
+                newHiddenContestsArrayList = new ArrayList<>();
+        for (HiddenContestsClass hiddenContest : hiddenContestsArrayList) {
+            if (hiddenContest.getContestEndTime() > System.currentTimeMillis()) {
+                newHiddenContestsArrayList.add(hiddenContest);
+            }
+        }
+        SharedPrefConfig.writeInHiddenContests(this, newHiddenContestsArrayList);
 
         jsonResponseDBHandler = new JSONResponseDBHandler(this);
         jsonResponseDBHandler.deleteAll();
         count = 1;
         if (SharedPrefConfig.readIsFirstTime(this) || SharedPrefConfig.readPlatformsCount(this) < 1) {
             getContestDetailsFromAPI(true);
-            if (count <= 0) goToSettingsActivity();
+            if (count <= 0) goToSettingsNextActivity();
         } else {
             getContestDetailsFromAPI(false);
 
@@ -103,7 +115,12 @@ public class SplashActivity extends AppCompatActivity {
                     }
             }
             if (count <= 0) {
-                goToMainActivity();
+                if (SharedPrefConfig.readAppUserName(this).isEmpty()) {
+                    Toast.makeText(this, "How should we call you?", Toast.LENGTH_SHORT).show();
+                    goToSettingsActivity();
+                } else {
+                    goToMainActivity();
+                }
             }
         }
     }
@@ -119,6 +136,14 @@ public class SplashActivity extends AppCompatActivity {
     protected void onStop() {
         unregisterReceiver(networkChangeListener);
         super.onStop();
+    }
+
+    private void goToSettingsNextActivity() {
+        Intent intent = new Intent(SplashActivity.this, SettingsNextActivity.class);
+        intent.setAction("Platforms");
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        finish();
     }
 
     private void goToSettingsActivity() {
@@ -155,14 +180,24 @@ public class SplashActivity extends AppCompatActivity {
                         recentRatingsArrayList);
                 count--;
                 if (count <= 0) {
-                    goToMainActivity();
+                    if (SharedPrefConfig.readAppUserName(this).isEmpty()) {
+                        Toast.makeText(this, "How should we call you?", Toast.LENGTH_SHORT).show();
+                        goToSettingsActivity();
+                    } else {
+                        goToMainActivity();
+                    }
                 }
                 SharedPrefConfig.writeInAtCoderPref(getApplicationContext(), item);
             } catch (JSONException e) {
                 e.printStackTrace();
                 count--;
                 if (count <= 0) {
-                    goToMainActivity();
+                    if (SharedPrefConfig.readAppUserName(this).isEmpty()) {
+                        Toast.makeText(this, "How should we call you?", Toast.LENGTH_SHORT).show();
+                        goToSettingsActivity();
+                    } else {
+                        goToMainActivity();
+                    }
                 }
             }
         }, error -> {
@@ -194,13 +229,23 @@ public class SplashActivity extends AppCompatActivity {
                 SharedPrefConfig.writeInCodeChefPref(getApplicationContext(), item);
                 count--;
                 if (count <= 0) {
-                    goToMainActivity();
+                    if (SharedPrefConfig.readAppUserName(this).isEmpty()) {
+                        Toast.makeText(this, "How should we call you?", Toast.LENGTH_SHORT).show();
+                        goToSettingsActivity();
+                    } else {
+                        goToMainActivity();
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 count--;
                 if (count <= 0) {
-                    goToMainActivity();
+                    if (SharedPrefConfig.readAppUserName(this).isEmpty()) {
+                        Toast.makeText(this, "How should we call you?", Toast.LENGTH_SHORT).show();
+                        goToSettingsActivity();
+                    } else {
+                        goToMainActivity();
+                    }
                 }
             }
         }, error -> {
@@ -233,13 +278,23 @@ public class SplashActivity extends AppCompatActivity {
                 SharedPrefConfig.writeInCodeForcesPref(getApplicationContext(), item);
                 count--;
                 if (count == 0) {
-                    goToMainActivity();
+                    if (SharedPrefConfig.readAppUserName(this).isEmpty()) {
+                        Toast.makeText(this, "How should we call you?", Toast.LENGTH_SHORT).show();
+                        goToSettingsActivity();
+                    } else {
+                        goToMainActivity();
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 count--;
                 if (count <= 0) {
-                    goToMainActivity();
+                    if (SharedPrefConfig.readAppUserName(this).isEmpty()) {
+                        Toast.makeText(this, "How should we call you?", Toast.LENGTH_SHORT).show();
+                        goToSettingsActivity();
+                    } else {
+                        goToMainActivity();
+                    }
                 }
             }
         }, error -> {
@@ -268,13 +323,23 @@ public class SplashActivity extends AppCompatActivity {
                 SharedPrefConfig.writeInLeetCodePref(getApplicationContext(), item);
                 count--;
                 if (count == 0) {
-                    goToMainActivity();
+                    if (SharedPrefConfig.readAppUserName(this).isEmpty()) {
+                        Toast.makeText(this, "How should we call you?", Toast.LENGTH_SHORT).show();
+                        goToSettingsActivity();
+                    } else {
+                        goToMainActivity();
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 count--;
                 if (count <= 0) {
-                    goToMainActivity();
+                    if (SharedPrefConfig.readAppUserName(this).isEmpty()) {
+                        Toast.makeText(this, "How should we call you?", Toast.LENGTH_SHORT).show();
+                        goToSettingsActivity();
+                    } else {
+                        goToMainActivity();
+                    }
                 }
             }
         }, error -> {
@@ -304,8 +369,15 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 count--;
                 if (count <= 0) {
-                    if (isFirstTime) goToSettingsActivity();
-                    else goToMainActivity();
+                    if (isFirstTime) goToSettingsNextActivity();
+                    else {
+                        if (SharedPrefConfig.readAppUserName(this).isEmpty()) {
+                            Toast.makeText(this, "How should we call you?", Toast.LENGTH_SHORT).show();
+                            goToSettingsActivity();
+                        } else {
+                            goToMainActivity();
+                        }
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

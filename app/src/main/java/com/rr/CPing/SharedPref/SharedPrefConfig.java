@@ -11,6 +11,7 @@ import com.rr.CPing.Model.AlarmIdClass;
 import com.rr.CPing.Model.AtCoderUserDetails;
 import com.rr.CPing.Model.CodeChefUserDetails;
 import com.rr.CPing.Model.CodeForcesUserDetails;
+import com.rr.CPing.Model.HiddenContestsClass;
 import com.rr.CPing.Model.LeetCodeUserDetails;
 import com.rr.CPing.Model.PlatformListItem;
 
@@ -234,6 +235,27 @@ public class SharedPrefConfig {
 
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<AlarmIdClass>>() {
+        }.getType();
+        if (gson.fromJson(jsonString, type) == null) return new ArrayList<>();
+        return gson.fromJson(jsonString, type);
+    }
+
+    public static void writeInHiddenContests(Context context, ArrayList<HiddenContestsClass> hiddenContestClassArrayList) {
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(hiddenContestClassArrayList);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("DELETED_CONTESTS", jsonString);
+        editor.apply();
+    }
+
+    public static ArrayList<HiddenContestsClass> readInHiddenContests(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        String jsonString = pref.getString("DELETED_CONTESTS", "");
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<HiddenContestsClass>>() {
         }.getType();
         if (gson.fromJson(jsonString, type) == null) return new ArrayList<>();
         return gson.fromJson(jsonString, type);

@@ -18,15 +18,18 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.rr.CPing.Adapters.ContestDetailsRecyclerViewAdapter;
 import com.rr.CPing.Handlers.BottomSheetHandler;
+import com.rr.CPing.Handlers.DateTimeHandler;
 import com.rr.CPing.Handlers.SetRankColorHandler;
 import com.rr.CPing.Model.CodeChefUserDetails;
 import com.rr.CPing.Model.ContestDetails;
+import com.rr.CPing.Model.HiddenContestsClass;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CodeChefFragment extends Fragment {
 
@@ -47,13 +50,13 @@ public class CodeChefFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onResume() {
-        ongoingRVA.notifyDataSetChanged();
-        todayRVA.notifyDataSetChanged();
-        futureRVA.notifyDataSetChanged();
-        super.onResume();
-    }
+//    @Override
+//    public void onResume() {
+//        ongoingRVA.notifyDataSetChanged();
+//        todayRVA.notifyDataSetChanged();
+//        futureRVA.notifyDataSetChanged();
+//        super.onResume();
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,10 @@ public class CodeChefFragment extends Fragment {
         setRankColor = new SetRankColorHandler(getContext());
 
         for (ContestDetails cd : contestDetailsArrayList) {
+            Calendar calendar = Calendar.getInstance();
+            new DateTimeHandler().setCalender(calendar, cd.getContestEndTime());
+            if (chekInDeleteContests(cd.getContestName(), calendar.getTimeInMillis()))
+                continue;
             if (!cd.getIsToday().equals("No")) {
                 todayContestsArrayList.add(cd);
             } else if (cd.getContestStatus().equals("CODING")) {
@@ -74,11 +81,19 @@ public class CodeChefFragment extends Fragment {
         }
     }
 
+    private boolean chekInDeleteContests(String contestName, long endTime) {
+        ArrayList<HiddenContestsClass> hiddenContestsArrayList = SharedPrefConfig.readInHiddenContests(getContext());
+        for (HiddenContestsClass hcc : hiddenContestsArrayList) {
+            if (hcc.getContestName().equals(contestName) && hcc.getContestEndTime() == endTime)
+                return true;
+        }
+        return false;
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         groupFragmentView = inflater.inflate(R.layout.fragment_code_chef, container, false);
 
         findViewsByIds();
@@ -115,7 +130,7 @@ public class CodeChefFragment extends Fragment {
         // Ratings and graph
 
         CodeChefUserDetails codeChefUserDetails = SharedPrefConfig.readInCodeChefPref(getContext());
-        ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
+        ArrayList<Integer> recentRatingsArrayList;
 
         if (codeChefUserDetails == null) {
             codeChefUserName.setText("Error in loading data");
@@ -151,9 +166,9 @@ public class CodeChefFragment extends Fragment {
             codeChefSeries.setDrawDataPoints(true);
             codeChefSeries.setDataPointsRadius(7);
 
-            graphView.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.graphGridsColor));
-            graphView.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.graphGridsColor));
-            graphView.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(R.color.graphGridsColor));
+            graphView.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.graphGridsColor, null));
+            graphView.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.graphGridsColor, null));
+            graphView.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(R.color.graphGridsColor, null));
             graphView.getViewport().setXAxisBoundsManual(true);
             graphView.getViewport().setMaxX(recentRatingsArrayList.size());
             graphView.getViewport().setYAxisBoundsManual(true);

@@ -28,6 +28,7 @@ import com.rr.CPing.Adapters.AllParentRecyclerViewAdapter;
 import com.rr.CPing.Adapters.ContestDetailsRecyclerViewAdapter;
 import com.rr.CPing.Model.AlarmIdClass;
 import com.rr.CPing.Model.ContestDetails;
+import com.rr.CPing.Model.HiddenContestsClass;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 import com.rr.CPing.Utils.ReminderBroadCast;
@@ -71,7 +72,8 @@ public class BottomSheetHandler {
                 appRemainder = dialog.findViewById(R.id.bottom_sheet_in_app_remainder),
                 googleRemainder = dialog.findViewById(R.id.bottom_sheet_google_remainder);
         ImageView platformImage = dialog.findViewById(R.id.bottom_sheet_platform_title_image);
-        ImageButton contestShareButton = dialog.findViewById(R.id.bottom_sheet_share_contest);
+        ImageButton contestShareButton = dialog.findViewById(R.id.bottom_sheet_share_contest),
+                contestDeleteButton = dialog.findViewById(R.id.bottom_sheet_delete_contest);
 
         Calendar start = Calendar.getInstance();
         Calendar end = Calendar.getInstance();
@@ -151,6 +153,31 @@ public class BottomSheetHandler {
             shareIntent.setType("text/*");
 
             context.startActivity(Intent.createChooser(shareIntent, contestDetails.getContestName()));
+            dialog.cancel();
+        });
+
+        contestDeleteButton.setOnClickListener(v -> {
+            ContestDetails contestDetails = contestsArrayList.get(position);
+
+            ArrayList<HiddenContestsClass> hiddenContestsArrayList = SharedPrefConfig.readInHiddenContests(context);
+            hiddenContestsArrayList.add(new HiddenContestsClass(contestDetails.getContestName(), contestDetails.getSite(), end.getTimeInMillis()));
+            SharedPrefConfig.writeInHiddenContests(context, hiddenContestsArrayList);
+
+            contestsArrayList.remove(position);
+
+            // Delete reminder if set
+            if (!currentList.isEmpty() && idx != -1) {
+                deleteNotification(currentList.get(idx).getAlarmSetTime(), contestDetails.getContestName(), properStartTime);
+                currentList.remove(idx);
+
+                SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
+            }
+
+            if (allParentRecyclerViewAdapter == null)
+                contestDetailsRecyclerViewAdapter.notifyDataSetChanged();
+            else allParentRecyclerViewAdapter.notifyDataSetChanged();
+
+            dialog.cancel();
         });
 
         dialog.show();

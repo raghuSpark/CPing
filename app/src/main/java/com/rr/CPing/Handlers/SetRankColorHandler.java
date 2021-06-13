@@ -1,10 +1,10 @@
 package com.rr.CPing.Handlers;
 
 import android.content.Context;
+import android.graphics.Color;
 
 import androidx.core.content.ContextCompat;
 
-import com.rr.CPing.Model.ContestDetails;
 import com.rr.CPing.R;
 
 public class SetRankColorHandler {
@@ -13,6 +13,28 @@ public class SetRankColorHandler {
 
     public SetRankColorHandler(Context context) {
         this.context = context;
+    }
+
+    public int getPlatformColor(String platform) {
+        switch (platform) {
+            case "AtCoder":
+                return context.getResources().getColor(R.color.atCoderColor, null);
+            case "CodeChef":
+                return context.getResources().getColor(R.color.codeChefColor, null);
+            case "CodeForces":
+                return context.getResources().getColor(R.color.codeForcesColor, null);
+            case "HackerEarth":
+                return context.getResources().getColor(R.color.hackerEarthColor, null);
+            case "HackerRank":
+                return context.getResources().getColor(R.color.hackerRankColor, null);
+            case "Kick Start":
+                return context.getResources().getColor(R.color.kickStartColor, null);
+            case "LeetCode":
+                return context.getResources().getColor(R.color.leetCodeColor, null);
+            case "TopCoder":
+                return context.getResources().getColor(R.color.codeForcesCandidateMasterColor, null);
+        }
+        return Color.BLACK;
     }
 
     public int getAtCoderColor(String level) {
