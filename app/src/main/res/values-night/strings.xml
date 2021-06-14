@@ -74,5 +74,7 @@
     <string name="auto_launch_permission_is_required_to_keep_alarms_active_after_device_restart">Auto-Launch permission is required to keep alarms active after device restart!</string>
     <string name="delete">Delete</string>
     <string name="hidden_contests">Hidden Contests</string>
+    <string name="search">Search</string>
+    <string name="search_with_contest_name">Search with contest name</string>
 
 </resources>

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class HiddenContestsRecyclerViewAdapter extends RecyclerView.Adapter {
 
-    private final ArrayList<HiddenContestsClass> hiddenContestsArrayList;
+    private ArrayList<HiddenContestsClass> hiddenContestsArrayList;
     private Context context;
 
     public HiddenContestsRecyclerViewAdapter(ArrayList<HiddenContestsClass> hiddenContestsArrayList) {
@@ -47,6 +47,11 @@ public class HiddenContestsRecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return hiddenContestsArrayList.size();
+    }
+
+    public void filteredList(ArrayList<HiddenContestsClass> mFilteredList) {
+        hiddenContestsArrayList = mFilteredList;
+        notifyDataSetChanged();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

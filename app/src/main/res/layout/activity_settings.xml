@@ -75,7 +75,6 @@
                     android:paddingBottom="8dp"
                     android:singleLine="true"
                     android:textColor="@color/noInternetBG"
-                    android:textColorHint="@color/textHintColor"
                     android:textColorLink="@color/appBlueColor"
                     android:textSize="20sp"
                     android:theme="@style/EditTextTheme"

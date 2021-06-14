@@ -165,6 +165,12 @@ public class BottomSheetHandler {
 
             contestsArrayList.remove(position);
 
+            if (!currentList.isEmpty() && idx != -1) {
+                deleteNotification(currentList.get(idx).getAlarmSetTime(), contestDetails.getContestName(), properStartTime);
+                currentList.remove(idx);
+                SharedPrefConfig.writeInIdsOfReminderContests(context, currentList);
+            }
+
             // Delete reminder if set
             if (!currentList.isEmpty() && idx != -1) {
                 deleteNotification(currentList.get(idx).getAlarmSetTime(), contestDetails.getContestName(), properStartTime);

@@ -10,12 +10,15 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -74,6 +77,7 @@ public class SettingsNextActivity extends AppCompatActivity {
     private String title;
 
     private Button settingsSaveButton;
+    private EditText searchBar;
     private ProgressBar settingsProgressBar;
 
     private RecyclerView hiddenContestsRV;
@@ -111,10 +115,12 @@ public class SettingsNextActivity extends AppCompatActivity {
             hiddenContestsRV.setVisibility(View.GONE);
             hiddenNothingText.setVisibility(View.GONE);
             hiddenNothingImage.setVisibility(View.GONE);
+            searchBar.setVisibility(View.GONE);
 
             platformAdapter = new PlatformAdapter(this, platformNamesList);
             platformsListView.setAdapter(platformAdapter);
         } else {
+            searchBar.setVisibility(View.VISIBLE);
             hiddenContestsRV.setVisibility(View.VISIBLE);
             settingsSaveButton.setVisibility(View.GONE);
             settingsProgressBar.setVisibility(View.GONE);
@@ -125,11 +131,42 @@ public class SettingsNextActivity extends AppCompatActivity {
             if (hiddenContestsArrayList.isEmpty()) {
                 hiddenNothingText.setVisibility(View.VISIBLE);
                 hiddenNothingImage.setVisibility(View.VISIBLE);
+                searchBar.setVisibility(View.GONE);
             } else {
+                searchBar.setVisibility(View.VISIBLE);
                 hiddenNothingText.setVisibility(View.GONE);
                 hiddenNothingImage.setVisibility(View.GONE);
             }
         }
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+            }
+        });
+
+        searchBar.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                searchBar.setText(null);
+                searchBar.clearFocus();
+            }
+        });
+
+        searchBar.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) searchBar.clearFocus();
+            return false;
+        });
 
         platformsListView.setOnItemClickListener((parent, view, position, id) -> {
             if (platformNamesList.get(position).isUserNameAllowed()) {
@@ -181,14 +218,13 @@ public class SettingsNextActivity extends AppCompatActivity {
                         if (hiddenContestsArrayList.isEmpty()) {
                             hiddenNothingText.setVisibility(View.VISIBLE);
                             hiddenNothingImage.setVisibility(View.VISIBLE);
-                        } else {
-                            hiddenNothingText.setVisibility(View.GONE);
-                            hiddenNothingImage.setVisibility(View.GONE);
+                            searchBar.setVisibility(View.GONE);
                         }
                     }).show();
             if (hiddenContestsArrayList.isEmpty()) {
                 hiddenNothingText.setVisibility(View.VISIBLE);
                 hiddenNothingImage.setVisibility(View.VISIBLE);
+                searchBar.setVisibility(View.GONE);
             } else {
                 hiddenNothingText.setVisibility(View.GONE);
                 hiddenNothingImage.setVisibility(View.GONE);
@@ -251,6 +287,27 @@ public class SettingsNextActivity extends AppCompatActivity {
     protected void onStop() {
         unregisterReceiver(networkChangeListener);
         super.onStop();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void filter(String text) {
+        ArrayList<HiddenContestsClass> filteredList = new ArrayList<>();
+        if (hiddenContestsArrayList.size() == 0) return;
+        for (HiddenContestsClass item : hiddenContestsArrayList) {
+            if (item.getContestName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+        if (filteredList.size() == 0) {
+            hiddenNothingText.setVisibility(View.VISIBLE);
+            hiddenNothingImage.setVisibility(View.VISIBLE);
+            hiddenNothingText.setText("No results found...");
+        } else {
+            hiddenNothingText.setText("Nothing to show");
+            hiddenNothingImage.setVisibility(View.GONE);
+            hiddenNothingText.setVisibility(View.GONE);
+        }
+        hiddenContestsRVA.filteredList(filteredList);
     }
 
     private void createPopupDialog(int position) {
@@ -624,6 +681,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         platformsListView = findViewById(R.id.settings_platforms_list_view);
         settingsSaveButton = findViewById(R.id.settings_save_button);
         settingsProgressBar = findViewById(R.id.settings_page_progress_bar);
+        searchBar = findViewById(R.id.hidden_contests_search_bar);
         hiddenNothingText = findViewById(R.id.hidden_nothing_show_text);
         hiddenNothingImage = findViewById(R.id.hidden_nothing_show_img);
         hiddenContestsRV = findViewById(R.id.hidden_contests_recycler_view);
