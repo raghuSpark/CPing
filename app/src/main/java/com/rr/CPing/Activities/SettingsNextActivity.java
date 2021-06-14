@@ -1,11 +1,13 @@
 package com.rr.CPing.Activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -14,8 +16,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -204,21 +208,38 @@ public class SettingsNextActivity extends AppCompatActivity {
             return false;
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
             HiddenContestsClass restoredContest = hiddenContestsArrayList.get(position);
             hiddenContestsArrayList.remove(position);
             hiddenContestsRVA.notifyItemRemoved(position);
+
+            String searchText = searchBar.getText().toString();
+            if (!searchText.isEmpty()) {
+                filter(searchText);
+            }
+
             Snackbar.make(hiddenContestsRV, restoredContest.getContestName(), Snackbar.LENGTH_LONG)
                     .setActionTextColor(getResources().getColor(R.color.appBlueColor, null))
-                    .setAction("UNDO", v -> {
+                    .setAction("Undo", v -> {
                         hiddenContestsArrayList.add(position, restoredContest);
                         hiddenContestsRVA.notifyItemInserted(position);
+
+                        String search_text = searchBar.getText().toString();
+                        if (!search_text.isEmpty()) {
+                            filter(search_text);
+                        }
+
                         if (hiddenContestsArrayList.isEmpty()) {
                             hiddenNothingText.setVisibility(View.VISIBLE);
                             hiddenNothingImage.setVisibility(View.VISIBLE);
                             searchBar.setVisibility(View.GONE);
+                        } else {
+                            hiddenNothingImage.setVisibility(View.GONE);
+                            hiddenNothingText.setVisibility(View.GONE);
+                            searchBar.setVisibility(View.VISIBLE);
                         }
                     }).show();
             if (hiddenContestsArrayList.isEmpty()) {
@@ -265,6 +286,23 @@ public class SettingsNextActivity extends AppCompatActivity {
     };
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (searchBar.getText().toString().isEmpty() && event.getAction() == MotionEvent.ACTION_DOWN) {
+            View view = getCurrentFocus();
+            if (view instanceof EditText) {
+                Rect outRect = new Rect();
+                view.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    view.clearFocus();
+                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
     public void onBackPressed() {
         BackPressed();
         super.onBackPressed();
@@ -298,6 +336,7 @@ public class SettingsNextActivity extends AppCompatActivity {
                 filteredList.add(item);
             }
         }
+        Log.d(TAG, "filter: " + filteredList.size());
         if (filteredList.size() == 0) {
             hiddenNothingText.setVisibility(View.VISIBLE);
             hiddenNothingImage.setVisibility(View.VISIBLE);
