@@ -1,4 +1,4 @@
-# CPing - coding contests reminder app
+# CPing - Coding Calendar
 
 ## About
 CPing is born out of our need to have a single place to view all the coding contests happening across many platforms.<br>
