@@ -14,6 +14,7 @@ import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PlatformAdapter extends BaseAdapter {
 
@@ -46,7 +47,6 @@ public class PlatformAdapter extends BaseAdapter {
             SharedPrefConfig.writePlatformsCount(context, Math.max(SharedPrefConfig.readPlatformsCount(context) + (platformListItem.isEnabled() ? 1 : -1), 0));
 
         saveData();
-
         notifyDataSetChanged();
     }
 
@@ -80,7 +80,34 @@ public class PlatformAdapter extends BaseAdapter {
         TextView platformTextView = convertView.findViewById(R.id.platform_name_text_view);
         TextView usernameTextView = convertView.findViewById(R.id.platform_user_name_text_view);
 
-        platformImageView.setImageResource(platformNames.get(position).getLogo());
+//        platformImageView.setImageResource(platformNames.get(position).getLogo());
+
+        switch (Objects.requireNonNull(platformNames.get(position).getPlatformName())) {
+            case "AtCoder":
+                platformImageView.setImageResource(R.drawable.ic_at_coder_logo);
+                break;
+            case "CodeChef":
+                platformImageView.setImageResource(R.drawable.ic_codechef_logo);
+                break;
+            case "CodeForces":
+                platformImageView.setImageResource(R.drawable.ic_codeforces_logo);
+                break;
+            case "HackerEarth":
+                platformImageView.setImageResource(R.drawable.ic_hackerearth_logo);
+                break;
+            case "HackerRank":
+                platformImageView.setImageResource(R.drawable.ic_hackerrank_logo);
+                break;
+            case "Kick Start":
+                platformImageView.setImageResource(R.drawable.ic_kickstart_logo);
+                break;
+            case "LeetCode":
+                platformImageView.setImageResource(R.drawable.ic_leetcode_logo);
+                break;
+            case "TopCoder":
+                platformImageView.setImageResource(R.drawable.ic_topcoder_logo);
+                break;
+        }
 
         platformTextView.setText(platformNames.get(position).getPlatformName());
 

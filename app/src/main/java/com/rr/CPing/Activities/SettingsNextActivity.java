@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -164,6 +165,8 @@ public class SettingsNextActivity extends AppCompatActivity {
             if (!hasFocus) {
                 searchBar.setText(null);
                 searchBar.clearFocus();
+                hiddenContestsRVA = new HiddenContestsRecyclerViewAdapter(hiddenContestsArrayList);
+                hiddenContestsRVA.notifyDataSetChanged();
             }
         });
 
@@ -214,28 +217,30 @@ public class SettingsNextActivity extends AppCompatActivity {
             int position = viewHolder.getAdapterPosition();
             HiddenContestsClass restoredContest = hiddenContestsArrayList.get(position);
             hiddenContestsArrayList.remove(position);
+            SharedPrefConfig.writeInHiddenContests(SettingsNextActivity.this, hiddenContestsArrayList);
             hiddenContestsRVA.notifyItemRemoved(position);
 
-            String searchText = searchBar.getText().toString();
-            if (!searchText.isEmpty()) {
-                filter(searchText);
+            if (searchBar.hasFocus() && !searchBar.getText().toString().isEmpty()) {
+                filter(searchBar.getText().toString());
             }
 
-            Snackbar.make(hiddenContestsRV, restoredContest.getContestName(), Snackbar.LENGTH_LONG)
+            Snackbar.make(hiddenContestsRV, restoredContest.getContestName() + " RESTORED", Snackbar.LENGTH_LONG)
                     .setActionTextColor(getResources().getColor(R.color.appBlueColor, null))
                     .setAction("Undo", v -> {
                         hiddenContestsArrayList.add(position, restoredContest);
+                        SharedPrefConfig.writeInHiddenContests(SettingsNextActivity.this, hiddenContestsArrayList);
                         hiddenContestsRVA.notifyItemInserted(position);
 
-                        String search_text = searchBar.getText().toString();
-                        if (!search_text.isEmpty()) {
-                            filter(search_text);
+                        if (searchBar.hasFocus() && !searchBar.getText().toString().isEmpty()) {
+                            filter(searchBar.getText().toString());
                         }
 
                         if (hiddenContestsArrayList.isEmpty()) {
-                            hiddenNothingText.setVisibility(View.VISIBLE);
-                            hiddenNothingImage.setVisibility(View.VISIBLE);
-                            searchBar.setVisibility(View.GONE);
+                            new Handler().postDelayed(() -> {
+                                searchBar.setVisibility(View.GONE);
+                                hiddenNothingText.setVisibility(View.VISIBLE);
+                                hiddenNothingImage.setVisibility(View.VISIBLE);
+                            }, 100);
                         } else {
                             hiddenNothingImage.setVisibility(View.GONE);
                             hiddenNothingText.setVisibility(View.GONE);
@@ -249,8 +254,9 @@ public class SettingsNextActivity extends AppCompatActivity {
             } else {
                 hiddenNothingText.setVisibility(View.GONE);
                 hiddenNothingImage.setVisibility(View.GONE);
+                searchBar.setVisibility(View.VISIBLE);
             }
-            SharedPrefConfig.writeInHiddenContests(SettingsNextActivity.this, hiddenContestsArrayList);
+//            SharedPrefConfig.writeInHiddenContests(SettingsNextActivity.this, hiddenContestsArrayList);
         }
 
         @Override
@@ -277,10 +283,9 @@ public class SettingsNextActivity extends AppCompatActivity {
             }
 
             // Fade out the view as it is swiped out of the parent's bounds
-            final float alpha = ALPHA_FULL - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
-            viewHolder.itemView.setAlpha(alpha);
+//            final float alpha = ALPHA_FULL - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
+//            viewHolder.itemView.setAlpha((float) 1.0);
             viewHolder.itemView.setTranslationX(dX);
-
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     };
@@ -330,13 +335,13 @@ public class SettingsNextActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void filter(String text) {
         ArrayList<HiddenContestsClass> filteredList = new ArrayList<>();
-        if (hiddenContestsArrayList.size() == 0) return;
-        for (HiddenContestsClass item : hiddenContestsArrayList) {
+        ArrayList<HiddenContestsClass> hiddenContestsList = SharedPrefConfig.readInHiddenContests(this);
+        if (hiddenContestsList.size() == 0) return;
+        for (HiddenContestsClass item : hiddenContestsList) {
             if (item.getContestName().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(item);
             }
         }
-        Log.d(TAG, "filter: " + filteredList.size());
         if (filteredList.size() == 0) {
             hiddenNothingText.setVisibility(View.VISIBLE);
             hiddenNothingImage.setVisibility(View.VISIBLE);
@@ -347,6 +352,7 @@ public class SettingsNextActivity extends AppCompatActivity {
             hiddenNothingText.setVisibility(View.GONE);
         }
         hiddenContestsRVA.filteredList(filteredList);
+        hiddenContestsRVA.notifyDataSetChanged();
     }
 
     private void createPopupDialog(int position) {
@@ -372,7 +378,20 @@ public class SettingsNextActivity extends AppCompatActivity {
             return false;
         });
 
-        platformDialogImage.setImageResource(platformNamesList.get(position).getLogo2X());
+        switch (Objects.requireNonNull(platformName)) {
+            case "AtCoder":
+                platformDialogImage.setImageResource(R.drawable.ic_at_coder_logo);
+                break;
+            case "CodeChef":
+                platformDialogImage.setImageResource(R.drawable.ic_codechef_logo_2x);
+                break;
+            case "CodeForces":
+                platformDialogImage.setImageResource(R.drawable.ic_codeforces_logo_2x);
+                break;
+            case "LeetCode":
+                platformDialogImage.setImageResource(R.drawable.ic_leetcode_logo_2x);
+                break;
+        }
 
         if (platformNamesList.get(position).isEnabled()) {
             platformDialogRemoveButton.setVisibility(View.VISIBLE);
@@ -411,14 +430,14 @@ public class SettingsNextActivity extends AppCompatActivity {
 
     private void loadFirstTimeData() {
         platformNamesList = new ArrayList<>();
-        platformNamesList.add(new PlatformListItem("AtCoder", "", false, true, R.drawable.ic_at_coder_logo, R.drawable.ic_at_coder_logo));
-        platformNamesList.add(new PlatformListItem("CodeChef", "", false, true, R.drawable.ic_codechef_logo, R.drawable.ic_codechef_logo_2x));
-        platformNamesList.add(new PlatformListItem("CodeForces", "", false, true, R.drawable.ic_codeforces_logo, R.drawable.ic_codeforces_logo_2x));
-        platformNamesList.add(new PlatformListItem("HackerEarth", "", false, false, R.drawable.ic_hackerearth_logo, -1));
-        platformNamesList.add(new PlatformListItem("HackerRank", "", false, false, R.drawable.ic_hackerrank_logo, -1));
-        platformNamesList.add(new PlatformListItem("Kick Start", "", false, false, R.drawable.ic_kickstart_logo, -1));
-        platformNamesList.add(new PlatformListItem("LeetCode", "", false, true, R.drawable.ic_leetcode_logo, R.drawable.ic_leetcode_logo_2x));
-        platformNamesList.add(new PlatformListItem("TopCoder", "", false, false, R.drawable.ic_topcoder_logo, -1));
+        platformNamesList.add(new PlatformListItem("AtCoder", "", false, true));
+        platformNamesList.add(new PlatformListItem("CodeChef", "", false, true));
+        platformNamesList.add(new PlatformListItem("CodeForces", "", false, true));
+        platformNamesList.add(new PlatformListItem("HackerEarth", "", false, false));
+        platformNamesList.add(new PlatformListItem("HackerRank", "", false, false));
+        platformNamesList.add(new PlatformListItem("Kick Start", "", false, false));
+        platformNamesList.add(new PlatformListItem("LeetCode", "", false, true));
+        platformNamesList.add(new PlatformListItem("TopCoder", "", false, false));
 
         saveData();
     }

@@ -1,23 +1,22 @@
 package com.rr.CPing.Model;
 
 public class PlatformListItem {
-    private final String platformName;
-    private final boolean isUserNameAllowed;
-    private String userName;
-    private boolean isEnabled;
-    private int logo, logo2X;
+    private String platformName, userName;
+    private boolean isUserNameAllowed, isEnabled;
 
-    public PlatformListItem(String platformName, String userName, boolean isEnabled, boolean isUserNameAllowed, int logo, int logo2X) {
+    public PlatformListItem(String platformName, String userName, boolean isUserNameAllowed, boolean isEnabled) {
         this.platformName = platformName;
         this.userName = userName;
-        this.isEnabled = isEnabled;
         this.isUserNameAllowed = isUserNameAllowed;
-        this.logo = logo;
-        this.logo2X = logo2X;
+        this.isEnabled = isEnabled;
     }
 
     public String getPlatformName() {
         return platformName;
+    }
+
+    public void setPlatformName(String platformName) {
+        this.platformName = platformName;
     }
 
     public String getUserName() {
@@ -28,31 +27,19 @@ public class PlatformListItem {
         this.userName = userName;
     }
 
+    public boolean isUserNameAllowed() {
+        return isUserNameAllowed;
+    }
+
+    public void setUserNameAllowed(boolean userNameAllowed) {
+        isUserNameAllowed = userNameAllowed;
+    }
+
     public boolean isEnabled() {
         return isEnabled;
     }
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
-    }
-
-    public boolean isUserNameAllowed() {
-        return isUserNameAllowed;
-    }
-
-    public int getLogo() {
-        return logo;
-    }
-
-    public void setLogo(int logo) {
-        this.logo = logo;
-    }
-
-    public int getLogo2X() {
-        return logo2X;
-    }
-
-    public void setLogo2X(int logo2X) {
-        this.logo2X = logo2X;
     }
 }
