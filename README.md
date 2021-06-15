@@ -1,8 +1,6 @@
 # CPing - Coding Calendar
 
-## About
-CPing is born out of our need to have a single place to view all the coding contests happening across many platforms.<br>
-The app automatically updates all the coding contests and hackathons. You will never miss any contest.
+CPing is born out of our need to have a single place to view all the coding contests happening across many platforms. The app automatically updates all the coding contests and hackathons. You will never miss any contest.
 CPing aims to promote and help grow the competitive programming community worldwide.
 
 This app is very easy to use and has a high priority to the user's comfort.
@@ -13,6 +11,7 @@ This app is very easy to use and has a high priority to the user's comfort.
 * Get to know about all contests
 * Differentiate the live, today, and upcoming contests
 * All time zones supported
+* You can delete/hide the unwanted contests
 * Set reminders to the contests(in-app reminders and google reminders)
 * Dark Theme available
 * Customized UI/UX design for all platforms.
@@ -31,7 +30,7 @@ This app is very easy to use and has a high priority to the user's comfort.
 - - - -
 
 ### PlayStore
-"https://play.google.com/store/apps/details?id=com.rr.CPing"
+[![Featurre Graphic](https://user-images.githubusercontent.com/60544216/122088882-d2c16900-ce23-11eb-9287-940f4c2d52a0.png)](https://play.google.com/store/apps/details?id=com.rr.CPing)
 
 - - - -
 
