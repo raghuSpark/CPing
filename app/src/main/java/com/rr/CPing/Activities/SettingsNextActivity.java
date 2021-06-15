@@ -378,7 +378,7 @@ public class SettingsNextActivity extends AppCompatActivity {
             return false;
         });
 
-        switch (Objects.requireNonNull(platformName)) {
+        switch (platformNamesList.get(position).getPlatformName()) {
             case "AtCoder":
                 platformDialogImage.setImageResource(R.drawable.ic_at_coder_logo);
                 break;
