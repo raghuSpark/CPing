@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
         AppearOnTopPermission();
 
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+
         Toolbar dashBoardToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(dashBoardToolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("@" + SharedPrefConfig.readAppUserName(this));
@@ -93,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.dash_board_menu) {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-//            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         }
         return true;
@@ -101,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(networkChangeListener, filter);
         dashBoardTabsAccessorAdapter.notifyDataSetChanged();
         Objects.requireNonNull(getSupportActionBar()).setTitle("@" + SharedPrefConfig.readAppUserName(this));
         super.onStart();
@@ -111,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         dashBoardTabsAccessorAdapter.notifyDataSetChanged();
-        Objects.requireNonNull(getSupportActionBar()).setTitle("@" + SharedPrefConfig.readAppUserName(this));
         super.onResume();
     }
 

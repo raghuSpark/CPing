@@ -112,7 +112,7 @@ public class SettingsActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SettingsNextActivity.class);
             intent.setAction("Platforms");
             startActivity(intent);
-//            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         });
 
@@ -120,7 +120,7 @@ public class SettingsActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SettingsNextActivity.class);
             intent.setAction("Hidden Contests");
             startActivity(intent);
-//            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         });
     }
@@ -165,7 +165,7 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(this, "How should I call you?", Toast.LENGTH_SHORT).show();
         } else {
             startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-//            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             finish();
         }
     }

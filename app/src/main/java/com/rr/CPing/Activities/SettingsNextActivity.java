@@ -157,7 +157,6 @@ public class SettingsNextActivity extends AppCompatActivity {
 
         searchBar.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                Toast.makeText(this, "focus gone!!", Toast.LENGTH_SHORT).show();
                 searchBar.setText(null);
                 searchBar.clearFocus();
                 hiddenContestsRV.setVisibility(View.VISIBLE);
@@ -265,7 +264,6 @@ public class SettingsNextActivity extends AppCompatActivity {
                 hiddenNothingImage.setVisibility(View.GONE);
                 searchBar.setVisibility(View.VISIBLE);
             }
-//            SharedPrefConfig.writeInHiddenContests(SettingsNextActivity.this, hiddenContestsArrayList);
         }
 
         @Override
