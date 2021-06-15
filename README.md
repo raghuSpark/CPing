@@ -5,6 +5,8 @@ CPing aims to promote and help grow the competitive programming community worldw
 
 This app is very easy to use and has a high priority to the user's comfort.
 
+[![Featurre Graphic](https://user-images.githubusercontent.com/60544216/122088882-d2c16900-ce23-11eb-9287-940f4c2d52a0.png)](https://play.google.com/store/apps/details?id=com.rr.CPing)
+
 ## FEATURES
 * Find your ratings and rating changes(plotted on a graph)
 * See contests chronologically and platform-wise
@@ -30,12 +32,12 @@ This app is very easy to use and has a high priority to the user's comfort.
 - - - -
 
 ### PlayStore
-[![Featurre Graphic](https://user-images.githubusercontent.com/60544216/122088882-d2c16900-ce23-11eb-9287-940f4c2d52a0.png)](https://play.google.com/store/apps/details?id=com.rr.CPing)
-
+[![Group 61](https://user-images.githubusercontent.com/60544216/122089672-9e9a7800-ce24-11eb-92d5-172bb5bcc693.png)](https://play.google.com/store/apps/details?id=com.rr.CPing)
 - - - -
 
 We respect the intellectual property of others, and no copyright or trademark infringement is intended.<br> 
 If you believe that this app infringes on any of your copyright or trademark, please drop a mail sparkinc357@gmail.com.<br><br>
+
 We hope not to offend anyone by publishing this application.
 
 ***Enjoy the app. HAPPY CODING...***
