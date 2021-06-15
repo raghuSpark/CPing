@@ -32,6 +32,7 @@
         android:backgroundTint="@color/blackAndGrey"
         android:defaultFocusHighlightEnabled="true"
         android:focusedByDefault="true"
+        android:fontFamily="@font/nunito_regular"
         android:hint="@string/enter_a_valid_user_name"
         android:imeOptions="actionDone"
         android:inputType="textAutoComplete"

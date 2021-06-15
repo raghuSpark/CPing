@@ -4,18 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -66,7 +62,6 @@ import java.util.Objects;
 public class SettingsNextActivity extends AppCompatActivity {
 
     private static final String TAG = "SettingsNextActivity";
-    private static final float ALPHA_FULL = 1.0f;
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     // For making loading tasks in background
@@ -87,7 +82,7 @@ public class SettingsNextActivity extends AppCompatActivity {
 
     private RecyclerView hiddenContestsRV;
     private HiddenContestsRecyclerViewAdapter hiddenContestsRVA;
-    private ArrayList<HiddenContestsClass> hiddenContestsArrayList;
+    private ArrayList<HiddenContestsClass> hiddenContestsArrayList, filterHiddenContestsArrayList;
 
     private RequestQueue requestQueue;
 
@@ -147,7 +142,6 @@ public class SettingsNextActivity extends AppCompatActivity {
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -163,10 +157,10 @@ public class SettingsNextActivity extends AppCompatActivity {
 
         searchBar.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
+                Toast.makeText(this, "focus gone!!", Toast.LENGTH_SHORT).show();
                 searchBar.setText(null);
                 searchBar.clearFocus();
-                hiddenContestsRVA = new HiddenContestsRecyclerViewAdapter(hiddenContestsArrayList);
-                hiddenContestsRVA.notifyDataSetChanged();
+                hiddenContestsRV.setVisibility(View.VISIBLE);
             }
         });
 
@@ -214,44 +208,59 @@ public class SettingsNextActivity extends AppCompatActivity {
         @SuppressLint("SetTextI18n")
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            int position = viewHolder.getAdapterPosition();
-            HiddenContestsClass restoredContest = hiddenContestsArrayList.get(position);
-            hiddenContestsArrayList.remove(position);
-            SharedPrefConfig.writeInHiddenContests(SettingsNextActivity.this, hiddenContestsArrayList);
-            hiddenContestsRVA.notifyItemRemoved(position);
-
-            if (searchBar.hasFocus() && !searchBar.getText().toString().isEmpty()) {
-                filter(searchBar.getText().toString());
+            int position = viewHolder.getAdapterPosition(),
+                    filterPos = 0;
+            HiddenContestsClass restoredContest;
+            if (searchBar.hasFocus()) {
+                restoredContest = filterHiddenContestsArrayList.get(position);
+                filterHiddenContestsArrayList.remove(position);
+                filterPos = getActualPosition(restoredContest);
+                hiddenContestsArrayList.remove(filterPos);
+            } else {
+                restoredContest = hiddenContestsArrayList.get(position);
+                hiddenContestsArrayList.remove(position);
             }
+            hiddenContestsRVA.notifyItemRemoved(position);
+            SharedPrefConfig.writeInHiddenContests(SettingsNextActivity.this, hiddenContestsArrayList);
 
+            filter(searchBar.getText().toString());
+
+            int finalFilterPos = filterPos;
             Snackbar.make(hiddenContestsRV, restoredContest.getContestName() + " RESTORED", Snackbar.LENGTH_LONG)
                     .setActionTextColor(getResources().getColor(R.color.appBlueColor, null))
                     .setAction("Undo", v -> {
-                        hiddenContestsArrayList.add(position, restoredContest);
-                        SharedPrefConfig.writeInHiddenContests(SettingsNextActivity.this, hiddenContestsArrayList);
-                        hiddenContestsRVA.notifyItemInserted(position);
-
-                        if (searchBar.hasFocus() && !searchBar.getText().toString().isEmpty()) {
-                            filter(searchBar.getText().toString());
+                        if (searchBar.hasFocus()) {
+                            filterHiddenContestsArrayList.add(position, restoredContest);
+                            hiddenContestsArrayList.add(finalFilterPos, restoredContest);
+                        } else {
+                            hiddenContestsArrayList.add(position, restoredContest);
                         }
+                        hiddenContestsRVA.notifyItemInserted(position);
+                        SharedPrefConfig.writeInHiddenContests(SettingsNextActivity.this, hiddenContestsArrayList);
+
+                        filter(searchBar.getText().toString());
 
                         if (hiddenContestsArrayList.isEmpty()) {
                             new Handler().postDelayed(() -> {
                                 searchBar.setVisibility(View.GONE);
+                                hiddenContestsRV.setVisibility(View.GONE);
                                 hiddenNothingText.setVisibility(View.VISIBLE);
                                 hiddenNothingImage.setVisibility(View.VISIBLE);
                             }, 100);
                         } else {
+                            hiddenContestsRV.setVisibility(View.VISIBLE);
                             hiddenNothingImage.setVisibility(View.GONE);
                             hiddenNothingText.setVisibility(View.GONE);
                             searchBar.setVisibility(View.VISIBLE);
                         }
                     }).show();
             if (hiddenContestsArrayList.isEmpty()) {
+                hiddenContestsRV.setVisibility(View.GONE);
                 hiddenNothingText.setVisibility(View.VISIBLE);
                 hiddenNothingImage.setVisibility(View.VISIBLE);
                 searchBar.setVisibility(View.GONE);
             } else {
+                hiddenContestsRV.setVisibility(View.VISIBLE);
                 hiddenNothingText.setVisibility(View.GONE);
                 hiddenNothingImage.setVisibility(View.GONE);
                 searchBar.setVisibility(View.VISIBLE);
@@ -261,34 +270,35 @@ public class SettingsNextActivity extends AppCompatActivity {
 
         @Override
         public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-            View itemView = viewHolder.itemView;
-            Paint paint = new Paint();
-            paint.setARGB(100, 52, 168, 83);
-
-            @SuppressLint("UseCompatLoadingForDrawables")
-            Bitmap icon = drawableToBitmap(getResources().getDrawable(R.drawable.ic_restore, null));
-
-            if (dX > 0) {
-                // Draw Rect with varying right side, equal to displacement dX
-                c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom(), paint);
-                // Set the image icon for Right swipe
-                assert icon != null;
-                c.drawBitmap(icon, (float) itemView.getLeft() + convertDpToPx(), (float) itemView.getTop() + ((float) itemView.getBottom() - (float) itemView.getTop() - icon.getHeight()) / 2, paint);
-            } else {
-                // Draw Rect with varying left side, equal to the item's right side plus negative displacement dX
-                c.drawRect((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom(), paint);
-                //Set the image icon for Left swipe
-                assert icon != null;
-                c.drawBitmap(icon, (float) itemView.getRight() - convertDpToPx() - icon.getWidth(), (float) itemView.getTop() + ((float) itemView.getBottom() - (float) itemView.getTop() - icon.getHeight()) / 2, paint);
+            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                // Get RecyclerView item from the ViewHolder
+                View itemView = viewHolder.itemView;
+                Paint p = new Paint();
+                p.setColor(getResources().getColor(R.color.positiveChangeGreen, null));
+                if (dX > 0) {
+                    // Draw Rect with varying right side, equal to displacement dX
+                    c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
+                            (float) itemView.getBottom(), p);
+                } else {
+                    // Draw Rect with varying left side, equal to the item's right side plus negative displacement dX
+                    c.drawRect((float) itemView.getRight() + dX, (float) itemView.getTop(),
+                            (float) itemView.getRight(), (float) itemView.getBottom(), p);
+                }
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
-
-            // Fade out the view as it is swiped out of the parent's bounds
-//            final float alpha = ALPHA_FULL - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
-//            viewHolder.itemView.setAlpha((float) 1.0);
-            viewHolder.itemView.setTranslationX(dX);
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     };
+
+    private int getActualPosition(HiddenContestsClass restoredContest) {
+        int n = hiddenContestsArrayList.size();
+        for (int i = 0; i < n; i++) {
+            HiddenContestsClass item = hiddenContestsArrayList.get(i);
+            if (item.getContestName().equalsIgnoreCase(restoredContest.getContestName()) && item.getContestEndTime() == restoredContest.getContestEndTime()) {
+                return i;
+            }
+        }
+        return 0;
+    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -334,25 +344,25 @@ public class SettingsNextActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void filter(String text) {
-        ArrayList<HiddenContestsClass> filteredList = new ArrayList<>();
-        ArrayList<HiddenContestsClass> hiddenContestsList = SharedPrefConfig.readInHiddenContests(this);
-        if (hiddenContestsList.size() == 0) return;
-        for (HiddenContestsClass item : hiddenContestsList) {
+        filterHiddenContestsArrayList = new ArrayList<>();
+        if (hiddenContestsArrayList.isEmpty()) return;
+        for (HiddenContestsClass item : hiddenContestsArrayList) {
             if (item.getContestName().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(item);
+                filterHiddenContestsArrayList.add(item);
             }
         }
-        if (filteredList.size() == 0) {
+        if (filterHiddenContestsArrayList.isEmpty()) {
+            hiddenContestsRV.setVisibility(View.GONE);
+            hiddenNothingText.setText("No results found...");
             hiddenNothingText.setVisibility(View.VISIBLE);
             hiddenNothingImage.setVisibility(View.VISIBLE);
-            hiddenNothingText.setText("No results found...");
         } else {
+            hiddenContestsRV.setVisibility(View.VISIBLE);
             hiddenNothingText.setText("Nothing to show");
             hiddenNothingImage.setVisibility(View.GONE);
             hiddenNothingText.setVisibility(View.GONE);
         }
-        hiddenContestsRVA.filteredList(filteredList);
-        hiddenContestsRVA.notifyDataSetChanged();
+        hiddenContestsRVA.filteredList(filterHiddenContestsArrayList);
     }
 
     private void createPopupDialog(int position) {
@@ -458,32 +468,6 @@ public class SettingsNextActivity extends AppCompatActivity {
                 return "leetcode";
         }
         return null;
-    }
-
-    public static Bitmap drawableToBitmap(Drawable drawable) {
-        Bitmap bitmap;
-
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if (bitmapDrawable.getBitmap() != null) {
-                return bitmapDrawable.getBitmap();
-            }
-        }
-
-        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
-    }
-
-    private int convertDpToPx() {
-        return Math.round(16 * (getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     private void initialize() {
