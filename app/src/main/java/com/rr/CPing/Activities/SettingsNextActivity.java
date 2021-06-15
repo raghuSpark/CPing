@@ -430,13 +430,13 @@ public class SettingsNextActivity extends AppCompatActivity {
 
     private void loadFirstTimeData() {
         platformNamesList = new ArrayList<>();
-        platformNamesList.add(new PlatformListItem("AtCoder", "", false, true));
-        platformNamesList.add(new PlatformListItem("CodeChef", "", false, true));
-        platformNamesList.add(new PlatformListItem("CodeForces", "", false, true));
+        platformNamesList.add(new PlatformListItem("AtCoder", "", true, false));
+        platformNamesList.add(new PlatformListItem("CodeChef", "", true, false));
+        platformNamesList.add(new PlatformListItem("CodeForces", "", true, false));
         platformNamesList.add(new PlatformListItem("HackerEarth", "", false, false));
         platformNamesList.add(new PlatformListItem("HackerRank", "", false, false));
         platformNamesList.add(new PlatformListItem("Kick Start", "", false, false));
-        platformNamesList.add(new PlatformListItem("LeetCode", "", false, true));
+        platformNamesList.add(new PlatformListItem("LeetCode", "", true, false));
         platformNamesList.add(new PlatformListItem("TopCoder", "", false, false));
 
         saveData();

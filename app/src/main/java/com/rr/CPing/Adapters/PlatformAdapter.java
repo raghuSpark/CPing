@@ -80,8 +80,6 @@ public class PlatformAdapter extends BaseAdapter {
         TextView platformTextView = convertView.findViewById(R.id.platform_name_text_view);
         TextView usernameTextView = convertView.findViewById(R.id.platform_user_name_text_view);
 
-//        platformImageView.setImageResource(platformNames.get(position).getLogo());
-
         switch (Objects.requireNonNull(platformNames.get(position).getPlatformName())) {
             case "AtCoder":
                 platformImageView.setImageResource(R.drawable.ic_at_coder_logo);
@@ -112,8 +110,8 @@ public class PlatformAdapter extends BaseAdapter {
         platformTextView.setText(platformNames.get(position).getPlatformName());
 
         if (platformNames.get(position).isUserNameAllowed() && !platformNames.get(position).getUserName().isEmpty()) {
-            usernameTextView.setVisibility(View.VISIBLE);
             usernameTextView.setText(String.format("@%s", platformNames.get(position).getUserName()));
+            usernameTextView.setVisibility(View.VISIBLE);
         } else
             usernameTextView.setVisibility(View.GONE);
 
