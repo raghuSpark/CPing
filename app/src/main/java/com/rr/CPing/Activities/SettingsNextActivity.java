@@ -72,7 +72,7 @@ public class SettingsNextActivity extends AppCompatActivity {
     private PlatformAdapter platformAdapter;
     private TextView hiddenNothingText;
     private ImageView hiddenNothingImage;
-    private ArrayList<PlatformListItem> platformNamesList;
+    private ArrayList<PlatformListItem> platformNamesList = new ArrayList<>();
     private AlertDialog dialog;
     private String title;
 
@@ -82,7 +82,7 @@ public class SettingsNextActivity extends AppCompatActivity {
 
     private RecyclerView hiddenContestsRV;
     private HiddenContestsRecyclerViewAdapter hiddenContestsRVA;
-    private ArrayList<HiddenContestsClass> hiddenContestsArrayList, filterHiddenContestsArrayList;
+    private ArrayList<HiddenContestsClass> hiddenContestsArrayList = new ArrayList<>(), filterHiddenContestsArrayList = new ArrayList<>();
 
     private RequestQueue requestQueue;
 
