@@ -82,7 +82,7 @@ public class SettingsNextActivity extends AppCompatActivity {
 
     private RecyclerView hiddenContestsRV;
     private HiddenContestsRecyclerViewAdapter hiddenContestsRVA;
-    private ArrayList<HiddenContestsClass> hiddenContestsArrayList, filterHiddenContestsArrayList;
+    private ArrayList<HiddenContestsClass> hiddenContestsArrayList = new ArrayList<>(), filterHiddenContestsArrayList = new ArrayList<>();
 
     private RequestQueue requestQueue;
 
