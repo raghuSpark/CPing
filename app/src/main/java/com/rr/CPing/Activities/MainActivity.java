@@ -52,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
         AppearOnTopPermission();
 
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(networkChangeListener, filter);
-
         Toolbar dashBoardToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(dashBoardToolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("@" + SharedPrefConfig.readAppUserName(this));
@@ -104,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
         dashBoardTabsAccessorAdapter.notifyDataSetChanged();
         Objects.requireNonNull(getSupportActionBar()).setTitle("@" + SharedPrefConfig.readAppUserName(this));
         super.onStart();
