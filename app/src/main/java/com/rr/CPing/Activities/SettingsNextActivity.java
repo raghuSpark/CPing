@@ -62,7 +62,7 @@ import java.util.Objects;
 public class SettingsNextActivity extends AppCompatActivity {
 
     private static final String TAG = "SettingsNextActivity";
-    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     // For making loading tasks in background
     private boolean saveButtonClicked = false;

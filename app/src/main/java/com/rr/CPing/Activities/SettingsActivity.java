@@ -30,7 +30,7 @@ import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     private TextView platFormsListTextView, hiddenContestsTextView;
     private RadioGroup themeRadioGroup;

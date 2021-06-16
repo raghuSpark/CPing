@@ -39,7 +39,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 2323;
-    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     private TabsAccessorAdapter dashBoardTabsAccessorAdapter;
 
     private AlertDialog dialog;

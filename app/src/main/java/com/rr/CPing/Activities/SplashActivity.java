@@ -41,7 +41,7 @@ import java.util.Collections;
 public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG = "SplashActivity";
-    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     int count = 0;
     private JSONResponseDBHandler jsonResponseDBHandler;
     private RequestQueue requestQueue;
