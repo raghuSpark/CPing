@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.ConnectivityManager;
@@ -28,6 +29,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.Task;
 import com.rr.CPing.Adapters.TabsAccessorAdapter;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
@@ -41,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 2323;
     private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     private TabsAccessorAdapter dashBoardTabsAccessorAdapter;
+    private AppUpdateManager appUpdateManager;
+    private static final int IMMEDIATE_APP_UPDATE_REQ_CODE = 123;
 
     private AlertDialog dialog;
 
@@ -51,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         AppearOnTopPermission();
+        appUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
+        checkUpdate();
 
         Toolbar dashBoardToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(dashBoardToolbar);
@@ -77,6 +88,15 @@ public class MainActivity extends AppCompatActivity {
                 if (!Settings.canDrawOverlays(this)) {
                     Toast.makeText(this, "Permission is required to show full screen reminders.", Toast.LENGTH_SHORT).show();
                 }
+            }
+        }else if (requestCode == IMMEDIATE_APP_UPDATE_REQ_CODE) {
+            if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(), "Update canceled!", Toast.LENGTH_LONG).show();
+            } else if (resultCode == RESULT_OK) {
+                Toast.makeText(getApplicationContext(), "Update success!", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Update Failed!", Toast.LENGTH_LONG).show();
+                checkUpdate();
             }
         }
     }
@@ -256,6 +276,27 @@ public class MainActivity extends AppCompatActivity {
 
             NotificationManager notificationManager = Objects.requireNonNull(getSystemService(NotificationManager.class));
             notificationManager.createNotificationChannel(notificationChannel);
+        }
+    }
+
+    private void checkUpdate() {
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                startUpdateFlow(appUpdateInfo);
+            } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS){
+                startUpdateFlow(appUpdateInfo);
+            }
+        });
+    }
+
+    private void startUpdateFlow(AppUpdateInfo appUpdateInfo) {
+        try {
+            appUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, this, IMMEDIATE_APP_UPDATE_REQ_CODE);
+        } catch (IntentSender.SendIntentException e) {
+            e.printStackTrace();
         }
     }
 }
