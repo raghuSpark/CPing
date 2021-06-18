@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         AppearOnTopPermission();
-        appUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
+        appUpdateManager = AppUpdateManagerFactory.create(this);
         checkUpdate();
 
         Toolbar dashBoardToolbar = findViewById(R.id.main_page_toolbar);
@@ -131,6 +131,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         dashBoardTabsAccessorAdapter.notifyDataSetChanged();
+
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS){
+                startUpdateFlow(appUpdateInfo);
+            }
+        });
         super.onResume();
     }
 
@@ -285,8 +292,6 @@ public class MainActivity extends AppCompatActivity {
         appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                     && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                startUpdateFlow(appUpdateInfo);
-            } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS){
                 startUpdateFlow(appUpdateInfo);
             }
         });
