@@ -10,8 +10,8 @@ android {
         applicationId "com.rr.CPing"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 7
-        versionName "1.2.3"
+        versionCode 9
+        versionName "1.2.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,8 +38,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.1.1'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // Added Manually
     implementation 'com.jjoe64:graphview:4.2.2'
@@ -48,5 +48,5 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
-    implementation 'com.google.android.play:core:1.10.0'
+//    implementation 'com.google.android.play:core:1.10.0'
 }

@@ -83,7 +83,94 @@ public class SettingsNextActivity extends AppCompatActivity {
     private RecyclerView hiddenContestsRV;
     private HiddenContestsRecyclerViewAdapter hiddenContestsRVA;
     private ArrayList<HiddenContestsClass> hiddenContestsArrayList = new ArrayList<>(), filterHiddenContestsArrayList = new ArrayList<>();
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
 
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition(),
+                    filterPos = 0;
+            HiddenContestsClass restoredContest;
+            if (searchBar.hasFocus()) {
+                restoredContest = filterHiddenContestsArrayList.get(position);
+                filterHiddenContestsArrayList.remove(position);
+                filterPos = getActualPosition(restoredContest);
+                hiddenContestsArrayList.remove(filterPos);
+            } else {
+                restoredContest = hiddenContestsArrayList.get(position);
+                hiddenContestsArrayList.remove(position);
+            }
+            hiddenContestsRVA.notifyItemRemoved(position);
+            SharedPrefConfig.writeInHiddenContests(SettingsNextActivity.this, hiddenContestsArrayList);
+
+            filter(searchBar.getText().toString());
+
+            int finalFilterPos = filterPos;
+            Snackbar.make(hiddenContestsRV, restoredContest.getContestName() + " RESTORED", Snackbar.LENGTH_LONG)
+                    .setActionTextColor(getResources().getColor(R.color.appBlueColor, null))
+                    .setAction("Undo", v -> {
+                        if (searchBar.hasFocus()) {
+                            filterHiddenContestsArrayList.add(position, restoredContest);
+                            hiddenContestsArrayList.add(finalFilterPos, restoredContest);
+                        } else {
+                            hiddenContestsArrayList.add(position, restoredContest);
+                        }
+                        hiddenContestsRVA.notifyItemInserted(position);
+                        SharedPrefConfig.writeInHiddenContests(SettingsNextActivity.this, hiddenContestsArrayList);
+
+                        filter(searchBar.getText().toString());
+
+                        if (hiddenContestsArrayList.isEmpty()) {
+                            new Handler().postDelayed(() -> {
+                                searchBar.setVisibility(View.GONE);
+                                hiddenContestsRV.setVisibility(View.GONE);
+                                hiddenNothingText.setVisibility(View.VISIBLE);
+                                hiddenNothingImage.setVisibility(View.VISIBLE);
+                            }, 100);
+                        } else {
+                            hiddenContestsRV.setVisibility(View.VISIBLE);
+                            hiddenNothingImage.setVisibility(View.GONE);
+                            hiddenNothingText.setVisibility(View.GONE);
+                            searchBar.setVisibility(View.VISIBLE);
+                        }
+                    }).show();
+            if (hiddenContestsArrayList.isEmpty()) {
+                hiddenContestsRV.setVisibility(View.GONE);
+                hiddenNothingText.setVisibility(View.VISIBLE);
+                hiddenNothingImage.setVisibility(View.VISIBLE);
+                searchBar.setVisibility(View.GONE);
+            } else {
+                hiddenContestsRV.setVisibility(View.VISIBLE);
+                hiddenNothingText.setVisibility(View.GONE);
+                hiddenNothingImage.setVisibility(View.GONE);
+                searchBar.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                // Get RecyclerView item from the ViewHolder
+                View itemView = viewHolder.itemView;
+                Paint p = new Paint();
+                p.setColor(getResources().getColor(R.color.positiveChangeGreen, null));
+                if (dX > 0) {
+                    // Draw Rect with varying right side, equal to displacement dX
+                    c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
+                            (float) itemView.getBottom(), p);
+                } else {
+                    // Draw Rect with varying left side, equal to the item's right side plus negative displacement dX
+                    c.drawRect((float) itemView.getRight() + dX, (float) itemView.getTop(),
+                            (float) itemView.getRight(), (float) itemView.getBottom(), p);
+                }
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        }
+    };
     private RequestQueue requestQueue;
 
     @Override
@@ -197,95 +284,6 @@ public class SettingsNextActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(hiddenContestsRV);
     }
-
-    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-            return false;
-        }
-
-        @SuppressLint("SetTextI18n")
-        @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            int position = viewHolder.getAdapterPosition(),
-                    filterPos = 0;
-            HiddenContestsClass restoredContest;
-            if (searchBar.hasFocus()) {
-                restoredContest = filterHiddenContestsArrayList.get(position);
-                filterHiddenContestsArrayList.remove(position);
-                filterPos = getActualPosition(restoredContest);
-                hiddenContestsArrayList.remove(filterPos);
-            } else {
-                restoredContest = hiddenContestsArrayList.get(position);
-                hiddenContestsArrayList.remove(position);
-            }
-            hiddenContestsRVA.notifyItemRemoved(position);
-            SharedPrefConfig.writeInHiddenContests(SettingsNextActivity.this, hiddenContestsArrayList);
-
-            filter(searchBar.getText().toString());
-
-            int finalFilterPos = filterPos;
-            Snackbar.make(hiddenContestsRV, restoredContest.getContestName() + " RESTORED", Snackbar.LENGTH_LONG)
-                    .setActionTextColor(getResources().getColor(R.color.appBlueColor, null))
-                    .setAction("Undo", v -> {
-                        if (searchBar.hasFocus()) {
-                            filterHiddenContestsArrayList.add(position, restoredContest);
-                            hiddenContestsArrayList.add(finalFilterPos, restoredContest);
-                        } else {
-                            hiddenContestsArrayList.add(position, restoredContest);
-                        }
-                        hiddenContestsRVA.notifyItemInserted(position);
-                        SharedPrefConfig.writeInHiddenContests(SettingsNextActivity.this, hiddenContestsArrayList);
-
-                        filter(searchBar.getText().toString());
-
-                        if (hiddenContestsArrayList.isEmpty()) {
-                            new Handler().postDelayed(() -> {
-                                searchBar.setVisibility(View.GONE);
-                                hiddenContestsRV.setVisibility(View.GONE);
-                                hiddenNothingText.setVisibility(View.VISIBLE);
-                                hiddenNothingImage.setVisibility(View.VISIBLE);
-                            }, 100);
-                        } else {
-                            hiddenContestsRV.setVisibility(View.VISIBLE);
-                            hiddenNothingImage.setVisibility(View.GONE);
-                            hiddenNothingText.setVisibility(View.GONE);
-                            searchBar.setVisibility(View.VISIBLE);
-                        }
-                    }).show();
-            if (hiddenContestsArrayList.isEmpty()) {
-                hiddenContestsRV.setVisibility(View.GONE);
-                hiddenNothingText.setVisibility(View.VISIBLE);
-                hiddenNothingImage.setVisibility(View.VISIBLE);
-                searchBar.setVisibility(View.GONE);
-            } else {
-                hiddenContestsRV.setVisibility(View.VISIBLE);
-                hiddenNothingText.setVisibility(View.GONE);
-                hiddenNothingImage.setVisibility(View.GONE);
-                searchBar.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                // Get RecyclerView item from the ViewHolder
-                View itemView = viewHolder.itemView;
-                Paint p = new Paint();
-                p.setColor(getResources().getColor(R.color.positiveChangeGreen, null));
-                if (dX > 0) {
-                    // Draw Rect with varying right side, equal to displacement dX
-                    c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
-                            (float) itemView.getBottom(), p);
-                } else {
-                    // Draw Rect with varying left side, equal to the item's right side plus negative displacement dX
-                    c.drawRect((float) itemView.getRight() + dX, (float) itemView.getTop(),
-                            (float) itemView.getRight(), (float) itemView.getBottom(), p);
-                }
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }
-        }
-    };
 
     private int getActualPosition(HiddenContestsClass restoredContest) {
         int n = hiddenContestsArrayList.size();
@@ -477,7 +475,7 @@ public class SettingsNextActivity extends AppCompatActivity {
     }
 
     private void checkValidUsername(ProgressBar platformDialogProgressBar, Button platformDialogSaveButton, View v, String platform, String username, int position, boolean update) {
-        String url = "https://cping-api.herokuapp.com/api/" + platform + "/" + username;
+        String url = "https://cping-api2.herokuapp.com/api/" + platform + "/" + username;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {
@@ -523,7 +521,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         String platform_name = "atcoder";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api2.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
                 JSONArray jsonArray = response.getJSONArray("contest_ratings");
@@ -568,7 +566,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         String platform_name = "codechef";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api2.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
                 JSONArray jsonArray = response.getJSONArray("contest_ratings");
@@ -612,7 +610,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         String platform_name = "codeforces";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api2.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
                 JSONArray jsonArray = response.getJSONArray("contests");
@@ -657,7 +655,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         String platform_name = "leetcode";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api2.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 LeetCodeUserDetails item = new LeetCodeUserDetails(user_name,
                         response.getString("total_problems_solved"),
