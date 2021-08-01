@@ -41,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
     public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 2323;
     private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     private TabsAccessorAdapter dashBoardTabsAccessorAdapter;
-//    private AppUpdateManager appUpdateManager;
-//    private static final int IMMEDIATE_APP_UPDATE_REQ_CODE = 123;
-
     private AlertDialog dialog;
 
     @Override
@@ -51,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setAppTheme();
         setContentView(R.layout.activity_main);
-
-//        appUpdateManager = AppUpdateManagerFactory.create(this);
-//        checkUpdate();
 
         AppearOnTopPermission();
 
@@ -78,22 +72,10 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (!Settings.canDrawOverlays(this)) {
-                    Toast.makeText(this, "Permission is required to show full screen reminders.", Toast.LENGTH_SHORT).show();
-                }
+            if (!Settings.canDrawOverlays(this)) {
+                Toast.makeText(this, "Permission is required to show full screen reminders.", Toast.LENGTH_SHORT).show();
             }
         }
-//        else if (requestCode == IMMEDIATE_APP_UPDATE_REQ_CODE) {
-//            if (resultCode == RESULT_CANCELED) {
-//                Toast.makeText(getApplicationContext(), "Update canceled!", Toast.LENGTH_LONG).show();
-//            } else if (resultCode == RESULT_OK) {
-//                Toast.makeText(getApplicationContext(), "Update success!", Toast.LENGTH_LONG).show();
-//            } else {
-//                Toast.makeText(getApplicationContext(), "Update Failed!", Toast.LENGTH_LONG).show();
-//                checkUpdate();
-//            }
-//        }
     }
 
     @Override
@@ -126,13 +108,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         dashBoardTabsAccessorAdapter.notifyDataSetChanged();
-
-//        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
-//        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
-//            if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-//                startUpdateFlow(appUpdateInfo);
-//            }
-//        });
         super.onResume();
     }
 
@@ -243,13 +218,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void RequestAppearOnTopPermission() {
         // Check if Android M or higher
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Show alert dialog to the user saying a separate permission is needed
-            // Launch the settings activity if the user prefers
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + this.getPackageName()));
-            startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
-        }
+        // Show alert dialog to the user saying a separate permission is needed
+        // Launch the settings activity if the user prefers
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:" + this.getPackageName()));
+        startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
     }
 
     private void setAppTheme() {
@@ -280,22 +253,4 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(notificationChannel);
         }
     }
-
-//    private void checkUpdate() {
-//        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
-//        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
-//            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-//                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-//                startUpdateFlow(appUpdateInfo);
-//            }
-//        });
-//    }
-//
-//    private void startUpdateFlow(AppUpdateInfo appUpdateInfo) {
-//        try {
-//            appUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, this, IMMEDIATE_APP_UPDATE_REQ_CODE);
-//        } catch (IntentSender.SendIntentException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

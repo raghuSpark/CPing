@@ -466,6 +466,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         return null;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void initialize() {
         hiddenContestsRV.setHasFixedSize(true);
         hiddenContestsRV.setLayoutManager(new LinearLayoutManager(this));
