@@ -26,6 +26,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.SplashActivity"
+            android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -70,6 +71,7 @@
             android:showOnLockScreen="true"
             android:showWhenLocked="true"
             android:turnScreenOn="true"
+            tools:ignore="LockedOrientationActivity"
             tools:targetApi="q" />
     </application>
 

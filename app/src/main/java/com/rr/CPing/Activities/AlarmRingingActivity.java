@@ -104,7 +104,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
                 Toast.makeText(this, "This contest is going to start in less than 5 minutes!", Toast.LENGTH_SHORT).show();
             } else {
                 alarmIdClass.setSpinnerPosition(alarmIdClass.getSpinnerPosition() - 1);
-                long alarmSetTime = alarmIdClass.getStartTime() - (alarmIdClass.getSpinnerPosition() + 1) * 5 * 60000;
+                long alarmSetTime = alarmIdClass.getStartTime() - (long) (alarmIdClass.getSpinnerPosition() + 1) * 5 * 60000;
                 alarmIdClass.setAlarmSetTime(alarmSetTime);
 
                 idClassArrayList.add(alarmIdClass);
@@ -136,7 +136,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
                             "less than 5 minutes!", Toast.LENGTH_SHORT).show();
                 } else {
                     alarmIdClass.setSpinnerPosition(alarmIdClass.getSpinnerPosition() - 1);
-                    long alarmSetTime = alarmIdClass.getStartTime() - (alarmIdClass.getSpinnerPosition() + 1) * 5 * 60000;
+                    long alarmSetTime = alarmIdClass.getStartTime() - (long) (alarmIdClass.getSpinnerPosition() + 1) * 5 * 60000;
                     alarmIdClass.setAlarmSetTime(alarmSetTime);
 
                     idClassArrayList.add(alarmIdClass);
