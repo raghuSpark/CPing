@@ -102,7 +102,7 @@ public class ContestDetailsRecyclerViewAdapter extends RecyclerView.Adapter {
     private String findDuration(int contestDuration) {
         String result = "";
         int day = (int) TimeUnit.SECONDS.toDays(contestDuration);
-        long hours = TimeUnit.SECONDS.toHours(contestDuration) - (day * 24);
+        long hours = TimeUnit.SECONDS.toHours(contestDuration) - (day * 24L);
         long minutes = TimeUnit.SECONDS.toMinutes(contestDuration) - (TimeUnit.SECONDS.toHours(contestDuration) * 60);
 //        long second = TimeUnit.MILLISECONDS.toSeconds(contestDuration) - (TimeUnit.MILLISECONDS.toMinutes(contestDuration) *60);
         if (day != 0) {

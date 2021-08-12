@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class PlatformDetails {
     private String platformName;
-    private ArrayList<ContestDetails> platformContests;
+    private final ArrayList<ContestDetails> platformContests;
 
     public PlatformDetails(String platformName, ArrayList<ContestDetails> platformContests) {
         this.platformName = platformName;
@@ -23,7 +23,4 @@ public class PlatformDetails {
         return platformContests;
     }
 
-    public void setPlatformContests(ArrayList<ContestDetails> platformContests) {
-        this.platformContests = platformContests;
-    }
 }

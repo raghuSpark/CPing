@@ -2,7 +2,8 @@ package com.rr.CPing.Model;
 
 public class PlatformListItem {
     private String platformName, userName;
-    private boolean isUserNameAllowed, isEnabled;
+    private final boolean isUserNameAllowed;
+    private boolean isEnabled;
 
     public PlatformListItem(String platformName, String userName, boolean isUserNameAllowed, boolean isEnabled) {
         this.platformName = platformName;
@@ -29,10 +30,6 @@ public class PlatformListItem {
 
     public boolean isUserNameAllowed() {
         return isUserNameAllowed;
-    }
-
-    public void setUserNameAllowed(boolean userNameAllowed) {
-        isUserNameAllowed = userNameAllowed;
     }
 
     public boolean isEnabled() {

@@ -1,9 +1,14 @@
 package com.rr.CPing.Model;
 
 public class ContestDetails {
-    private String site, contestName, contestUrl;
-    private int contestDuration;
-    private String contestStartTime, contestEndTime, isToday, contestStatus;
+    private String site;
+    private String contestName;
+    private final String contestUrl;
+    private final int contestDuration;
+    private final String contestStartTime;
+    private final String contestEndTime;
+    private String isToday;
+    private final String contestStatus;
 
     public ContestDetails(String site, String contestName, String contestUrl, int contestDuration, String contestStartTime, String contestEndTime, String isToday, String contestStatus) {
         this.site = site;
@@ -36,32 +41,16 @@ public class ContestDetails {
         return contestUrl;
     }
 
-    public void setContestUrl(String contestUrl) {
-        this.contestUrl = contestUrl;
-    }
-
     public int getContestDuration() {
         return contestDuration;
-    }
-
-    public void setContestDuration(int contestDuration) {
-        this.contestDuration = contestDuration;
     }
 
     public String getContestStartTime() {
         return contestStartTime;
     }
 
-    public void setContestStartTime(String contestStartTime) {
-        this.contestStartTime = contestStartTime;
-    }
-
     public String getContestEndTime() {
         return contestEndTime;
-    }
-
-    public void setContestEndTime(String contestEndTime) {
-        this.contestEndTime = contestEndTime;
     }
 
     public String getIsToday() {
@@ -76,7 +65,4 @@ public class ContestDetails {
         return contestStatus;
     }
 
-    public void setContestStatus(String contestStatus) {
-        this.contestStatus = contestStatus;
-    }
 }

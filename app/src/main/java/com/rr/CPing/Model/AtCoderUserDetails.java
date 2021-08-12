@@ -3,10 +3,12 @@ package com.rr.CPing.Model;
 import java.util.ArrayList;
 
 public class AtCoderUserDetails {
+    private final int currentRating;
+    private final int highestRating;
+    private final int currentRank;
+    private final String currentLevel;
+    private final ArrayList<Integer> recentContestRatings;
     private String userName;
-    private int currentRating, highestRating, currentRank;
-    private String currentLevel;
-    private ArrayList<Integer> recentContestRatings;
 
     public AtCoderUserDetails(String userName, int currentRating, int highestRating, int currentRank, String currentLevel, ArrayList<Integer> recentContestRatings) {
         this.userName = userName;
@@ -29,39 +31,20 @@ public class AtCoderUserDetails {
         return currentRating;
     }
 
-    public void setCurrentRating(int currentRating) {
-        this.currentRating = currentRating;
-    }
-
     public int getHighestRating() {
         return highestRating;
-    }
-
-    public void setHighestRating(int highestRating) {
-        this.highestRating = highestRating;
     }
 
     public int getCurrentRank() {
         return currentRank;
     }
 
-    public void setCurrentRank(int currentRank) {
-        this.currentRank = currentRank;
-    }
-
     public String getCurrentLevel() {
         return currentLevel;
-    }
-
-    public void setCurrentLevel(String currentLevel) {
-        this.currentLevel = currentLevel;
     }
 
     public ArrayList<Integer> getRecentContestRatings() {
         return recentContestRatings;
     }
 
-    public void setRecentContestRatings(ArrayList<Integer> recentContestRatings) {
-        this.recentContestRatings = recentContestRatings;
-    }
 }

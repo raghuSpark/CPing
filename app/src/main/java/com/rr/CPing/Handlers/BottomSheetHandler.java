@@ -1,5 +1,7 @@
 package com.rr.CPing.Handlers;
 
+import static android.content.Context.ALARM_SERVICE;
+
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -37,8 +39,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
-import static android.content.Context.ALARM_SERVICE;
-
 public class BottomSheetHandler {
 
     Context context;
@@ -49,7 +49,7 @@ public class BottomSheetHandler {
     public BottomSheetHandler() {
     }
 
-    @SuppressLint({"QueryPermissionsNeeded", "SetTextI18n"})
+    @SuppressLint({"QueryPermissionsNeeded", "SetTextI18n", "NotifyDataSetChanged"})
     public void showBottomSheetDialog(AllParentRecyclerViewAdapter allParentRecyclerViewAdapter,
                                       ContestDetailsRecyclerViewAdapter contestDetailsRecyclerViewAdapter,
                                       Context context,
@@ -209,7 +209,7 @@ public class BottomSheetHandler {
         return ans;
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     public void showAlarmSelectorDialog(ContestDetails contestDetails,
                                         Calendar start, LayoutInflater layoutInflater, String properStartTime) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -254,7 +254,7 @@ public class BottomSheetHandler {
             Toast.makeText(context, "Reminder set!", Toast.LENGTH_SHORT).show();
             dialog.cancel();
 
-            long id = start.getTimeInMillis() - getNum(spinner.getSelectedItem().toString()) * 60000;
+            long id = start.getTimeInMillis() - getNum(spinner.getSelectedItem().toString()) * 60000L;
             if (discardButton.getText().equals("Delete")) {
                 deleteNotification(currentList.get(index).getAlarmSetTime(), contestDetails.getContestName(), properStartTime);
                 currentList.remove(index);
@@ -341,10 +341,10 @@ public class BottomSheetHandler {
         intent.putExtra("ContestName", contestName);
         intent.putExtra("ProperStartTime", properStartTime);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
 
-        long t2 = 60000 * time;
+        long t2 = 60000L * time;
 
 //        Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, (startTimeInMillis - t2), pendingIntent);
@@ -355,7 +355,7 @@ public class BottomSheetHandler {
         intent.putExtra("ContestName", contestName);
         intent.putExtra("ProperStartTime", properStartTime);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
         pendingIntent.cancel();
         alarmManager.cancel(pendingIntent);

@@ -2,7 +2,7 @@ package com.rr.CPing.Model;
 
 public class HiddenContestsClass {
     private String contestName, platformName;
-    private long contestEndTime;
+    private final long contestEndTime;
 
     public HiddenContestsClass(String contestName, String platformName, long contestEndTime) {
         this.contestName = contestName;
@@ -30,7 +30,4 @@ public class HiddenContestsClass {
         return contestEndTime;
     }
 
-    public void setContestEndTime(long contestEndTime) {
-        this.contestEndTime = contestEndTime;
-    }
 }

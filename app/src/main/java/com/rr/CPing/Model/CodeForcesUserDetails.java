@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 public class CodeForcesUserDetails {
     private String userName;
-    private int currentRating, maxRating;
-    private String currentRank, maxRank;
-    private ArrayList<Integer> recentContestRatings;
+    private final int currentRating;
+    private final int maxRating;
+    private final String currentRank;
+    private final String maxRank;
+    private final ArrayList<Integer> recentContestRatings;
 
     public CodeForcesUserDetails(String userName, int currentRating, int maxRating, String currentRank, String maxRank, ArrayList<Integer> recentContestRatings) {
         this.userName = userName;
@@ -29,39 +31,20 @@ public class CodeForcesUserDetails {
         return currentRating;
     }
 
-    public void setCurrentRating(int currentRating) {
-        this.currentRating = currentRating;
-    }
-
     public int getMaxRating() {
         return maxRating;
-    }
-
-    public void setMaxRating(int maxRating) {
-        this.maxRating = maxRating;
     }
 
     public String getCurrentRank() {
         return currentRank;
     }
 
-    public void setCurrentRank(String currentRank) {
-        this.currentRank = currentRank;
-    }
-
     public String getMaxRank() {
         return maxRank;
-    }
-
-    public void setMaxRank(String maxRank) {
-        this.maxRank = maxRank;
     }
 
     public ArrayList<Integer> getRecentContestRatings() {
         return recentContestRatings;
     }
 
-    public void setRecentContestRatings(ArrayList<Integer> recentContestRatings) {
-        this.recentContestRatings = recentContestRatings;
-    }
 }

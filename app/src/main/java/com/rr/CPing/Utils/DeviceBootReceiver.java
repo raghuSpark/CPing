@@ -1,5 +1,7 @@
 package com.rr.CPing.Utils;
 
+import static android.content.Context.ALARM_SERVICE;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -11,8 +13,6 @@ import com.rr.CPing.SharedPref.SharedPrefConfig;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
-import static android.content.Context.ALARM_SERVICE;
 
 public class DeviceBootReceiver extends BroadcastReceiver {
     @Override
@@ -38,7 +38,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) id, intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(context).getSystemService(ALARM_SERVICE);
 
-        long t2 = 60000 * time;
+        long t2 = 60000L * time;
 
 //        Log.e("TAG t1-t2", startTimeInMillis + " , " + time + " , " + (startTimeInMillis - t2));
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, (startTimeInMillis - t2), pendingIntent);

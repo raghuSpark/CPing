@@ -1,10 +1,11 @@
 package com.rr.CPing.Model;
 
 public class AlarmIdClass {
-    private String contestNameAsID;
-    private long startTime, alarmSetTime;
+    private final String contestNameAsID;
+    private final long startTime;
+    private final String properStartTime;
+    private long alarmSetTime;
     private int spinnerPosition;
-    private String properStartTime;
 
     public AlarmIdClass(String contestNameAsID, long startTime, long alarmSetTime, int spinnerPosition, String properStartTime) {
         this.contestNameAsID = contestNameAsID;
@@ -18,16 +19,8 @@ public class AlarmIdClass {
         return contestNameAsID;
     }
 
-    public void setContestNameAsID(String contestNameAsID) {
-        this.contestNameAsID = contestNameAsID;
-    }
-
     public long getStartTime() {
         return startTime;
-    }
-
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
     }
 
     public long getAlarmSetTime() {
@@ -50,7 +43,4 @@ public class AlarmIdClass {
         return properStartTime;
     }
 
-    public void setProperStartTime(String properStartTime) {
-        this.properStartTime = properStartTime;
-    }
 }
