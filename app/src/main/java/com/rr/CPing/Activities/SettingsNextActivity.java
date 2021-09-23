@@ -476,7 +476,7 @@ public class SettingsNextActivity extends AppCompatActivity {
     }
 
     private void checkValidUsername(ProgressBar platformDialogProgressBar, Button platformDialogSaveButton, View v, String platform, String username, int position, boolean update) {
-        String url = "https://cping-api2.herokuapp.com/api/" + platform + "/" + username;
+        String url = "https://cping-api.herokuapp.com/api/" + platform + "/" + username;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {
@@ -522,7 +522,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         String platform_name = "atcoder";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cping-api2.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
                 JSONArray jsonArray = response.getJSONArray("contest_ratings");
@@ -567,7 +567,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         String platform_name = "codechef";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cping-api2.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
                 JSONArray jsonArray = response.getJSONArray("contest_ratings");
@@ -611,7 +611,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         String platform_name = "codeforces";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cping-api2.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
                 JSONArray jsonArray = response.getJSONArray("contests");
@@ -656,7 +656,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         String platform_name = "leetcode";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cping-api2.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 LeetCodeUserDetails item = new LeetCodeUserDetails(user_name,
                         response.getString("total_problems_solved"),
