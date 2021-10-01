@@ -32,7 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
-    private TextView platFormsListTextView, hiddenContestsTextView;
+    private TextView platFormsListTextView, hiddenContestsTextView, permissionsTextView;
     private RadioGroup themeRadioGroup;
     private EditText appUsernameEditText;
 
@@ -123,6 +123,14 @@ public class SettingsActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         });
+
+        permissionsTextView.setOnClickListener(v -> {
+            Intent intent = new Intent(this, SettingsNextActivity.class);
+            intent.setAction("Permissions");
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            finish();
+        });
     }
 
     @Override
@@ -190,6 +198,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void findViewByIds() {
         platFormsListTextView = findViewById(R.id.platforms_list_text_view);
         hiddenContestsTextView = findViewById(R.id.hidden_contests_text_view);
+        permissionsTextView = findViewById(R.id.permissions_list_text_view);
         themeRadioGroup = findViewById(R.id.theme_radio_group);
         appUsernameEditText = findViewById(R.id.editTextUserName);
     }

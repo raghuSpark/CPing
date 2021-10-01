@@ -127,10 +127,32 @@
                 android:textSize="20sp"
                 app:drawableEndCompat="@drawable/ic_drop_down" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/permissions_list_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_row="3"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/nunito_semi_bold"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingStart="15dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp"
+                android:text="@string/permissions"
+                android:textColor="@color/fontColor"
+                android:textSize="20sp"
+                app:drawableEndCompat="@drawable/ic_drop_down" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_row="4"
                 android:layout_column="0"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="3dp"
@@ -206,6 +228,8 @@
                 </RadioGroup>
 
             </LinearLayout>
+
+
 
         </GridLayout>
 

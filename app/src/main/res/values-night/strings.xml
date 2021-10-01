@@ -76,5 +76,11 @@
     <string name="hidden_contests">Hidden Contests</string>
     <string name="search">Search</string>
     <string name="search_with_contest_name">Search with contest name</string>
+    <string name="permissions">Permissions</string>
+    <string name="appear_on_top">Appear On Top</string>
+    <string name="auto_start_desc">Permission required to keep your alarms alive after device restart!</string>
+    <string name="appear_on_top_desc">Permission required to show the alarm screen even when the device is locked!</string>
+    <string name="allowed">ALLOWED</string>
+    <string name="denied">DENIED</string>
 
 </resources>

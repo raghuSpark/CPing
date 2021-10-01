@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     private void AutoStartPermission() {
         if (!SharedPrefConfig.readAutoStartDoNotAskAgain(this)) {
             String manufacturer = android.os.Build.MANUFACTURER;
-            if ("xiaomi".equalsIgnoreCase(manufacturer) || "oppo".equalsIgnoreCase(manufacturer) || "vivo".equalsIgnoreCase(manufacturer) || "Letv".equalsIgnoreCase(manufacturer) || "Honor".equalsIgnoreCase(manufacturer)) {
+            if (manufacturer.equalsIgnoreCase("xiaomi") || manufacturer.equalsIgnoreCase("oppo") || manufacturer.equalsIgnoreCase("vivo") || manufacturer.equalsIgnoreCase("Letv") || manufacturer.equalsIgnoreCase("Honor")) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 View view = getLayoutInflater().inflate(R.layout.auto_start_permission_popup_dialog, null);
                 builder.setView(view);

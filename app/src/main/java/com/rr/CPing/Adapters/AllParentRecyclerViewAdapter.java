@@ -41,7 +41,7 @@ public class AllParentRecyclerViewAdapter extends RecyclerView.Adapter {
         return new MyViewHolder(view);
     }
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor", "NotifyDataSetChanged"})
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         AllParentRecyclerViewAdapter.MyViewHolder myViewHolder = (MyViewHolder) holder;

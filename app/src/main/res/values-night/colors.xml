@@ -12,6 +12,7 @@
     <color name="positiveChangeGreen">#34A853</color>
 
     // Font color
+    <color name="subTextFontColor">#979BAF</color>
     <color name="fontColor">#CACFE7</color>
     <color name="greyAndBlackFont">#CACFE7</color>
     <color name="blackAndWhiteFont">#FFFFFF</color>

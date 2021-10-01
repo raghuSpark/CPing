@@ -113,7 +113,8 @@
                 android:layout_marginBottom="10dp"
                 android:isScrollContainer="false"
                 android:nestedScrollingEnabled="false"
-                android:overScrollMode="always" />
+                android:overScrollMode="always"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/hidden_nothing_show_text"
@@ -128,7 +129,8 @@
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/nothing_to_show"
                 android:textColor="@color/tab_text_normal_color"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/hidden_nothing_show_img"
@@ -140,12 +142,148 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:contentDescription="@string/img"
-                android:src="@drawable/ic_nothing_to_show" />
+                android:src="@drawable/ic_nothing_to_show"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/permissions_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_row="5"
+                android:layout_column="0"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/appear_on_top_permission"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="0.7"
+                            android:fontFamily="@font/nunito_semi_bold"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:paddingStart="15dp"
+                            android:paddingTop="10dp"
+                            android:paddingEnd="20dp"
+                            android:text="@string/appear_on_top"
+                            android:textColor="@color/fontColor"
+                            android:textSize="20sp"
+                            tools:ignore="NestedWeights" />
+
+                        <TextView
+                            android:id="@+id/appear_on_top_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/nunito_semi_bold"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:text="@string/allowed"
+                            android:textColor="@color/fontColor"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/nunito_semi_bold"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="10dp"
+                        android:text="@string/appear_on_top_desc"
+                        android:textColor="@color/subTextFontColor"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="370dp"
+                        android:layout_height="0.5dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/tab_text_normal_color"
+                        android:contentDescription="@string/img" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/auto_start_permission"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp"
+                        android:fontFamily="@font/nunito_semi_bold"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:paddingStart="15dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
+                        android:text="@string/auto_start"
+                        android:textColor="@color/fontColor"
+                        android:textSize="20sp"
+                        tools:ignore="NestedWeights" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/nunito_semi_bold"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="10dp"
+                        android:text="@string/auto_start_desc"
+                        android:textColor="@color/subTextFontColor"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="370dp"
+                        android:layout_height="0.5dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/tab_text_normal_color"
+                        android:contentDescription="@string/img" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:layout_row="5"
+                android:layout_row="6"
                 android:layout_column="0"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"

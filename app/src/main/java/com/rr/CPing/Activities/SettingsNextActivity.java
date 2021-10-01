@@ -1,15 +1,21 @@
 package com.rr.CPing.Activities;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -21,6 +27,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -57,13 +64,14 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class SettingsNextActivity extends AppCompatActivity {
 
     private static final String TAG = "SettingsNextActivity";
+    public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 2323;
     private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
-
     // For making loading tasks in background
     private boolean saveButtonClicked = false;
     private int stillLoadingCount = 0;
@@ -79,6 +87,9 @@ public class SettingsNextActivity extends AppCompatActivity {
     private Button settingsSaveButton;
     private EditText searchBar;
     private ProgressBar settingsProgressBar;
+
+    private LinearLayout permissionsLinearLayout, appearOnTopPermission, autoStartPermission;
+    private TextView appearOnTopStatus;
 
     private RecyclerView hiddenContestsRV;
     private HiddenContestsRecyclerViewAdapter hiddenContestsRVA;
@@ -203,15 +214,22 @@ public class SettingsNextActivity extends AppCompatActivity {
             hiddenNothingText.setVisibility(View.GONE);
             hiddenNothingImage.setVisibility(View.GONE);
             searchBar.setVisibility(View.GONE);
+            permissionsLinearLayout.setVisibility(View.GONE);
+            appearOnTopPermission.setVisibility(View.GONE);
+            autoStartPermission.setVisibility(View.GONE);
 
             platformAdapter = new PlatformAdapter(this, platformNamesList);
             platformsListView.setAdapter(platformAdapter);
-        } else {
+        } else if (title.equalsIgnoreCase("Hidden Contests")) {
             searchBar.setVisibility(View.VISIBLE);
             hiddenContestsRV.setVisibility(View.VISIBLE);
+
             settingsSaveButton.setVisibility(View.GONE);
             settingsProgressBar.setVisibility(View.GONE);
             platformsListView.setVisibility(View.GONE);
+            permissionsLinearLayout.setVisibility(View.GONE);
+            appearOnTopPermission.setVisibility(View.GONE);
+            autoStartPermission.setVisibility(View.GONE);
 
             hiddenContestsArrayList = SharedPrefConfig.readInHiddenContests(this);
             initialize();
@@ -224,6 +242,38 @@ public class SettingsNextActivity extends AppCompatActivity {
                 hiddenNothingText.setVisibility(View.GONE);
                 hiddenNothingImage.setVisibility(View.GONE);
             }
+        } else {
+            hiddenContestsRV.setVisibility(View.GONE);
+            hiddenNothingText.setVisibility(View.GONE);
+            hiddenNothingImage.setVisibility(View.GONE);
+            searchBar.setVisibility(View.GONE);
+            settingsSaveButton.setVisibility(View.GONE);
+            settingsProgressBar.setVisibility(View.GONE);
+            platformsListView.setVisibility(View.GONE);
+
+            permissionsLinearLayout.setVisibility(View.VISIBLE);
+
+            // auto start permission
+            String manufacturer = android.os.Build.MANUFACTURER;
+            if (manufacturer.equalsIgnoreCase("xiaomi") || manufacturer.equalsIgnoreCase("oppo") || manufacturer.equalsIgnoreCase("vivo") || manufacturer.equalsIgnoreCase("Letv") || manufacturer.equalsIgnoreCase("Honor")) {
+                autoStartPermission.setVisibility(View.VISIBLE);
+            }
+            // appear on top permission
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                appearOnTopPermission.setVisibility(View.VISIBLE);
+            }
+
+            // appear on top status
+            if (Settings.canDrawOverlays(this)) {
+                appearOnTopStatus.setText(R.string.allowed);
+                appearOnTopStatus.setTextColor(this.getResources().getColor(R.color.positiveChangeGreen, null));
+            } else {
+                appearOnTopStatus.setText(R.string.denied);
+                appearOnTopStatus.setTextColor(this.getResources().getColor(R.color.negativeChangeRed, null));
+            }
+
+            autoStartPermission.setOnClickListener(view -> RequestAutoStartPermission());
+            appearOnTopPermission.setOnClickListener(view -> RequestAppearOnTopPermission());
         }
 
         searchBar.addTextChangedListener(new TextWatcher() {
@@ -476,7 +526,7 @@ public class SettingsNextActivity extends AppCompatActivity {
     }
 
     private void checkValidUsername(ProgressBar platformDialogProgressBar, Button platformDialogSaveButton, View v, String platform, String username, int position, boolean update) {
-        String url = "https://cping-api.herokuapp.com/api/" + platform + "/" + username;
+        String url = "https://cping-api2.herokuapp.com/api/" + platform + "/" + username;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {
@@ -522,7 +572,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         String platform_name = "atcoder";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api2.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
                 JSONArray jsonArray = response.getJSONArray("contest_ratings");
@@ -567,7 +617,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         String platform_name = "codechef";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api2.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
                 JSONArray jsonArray = response.getJSONArray("contest_ratings");
@@ -611,7 +661,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         String platform_name = "codeforces";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api2.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 ArrayList<Integer> recentRatingsArrayList = new ArrayList<>();
                 JSONArray jsonArray = response.getJSONArray("contests");
@@ -656,7 +706,7 @@ public class SettingsNextActivity extends AppCompatActivity {
         String platform_name = "leetcode";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cping-api.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
+                "https://cping-api2.herokuapp.com/api/" + platform_name + "/" + user_name, null, response -> {
             try {
                 LeetCodeUserDetails item = new LeetCodeUserDetails(user_name,
                         response.getString("total_problems_solved"),
@@ -724,6 +774,47 @@ public class SettingsNextActivity extends AppCompatActivity {
         hiddenNothingText = findViewById(R.id.hidden_nothing_show_text);
         hiddenNothingImage = findViewById(R.id.hidden_nothing_show_img);
         hiddenContestsRV = findViewById(R.id.hidden_contests_recycler_view);
+
+        permissionsLinearLayout = findViewById(R.id.permissions_linear_layout);
+        appearOnTopPermission = findViewById(R.id.appear_on_top_permission);
+        autoStartPermission = findViewById(R.id.auto_start_permission);
+
+        appearOnTopStatus = findViewById(R.id.appear_on_top_status);
+    }
+
+    private void RequestAutoStartPermission() {
+        try {
+            Intent intent = new Intent();
+            String manufacturer = android.os.Build.MANUFACTURER;
+            if ("xiaomi".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
+            } else if ("oppo".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity"));
+            } else if ("vivo".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+            } else if ("Letv".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity"));
+            } else if ("Honor".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
+            }
+
+            @SuppressLint("QueryPermissionsNeeded")
+            List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            if (list.size() > 0) {
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            Log.e("exc", e.getMessage());
+        }
+    }
+
+    private void RequestAppearOnTopPermission() {
+        // Check if Android M or higher
+        // Show alert dialog to the user saying a separate permission is needed
+        // Launch the settings activity if the user prefers
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:" + this.getPackageName()));
+        startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
     }
 
     private void setAppTheme() {
