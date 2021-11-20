@@ -10,8 +10,8 @@ android {
         applicationId "com.rr.CPing"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 12
-        versionName "1.2.8"
+        versionCode 13
+        versionName "1.2.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
