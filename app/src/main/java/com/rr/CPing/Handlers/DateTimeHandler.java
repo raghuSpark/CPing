@@ -1,6 +1,7 @@
 package com.rr.CPing.Handlers;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -40,6 +41,11 @@ public class DateTimeHandler {
     }
 
     private Date convertISO8601ToDate(String dateString) {
+
+        if(dateString.substring(dateString.length()-3).equals("UTC")) {
+            dateString = dateString.substring(0, 10) + "T" + dateString.substring(11, 19) + ".000Z";
+        }
+
         @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         try {
             return df.parse(dateString);
