@@ -1,5 +1,6 @@
 package com.rr.CPing.Fragments;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -202,6 +203,7 @@ public class AtCoderFragment extends Fragment {
         FutureRV = groupFragmentView.findViewById(R.id.atCoder_future_recyclerView);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void initialize(int i) {
         if (i == 0) {
             OngoingRV.setHasFixedSize(true);

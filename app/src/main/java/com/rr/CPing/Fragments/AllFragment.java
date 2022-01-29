@@ -1,5 +1,6 @@
 package com.rr.CPing.Fragments;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -57,14 +58,6 @@ public class AllFragment extends Fragment {
     public AllFragment() {
         // Required empty public constructor
     }
-
-//    @Override
-//    public void onResume() {
-//        ongoingRVA.notifyDataSetChanged();
-//        todayRVA.notifyDataSetChanged();
-//        futureRVA.notifyDataSetChanged();
-//        super.onResume();
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -375,6 +368,7 @@ public class AllFragment extends Fragment {
         graphView = groupFragmentView.findViewById(R.id.all_graph_view);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void initialize(int i) {
         if (i == 0) {
             ongoingRV.setHasFixedSize(true);

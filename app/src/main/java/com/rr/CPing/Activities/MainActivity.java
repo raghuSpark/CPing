@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.ConnectivityManager;
@@ -27,7 +28,15 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallState;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.rr.CPing.Adapters.TabsAccessorAdapter;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
@@ -38,8 +47,11 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int APP_UPDATE_REQUEST_CODE = 100;
     public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 2323;
     private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    private AppUpdateManager appUpdateManager;
+
     private TabsAccessorAdapter dashBoardTabsAccessorAdapter;
     private AlertDialog dialog;
 
@@ -48,6 +60,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setAppTheme();
         setContentView(R.layout.activity_main);
+
+        appUpdateManager = AppUpdateManagerFactory.create(this);
+        appUpdateManager.getAppUpdateInfo().addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                try {
+                    appUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.FLEXIBLE, MainActivity.this, APP_UPDATE_REQUEST_CODE);
+                } catch (IntentSender.SendIntentException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+//        appUpdateManager.registerListener(installStateUpdatedListener);
 
         AppearOnTopPermission();
 
@@ -69,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        if (requestCode == APP_UPDATE_REQUEST_CODE && resultCode != RESULT_OK)
+
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
@@ -109,6 +136,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         dashBoardTabsAccessorAdapter.notifyDataSetChanged();
         super.onResume();
+        appUpdateManager.getAppUpdateInfo().addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                try {
+                    appUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.FLEXIBLE, MainActivity.this, APP_UPDATE_REQUEST_CODE);
+                } catch (IntentSender.SendIntentException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -120,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         unregisterReceiver(networkChangeListener);
+//        if (appUpdateManager != null) appUpdateManager.unregisterListener(installStateUpdatedListener);
         super.onStop();
     }
 
@@ -217,9 +254,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void RequestAppearOnTopPermission() {
-        // Check if Android M or higher
-        // Show alert dialog to the user saying a separate permission is needed
-        // Launch the settings activity if the user prefers
+//         Check if Android M or higher
+//         Show alert dialog to the user saying a separate permission is needed
+//         Launch the settings activity if the user prefers
         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                 Uri.parse("package:" + this.getPackageName()));
         startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
