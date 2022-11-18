@@ -29,6 +29,7 @@ import com.rr.CPing.Model.LeetCodeUserDetails;
 import com.rr.CPing.Model.PlatformListItem;
 import com.rr.CPing.R;
 import com.rr.CPing.SharedPref.SharedPrefConfig;
+import com.rr.CPing.Utils.CheckInternet;
 import com.rr.CPing.Utils.NetworkChangeListener;
 import com.rr.CPing.database.JSONResponseDBHandler;
 
@@ -385,8 +386,12 @@ public class SplashActivity extends AppCompatActivity {
                 getContestDetailsFromAPI(isFirstTime);
             }
         }, error -> {
-            Toast.makeText(SplashActivity.this, "Something went wrong! Check your network...",
-                    Toast.LENGTH_SHORT).show();
+            if(!CheckInternet.isConnectedToInternet(SplashActivity.this))
+            {
+                Toast.makeText(SplashActivity.this, "Something went wrong! Check your network...",
+                        Toast.LENGTH_SHORT).show();
+            }
+
             getContestDetailsFromAPI(isFirstTime);
         });
         requestQueue.add(jsonArrayRequest);

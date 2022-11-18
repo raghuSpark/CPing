@@ -19,7 +19,7 @@ This app is very easy to use and has a high priority to the user's comfort.
 * Customized UI/UX design for all platforms.
 * Can visit the contest page directly from the app
 
-## PLARFORMS
+## PLATFORMS
 * AtCoder
 * CodeChef
 * Codeforces
